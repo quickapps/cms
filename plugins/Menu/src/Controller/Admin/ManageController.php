@@ -31,6 +31,7 @@ class ManageController extends AppController
         $this->loadModel('Menu.Menus');
         $menus = $this->Menus->find()->all();
 
+        $this->title(__d('menu', 'Menus List'));
         $this->set('menus', $menus);
         $this->Breadcrumb->push('/admin/menu/manage');
     }
@@ -65,6 +66,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('menu', 'Create New Menu'));
         $this->set('menu', $menu);
         $this->Breadcrumb
             ->push('/admin/menu/manage')
@@ -104,6 +106,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('menu', 'Editing Menu'));
         $this->set('menu', $menu);
         $this->Breadcrumb
             ->push('/admin/menu/manage')
@@ -129,6 +132,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('menu', 'Menu could not be deleted, please try again'));
         }
 
+        $this->title(__d('menu', 'Delete Menu'));
         $this->redirect($this->referer());
     }
 }

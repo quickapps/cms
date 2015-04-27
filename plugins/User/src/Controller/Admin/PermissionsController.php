@@ -36,6 +36,7 @@ class PermissionsController extends AppController
             ->order(['lft' => 'ASC'])
             ->all();
 
+        $this->title(__d('user', 'Permissions'));
         $this->set(compact('tree'));
         $this->Breadcrumb
             ->push('/admin/user/manage')
@@ -68,6 +69,8 @@ class PermissionsController extends AppController
         }
 
         $roles = $this->Acos->Roles->find('list');
+
+        $this->title(__d('user', 'Permissions'));
         $this->set(compact('aco', 'roles', 'path'));
     }
 
@@ -86,6 +89,7 @@ class PermissionsController extends AppController
             $this->Flash->danger(__d('user', 'Some errors occur while updating permissions tree.'));
         }
 
+        $this->title(__d('user', 'Update Permissions'));
         $this->redirect($this->referer());
     }
 
@@ -116,6 +120,7 @@ class PermissionsController extends AppController
             );
         }
 
+        $this->title(__d('user', 'Export Permissions'));
         $this->response->body(json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         $this->response->type('json');
         $this->response->download('permissions_' . date('Y-m-d@H:i:s-\U\TC', time()) . '.json');
@@ -207,6 +212,7 @@ class PermissionsController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Import Permissions'));
         $this->redirect($this->referer());
     }
 }

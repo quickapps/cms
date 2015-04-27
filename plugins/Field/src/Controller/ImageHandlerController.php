@@ -50,6 +50,7 @@ class ImageHandlerController extends FileHandlerController
 
         $uploader->allowed = 'image/*';
         parent::upload($name, $uploader);
+        $this->title(__d('field', 'Upload Image'));
     }
 
     /**
@@ -58,6 +59,7 @@ class ImageHandlerController extends FileHandlerController
     public function delete($name)
     {
         parent::delete($name);
+        $this->title(__d('field', 'Delete Image'));
         $this->loadModel('Field.FieldInstances');
         $instance = $this->_getInstance($name);
         ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}");

@@ -82,6 +82,8 @@ class ConfigurationController extends AppController
             ->filter(function ($plugin) {
                 return $plugin->hasSettings;
             });
+
+        $this->title(__d('system', 'Site’ Configuration'));
         $this->set(compact('arrayContext', 'languages', 'variables', 'pluginSettings'));
         $this->Breadcrumb->push('/admin/system/configuration');
     }

@@ -34,6 +34,8 @@ class TypesController extends AppController
         $types = $this->NodeTypes->find()
             ->select(['id', 'slug', 'name', 'description'])
             ->all();
+
+        $this->title(__d('node', 'Content Types'));
         $this->set('types', $types);
         $this->Breadcrumb
             ->push('/admin/node/manage')
@@ -68,6 +70,7 @@ class TypesController extends AppController
             $type = $this->NodeTypes->newEntity();
         }
 
+        $this->title(__d('node', 'Define New Content Type'));
         $this->set('type', $type);
         $this->set('languages', LocaleToolbox::languagesList());
         $this->Breadcrumb
@@ -111,6 +114,7 @@ class TypesController extends AppController
             $this->request->data = $type->toArray();
         }
 
+        $this->title(__d('node', 'Configure Content Type'));
         $this->set('type', $type);
         $this->set('languages', LocaleToolbox::languagesList());
         $this->Breadcrumb
@@ -146,6 +150,7 @@ class TypesController extends AppController
             $$this->Flash->danger(__d('node', 'Content type could not be deleted, please try again.'));
         }
 
+        $this->title(__d('node', 'Delete Content Type'));
         $this->redirect($this->referer());
     }
 }

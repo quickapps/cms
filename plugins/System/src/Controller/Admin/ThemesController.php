@@ -64,6 +64,7 @@ class ThemesController extends AppController
         $frontCount = count($frontThemes->toArray());
         $backCount = count($backThemes->toArray());
 
+        $this->title(__d('system', 'Themes'));
         $this->_awaitingPlugins('theme');
         $this->set(compact('frontCount', 'backCount', 'frontThemes', 'backThemes'));
         $this->Breadcrumb->push('/admin/system/themes');
@@ -107,6 +108,8 @@ class ThemesController extends AppController
                 ]);
             }
         }
+
+        $this->title(__d('system', 'Install Theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')
             ->push(__d('system', 'Install new theme'), '#');
@@ -139,6 +142,7 @@ class ThemesController extends AppController
             $this->Flash->danger(__d('system', 'This theme cannot be removed as it is currently being used.'));
         }
 
+        $this->title(__d('system', 'Uninstall Theme'));
         $this->redirect($this->referer());
     }
 
@@ -165,6 +169,7 @@ class ThemesController extends AppController
             $this->Flash->danger(__d('system', 'This theme is already active.'));
         }
 
+        $this->title(__d('system', 'Activate Theme'));
         $this->redirect($this->referer());
     }
 
@@ -177,6 +182,8 @@ class ThemesController extends AppController
     public function details($themeName)
     {
         $theme = Plugin::get($themeName); // throws
+
+        $this->title(__d('system', 'Theme Information'));
         $this->set(compact('theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')
@@ -249,6 +256,7 @@ class ThemesController extends AppController
             }
         }
 
+        $this->title(__d('system', 'Theme’s Settings'));
         $this->set(compact('info', 'theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')

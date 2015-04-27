@@ -43,8 +43,9 @@ class PluginsController extends AppController
             return !$plugin->status;
         })->toArray());
 
-        $this->_awaitingPlugins();
+        $this->title(__d('system', 'Plugins'));
         $this->set(compact('plugins', 'all', 'enabled', 'disabled'));
+        $this->_awaitingPlugins();
         $this->Breadcrumb->push('/admin/system/plugins');
     }
 
@@ -88,6 +89,7 @@ class PluginsController extends AppController
             }
         }
 
+        $this->title(__d('system', 'Install Plugin'));
         $this->Breadcrumb
             ->push('/admin/system/plugins')
             ->push(__d('system', 'Install new plugin'), '#');
@@ -113,6 +115,7 @@ class PluginsController extends AppController
             ]);
         }
 
+        $this->title(__d('system', 'Uninstall Plugin'));
         header('Location:' . $this->referer());
         exit();
     }
@@ -137,6 +140,7 @@ class PluginsController extends AppController
             ]);
         }
 
+        $this->title(__d('system', 'Enable Plugin'));
         header('Location:' . $this->referer());
         exit();
     }
@@ -161,6 +165,7 @@ class PluginsController extends AppController
             ]);
         }
 
+        $this->title(__d('system', 'Disable Plugin'));
         header('Location:' . $this->referer());
         exit();
     }
@@ -216,6 +221,7 @@ class PluginsController extends AppController
             }
         }
 
+        $this->title(__d('system', 'Plugin’s Settings'));
         $this->set(compact('plugin', 'info'));
         $this->Breadcrumb
             ->push('/admin/system/plugins')

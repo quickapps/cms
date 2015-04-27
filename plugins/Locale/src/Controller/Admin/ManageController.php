@@ -38,6 +38,7 @@ class ManageController extends AppController
             ->order(['ordering' => 'ASC'])
             ->all();
 
+        $this->title(__d('locale', 'Languages List'));
         $this->set('languages', $languages);
         $this->Breadcrumb->push('/admin/locale');
     }
@@ -72,6 +73,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('locale', 'Register New Language'));
         $this->set(compact('language', 'languages', 'icons'));
         $this->Breadcrumb
             ->push('/admin/locale')
@@ -108,6 +110,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('locale', 'Editing Language'));
         $this->set(compact('language', 'languages', 'icons'));
         $this->Breadcrumb
             ->push('/admin/locale')
@@ -136,6 +139,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('locale', 'You cannot set as default a disabled language.'));
         }
 
+        $this->title(__d('locale', 'Set Default Language'));
         $this->redirect($this->referer());
     }
 
@@ -170,6 +174,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('locale', 'Reorder Language'));
         $this->Flash->success(__d('locale', 'Language successfully reordered!'));
         $this->redirect($this->referer());
     }
@@ -192,6 +197,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('locale', 'Language could not be enabled, please try again.'));
         }
 
+        $this->title(__d('locale', 'Enable Language'));
         $this->redirect($this->referer());
     }
 
@@ -217,6 +223,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('locale', 'You cannot disable this language as it still in use.'));
         }
 
+        $this->title(__d('locale', 'Disable Language'));
         $this->redirect($this->referer());
     }
 
@@ -241,6 +248,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('locale', 'You cannot remove this language as it still in use.'));
         }
 
+        $this->title(__d('locale', 'Delete Language'));
         $this->redirect($this->referer());
     }
 }

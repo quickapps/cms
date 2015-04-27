@@ -23,7 +23,7 @@
 //-->
 
 <?php if (isset($prepend)): ?>
-    <?php echo $prepend; ?>
+    <?php echo is_array($prepend) ? implode("\n", $prepend) : $prepend; ?>
 <?php endif; ?>
 
 <title><?php echo $this->fetch('title'); ?></title>
@@ -57,5 +57,5 @@
 <?php endif; ?>
 
 <?php if (isset($append)): ?>
-    <?php echo $append; ?>
+    <?php echo is_array($append) ? implode("\n", $append) : $append; ?>
 <?php endif; ?>

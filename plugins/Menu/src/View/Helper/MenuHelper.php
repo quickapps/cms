@@ -34,7 +34,8 @@ class MenuHelper extends Helper
     /**
      * Default configuration for this class.
      *
-     * - `formatter`: Callable method used when formating each item.
+     * - `formatter`: Callable method used when formating each item. Function should
+     *   expect two arguments: $item and $info respectively.
      * - `beautify`: Set to true to "beautify" the resulting HTML, compacted HTMl will
      *    be returned if set to FALSE. You can set this option to a string compatible with
      *    [htmLawed](http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm) library.

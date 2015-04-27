@@ -163,7 +163,7 @@ trait CommentUIControllerTrait
     /**
      * Field UI main action.
      *
-     * Shows all the fields attached to the Table being managed. Possibles values
+     * Shows all the comments attached to the Table being managed. Possibles values
      * for status are:
      *
      * - `all`: Comments marked as `pending` or `approved`. (by default)
@@ -217,6 +217,7 @@ trait CommentUIControllerTrait
                 });
             });
 
+        $this->title(__d('comment', 'Comments List'));
         $this->set('search', $search);
         $this->set('filterBy', $status);
         $this->set('comments', $this->paginate($comments));
@@ -257,6 +258,7 @@ trait CommentUIControllerTrait
             }
         }
 
+        $this->title(__d('comment', 'Editing Comment'));
         $this->set('comment', $comment);
     }
 
@@ -277,6 +279,7 @@ trait CommentUIControllerTrait
             }
         }
 
+        $this->title(__d('comment', 'Change Comment Status'));
         $this->redirect($this->referer());
     }
 
@@ -304,6 +307,7 @@ trait CommentUIControllerTrait
             $this->Flash->danger(__d('comment', 'Invalid comment, comment was not found.'));
         }
 
+        $this->title(__d('comment', 'Delete Comment'));
         $this->redirect($this->referer());
     }
 
@@ -317,6 +321,7 @@ trait CommentUIControllerTrait
         $this->loadModel('Comment.Comments');
         $this->Comments->deleteAll(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable]);
         $this->Flash->success(__d('comment', 'All comments in trash were successfully removed!'));
+        $this->title(__d('comment', 'Empty Trash'));
         $this->redirect($this->referer());
     }
 

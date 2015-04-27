@@ -58,6 +58,7 @@ class ManageController extends AppController
             $this->Nodes->search($this->request->query['filter'], $nodes);
         }
 
+        $this->title(__d('node', 'Contents List'));
         $this->set('nodes', $this->paginate($nodes));
         $this->Breadcrumb->push('/admin/node/manage');
     }
@@ -75,6 +76,8 @@ class ManageController extends AppController
         $types = $this->NodeTypes->find()
             ->select(['id', 'slug', 'name', 'description'])
             ->all();
+
+        $this->title(__d('node', 'Create New Content'));
         $this->set('types', $types);
         $this->Breadcrumb
             ->push('/admin/node/manage')
@@ -125,6 +128,7 @@ class ManageController extends AppController
         $languages = LocaleToolbox::languagesList();
         $roles = $this->Nodes->Roles->find('list');
 
+        $this->title(__d('node', 'Create New Content'));
         $this->set(compact('node', 'type', 'languages', 'roles'));
         $this->Breadcrumb
             ->push('/admin/node/manage')
@@ -213,6 +217,8 @@ class ManageController extends AppController
 
         $languages = LocaleToolbox::languagesList();
         $roles = $this->Nodes->Roles->find('list');
+
+        $this->title(__d('node', 'Editing Content'));
         $this->set(compact('node', 'languages', 'roles'));
         $this->Breadcrumb
             ->push('/admin/node/manage')
@@ -275,6 +281,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('node', 'Translate Content'));
         $this->set(compact('node', 'translations', 'languages'));
         $this->Breadcrumb
             ->push('/admin/node/manage')
@@ -298,6 +305,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('node', 'Unable to remove this content, please try again.'));
         }
 
+        $this->title(__d('node', 'Delete Content'));
         $this->redirect($this->referer());
     }
 
@@ -321,6 +329,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('node', 'Unable to remove this revision, please try again.'));
         }
 
+        $this->title(__d('node', 'Editing Content Revision'));
         $this->redirect($this->referer());
     }
 }

@@ -34,6 +34,7 @@ class VocabulariesController extends AppController
             ->order(['ordering' => 'ASC'])
             ->all();
 
+        $this->title(__d('taxonomy', 'Vocabularies'));
         $this->set(compact('vocabularies'));
         $this->Breadcrumb
             ->push('/admin/system/structure')
@@ -67,6 +68,7 @@ class VocabulariesController extends AppController
             }
         }
 
+        $this->title(__d('taxonomy', 'Create New Vocabulary'));
         $this->set('vocabulary', $vocabulary);
         $this->Breadcrumb
             ->push('/admin/system/structure')
@@ -102,6 +104,7 @@ class VocabulariesController extends AppController
             }
         }
 
+        $this->title(__d('taxonomy', 'Editing Vocabulary'));
         $this->set('vocabulary', $vocabulary);
         $this->Breadcrumb
             ->push('/admin/system/structure')
@@ -131,6 +134,7 @@ class VocabulariesController extends AppController
             $this->Flash->danger(__d('taxonomy', 'Vocabulary could not be deleted, please try again'));
         }
 
+        $this->title(__d('taxonomy', 'Delete Vocabulary'));
         $this->redirect($this->referer());
     }
 }

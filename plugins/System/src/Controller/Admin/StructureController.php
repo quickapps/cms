@@ -38,6 +38,7 @@ class StructureController extends AppController
             ])
             ->all();
 
+        $this->title(__d('system', 'Site’s Structure'));
         $this->set('links', $links);
         $this->Breadcrumb->push('/admin/system/structure');
     }

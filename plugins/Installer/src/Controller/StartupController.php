@@ -168,8 +168,8 @@ class StartupController extends Controller
             $this->_step();
         }
 
-        $this->set('errors', $errors);
         $this->title(__d('installer', 'Server Requirements'));
+        $this->set('errors', $errors);
     }
 
     /**
@@ -215,6 +215,8 @@ class StartupController extends Controller
                 $this->Flash->danger("<ul>\n{$errors}</ul>\n");
             }
         }
+
+        $this->title(__d('installer', 'Database Configuration'));
     }
 
     /**
@@ -247,6 +249,7 @@ class StartupController extends Controller
             }
         }
 
+        $this->title(__d('installer', 'Create New Account'));
         $this->set('user', $user);
     }
 
@@ -273,6 +276,8 @@ class StartupController extends Controller
                 $this->Flash->danger(__d('installer', 'Unable to continue, check write permission for the "/config" directory.'));
             }
         }
+
+        $this->title(__d('installer', 'Finish Installation'));
     }
 
     // @codingStandardsIgnoreStart

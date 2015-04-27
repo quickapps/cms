@@ -31,5 +31,6 @@ class DashboardController extends AppController
      */
     public function index()
     {
+        $this->title(__d('system', 'Dashboard'));
     }
 }

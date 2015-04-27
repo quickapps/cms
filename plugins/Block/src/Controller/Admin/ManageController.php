@@ -47,6 +47,7 @@ class ManageController extends AppController
         $unused = $this->Blocks->unused();
 
         $this->set(compact('front', 'back', 'unused'));
+        $this->title(__d('block', 'Site Blocks'));
         $this->Breadcrumb
             ->push('/admin/system/structure')
             ->push(__d('block', 'Manage Blocks'), '#');
@@ -83,6 +84,7 @@ class ManageController extends AppController
         $this->_setRoles();
         $this->_setRegions();
         $this->set('block', $block);
+        $this->title(__d('block', 'Create New Block'));
         $this->Breadcrumb
             ->push('/admin/system/structure')
             ->push(__d('block', 'Manage Blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index'])
@@ -126,6 +128,7 @@ class ManageController extends AppController
         $this->_setLanguages();
         $this->_setRoles();
         $this->_setRegions($block);
+        $this->title(__d('block', 'Editing Block'));
         $this->Breadcrumb
             ->push('/admin/system/structure')
             ->push(__d('block', 'Manage Blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'index'])
@@ -163,6 +166,7 @@ class ManageController extends AppController
             $this->Flash->warning(__d('block', 'Block not found!'));
         }
 
+        $this->title(__d('block', 'Delete Block'));
         $this->redirect($this->referer());
     }
 
@@ -189,6 +193,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('block', 'Block could not be duplicated, please try again.'));
         }
 
+        $this->title(__d('block', 'Duplicate Block'));
         $this->redirect($this->referer() . '#unused-blocks');
     }
 

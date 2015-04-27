@@ -115,6 +115,8 @@ class GatewayController extends AppController
         }
 
         $user = $this->Users->newEntity();
+
+        $this->title(__d('user', 'Login'));
         $this->set(compact('user'));
     }
 
@@ -134,6 +136,8 @@ class GatewayController extends AppController
             $this->Flash->danger(__d('user', 'Something went wrong, and logout operation could not be completed.'));
             return $this->redirect($this->referer());
         }
+
+        $this->title(__d('user', 'Logout'));
     }
 
     /**
@@ -162,6 +166,8 @@ class GatewayController extends AppController
                 $this->Flash->danger(__d('user', 'Sorry, "{0}" is not recognized as a user name or an e-mail address.', $this->request->data['username']));
             }
         }
+
+        $this->title(__d('user', 'Password Recovery'));
     }
 
     /**
@@ -186,6 +192,7 @@ class GatewayController extends AppController
             $this->Flash->warning(__d('user', 'Instructions could not been sent to your e-mail address, please try again later.'));
         }
 
+        $this->title(__d('user', 'Account Cancellation'));
         $this->redirect($this->referer());
     }
 
@@ -225,6 +232,7 @@ class GatewayController extends AppController
             $this->Flash->warning(__d('user', 'Not user was found, invalid cancellation URL.'));
         }
 
+        $this->title(__d('user', 'Account Cancellation'));
         $this->redirect($this->referer());
     }
 
@@ -255,6 +263,7 @@ class GatewayController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Registration'));
         $this->set(compact('registered', 'user', 'languages'));
     }
 
@@ -290,6 +299,7 @@ class GatewayController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Activation Request'));
         $this->set(compact('sent'));
     }
 
@@ -326,6 +336,7 @@ class GatewayController extends AppController
             $this->Flash->warning(__d('user', 'Account not found or is already active.'), ['key' => 'activate']);
         }
 
+        $this->title(__d('user', 'Account Activation'));
         $this->set(compact('activated', 'token'));
     }
 
@@ -373,8 +384,9 @@ class GatewayController extends AppController
             }
         }
 
-        $this->viewMode('full');
+        $this->title(__d('user', 'Account'));
         $this->set(compact('user', 'languages'));
+        $this->viewMode('full');
     }
 
     /**
@@ -395,6 +407,8 @@ class GatewayController extends AppController
         }
 
         $user = $this->Users->get($id, ['conditions' => $conditions]);
+
+        $this->title(__d('user', 'User’s Profile'));
         $this->viewMode('full');
         $this->set(compact('user'));
     }

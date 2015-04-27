@@ -31,6 +31,7 @@ class RolesController extends AppController
         $this->loadModel('User.Acos');
         $roles = $this->Acos->Roles->find()->all();
 
+        $this->title(__d('user', 'User Roles List'));
         $this->set(compact('roles'));
         $this->Breadcrumb
             ->push('/admin/user/manage')
@@ -56,6 +57,7 @@ class RolesController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Define New Role'));
         $this->set(compact('role'));
         $this->Breadcrumb
             ->push('/admin/user/manage')
@@ -87,6 +89,7 @@ class RolesController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Editing User Role'));
         $this->set(compact('role'));
         $this->Breadcrumb
             ->push('/admin/user/manage')
@@ -115,6 +118,7 @@ class RolesController extends AppController
             $this->Flash->danger(__d('user', 'This role cannot be deleted!'));
         }
 
+        $this->title(__d('user', 'Remove User Role'));
         $this->redirect($this->referer());
     }
 }

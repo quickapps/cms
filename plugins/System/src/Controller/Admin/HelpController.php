@@ -52,6 +52,8 @@ class HelpController extends AppController
         $plugins = Plugin::get()->filter(function ($plugin) {
             return $plugin->status && $plugin->hasHelp;
         });
+
+        $this->title(__d('system', 'Help'));
         $this->set('plugins', $plugins);
         $this->Breadcrumb->push('/admin/system/help');
     }
@@ -85,6 +87,7 @@ class HelpController extends AppController
             throw new NotFoundException(__d('system', 'No help was found.'));
         }
 
+        $this->title(__d('system', 'About "{0}"', $pluginName));
         $this->Breadcrumb
             ->push('/admin/system/help')
             ->push(__d('system', 'About {0}', $pluginName), '#');

@@ -85,6 +85,7 @@ class LinksController extends AppController
             ->extract('id')
             ->toArray();
 
+        $this->title(__d('menu', 'Menu’s Links'));
         $this->set(compact('menu', 'links', 'disabledIds'));
         $this->Breadcrumb
             ->push('/admin/menu/manage')
@@ -163,6 +164,8 @@ class LinksController extends AppController
                 }
                 return $link;
             });
+
+        $this->title(__d('menu', 'Create New Link'));
         $this->set(compact('menu', 'link', 'contentLinks', 'parentsTree'));
         $this->Breadcrumb
             ->push('/admin/menu/manage')
@@ -214,6 +217,7 @@ class LinksController extends AppController
             $contentLinks[$content->get('url')] = __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
         }
 
+        $this->title(__d('menu', 'Editing Link'));
         $this->set(compact('link', 'contentLinks'));
         $this->Breadcrumb
             ->push('/admin/menu/manage')
@@ -241,6 +245,7 @@ class LinksController extends AppController
             $this->Flash->danger(__d('menu', 'Link could not be removed, please try again'));
         }
 
+        $this->title(__d('menu', 'Delete Link'));
         $this->redirect($this->referer());
     }
 }

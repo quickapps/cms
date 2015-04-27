@@ -78,6 +78,7 @@ class TermsController extends AppController
             $this->redirect($this->referer());
         }
 
+        $this->title(__d('taxonomy', 'Vocabulary’s Terms'));
         $this->set(compact('vocabulary', 'terms'));
         $this->Breadcrumb
             ->push('/admin/system/structure')
@@ -129,6 +130,7 @@ class TermsController extends AppController
                 return $link;
             });
 
+        $this->title(__d('taxonomy', 'Create New Term'));
         $this->set(compact('vocabulary', 'term', 'parentsTree'));
         $this->Breadcrumb
             ->push('/admin/system/structure')
@@ -163,6 +165,7 @@ class TermsController extends AppController
             }
         }
 
+        $this->title(__d('taxonomy', 'Editing Term'));
         $this->set('term', $term);
         $this->Breadcrumb
             ->push('/admin/system/structure')
@@ -192,6 +195,7 @@ class TermsController extends AppController
             $this->Flash->danger(__d('taxonomy', 'Term could not be removed, please try again'));
         }
 
+        $this->title(__d('taxonomy', 'Delete Term'));
         $this->redirect($this->referer());
     }
 }

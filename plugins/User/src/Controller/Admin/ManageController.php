@@ -48,6 +48,7 @@ class ManageController extends AppController
             $this->Users->search($this->request->query['filter'], $users);
         }
 
+        $this->title(__d('user', 'Users List'));
         $this->set('users', $this->paginate($users));
         $this->Breadcrumb->push('/admin/user/manage');
     }
@@ -93,6 +94,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Register New User'));
         $this->set(compact('user', 'roles', 'languages'));
         $this->Breadcrumb->push('/admin/user/manage');
     }
@@ -125,6 +127,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Editing User'));
         $this->set(compact('user', 'roles', 'languages'));
         $this->Breadcrumb->push('/admin/user/manage');
     }
@@ -158,6 +161,7 @@ class ManageController extends AppController
             $this->Flash->warning(__d('user', 'Administrator users cannot be blocked.'));
         }
 
+        $this->title(__d('user', 'Block User Account'));
         $this->redirect($this->referer());
     }
 
@@ -179,6 +183,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('user', 'User could not be activated, please try again.'));
         }
 
+        $this->title(__d('user', 'Unblock User Account'));
         $this->redirect($this->referer());
     }
 
@@ -200,6 +205,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('user', 'User was not found.'));
         }
 
+        $this->title(__d('user', 'Recovery Instructions'));
         $this->redirect($this->referer());
     }
 
@@ -228,6 +234,7 @@ class ManageController extends AppController
             }
         }
 
+        $this->title(__d('user', 'Remove User Account'));
         $this->redirect($this->referer());
     }
 }

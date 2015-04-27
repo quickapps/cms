@@ -175,6 +175,7 @@ trait FieldUIControllerTrait
             $this->Flash->warning(__d('field', 'There are no field attached yet.'));
         }
 
+        $this->title(__d('field', 'Fields List'));
         $this->set('instances', $instances);
     }
 
@@ -239,6 +240,7 @@ trait FieldUIControllerTrait
             $this->request->data = $arrayContext['defaults'];
         }
 
+        $this->title(__d('field', 'Configure Field'));
         $this->set(compact('arrayContext', 'instance'));
     }
 
@@ -287,6 +289,7 @@ trait FieldUIControllerTrait
         $fieldsList = $fieldsInfoCollection->combine('handler', 'name')->toArray(); // for form select
         $fieldsInfo = $fieldsInfoCollection->toArray(); // for help-blocks
 
+        $this->title(__d('field', 'Attach New Field'));
         $this->set('fieldsList', $fieldsList);
         $this->set('fieldsInfo', $fieldsInfo);
         $this->set('fieldInstance', $fieldInstance);
@@ -311,6 +314,7 @@ trait FieldUIControllerTrait
             $this->Flash->danger(__d('field', 'Field could not be detached'));
         }
 
+        $this->title(__d('field', 'Detach Field'));
         $this->redirect($this->referer());
     }
 
@@ -342,6 +346,7 @@ trait FieldUIControllerTrait
             }, SORT_ASC);
         }
 
+        $this->title(__d('field', 'View Modes'));
         $this->set('instances', $instances);
         $this->set('viewMode', $viewMode);
         $this->set('viewModeInfo', $this->viewModes($viewMode));
@@ -405,6 +410,7 @@ trait FieldUIControllerTrait
             $this->request->data = $arrayContext['defaults'];
         }
 
+        $this->title(__d('field', 'Configure View Mode'));
         $instance->accessible('settings', true);
         $this->set(compact('arrayContext', 'viewMode', 'viewModeInfo', 'instance'));
     }
@@ -464,6 +470,7 @@ trait FieldUIControllerTrait
             }
         }
 
+        $this->title(__d('field', 'Change Field Order'));
         $this->redirect($this->referer());
     }
 
@@ -506,6 +513,7 @@ trait FieldUIControllerTrait
             }
         }
 
+        $this->title(__d('field', 'Reorder Field'));
         $this->redirect($this->referer());
     }
 
