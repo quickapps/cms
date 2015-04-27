@@ -169,7 +169,7 @@ class LinksController extends AppController
         $this->set(compact('menu', 'link', 'contentLinks', 'parentsTree'));
         $this->Breadcrumb
             ->push('/admin/menu/manage')
-            ->push(__d('menu', 'Editing menu'), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menuId])
+            ->push(__d('menu', 'Editing menu "{0}"', $menu->title), ['plugin' => 'Menu', 'controller' => 'manage', 'action' => 'edit', $menuId])
             ->push(__d('menu', 'Links'), ['plugin' => 'Menu', 'controller' => 'links', 'action' => 'menu', $menuId])
             ->push(__d('menu', 'Add new link'), '#');
     }

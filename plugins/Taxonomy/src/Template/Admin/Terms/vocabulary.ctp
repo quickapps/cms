@@ -13,7 +13,7 @@
 
 <?php echo $this->Form->create(null); ?>
     <h2>
-        <?php echo __d('taxonomy', "{0}: Terms Tree", $vocabulary->name); ?>
+        <?php echo __d('taxonomy', '{0}: Terms Tree', $vocabulary->name); ?>
         <?php
             echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> ' . __d('taxonomy', 'add term'), [
                 'plugin' => 'Taxonomy',
@@ -26,6 +26,8 @@
             ]);
         ?>
     </h2>
+
+    <hr />
 
     <?php if ($terms->count()): ?>
         <?php echo $this->Form->hidden('tree_order', ['id' => 'tree_order']); ?>
