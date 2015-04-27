@@ -31,13 +31,13 @@ class LinkHelper extends Helper
     /**
      * Default configuration for this class.
      *
-     * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the
-     *   breadcrumb stack.
+     * - `breadcrumbGuessing`: Whether to mark an item as "active" if its URL is on
+     *   the breadcrumb stack. Defaults to false
      *
      * @var array
      */
     protected $_defaultConfig = [
-        'breadcrumbGuessing' => true,
+        'breadcrumbGuessing' => false,
     ];
 
     /**
@@ -93,6 +93,11 @@ class LinkHelper extends Helper
             return $callable($this->_View->request, $item);
         }
 
+        $itemUrl = $this->sanitize($item->get('url'));
+        if (!str_starts_with($itemUrl, '/')) {
+            return false;
+        }
+
         switch ($item->get('activation')) {
             case 'any':
                 return $this->_requestMatches($item->get('active'));
@@ -105,7 +110,6 @@ class LinkHelper extends Helper
                 ]) === true;
             case 'auto':
             default:
-                $itemUrl = $this->sanitize($item->get('url'));
                 $isInternal =
                     $itemUrl !== '/' &&
                     str_ends_with($itemUrl, str_replace_once($this->baseUrl(), '', env('REQUEST_URI')));

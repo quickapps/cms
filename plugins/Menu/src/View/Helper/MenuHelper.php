@@ -49,8 +49,8 @@ class MenuHelper extends Helper
      * - `hasChildrenClass`: CSS class to use when an item has children.
      * - `split`: Split menu into multiple root menus (multiple UL's). Must be an integer,
      *    or false for no split (by default).
-     * - `breadcrumbGuessing`: Mark an item as "active" if its URL is on the breadcrumb stack.
-     *    Default to true.
+     * - `breadcrumbGuessing`: Whether to mark an item as "active" if its URL is on
+     *   the breadcrumb stack. Default to false.
      * - `templates`: HTML templates used when formating items.
      *   - `div`: Template of the wrapper element which holds all menus when using `split`.
      *   - `root`: Top UL/OL menu template.
@@ -102,7 +102,7 @@ class MenuHelper extends Helper
         'lastClass' => 'last-item',
         'hasChildrenClass' => 'has-children',
         'split' => false,
-        'breadcrumbGuessing' => true,
+        'breadcrumbGuessing' => false,
         'templates' => [
             'div' => '<div{{attrs}}>{{content}}</div>',
             'root' => '<ul{{attrs}}>{{content}}</ul>',
@@ -218,6 +218,10 @@ class MenuHelper extends Helper
         $this->_rendering = true;
         $this->countItems($items);
         $out = '';
+
+        if (isset($options['breadcrumbGuessing'])) {
+            $this->Link->config(['breadcrumbGuessing' => $options['breadcrumbGuessing']]);
+        }
 
         if (intval($this->config('split')) > 1) {
             $out .= $this->_renderPart($items, $options, $attrs);
