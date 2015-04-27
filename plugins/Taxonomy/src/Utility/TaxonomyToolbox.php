@@ -13,6 +13,7 @@ namespace Taxonomy\Utility;
 
 use Cake\Cache\Cache;
 use Cake\ORM\TableRegistry;
+use Cake\View\View;
 use Field\Model\Entity\Field;
 use QuickApps\Event\HooktagAwareTrait;
 
@@ -56,7 +57,7 @@ class TaxonomyToolbox
      * @param \Cake\View\View $view Instance of View, used to access HtmlHelper
      * @return string
      */
-    public static function formatter(Field $field, $view)
+    public static function formatter(Field $field, View $view)
     {
         $out = [];
         $instance = static::getInstance();
