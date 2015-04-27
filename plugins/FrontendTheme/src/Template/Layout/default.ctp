@@ -32,7 +32,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <?php echo $this->Html->link('QuickApps CMS', '/', ['class' => 'navbar-brand']); ?>
+                    <?php echo $this->Html->link('QuickAppsCMS', '/', ['class' => 'navbar-brand']); ?>
                 </div>
                 <div class="collapse navbar-collapse">
                     <?php echo $this->region('main-menu')->render(); ?>
@@ -74,6 +74,15 @@
                 </div>
                 <div class="col-md-4">
                     <?php echo $this->region('right-sidebar'); ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <hr />
+                    <p class="text-center">
+                        <em><small><?php echo __d('frontend_theme', 'Powered by QuickAppsCMS v{0}', quickapps('version')); ?></small></em>
+                    </p>
                 </div>
             </div>
         </div>
