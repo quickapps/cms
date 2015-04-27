@@ -51,10 +51,19 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><?php echo $this->Html->link(__d('backend_theme', 'My account'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'me', 'prefix' => false]); ?></li>
-                        <li><?php echo $this->Html->link(__d('backend_theme', 'Visit website'), '/', ['target' => '_blank']); ?></li>
+                        <li>
+                            <?php
+                                echo $this->Html->link('<i class="fa fa-user fa-fw"></i> ' . __d('backend_theme', 'My account'), [
+                                    'plugin' => 'User',
+                                    'controller' => 'gateway',
+                                    'action' => 'me',
+                                    'prefix' => false,
+                                ], ['escape' => false]);
+                            ?>
+                        </li>
+                        <li><?php echo $this->Html->link('<i class="fa fa-globe fa-fw"></i> ' . __d('backend_theme', 'Visit website'), '/', ['target' => '_blank', 'escape' => false]); ?></li>
                         <li class="divider"></li>
-                        <li><?php echo $this->Html->link(__d('backend_theme', 'Sign out'), '/logout'); ?></li>
+                        <li><?php echo $this->Html->link('<i class="fa fa-sign-out fa-fw"></i> ' . __d('backend_theme', 'Sign out'), '/logout', ['escape' => false]); ?></li>
                     </ul>
                 </li>
             </ul>

@@ -17,7 +17,6 @@ echo $this->Menu->render($menu->links, [
     'id' => 'side-menu',
     'class' => 'nav',
     'breadcrumbGuessing' => true,
-    'beautify' => true,
     'templates' => [
         'link' => '<a href="{{url}}"{{attrs}}>{{content}}</a>'
     ],
