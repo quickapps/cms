@@ -129,6 +129,7 @@ class GatewayController extends AppController
     {
         $result = $this->Auth->logout();
         $this->layout = 'login';
+        $this->title(__d('user', 'Logout'));
 
         if ($result) {
             return $this->redirect($result);
@@ -136,8 +137,6 @@ class GatewayController extends AppController
             $this->Flash->danger(__d('user', 'Something went wrong, and logout operation could not be completed.'));
             return $this->redirect($this->referer());
         }
-
-        $this->title(__d('user', 'Logout'));
     }
 
     /**
