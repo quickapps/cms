@@ -1,4 +1,4 @@
-body {
-    padding-top:100px;
-    padding-bottom:40px;
+div.navbar-default {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
 }
