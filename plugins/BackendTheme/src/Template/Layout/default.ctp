@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <?php echo $this->Html->link('QuickApps CMS', '/', ['class' => 'navbar-brand']); ?>
+                <?php echo $this->Html->link('QuickAppsCMS', '/', ['class' => 'navbar-brand']); ?>
             </div>
             <!-- /.navbar-header -->
 

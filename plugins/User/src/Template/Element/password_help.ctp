@@ -19,7 +19,7 @@
             <li><?php echo __d('user', 'At least one uppercase character (A-Z).'); ?></li>
         <?php endif; ?>
 
-        <?php if plugin('User')->settings['password_lowercase']): ?>
+        <?php if (plugin('User')->settings['password_lowercase']): ?>
             <li><?php echo __d('user', 'At least one lowercase character (a-z).'); ?></li>
         <?php endif; ?>
 
