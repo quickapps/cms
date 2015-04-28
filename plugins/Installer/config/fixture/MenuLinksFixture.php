@@ -260,7 +260,7 @@ class MenuLinksFixture
     'parent_id' => 0,
     'url' => '/admin/user/manage',
     'description' => '',
-    'title' => 'Users',
+    'title' => 'Users & Security',
     'target' => '_self',
     'expanded' => 1,
     'active' => '/admin/user*',
