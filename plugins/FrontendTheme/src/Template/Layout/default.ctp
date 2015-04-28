@@ -77,14 +77,13 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <hr />
-                    <p class="text-center">
-                        <em><small><?php echo __d('frontend_theme', 'Powered by QuickAppsCMS v{0}', quickapps('version')); ?></small></em>
-                    </p>
-                </div>
-            </div>
+            <footer>
+                <p class="text-center">
+                    <small>
+                        <?php echo __d('backend_theme', 'Powered by <a href="http://www.quickappscms.org/">QuickAppsCMS</a> v{0}.', quickapps('version')); ?>
+                    </small>
+                </p>
+            </footer>
         </div>
     </body>
 </html>

@@ -143,7 +143,7 @@ if (theme()->settings['collapsed_sidebar']) {
             </div>
 
             <footer class="main-footer">
-                <?php echo __d('backend_theme', 'Powered by <a href="http://www.quickappscms.org/">QuickAppsCMS</a> v{0}. Theme AdminLTE 2.', quickapps('version')); ?>
+                <p class="text-center"><?php echo __d('backend_theme', 'Powered by <a href="http://www.quickappscms.org/">QuickAppsCMS</a> v{0}. Theme AdminLTE 2.', quickapps('version')); ?></p>
             </footer>
         </div>
     </body>

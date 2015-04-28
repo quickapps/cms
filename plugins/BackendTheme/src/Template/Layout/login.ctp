@@ -49,7 +49,7 @@
                     <div class="row">
                         <div class="col-xs-8">
                             <div class="checkbox icheck">
-                                <?php echo __d('backend_theme', 'Remember me'); ?>
+                                <?php echo $this->Form->input('remember', ['type' => 'checkbox', 'label' => __d('backend_theme', 'Remember me')]); ?>
                             </div>
                         </div><!-- /.col -->
                         <div class="col-xs-4">
