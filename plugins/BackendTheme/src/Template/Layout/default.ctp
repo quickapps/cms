@@ -9,114 +9,142 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+$layoutOptions = [];
+$skin = theme()->settings['skin'];
+
+if (theme()->settings['fixed_layout']) {
+    $layoutOptions[] = 'fixed';
+}
+if (theme()->settings['boxed_layout']) {
+    $layoutOptions[] = 'layout-boxed';
+}
+if (theme()->settings['collapsed_sidebar']) {
+    $layoutOptions[] = 'sidebar-collapse';
+}
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo language('code'); ?>">
     <head>
         <?php
             echo $this->Html->head([
-                'bootstrap' => true,
+                'bootstrap' => 'js',
                 'append' => [
+                    $this->Html->css('/bootstrap/css/bootstrap.min.css'),
                     $this->Html->css('font-awesome.min.css'),
-                    $this->Html->css('back-bootstrap.css'),
-                    $this->Html->css('metisMenu.min.css'),
-                    $this->Html->css('sb-admin-2.css'),
-                    $this->Html->script('sb-admin-2.js'),
-                    $this->Html->script('metisMenu.min.js'),
+                    $this->Html->css('AdminLTE.min.css'),
+                    $this->Html->css("skins/skin-{$skin}.min.css"),
+                    $this->Html->css('backend.css'),
+                    $this->Html->script('app.min.js'),
+                    $this->Html->script('jquery.slimscroll.min.js'),
                 ],
             ]);
         ?>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     </head>
 
-    <body>
-        <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <?php echo $this->Html->link('QuickAppsCMS', '/', ['class' => 'navbar-brand']); ?>
-            </div>
-            <!-- /.navbar-header -->
+    <body class="skin-<?php echo $skin; ?> <?php echo implode(' ', $layoutOptions); ?>">
+        <div class="wrapper">
+            <header class="main-header">
+                <!-- LOGO -->
+                <?php echo $this->Html->link('QuickApps<b>CMS</b>', '/admin', ['class' => 'logo', 'escape' => false]); ?>
 
-            <ul class="nav navbar-top-links navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <?php echo $this->Html->image(user()->avatar(['s' => 20])); ?>
-                        <?php echo user()->username; ?>
-                        <span class="caret"></span>
+                <!-- Header Navbar -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only"><?php echo __d('backend_theme', 'Toggle navigation'); ?></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
                     </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <?php
-                                echo $this->Html->link('<i class="fa fa-user fa-fw"></i> ' . __d('backend_theme', 'My account'), [
-                                    'plugin' => 'User',
-                                    'controller' => 'gateway',
-                                    'action' => 'me',
-                                    'prefix' => false,
-                                ], ['escape' => false]);
-                            ?>
-                        </li>
-                        <li><?php echo $this->Html->link('<i class="fa fa-globe fa-fw"></i> ' . __d('backend_theme', 'Visit website'), '/', ['target' => '_blank', 'escape' => false]); ?></li>
-                        <li class="divider"></li>
-                        <li><?php echo $this->Html->link('<i class="fa fa-sign-out fa-fw"></i> ' . __d('backend_theme', 'Sign out'), '/logout', ['escape' => false]); ?></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
 
-        <div class="navbar-default sidebar" role="navigation">
-            <div class="sidebar-search">
-                <?php echo $this->Form->create(null, ['type' => 'get', 'url' => '/admin/node/manage/index']); ?>
-                    <div class="input-group">
-                        <?php
-                            echo $this->Form->input('filter', [
-                                'label' => false,
-                                'required',
-                                'placeholder' => __d('backend_theme', 'Search Content...'),
-                            ]);
-                        ?>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit">
-                                <span class="fa fa-search"></span>
-                            </button>
-                        </span>
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- Visit website -->
+                            <li>
+                                <?php echo $this->Html->link('<i class="fa fa-globe"></i>', '/', ['title' => __d('backend_theme', 'Visit Website'), 'escape' => false]); ?>
+                            </li>
+
+                            <!-- User Profile -->
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <?php echo $this->Html->image(user()->avatar(['s' => 20]), ['class' => 'user-image', 'alt' => __d('backend_theme', 'User Avatar')]); ?>
+                                    <span class="hidden-xs"><?php echo user()->name; ?></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <?php echo $this->Html->image(user()->avatar(['s' => 50]), ['class' => 'img-circle', 'alt' => __d('backend_theme', 'User Avatar')]); ?>
+                                        <p>
+                                            @<?php echo user()->username; ?>
+                                            <small>&lt;<?php echo user()->email; ?>&gt;</small>
+                                        </p>
+                                    </li>
+
+                                    <!-- Menu Body -->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <?php echo $this->Html->link(__d('backend_theme', 'Profile'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'me', 'prefix' => false], ['class' => 'btn btn-default btn-flat']); ?>
+                                        </div>
+                                        <div class="pull-right">
+                                            <?php echo $this->Html->link(__d('backend_theme', 'Sign out'), '/logout', ['class' => 'btn btn-default btn-flat']); ?>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                <?php echo $this->Form->end(); ?>
-            </div>
+                </nav>
+            </header>
 
-            <div class="sidebar-nav navbar-collapse">
-                <?php echo $this->region('main-menu')->render(); ?>
-            </div>
-        </div>
+            <!-- =============================================== -->
 
-        <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
+            <!-- Left side column. contains the sidebar -->
+            <aside class="main-sidebar">
+                <section class="sidebar">
+                    <?php echo $this->Form->create(null, ['class' => 'sidebar-form', 'type' => 'get', 'url' => '/admin/node/manage/index']); ?>
+                        <div class="input-group">
+                            <?php
+                                echo $this->Form->input('filter', [
+                                    'label' => false,
+                                    'required',
+                                    'placeholder' => __d('backend_theme', 'Search Content...'),
+                                ]);
+                            ?>
+                            <span class="input-group-btn">
+                                <button class="btn btn-flat" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    <?php echo $this->Form->end(); ?>
+
+                    <?php echo $this->region('main-menu')->render(); ?>
+                </section>
+            </aside>
+
+            <!-- =============================================== -->
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
                     <h1 class="page-header"><?php echo $this->fetch('title'); ?></h1>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12">
                     <?php echo $this->Breadcrumb->renderIfNotEmpty(); ?>
                     <?php echo $this->Flash->render(); ?>
-                    <?php echo $this->fetch('content'); ?>
-                </div>
+
+                    <!-- Main content -->
+                    <section class="content">
+                        <?php echo $this->fetch('content'); ?>
+                    </section>
+                </section>
             </div>
 
-            <div class="row">
-                <div class="col-lg-12">
-                    <hr />
-                    <p class="text-center">
-                        <em><small><?php echo __d('frontend_theme', 'Powered by QuickAppsCMS v{0}', quickapps('version')); ?></small></em>
-                    </p>
-                </div>
-            </div>
+            <footer class="main-footer">
+                <?php echo __d('backend_theme', 'Powered by <a href="http://www.quickappscms.org/">QuickAppsCMS</a> v{0}. Theme AdminLTE 2.', quickapps('version')); ?>
+            </footer>
         </div>
     </body>
 </html>

@@ -14,17 +14,17 @@
  * Renders menus assigned to `main-menu` region.
  */
 echo $this->Menu->render($menu->links, [
-    'id' => 'side-menu',
-    'class' => 'nav',
+    'class' => 'sidebar-menu',
+    'hasChildrenClass' => 'treeview',
     'breadcrumbGuessing' => true,
-    'templates' => [
-        'link' => '<a href="{{url}}"{{attrs}}>{{content}}</a>'
-    ],
     'formatter' => function ($item, $info) {
         $options = [];
+        if ($info['depth'] > 0) {
+            $item->title = '<i class="fa fa-circle-o"></i>&nbsp;&nbsp;&nbsp;' . $item->title;
+        }
         if (!empty($info['children'])) {
-            $info['children'] = str_replace('<ul class=""', '<ul class="nav nav-second-level"', $info['children']);
-            $options['templates']['link'] = '<a href="{{url}}"{{attrs}}>{{content}}<span class="fa arrow"></span></a>';
+            $info['children'] = str_replace('<ul class=""', '<ul class="treeview-menu"', $info['children']);
+            $options['templates']['link'] = '<a href="{{url}}"{{attrs}}>{{content}} <i class="fa fa-angle-left pull-right"></i></a>';
         }
         return $this->Menu->formatter($item, $info, $options);
     }
