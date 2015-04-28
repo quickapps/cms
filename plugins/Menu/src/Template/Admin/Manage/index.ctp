@@ -25,9 +25,9 @@
 
 <p>
     <?php if ($menus->count() > 0): ?>
-    <?php foreach ($menus as $menu): ?>
-        <div class="clearfix">
-            <p>
+        <ul class="list-group">
+        <?php foreach ($menus as $menu): ?>
+            <li class="list-group-item">
                 <div class="btn-group pull-right">
                     <?php
                         echo $this->Html->link('', [
@@ -77,11 +77,11 @@
                     ?>
                     <?php endif; ?>
                 </div>
-                <h4><?php echo $menu->title; ?></h4>
-                <p class="list-group-item-text"><em><?php echo $menu->brief_description; ?></em></p>
-            </p>
-        </div>
-    <?php endforeach; ?>
+                <h4 class="list-group-item-heading"><?php echo $menu->title; ?></h4>
+                <p class="list-group-item-text"><?php echo $menu->brief_description; ?></p>
+            </li>
+        <?php endforeach; ?>
+        </ul>
     <?php else: ?>
         <div class="alert alert-warning">
             <?php echo __d('menu', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>

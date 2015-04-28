@@ -13,7 +13,7 @@
 
 <?php echo $this->Form->create($block, ['role' => 'form']); ?>
     <fieldset>
-        <legend><?php echo __d('block', 'Creating New Block'); ?></legend>
+        <legend><?php echo __d('block', 'Editing Block'); ?></legend>
             <?php echo $this->Form->input('title', ['label' => __d('block', 'Title *')]); ?>
             <em class="help-block"><?php echo __d('block', 'The title of the block as shown to the user.'); ?></em>
 
@@ -28,14 +28,14 @@
                 <em class="help-block"><?php echo __d('block', 'The content of the block as shown to the user.'); ?></em>
             <?php else: ?>
                 <!-- handler:<?php echo $block->handler; ?> -->
-                <?php echo $this->Form->prefix('settings:'); ?>
+                <?php $this->Form->prefix('settings:'); ?>
                 <?php $response = $this->trigger("Block.{$block->handler}.settings", $block)->result; ?>
                 <?php if ($response): ?>
                     <hr />
                         <?php echo $response; ?>
                     <hr />
                 <?php endif; ?>
-                <?php echo $this->Form->prefix(''); ?>
+                <?php $this->Form->prefix(''); ?>
                 <!-- /handler:<?php echo $block->handler; ?> -->
             <?php endif; ?>
 

@@ -39,8 +39,7 @@ use QuickApps\Core\Plugin;
                 <div class="panel-body">
                     <?php echo $this->Form->create(); ?>
                         <?php foreach ($front as $region => $blocks): ?>
-                            <hr />
-                            <h3><?php echo $region; ?></h3>
+                            <h4><?php echo $region; ?></h4>
 
                             <?php if (count($blocks->toArray())): ?>
                                 <ul class="sortable list-group">
@@ -119,8 +118,7 @@ use QuickApps\Core\Plugin;
                 <div class="panel-body">
                     <?php echo $this->Form->create(); ?>
                         <?php foreach ($back as $region => $blocks): ?>
-                            <hr />
-                            <h3><?php echo $region; ?></h3>
+                            <h4><?php echo $region; ?></h4>
 
                             <?php if (count($blocks->toArray())): ?>
                                 <ul class="sortable list-group">

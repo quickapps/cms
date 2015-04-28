@@ -18,9 +18,9 @@
 </div>
 
 <p>
-    <?php foreach ($types as $type): ?>
-        <div class="clearfix">
-            <p>
+    <ul class="list-group">
+        <?php foreach ($types as $type): ?>
+            <li class="list-group-item">
                 <div class="btn-group pull-right">
                     <?php
                         echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
@@ -60,9 +60,9 @@
                         ]);
                     ?>
                 </div>
-                <h4><?php echo $type->name; ?> (id: <?php echo $type->slug; ?>)</h4>
-                <p class="list-group-item-text"><em><?php echo $type->description; ?></em></p>
-            </p>
-        </div>
-    <?php endforeach; ?>
+                <h4 class="list-group-item-heading"><?php echo $type->name; ?> <small>(id: <?php echo $type->slug; ?>)</small></h4>
+                <p class="list-group-item-text"><?php echo $type->description; ?></p>
+            </li>
+        <?php endforeach; ?>
+    </ul>
 </p>
