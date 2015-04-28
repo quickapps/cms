@@ -774,10 +774,7 @@ if (typeof jQuery === 'undefined') {
     if (!isActive) {
       if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
         // if mobile we use a backdrop because click events don't delegate
-        $(document.createElement('div'))
-          .addClass('dropdown-backdrop')
-          .insertAfter($(this))
-          .on('click', clearMenus)
+        $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
       }
 
       var relatedTarget = { relatedTarget: this }
@@ -838,8 +835,6 @@ if (typeof jQuery === 'undefined') {
       var relatedTarget = { relatedTarget: this }
 
       if (!$parent.hasClass('open')) return
-
-      if (e && e.type == 'click' && /input|textarea/i.test(e.target.tagName) && $.contains($parent[0], e.target)) return
 
       $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
 
@@ -997,7 +992,9 @@ if (typeof jQuery === 'undefined') {
         that.$element[0].offsetWidth // force reflow
       }
 
-      that.$element.addClass('in')
+      that.$element
+        .addClass('in')
+        .attr('aria-hidden', false)
 
       that.enforceFocus()
 
@@ -1031,6 +1028,7 @@ if (typeof jQuery === 'undefined') {
 
     this.$element
       .removeClass('in')
+      .attr('aria-hidden', true)
       .off('click.dismiss.bs.modal')
       .off('mouseup.dismiss.bs.modal')
 
@@ -1094,8 +1092,7 @@ if (typeof jQuery === 'undefined') {
     if (this.isShown && this.options.backdrop) {
       var doAnimate = $.support.transition && animate
 
-      this.$backdrop = $(document.createElement('div'))
-        .addClass('modal-backdrop ' + animate)
+      this.$backdrop = $('<div class="modal-backdrop ' + animate + '" />')
         .appendTo(this.$body)
 
       this.$element.on('click.dismiss.bs.modal', $.proxy(function (e) {
