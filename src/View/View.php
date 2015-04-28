@@ -211,16 +211,19 @@ class View extends CakeView
      * {@inheritDoc}
      *
      * Allow users to overwrite ANY template by placing it at site's
-     * **ROOT/templates/** directory. This directory has the highest priority when
-     * looking for template files. So in other words, this directory behaves as some
-     * sort of "primary theme".
+     * **ROOT/templates/Front** and **ROOT/templates/Front** directories. These
+     * directory has the highest priority when looking for template files. So in
+     * other words, this directories behaves as some sort of "primary themes". Each
+     * directory represents a "Frontend" and "Backend" respectively.
      */
     protected function _paths($plugin = null, $cached = true)
     {
         $paths = parent::_paths($plugin, $cached);
-        array_unshift($paths, SITE_ROOT . '/templates/');
+        $base = SITE_ROOT . '/templates/';
+        $base .= $this->request->isAdmin() ? 'Back/' : 'Front/';
+        array_unshift($paths, $base);
         if ($plugin !== null) {
-            array_unshift($paths, SITE_ROOT . "/templates/Plugin/{$plugin}/");
+            array_unshift($paths, "{$base}Plugin/{$plugin}/");
         }
         return $paths;
     }
