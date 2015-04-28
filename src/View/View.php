@@ -210,6 +210,24 @@ class View extends CakeView
     /**
      * {@inheritDoc}
      *
+     * Allow users to overwrite ANY template by placing it at site's
+     * **ROOT/templates/** directory. This directory has the highest priority when
+     * looking for template files. So in other words, this directory behaves as some
+     * sort of "primary theme".
+     */
+    protected function _paths($plugin = null, $cached = true)
+    {
+        $paths = parent::_paths($plugin, $cached);
+        array_unshift($paths, SITE_ROOT . '/templates/');
+        if ($plugin !== null) {
+            array_unshift($paths, SITE_ROOT . "/templates/Plugin/{$plugin}/");
+        }
+        return $paths;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * Adds fallback functionality, if layout is not found it uses QuickAppsCMS's
      * `default.ctp` as it will always exists.
      */
