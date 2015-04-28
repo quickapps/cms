@@ -11,13 +11,16 @@
  */
 namespace User\Controller\Admin;
 
-use User\Controller\GatewayController as BaseGatewayController;
+use User\Controller\AppController;
+use User\Controller\UserSignTrait;
 
 /**
  * Gateway manager controller.
  *
  * Provides login and logout methods for backend.
  */
-class GatewayController extends BaseGatewayController
+class GatewayController extends AppController
 {
+
+    use UserSignTrait;
 }
