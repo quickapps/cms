@@ -98,7 +98,7 @@ class TermsController extends AppController
     {
         $this->loadModel('Taxonomy.Vocabularies');
         $vocabulary = $this->Vocabularies->get($vocabularyId);
-        $term = $this->Vocabularies->Terms->newEntity(['vocabulary_id' => $vocabulary->id]);
+        $term = $this->Vocabularies->Terms->newEntity(['vocabulary_id' => $vocabulary->id], ['validate' => false]);
         $this->Vocabularies->Terms->addBehavior('Tree', ['scope' => ['vocabulary_id' => $vocabulary->id]]);
 
         if ($this->request->data()) {
