@@ -220,10 +220,12 @@ class View extends CakeView
     {
         $paths = parent::_paths($plugin, $cached);
         $base = SITE_ROOT . '/templates/';
-        $base .= $this->request->isAdmin() ? 'Back/' : 'Front/';
-        array_unshift($paths, $base);
-        if ($plugin !== null) {
-            array_unshift($paths, "{$base}Plugin/{$plugin}/");
+        $subDirectory = $this->request->isAdmin() ? 'Back/' : 'Front/';
+        foreach (['Common/', $subDirectory] as $dir) {
+            array_unshift($paths, "{$base}{$dir}");
+            if ($plugin !== null) {
+                array_unshift($paths, "{$base}{$dir}Plugin/{$plugin}/");
+            }
         }
         return $paths;
     }
