@@ -133,7 +133,7 @@ if (theme()->settings['collapsed_sidebar']) {
                 <section class="content-header">
                     <h1 class="page-header"><?php echo $this->fetch('title'); ?></h1>
                     <?php echo $this->Breadcrumb->renderIfNotEmpty(); ?>
-                    <?php echo $this->Flash->render(); ?>
+                    <p><?php echo $this->Flash->render(); ?></p>
 
                     <!-- Main content -->
                     <section class="content">
