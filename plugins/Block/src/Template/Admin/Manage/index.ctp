@@ -249,4 +249,4 @@ use QuickApps\Core\Plugin;
     </div>
 </p>
 
-<?php echo $this->Html->script(['System.bootstrap.js', 'Jquery.jquery-ui.min.js', 'System.jquery.cookie.js', 'Block.collapse-ui.js']); ?>
+<?php echo $this->Html->script(['Bootstrap.bootstrap.min.js', 'Jquery.jquery-ui.min.js', 'System.jquery.cookie.js', 'Block.collapse-ui.js']); ?>

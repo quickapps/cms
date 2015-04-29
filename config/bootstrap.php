@@ -20,13 +20,13 @@ require __DIR__ . '/paths.php';
  * Load site's "bootstrap.php".
  */
 if (is_readable(SITE_ROOT . '/config/bootstrap.php')) {
-    include_once SITE_ROOT . '/config/bootstrap.php';
+    include SITE_ROOT . '/config/bootstrap.php';
 }
 
 /**
  * Use composer to load the autoloader.
  */
-$classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
+$classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 
 /**
  * Load QuickApps basic functionality.
@@ -227,6 +227,7 @@ if (!$activePlugins) {
 AppAspect::getInstance()->init([
     'debug' => Configure::read('debug'),
     'appDir' => SITE_ROOT,
+    //'cacheDir' => TMP . 'aop',
     'includePaths' => [],
     'features' => AppAspect::getDefaultFeatures() | Features::INTERCEPT_FUNCTIONS
 ]);
