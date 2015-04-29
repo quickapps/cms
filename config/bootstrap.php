@@ -26,9 +26,7 @@ if (is_readable(SITE_ROOT . '/config/bootstrap.php')) {
 /**
  * Use composer to load the autoloader.
  */
-if (!isset($classLoader)) {
-    $classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
-}
+$classLoader = require_once VENDOR_INCLUDE_PATH . 'autoload.php';
 
 /**
  * Load QuickApps basic functionality.
@@ -60,6 +58,7 @@ use Cake\Network\Email\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Security;
+use Go\Aop\Features;
 use QuickApps\Core\Plugin;
 use QuickApps\Aspect\AppAspect;
 
@@ -189,7 +188,7 @@ if (!is_readable(TMP . 'snapshot.php')) {
 $loadAspects = [];
 $activePlugins = 0;
 Plugin::get()
-    ->each(function ($plugin) use(&$loadAspects, &$activePlugins) {
+    ->each(function ($plugin) use(&$loadAspects, &$activePlugins, $classLoader) {
         $filter = $plugin->status;
         if ($plugin->isTheme) {
             $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
@@ -198,17 +197,19 @@ Plugin::get()
         if (!$filter) {
             continue;
         }
-
         $activePlugins++;
+        $loadAspects = array_merge($loadAspects, $plugin->aspects);
+        $classLoader->addPsr4($plugin->name . "\\", normalizePath("{$plugin->path}/src"), true);
+
         Plugin::load($plugin->name, [
-            'autoload' => true,
+            'autoload' => false,
             'bootstrap' => true,
             'routes' => true,
             'path' => normalizePath("{$plugin->path}/"),
             'classBase' => 'src',
             'ignoreMissing' => true,
         ]);
-        $loadAspects = array_merge($loadAspects, $plugin->aspects);
+
         foreach ($plugin->eventListeners as $fullClassName) {
             if (class_exists($fullClassName)) {
                 EventManager::instance()->on(new $fullClassName);
@@ -226,8 +227,8 @@ if (!$activePlugins) {
 AppAspect::getInstance()->init([
     'debug' => Configure::read('debug'),
     'appDir' => SITE_ROOT,
-    'cacheDir' => TMP . 'aop',
     'includePaths' => [],
+    'features' => AppAspect::getDefaultFeatures() | Features::INTERCEPT_FUNCTIONS
 ]);
 
 /**

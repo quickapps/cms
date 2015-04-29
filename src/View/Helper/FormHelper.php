@@ -13,7 +13,6 @@ namespace QuickApps\View\Helper;
 
 use Cake\View\Helper\FormHelper as CakeFormHelper;
 use Cake\View\View;
-use Cake\View\Widget\WidgetRegistry;
 use QuickApps\Event\HookAwareTrait;
 
 /**
