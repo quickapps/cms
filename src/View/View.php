@@ -32,7 +32,6 @@ use QuickApps\View\ViewModeAwareTrait;
  */
 class View extends CakeView
 {
-
     use HookAwareTrait;
     use HooktagAwareTrait;
     use ViewModeAwareTrait;
@@ -117,7 +116,6 @@ class View extends CakeView
      */
     public function region($name, $options = [], $force = false)
     {
-        $this->alter('View.region', $name, $options);
         if (empty($this->_regions[$name]) || $force) {
             $this->_regions[$name] = new Region($this, $name, $options);
         }
@@ -180,7 +178,6 @@ class View extends CakeView
             EventManager::instance()->dispatch($event);
             $html = $event->result;
         } else {
-            $this->alter('View.render', $view, $layout);
             if (isset($this->jQuery)) {
                 $this->jQuery->load(['block' => true]);
             }
@@ -194,17 +191,6 @@ class View extends CakeView
         }
 
         return $this->hooktags($html);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * Triggers the alter-event `View.element` (Alter.View.element).
-     */
-    public function element($name, array $data = [], array $options = [])
-    {
-        $this->alter('View.element', $name, $data, $options);
-        return parent::element($name, $data, $options);
     }
 
     /**

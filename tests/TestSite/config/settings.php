@@ -35,7 +35,7 @@ if (getenv('DB') == 'sqlite') {
         'className' => 'Cake\Database\Connection',
         'driver' => 'Cake\Database\Driver\Postgres',
         'persistent' => false,
-        'host' => '127.0.0.1',
+        'host' => 'localhost',
         'username' => 'postgres',
         'password' => '',
         'database' => 'quick_test',

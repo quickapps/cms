@@ -43,11 +43,6 @@ class HookManagerTest extends TestCase
             $this->_eventManager->on('Test.hook', function ($event) {
                 return 'event response';
             });
-
-            $this->_eventManager->on('Alter.Test.alter', function ($event, &$arg1, &$arg2) {
-                $arg1 .= ' altered';
-                $arg2 .= ' altered';
-            });
         }
     }
 
@@ -73,19 +68,5 @@ class HookManagerTest extends TestCase
         $return = HookManager::trigger('Test.hook');
         $this->assertTrue($return instanceof Event);
         $this->assertEquals($return->result, 'event response');
-    }
-
-    /**
-     * test alter() method.
-     *
-     * @return void
-     */
-    public function testAlter()
-    {
-        $var1 = 'dummy1';
-        $var2 = 'dummy2';
-        HookManager::alter('Test.alter', $var1, $var2);
-        $this->assertEquals($var1, 'dummy1 altered');
-        $this->assertEquals($var2, 'dummy2 altered');
     }
 }

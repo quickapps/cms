@@ -41,26 +41,7 @@ use Cake\Event\EventManager;
  * $this->trigger('User.beforeLogin', ...);
  * ```
  *
- * When using the `alert()` method Event names are prefixed with with the `Alter.`
- * word. For example, the Event name `Alter.FormHelper.textarea` will respond to:
- *
- * ```php
- * $this->alter('FormHelper.textarea', $arg_0, $arg_1, ..., $arg_14);
- * ```
- *
- * When using `alter()` you can provide **up to 15 arguments by reference**
- *
- * ---
- *
- * In the other hand, when using the `trigger()` method no prefixes are added to
- * the Event name so for example, the event name `Say.HelloWorld` will respond to:
- *
- * ```php
- * $this->trigger('Say.HelloWorld', $arg_0, $arg_1, ..., $arg_n);
- * ```
- *
- * You can provide an unlimited number of arguments which are treated by value,
- * and NOT by reference as `alter()` does.
+ * You can provide an unlimited number of arguments which are treated by value.
  *
  * ***
  *
@@ -77,14 +58,8 @@ use Cake\Event\EventManager;
  * class MyEventListener implements EventListenerInterface {
  *     public function implementedEvents() {
  *           return [
- *               'Alter.Hello' => 'alterWorld',
  *               'Hello' => 'world',
  *           ];
- *     }
- *
- *     public function alterWorld(Event $event, &$byReference) {
- *         // Remember the "&" for referencing
- *         $byReference .= ' World!';
  *     }
  *
  *      public function world(Event $event, $byValue) {
@@ -99,10 +74,8 @@ use Cake\Event\EventManager;
  * // Wherever you are able to use event() & alter()
  *
  * $hello = 'Hello';
- * $this->alter('Hello', $hello);
  *
- * echo $hello; // out: "Hello World!"
- * echo $this->trigger('Hello', $hello); // out: "Hello World! world!"
+ * echo $this->trigger('Hello', $hello); // out: "Hello world!"
  * echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
  * ```
  *
@@ -174,102 +147,6 @@ class HookManager
         static::_log($eventName);
         $event = new Event($eventName, $context, $args);
         EventManager::instance()->dispatch($event);
-        return $event;
-    }
-
-    /**
-     * Similar to "trigger()" but aimed to alter the given arguments.
-     *
-     * You can provide **up to 15 arguments**, which are automatically
-     * passed to you event listener method by reference. For example:
-     *
-     * ```php
-     * $arg_0 = 'data 0';
-     * $arg_1 = 'data 1';
-     * ...
-     * $arg_14 = 'data 14';
-     * $this->alter('MyHook', $arg_0, $arg_1, ..., $arg_14);
-     * ```
-     *
-     * Note that passing arguments as values will produce `Fatal Error`:
-     *
-     * ```php
-     * $this->alter('MyHook', 'data 0', 'data 1', ..., 'data 14');
-     * // Fatal Error
-     * ```
-     *
-     * Event names are prefixed with the `Alter.` word. For instance, in your
-     * `Event Listener` class you must do as below:
-     *
-     * ```php
-     * // note the `Alter.` prefix
-     * public function implementedEvents() {
-     *     return ['Alter.MyHook' => 'alterHandler'];
-     * }
-     *
-     * // now you are able to get arguments by reference
-     * public function alterHandler(Event $event, &$arg_0, &$arg_1, ..., &$arg_14) {
-     *     // stuff here
-     * }
-     * ```
-     *
-     * You can provide a context to use by passing an array as first arguments where
-     * the first element is the event name and the second one is the context:
-     *
-     * ```php
-     * HookManager::alter(['AlterTime', new ContextObject()], $arg0, $arg1, ...);
-     * ```
-     *
-     * If no context is given an instance of "Hook" class will be used by default.
-     *
-     * @param array|string $eventName Name of the "alter event" to trigger.
-     *  e.g. `FormHelper.input` will trigger `Alter.FormHelper.input` event
-     * @param mixed &$p0 Optional argument by reference
-     * @param mixed &$p1 Optional argument by reference
-     * @param mixed &$p2 Optional argument by reference
-     * @param mixed &$p3 Optional argument by reference
-     * @param mixed &$p4 Optional argument by reference
-     * @param mixed &$p5 Optional argument by reference
-     * @param mixed &$p6 Optional argument by reference
-     * @param mixed &$p7 Optional argument by reference
-     * @param mixed &$p8 Optional argument by reference
-     * @param mixed &$p9 Optional argument by reference
-     * @param mixed &$p10 Optional argument by reference
-     * @param mixed &$p11 Optional argument by reference
-     * @param mixed &$p12 Optional argument by reference
-     * @param mixed &$p13 Optional argument by reference
-     * @param mixed &$p14 Optional argument by reference
-     * @return \Cake\Event\Event
-     */
-    public static function alter($eventName, &$p0 = null, &$p1 = null, &$p2 = null, &$p3 = null, &$p4 = null, &$p5 = null, &$p6 = null, &$p7 = null, &$p8 = null, &$p9 = null, &$p10 = null, &$p11 = null, &$p12 = null, &$p13 = null, &$p14 = null)
-    {
-        if (is_array($eventName)) {
-            list($eventName, $context) = $eventName;
-        } else {
-            $context = new HookManager();
-        }
-
-        $eventName = "Alter.{$eventName}";
-        static::_log($eventName);
-        $event = new Event($eventName, $context);
-        $listeners = EventManager::instance()->listeners($eventName);
-
-        foreach ($listeners as $listener) {
-            if ($event->isStopped()) {
-                break;
-            }
-
-            $result = $listener['callable']($event, $p0, $p1, $p2, $p3, $p4, $p5, $p6, $p7, $p8, $p9, $p10, $p11, $p12, $p13, $p14);
-
-            if ($result === false) {
-                $event->stopPropagation();
-            }
-
-            if ($result !== null) {
-                $event->result = $result;
-            }
-        }
-
         return $event;
     }
 

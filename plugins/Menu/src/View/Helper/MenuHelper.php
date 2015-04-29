@@ -207,9 +207,7 @@ class MenuHelper extends Helper
             throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
         }
 
-        $this->alter(['MenuHelper.render', $this->_View], $items, $options);
         $items = $this->_prepareItems($items);
-
         if (empty($items)) {
             return '';
         }
@@ -275,8 +273,6 @@ class MenuHelper extends Helper
      */
     public function formatter($item, array $info, array $options = [])
     {
-        $this->alter(['MenuHelper.formatter', $this->_View], $item, $info, $options);
-
         if (!empty($options['templates'])) {
             $templatesBefore = $this->templates();
             $this->templates((array)$options['templates']);

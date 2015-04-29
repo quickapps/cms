@@ -61,6 +61,7 @@ use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Security;
 use QuickApps\Core\Plugin;
+use QuickApps\Aspect\AppAspect;
 
 /**
  * Registers custom types.
@@ -185,35 +186,49 @@ if (!is_readable(TMP . 'snapshot.php')) {
 /**
  * Load all registered plugins.
  */
-$activePlugins = Plugin::get()
-    ->filter(function ($plugin) {
+$loadAspects = [];
+$activePlugins = 0;
+Plugin::get()
+    ->each(function ($plugin) use(&$loadAspects, &$activePlugins) {
         $filter = $plugin->status;
         if ($plugin->isTheme) {
             $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
         }
-        return $filter;
-    })
-    ->toArray();
 
-if (!count($activePlugins)) {
+        if (!$filter) {
+            continue;
+        }
+
+        $activePlugins++;
+        Plugin::load($plugin->name, [
+            'autoload' => true,
+            'bootstrap' => true,
+            'routes' => true,
+            'path' => normalizePath("{$plugin->path}/"),
+            'classBase' => 'src',
+            'ignoreMissing' => true,
+        ]);
+        $loadAspects = array_merge($loadAspects, $plugin->aspects);
+        foreach ($plugin->eventListeners as $fullClassName) {
+            if (class_exists($fullClassName)) {
+                EventManager::instance()->on(new $fullClassName);
+            }
+        }
+    });
+
+if (!$activePlugins) {
     die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
-foreach ($activePlugins as $plugin) {
-    Plugin::load($plugin->name, [
-        'autoload' => true,
-        'bootstrap' => true,
-        'routes' => true,
-        'path' => normalizePath("{$plugin->path}/"),
-        'classBase' => 'src',
-        'ignoreMissing' => true,
-    ]);
-    foreach ($plugin->eventListeners as $fullClassName) {
-        if (class_exists($fullClassName)) {
-            EventManager::instance()->on(new $fullClassName);
-        }
-    }
-}
+/**
+ * Initialize Aspects
+ */
+AppAspect::getInstance()->init([
+    'debug' => Configure::read('debug'),
+    'appDir' => SITE_ROOT,
+    'cacheDir' => TMP . 'aop',
+    'includePaths' => [],
+]);
 
 /**
  * Connect middleware/dispatcher filters.

@@ -49,7 +49,6 @@ class LinkHelper extends Helper
      */
     public function url($url)
     {
-        $this->alter(['LinkHelper.url', $this->_View], $url);
         if (is_string($url)) {
             $url = $this->localePrefix($url);
         }
@@ -87,7 +86,6 @@ class LinkHelper extends Helper
      */
     public function isActive(EntityInterface $item)
     {
-        $this->alter(['LinkHelper.isActive', $this->_View], $item);
         if ($item->has('activation') && is_callable($item->get('activation'))) {
             $callable = $item->get('activation');
             return $callable($this->_View->request, $item);

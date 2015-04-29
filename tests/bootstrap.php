@@ -90,16 +90,22 @@ function snapshot()
                 $isTheme = (bool)preg_match('/Theme$/', $name);
                 $isCore = strpos($pluginPath, 'cms' . DS . 'plugins') !== false;
                 $eventsPath = "{$pluginPath}/src/Event/";
+                $aspectsPath = "{$pluginPath}/src/Aspect/";
                 $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
                 $status = true; // all plugins enabled
+                $aspects = [];
                 $eventListeners = [];
 
-                if (is_dir($eventsPath)) {
-                    $Folder = new Folder($eventsPath);
-                    foreach ($Folder->read(false, false, true)[1] as $classFile) {
-                        $className = basename(preg_replace('/\.php$/', '', $classFile));
-                        $namespace = "{$name}\Event\\";
-                        $eventListeners[] = $namespace . $className;
+                foreach ([$aspectsPath, $eventsPath] as $path) {
+                    if (is_dir($path)) {
+                        $Folder = new Folder($path);
+                        foreach ($Folder->read(false, false, true)[1] as $classFile) {
+                            $className = basename(preg_replace('/\.php$/', '', $classFile));
+                            $subspace = $path == $aspectsPath ? 'Aspect' : 'Event';
+                            $varname = $path == $aspectsPath ? 'aspects' : 'eventListeners';
+                            $namespace = "{$name}\\{$subspace}\\";
+                            ${$varname}[] = $namespace . $className;
+                        }
                     }
                 }
 
@@ -112,6 +118,7 @@ function snapshot()
                     'hasHelp' => !empty($helpFiles),
                     'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
                     'eventListeners' => $eventListeners,
+                    'aspects' => $aspects,
                     'status' => $status,
                     'path' => $pluginPath,
                 ];

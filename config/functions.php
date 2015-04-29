@@ -167,19 +167,25 @@ if (!function_exists('snapshot')) {
             }
 
             $eventsPath = "{$pluginPath}/src/Event/";
+            $aspectsPath = "{$pluginPath}/src/Aspect/";
             $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
             $isCore = strpos($pluginPath, $corePath) !== false;
             $isTheme = str_ends_with($plugin->name, 'Theme');
             $status = (bool)$plugin->status;
             $humanName = (string)Inflector::humanize((string)Inflector::underscore($plugin->name));
+            $aspects = [];
             $eventListeners = [];
 
-            if (is_dir($eventsPath)) {
-                $Folder = new Folder($eventsPath);
-                foreach ($Folder->read(false, false, true)[1] as $classFile) {
-                    $className = basename(preg_replace('/\.php$/', '', $classFile));
-                    $namespace = "{$plugin->name}\Event\\";
-                    $eventListeners[] = $namespace . $className;
+            foreach ([$aspectsPath, $eventsPath] as $path) {
+                if (is_dir($path)) {
+                    $Folder = new Folder($path);
+                    foreach ($Folder->read(false, false, true)[1] as $classFile) {
+                        $className = basename(preg_replace('/\.php$/', '', $classFile));
+                        $subspace = $path == $aspectsPath ? 'Aspect' : 'Event';
+                        $varname = $path == $aspectsPath ? 'aspects' : 'eventListeners';
+                        $namespace = "{$plugin->name}\\{$subspace}\\";
+                        ${$varname}[] = $namespace . $className;
+                    }
                 }
             }
 
@@ -196,6 +202,7 @@ if (!function_exists('snapshot')) {
                 'hasHelp' => !empty($helpFiles),
                 'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
                 'eventListeners' => $eventListeners,
+                'aspects' => $aspects,
                 'status' => $status,
                 'path' => $pluginPath,
             ];

@@ -10,13 +10,7 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
-/**
- * Other plugins can alter this menu links by catching the
- * `Alter.MenuHelper.render` event and altering the $links array.
- */
-
 $links = [];
-
 if ($this->request->isUserAdmin()) {
     $links[] = ['title' => __d('user', 'Administer Site'), 'url' => '/admin'];
 }
