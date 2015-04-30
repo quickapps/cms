@@ -12,13 +12,7 @@
 ?>
 
 <?php echo $this->Form->create($theme); ?>
-    <fieldset>
-        <legend><?php echo __d('system', 'Theme Settings'); ?></legend>
-
-        <?php $this->Form->prefix('settings:'); ?>
-        <?php echo $this->element("{$theme->name}.settings"); ?>
-        <?php $this->Form->prefix(''); ?>
-
-        <?php echo $this->Form->submit(__d('system', 'Save all')); ?>
-    </fieldset>
+    <?php $this->Form->prefix('settings:'); ?>
+    <?php echo $this->element("{$theme->name}.settings"); ?>
+    <?php $this->Form->prefix(''); ?>
 <?php echo $this->Form->end(); ?>
