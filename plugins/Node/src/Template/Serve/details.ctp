@@ -10,4 +10,4 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
-echo $this->render($node); ?>
+echo $this->render($node);

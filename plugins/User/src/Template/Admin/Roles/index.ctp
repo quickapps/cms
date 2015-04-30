@@ -11,7 +11,11 @@
  */
 ?>
 
-<p><?php echo $this->element('User.index_submenu'); ?></p>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->element('User.index_submenu'); ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -30,51 +34,55 @@
     </div>
 </div>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th><?php echo __d('user', 'Role name'); ?></th>
-            <th>&nbsp;</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($roles as $role): ?>
-            <tr>
-                <td>
-                    <?php echo $role->name; ?><br />
-                    <small>(<?php echo $role->slug; ?>)</small>
-                </td>
-                <td>
-                    <div class="btn-group">
-                        <?php
-                            echo $this->Html->link('', [
-                                'plugin' => 'User',
-                                'controller' => 'roles',
-                                'action' => 'edit',
-                                $role->id,
-                            ], [
-                                'title' => __d('user', 'Edit role'),
-                                'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
-                            ]);
-                        ?>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th><?php echo __d('user', 'Role name'); ?></th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($roles as $role): ?>
+                    <tr>
+                        <td>
+                            <?php echo $role->name; ?><br />
+                            <small>(<?php echo $role->slug; ?>)</small>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <?php
+                                    echo $this->Html->link('', [
+                                        'plugin' => 'User',
+                                        'controller' => 'roles',
+                                        'action' => 'edit',
+                                        $role->id,
+                                    ], [
+                                        'title' => __d('user', 'Edit role'),
+                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
+                                    ]);
+                                ?>
 
-                        <?php if (!in_array($role->id, [ROLE_ID_ADMINISTRATOR, ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS])): ?>
-                        <?php
-                            echo $this->Html->link('', [
-                                'plugin' => 'User',
-                                'controller' => 'roles',
-                                'action' => 'delete',
-                                $role->id,
-                            ], [
-                                'title' => __d('user', 'Delete'),
-                                'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
-                                'confirm' => __d('user', 'You are about to delete: "{0}". Are you sure ?', $role->name),
-                            ]);
-                        ?>
-                        <?php endif; ?>
-                    </div>
-                </td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+                                <?php if (!in_array($role->id, [ROLE_ID_ADMINISTRATOR, ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS])): ?>
+                                <?php
+                                    echo $this->Html->link('', [
+                                        'plugin' => 'User',
+                                        'controller' => 'roles',
+                                        'action' => 'delete',
+                                        $role->id,
+                                    ], [
+                                        'title' => __d('user', 'Delete'),
+                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+                                        'confirm' => __d('user', 'You are about to delete: "{0}". Are you sure ?', $role->name),
+                                    ]);
+                                ?>
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

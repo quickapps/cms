@@ -9,5 +9,10 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+?>
 
-echo $this->element($about);
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->element($about); ?>
+    </div>
+</div>

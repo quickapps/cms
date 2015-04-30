@@ -26,6 +26,7 @@
             ?>
         </div>
     </div>
+
     <div class="col-md-7">
         <h1><?php echo $theme->human_name; ?> <small>(v<?php echo $theme->composer['version']; ?>)</small></h1>
         <em><?php echo $theme->composer['description']; ?></em>

@@ -9,15 +9,22 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+?>
 
-echo $this->Menu->render($links, [
-    'class' => 'list-group',
-    'formatter' => function ($item, $info) {
-        $content = '<h4 class="list-group-item-heading">' . $item->title . '</h4>';
-        $content .= '<p class="list-group-item-text">' . $item->description . '</p>';
-        return  $this->Html->link($content, $item->url, [
-            'class' => 'list-group-item',
-            'escape' => false
-        ]);
-    }
-]);
+<div class="row">
+    <div class="col-md-12">
+        <?php
+            echo $this->Menu->render($links, [
+                'class' => 'list-group',
+                'formatter' => function ($item, $info) {
+                    $content = '<h4 class="list-group-item-heading">' . $item->title . '</h4>';
+                    $content .= '<p class="list-group-item-text">' . $item->description . '</p>';
+                    return  $this->Html->link($content, $item->url, [
+                        'class' => 'list-group-item',
+                        'escape' => false
+                    ]);
+                }
+            ]);
+        ?>
+    </div>
+</div>

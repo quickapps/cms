@@ -11,7 +11,11 @@
  */
 ?>
 
-<p><?php echo $this->element('User.index_submenu'); ?></p>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->element('User.index_submenu'); ?>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-5">
@@ -100,6 +104,7 @@
     var baseURL = '<?php echo $this->Url->build(['plugin' => 'User', 'controller' => 'permissions', 'action' => 'aco'], true); ?>/';
     var expandPlugin = '<?php echo !empty($this->request->query['expand']) ? $this->request->query['expand'] : ''; ?>';
 </script>
+
 <?php echo $this->Html->script('User.jstree.min.js'); ?>
 <?php echo $this->Html->css('User.jstree-themes/default/style.min.css'); ?>
 <?php echo $this->Html->css('User.acos.tree.css'); ?>

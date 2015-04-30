@@ -11,16 +11,24 @@
  */
 ?>
 
-<p><?php echo $this->element('User.index_submenu'); ?></p>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->element('User.index_submenu'); ?>
+    </div>
+</div>
 
-<?php echo $this->Form->create($role); ?>
-    <fieldset>
-        <legend><?php echo __d('user', 'Editing Role'); ?></legend>
-        <?php echo $this->Form->input('name', ['type' => 'text', 'label' => 'Role Name']); ?>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->Form->create($role); ?>
+            <fieldset>
+                <legend><?php echo __d('user', 'Editing Role'); ?></legend>
+                <?php echo $this->Form->input('name', ['type' => 'text', 'label' => 'Role Name']); ?>
 
-        <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => 'Update Slug']); ?>
-        <em clas="help-block"><?php echo __d('user', 'Regenerate role machine-name from provided name.'); ?></em>
+                <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => 'Update Slug']); ?>
+                <em clas="help-block"><?php echo __d('user', 'Regenerate role machine-name from provided name.'); ?></em>
 
-        <p><?php echo $this->Form->submit(__d('user', 'Save')); ?></p>
-    </fieldset>
-<?php echo $this->Form->end(); ?>
+                <p><?php echo $this->Form->submit(__d('user', 'Save')); ?></p>
+            </fieldset>
+        <?php echo $this->Form->end(); ?>
+    </div>
+</div>

@@ -11,80 +11,86 @@
  */
 ?>
 
-<div class="text-right">
-    <?php
-        echo $this->Html->link(__d('menu', 'Create new menu'), [
-            'plugin' => 'Menu',
-            'controller' => 'manage',
-            'action' => 'add'
-        ], [
-            'class' => 'btn btn-primary'
-        ]);
-    ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-right">
+            <?php
+                echo $this->Html->link(__d('menu', 'Create new menu'), [
+                    'plugin' => 'Menu',
+                    'controller' => 'manage',
+                    'action' => 'add'
+                ], [
+                    'class' => 'btn btn-primary'
+                ]);
+            ?>
+        </div>
+    </div>
 </div>
 
-<p>
-    <?php if ($menus->count() > 0): ?>
-        <ul class="list-group">
-        <?php foreach ($menus as $menu): ?>
-            <li class="list-group-item">
-                <div class="btn-group pull-right">
-                    <?php
-                        echo $this->Html->link('', [
-                            'plugin' => 'Menu',
-                            'controller' => 'manage',
-                            'action' => 'edit',
-                            $menu->id
-                        ], [
-                            'title' => __d('menu', 'Edit menu information'),
-                            'class' => 'btn btn-default glyphicon glyphicon-pencil',
-                        ]);
-                    ?>
-                    <?php
-                        echo $this->Html->link('', [
-                            'plugin' => 'Menu',
-                            'controller' => 'links',
-                            'action' => 'menu',
-                            $menu->id
-                        ], [
-                            'title' => __d('menu', 'Manage links'),
-                            'class' => 'btn btn-default glyphicon glyphicon-link',
-                        ]);
-                    ?>
-                    <?php
-                        echo $this->Html->link('', [
-                            'plugin' => 'Menu',
-                            'controller' => 'links',
-                            'action' => 'add',
-                            $menu->id
-                        ], [
-                            'title' => __d('menu', 'Add link'),
-                            'class' => 'btn btn-default glyphicon glyphicon-plus',
-                        ]);
-                    ?>
-                    <?php if ($menu->handler === 'Menu'): ?>
-                    <?php
-                        echo $this->Html->link('', [
-                            'plugin' => 'Menu',
-                            'controller' => 'manage',
-                            'action' => 'delete',
-                            $menu->id
-                        ], [
-                            'title' => __d('menu', 'Delete this menu'),
-                            'confirm' => __d('menu', 'Delete this menu ? All links within this menu will be lost.'),
-                            'class' => 'btn btn-default glyphicon glyphicon-trash',
-                        ]);
-                    ?>
-                    <?php endif; ?>
-                </div>
-                <h4 class="list-group-item-heading"><?php echo $menu->title; ?></h4>
-                <p class="list-group-item-text"><?php echo $menu->brief_description; ?></p>
-            </li>
-        <?php endforeach; ?>
-        </ul>
-    <?php else: ?>
-        <div class="alert alert-warning">
-            <?php echo __d('menu', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>
-        </div>
-    <?php endif; ?>
-</p>
+<div class="row">
+    <div class="col-md-12">
+        <?php if ($menus->count() > 0): ?>
+            <ul class="list-group">
+            <?php foreach ($menus as $menu): ?>
+                <li class="list-group-item">
+                    <div class="btn-group pull-right">
+                        <?php
+                            echo $this->Html->link('', [
+                                'plugin' => 'Menu',
+                                'controller' => 'manage',
+                                'action' => 'edit',
+                                $menu->id
+                            ], [
+                                'title' => __d('menu', 'Edit menu information'),
+                                'class' => 'btn btn-default glyphicon glyphicon-pencil',
+                            ]);
+                        ?>
+                        <?php
+                            echo $this->Html->link('', [
+                                'plugin' => 'Menu',
+                                'controller' => 'links',
+                                'action' => 'menu',
+                                $menu->id
+                            ], [
+                                'title' => __d('menu', 'Manage links'),
+                                'class' => 'btn btn-default glyphicon glyphicon-link',
+                            ]);
+                        ?>
+                        <?php
+                            echo $this->Html->link('', [
+                                'plugin' => 'Menu',
+                                'controller' => 'links',
+                                'action' => 'add',
+                                $menu->id
+                            ], [
+                                'title' => __d('menu', 'Add link'),
+                                'class' => 'btn btn-default glyphicon glyphicon-plus',
+                            ]);
+                        ?>
+                        <?php if ($menu->handler === 'Menu'): ?>
+                        <?php
+                            echo $this->Html->link('', [
+                                'plugin' => 'Menu',
+                                'controller' => 'manage',
+                                'action' => 'delete',
+                                $menu->id
+                            ], [
+                                'title' => __d('menu', 'Delete this menu'),
+                                'confirm' => __d('menu', 'Delete this menu ? All links within this menu will be lost.'),
+                                'class' => 'btn btn-default glyphicon glyphicon-trash',
+                            ]);
+                        ?>
+                        <?php endif; ?>
+                    </div>
+                    <h4 class="list-group-item-heading"><?php echo $menu->title; ?></h4>
+                    <p class="list-group-item-text"><?php echo $menu->brief_description; ?></p>
+                </li>
+            <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <div class="alert alert-warning">
+                <?php echo __d('menu', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>

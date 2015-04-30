@@ -11,9 +11,13 @@
  */
 ?>
 
-<?php echo $this->Form->create($plugin); ?>
-    <?php $this->Form->prefix('settings:'); ?>
-    <?php echo $this->element("{$plugin->name}.settings"); ?>
-    <?php $this->Form->prefix(''); ?>
-    <?php echo $this->Form->submit(__d('system', 'Save all')); ?>
-<?php echo $this->Form->end(); ?>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->Form->create($plugin); ?>
+            <?php $this->Form->prefix('settings:'); ?>
+            <?php echo $this->element("{$plugin->name}.settings"); ?>
+            <?php $this->Form->prefix(''); ?>
+            <?php echo $this->Form->submit(__d('system', 'Save all')); ?>
+        <?php echo $this->Form->end(); ?>
+    </div>
+</div>

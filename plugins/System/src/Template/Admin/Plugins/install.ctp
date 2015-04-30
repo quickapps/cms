@@ -11,66 +11,69 @@
  */
 ?>
 
-<fieldset>
-    <legend><?php echo __d('system', 'Install New Plugin'); ?></legend>
+<div class="row">
+    <div class="col-md-12">
+        <fieldset>
+            <legend><?php echo __d('system', 'Install New Plugin'); ?></legend>
+            <?php echo $this->Form->create(null, ['type' => 'file']); ?>
+                <?php
+                    echo $this->Form->input('file', [
+                        'type' => 'file',
+                        'label' => __d('system', 'Upload ZIP package')
+                    ]);
 
-    <?php echo $this->Form->create(null, ['type' => 'file']); ?>
-        <?php
-            echo $this->Form->input('file', [
-                'type' => 'file',
-                'label' => __d('system', 'Upload ZIP package')
-            ]);
+                    echo $this->Form->input('activate', [
+                        'type' => 'checkbox',
+                        'label' => __d('system', 'Activate after installation'),
+                        'id' => 'activate-upload'
+                    ]);
 
-            echo $this->Form->input('activate', [
-                'type' => 'checkbox',
-                'label' => __d('system', 'Activate after installation'),
-                'id' => 'activate-upload'
-            ]);
+                    echo $this->Form->submit(__d('system', 'Upload package'), ['name' => 'upload']);
+                ?>
+            <?php echo $this->Form->end(); ?>
 
-            echo $this->Form->submit(__d('system', 'Upload package'), ['name' => 'upload']);
-        ?>
-    <?php echo $this->Form->end(); ?>
+            <hr />
 
-    <hr />
+            <?php echo $this->Form->create(null); ?>
+                <?php
+                    echo $this->Form->input('url', [
+                        'label' => __d('system', 'Download ZIP package from URL'),
+                        'placeholder' => __d('system', 'http://example.com/my-plugin.zip')
+                    ]);
 
-    <?php echo $this->Form->create(null); ?>
-        <?php
-            echo $this->Form->input('url', [
-                'label' => __d('system', 'Download ZIP package from URL'),
-                'placeholder' => __d('system', 'http://example.com/my-plugin.zip')
-            ]);
+                    echo $this->Form->input('activate', [
+                        'type' => 'checkbox',
+                        'label' => __d('system', 'Activate after installation'),
+                        'id' => 'activate-download',
+                    ]);
 
-            echo $this->Form->input('activate', [
-                'type' => 'checkbox',
-                'label' => __d('system', 'Activate after installation'),
-                'id' => 'activate-download',
-            ]);
+                    echo $this->Form->submit(__d('system', 'Install from URL'), ['name' => 'download']);
+                ?>
+            <?php echo $this->Form->end(); ?>
 
-            echo $this->Form->submit(__d('system', 'Install from URL'), ['name' => 'download']);
-        ?>
-    <?php echo $this->Form->end(); ?>
+            <hr />
 
-    <hr />
+            <?php echo $this->Form->create(null); ?>
+                <?php
+                    echo $this->Form->input('path', [
+                        'label' => __d('system', 'Server directory or ZIP file'),
+                        'placeholder' => __d('system', '/example/path/to/package.zip'),
+                        'value' => !empty($this->request->query['directory']) ? $this->request->query['directory'] : null,
+                        'class' => 'from-directory',
+                    ]);
 
-    <?php echo $this->Form->create(null); ?>
-        <?php
-            echo $this->Form->input('path', [
-                'label' => __d('system', 'Server directory or ZIP file'),
-                'placeholder' => __d('system', '/example/path/to/package.zip'),
-                'value' => !empty($this->request->query['directory']) ? $this->request->query['directory'] : null,
-                'class' => 'from-directory',
-            ]);
+                    echo $this->Form->input('activate', [
+                        'type' => 'checkbox',
+                        'label' => __d('system', 'Activate after installation'),
+                        'id' => 'activate-file-system'
+                    ]);
 
-            echo $this->Form->input('activate', [
-                'type' => 'checkbox',
-                'label' => __d('system', 'Activate after installation'),
-                'id' => 'activate-file-system'
-            ]);
-
-            echo $this->Form->submit(__d('system', 'Install from File System'), ['name' => 'file_system']);
-        ?>
-    <?php echo $this->Form->end(); ?>
-</fieldset>
+                    echo $this->Form->submit(__d('system', 'Install from File System'), ['name' => 'file_system']);
+                ?>
+            <?php echo $this->Form->end(); ?>
+        </fieldset>
+    </div>
+</div>
 
 <?php if (!empty($this->request->query['directory'])): ?>
 <script type="text/javascript">

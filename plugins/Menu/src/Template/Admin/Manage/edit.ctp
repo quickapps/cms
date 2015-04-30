@@ -11,22 +11,26 @@
  */
 ?>
 
-<?php echo $this->Form->create($menu); ?>
-    <fieldset>
-        <legend><?php echo __d('menu', 'Editing Menu'); ?></legend>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->Form->create($menu); ?>
+            <fieldset>
+                <legend><?php echo __d('menu', 'Editing Menu'); ?></legend>
 
-        <?php echo $this->Form->input('title', ['label' => __d('menu', 'Title *')]); ?>
-        <?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
+                <?php echo $this->Form->input('title', ['label' => __d('menu', 'Title *')]); ?>
+                <?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
 
-        <?php if ($menu->handler !== 'Menu'): ?>
-            <?php $result = $this->trigger("Menu.{$menu->handler}.settings", $menu)->result; ?>
-            <?php if (!empty($result)): ?>
-            <hr />
-                <?php echo $result; ?>
-            <hr />
-            <?php endif; ?>
-        <?php endif; ?>
+                <?php if ($menu->handler !== 'Menu'): ?>
+                    <?php $result = $this->trigger("Menu.{$menu->handler}.settings", $menu)->result; ?>
+                    <?php if (!empty($result)): ?>
+                    <hr />
+                        <?php echo $result; ?>
+                    <hr />
+                    <?php endif; ?>
+                <?php endif; ?>
 
-        <?php echo $this->Form->submit(__d('menu', 'Save Changes')); ?>
-    </fieldset>
-<?php echo $this->Form->end(); ?>
+                <?php echo $this->Form->submit(__d('menu', 'Save Changes')); ?>
+            </fieldset>
+        <?php echo $this->Form->end(); ?>
+    </div>
+</div>

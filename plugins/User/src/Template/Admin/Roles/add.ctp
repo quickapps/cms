@@ -11,12 +11,20 @@
  */
 ?>
 
-<p><?php echo $this->element('User.index_submenu'); ?></p>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->element('User.index_submenu'); ?>
+    </div>
+</div>
 
-<?php echo $this->Form->create($role); ?>
-    <fieldset>
-        <legend><?php echo __d('user', 'Register New Role'); ?></legend>
-        <?php echo $this->Form->input('name', ['type' => 'text', 'label' => 'Role Name']); ?>
-        <?php echo $this->Form->submit(__d('user', 'Save')); ?>
-    </fieldset>
-<?php echo $this->Form->end(); ?>
+<div class="row">
+    <div class="col-md-12">
+        <?php echo $this->Form->create($role); ?>
+            <fieldset>
+                <legend><?php echo __d('user', 'Register New Role'); ?></legend>
+                <?php echo $this->Form->input('name', ['type' => 'text', 'label' => 'Role Name']); ?>
+                <?php echo $this->Form->submit(__d('user', 'Save')); ?>
+            </fieldset>
+        <?php echo $this->Form->end(); ?>
+    </div>
+</div>

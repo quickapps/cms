@@ -10,48 +10,53 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 ?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <?php echo __d('taxonomy', '{0}: Terms Tree', $vocabulary->name); ?>
+                <?php
+                    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> ' . __d('taxonomy', 'add term'), [
+                        'plugin' => 'Taxonomy',
+                        'controller' => 'terms',
+                        'action' => 'add',
+                        $vocabulary->id
+                    ], [
+                        'class' => 'btn btn-default btn-xs',
+                        'escape' => false
+                    ]);
+                ?>
+            </div>
 
-<?php echo $this->Form->create(null); ?>
-    <h2>
-        <?php echo __d('taxonomy', '{0}: Terms Tree', $vocabulary->name); ?>
-        <?php
-            echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> ' . __d('taxonomy', 'add term'), [
-                'plugin' => 'Taxonomy',
-                'controller' => 'terms',
-                'action' => 'add',
-                $vocabulary->id
-            ], [
-                'class' => 'btn btn-default',
-                'escape' => false
-            ]);
-        ?>
-    </h2>
-
-    <hr />
-
-    <?php if ($terms->count()): ?>
-        <?php echo $this->Form->hidden('tree_order', ['id' => 'tree_order']); ?>
-        <?php
-            echo $this->Menu->render($terms, [
-                'beautify' => false,
-                'breadcrumbGuessing' => false,
-                'id' => 'menu-links',
-                'templates' => [
-                    'root' => '<ul class="sortable">{{content}}</ul>',
-                    'parent' => '<ul>{{content}}</ul>',
-                ],
-                'formatter' => function ($term, $info) {
-                    return $this->element('Taxonomy.terms_tree_leaf', compact('term', 'info'));
-                }
-            ]);
-        ?>
-        <?php echo $this->Form->submit(__d('taxonomy', 'Save Order')); ?>
-    <?php else: ?>
-        <div class="alert alert-warning">
-            <?php echo __d('taxonomy', 'There are not terms yet, use the "add term" button to start adding new terms to this vocabulary.'); ?>
+            <div class="panel-body">
+                <?php echo $this->Form->create(null); ?>
+                    <?php if ($terms->count()): ?>
+                        <?php echo $this->Form->hidden('tree_order', ['id' => 'tree_order']); ?>
+                        <?php
+                            echo $this->Menu->render($terms, [
+                                'beautify' => false,
+                                'breadcrumbGuessing' => false,
+                                'id' => 'menu-links',
+                                'templates' => [
+                                    'root' => '<ul class="sortable">{{content}}</ul>',
+                                    'parent' => '<ul>{{content}}</ul>',
+                                ],
+                                'formatter' => function ($term, $info) {
+                                    return $this->element('Taxonomy.terms_tree_leaf', compact('term', 'info'));
+                                }
+                            ]);
+                        ?>
+                        <?php echo $this->Form->submit(__d('taxonomy', 'Save Order')); ?>
+                    <?php else: ?>
+                        <div class="alert alert-warning">
+                            <?php echo __d('taxonomy', 'There are not terms yet, use the "add term" button to start adding new terms to this vocabulary.'); ?>
+                        </div>
+                    <?php endif; ?>
+                <?php echo $this->Form->end(); ?>
+            </div>
         </div>
-    <?php endif; ?>
-<?php echo $this->Form->end(); ?>
+    </div>
+</div>
 <?php
     echo $this->Html->script([
         'Jquery.jquery-ui.min.js',

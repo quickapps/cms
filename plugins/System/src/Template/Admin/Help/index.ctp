@@ -9,18 +9,25 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+?>
 
-$menu = [];
-foreach ($plugins as $plugin) {
-    $menu[] = [
-        'title' => $plugin->human_name,
-        'url' => "/admin/system/help/about/{$plugin}",
-    ];
-}
+<div class="row">
+    <div class="col-md-12">
+        <?php
+            $menu = [];
+            foreach ($plugins as $plugin) {
+                $menu[] = [
+                    'title' => $plugin->human_name,
+                    'url' => "/admin/system/help/about/{$plugin}",
+                ];
+            }
 
-echo $this->Menu->render($menu, [
-    'split' => 3,
-    'templates' => [
-        'parent' => '<ul class="col-md-4">{{content}}</ul>',
-    ]
-]);
+            echo $this->Menu->render($menu, [
+                'split' => 3,
+                'templates' => [
+                    'parent' => '<ul class="col-md-4">{{content}}</ul>',
+                ]
+            ]);
+        ?>
+    </div>
+</div>
