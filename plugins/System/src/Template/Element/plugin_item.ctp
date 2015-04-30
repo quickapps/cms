@@ -11,14 +11,13 @@
  */
 
 $classes = [];
-$classes[] = $plugin->status ? 'panel-success' : 'panel-danger';
-$classes[] = $plugin->status ? 'panel-enabled' : 'panel-disabled';
-$classes[] = $plugin->isCore ? 'panel-core' : 'panel-third-party';
+$classes[] = $plugin->status ? 'enabled' : 'danger disabled';
+$classes[] = $plugin->isCore ? 'plugin-core' : 'plugin-third-party';
 ?>
-<div class="plugin-panel panel <?php echo implode(' ', $classes); ?>">
-    <div class="panel-heading">
-        <strong class="plugin-name"><?php echo $plugin->human_name; ?></strong> (<?php echo $plugin->version(); ?>)
-        <div class="btn-group pull-right">
+<tr class="<?php echo implode(' ', $classes); ?>">
+    <td>
+        <p><?php echo $plugin->human_name; ?> (<?php echo $plugin->version(); ?>)</p>
+        <div class="btn-group">
             <?php
                 echo $this->Html->link('', [
                     'plugin' => 'User',
@@ -107,14 +106,17 @@ $classes[] = $plugin->isCore ? 'panel-core' : 'panel-third-party';
                 ?>
             <?php endif; ?>
         </div>
-    </div>
-
-    <div class="panel-body">
-        <em class="help-block description"><?php echo $plugin->composer['description']; ?></em>
-        <div class="extended-info" style="display:none;">
-            <?php echo $this->element('System.composer_details', ['composer' => $plugin->composer]); ?>
-            <small class="pull-right"><?php echo __d('system', 'Package location: {0}', "<code>{$plugin->path}</code>"); ?></small>
-        </div>
-        <a href="" class="btn btn-default btn-xs glyphicon glyphicon-arrow-down toggler"></a>
-    </div>
-</div>
+    </td>
+    <td>
+        <p><?php echo $plugin->composer['description']; ?></p>
+        <p>
+            <a href="" class="btn btn-default btn-xs toggler">
+                <span class="glyphicon glyphicon-arrow-down"></span> <?php echo __d('system', 'Details'); ?>
+            </a>
+            <div class="extended-info" style="display:none;">
+                <?php echo $this->element('System.composer_details', ['composer' => $plugin->composer]); ?>
+                <small class="pull-right"><?php echo __d('system', 'Package location: {0}', "<code>{$plugin->path}</code>"); ?></small>
+            </div>
+        </p>
+    </td>
+</tr>

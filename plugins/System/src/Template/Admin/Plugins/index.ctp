@@ -61,9 +61,19 @@
 
 <div class="row">
     <div class="col-md-12 plugins-list">
-        <?php foreach ($plugins as $info): ?>
-            <?php echo $this->element('System.plugin_item', ['plugin' => $info]); ?>
-        <?php endforeach; ?>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th><?php echo __d('system', 'Plugin Name'); ?></th>
+                    <th><?php echo __d('system', 'Description'); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($plugins as $info): ?>
+                    <?php echo $this->element('System.plugin_item', ['plugin' => $info]); ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
     </div>
 </div>
 
