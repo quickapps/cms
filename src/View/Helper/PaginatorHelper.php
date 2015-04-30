@@ -13,6 +13,7 @@ namespace QuickApps\View\Helper;
 
 use Cake\Event\Event;
 use Cake\View\Helper\PaginatorHelper as CakePaginatorHelper;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * Paginator helper library.
@@ -20,4 +21,6 @@ use Cake\View\Helper\PaginatorHelper as CakePaginatorHelper;
  */
 class PaginatorHelper extends CakePaginatorHelper
 {
+
+    use HookAwareTrait;
 }

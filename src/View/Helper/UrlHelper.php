@@ -16,10 +16,13 @@ namespace QuickApps\View\Helper;
 
 use Cake\View\Helper;
 use Cake\View\Helper\UrlHelper as CakeUrlHelper;
+use QuickApps\Event\HookAwareTrait;
 
 /**
  * UrlHelper class for generating urls.
  */
 class UrlHelper extends CakeUrlHelper
 {
+
+    use HookAwareTrait;
 }
