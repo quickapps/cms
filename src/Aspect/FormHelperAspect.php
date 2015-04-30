@@ -33,7 +33,10 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         $args = $invocation->getArguments();
-        if (!empty($args[0]) && is_string($args[0])) {
+        if (!empty($args[0]) &&
+            is_string($args[0]) &&
+            $helper instanceof FormHelper
+        ) {
             $args[0] = $this->_fieldName($helper, $args[0]);
         }
         $this->setProperty($invocation, 'arguments', $args);

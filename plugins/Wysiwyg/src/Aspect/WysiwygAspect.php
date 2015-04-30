@@ -51,7 +51,8 @@ class WysiwygAspect extends Aspect
         list($fieldName, $options) = $invocation->getArguments();
 
         if (!empty($options['class']) &&
-            strpos($options['class'], 'ckeditor') !== false
+            strpos($options['class'], 'ckeditor') !== false &&
+            $helper instanceof FormHelper
         ) {
             static::$_counter++;
             $editorId = 'ck-editor-' . static::$_counter;
