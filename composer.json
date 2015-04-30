@@ -1,7 +1,7 @@
 {
     "name": "quickapps/cms",
     "description": "QuickAppsCMS, open source content management system for PHP",
-    "type": "library",
+    "type": "project",
     "keywords": ["framework", "cms", "cmf", "cakephp"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
