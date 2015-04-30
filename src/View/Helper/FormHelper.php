@@ -55,6 +55,10 @@ class FormHelper extends CakeFormHelper
 
     /**
      * {@inheritDoc}
+     *
+     * Allows to render Field (EAV virtual columns) in edit mode; it triggers the
+     * event `Field.<handler>.Entity.edit`, it will try to append an `*` symbol to
+     * input label if Field has been marked as "required".
      */
     public function input($fieldName, array $options = [])
     {
@@ -70,7 +74,7 @@ class FormHelper extends CakeFormHelper
                     $options['label'] .= ' *';
                     $options['required'] = 'required';
                 }
-                return $this->input($fieldName->name, $options);
+                $fieldName = $fieldName->get('name');
             }
         }
         return parent::input($fieldName, $options);
