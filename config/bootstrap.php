@@ -193,8 +193,8 @@ Plugin::get()
             $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
         }
 
-        if (!$filter) {
-            continue;
+        if ($filter) {
+            return;
         }
 
         $activePlugins++;
