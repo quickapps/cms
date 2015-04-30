@@ -80,7 +80,7 @@ class ConfigurationController extends AppController
 
         $pluginSettings = Plugin::get()
             ->filter(function ($plugin) {
-                return $plugin->hasSettings;
+                return !$plugin->isTheme && $plugin->hasSettings;
             });
 
         $this->title(__d('system', 'Site’ Configuration'));
