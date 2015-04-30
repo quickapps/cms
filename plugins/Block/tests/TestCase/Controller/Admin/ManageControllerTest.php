@@ -33,6 +33,7 @@ class ManageControllerTest extends IntegrationTestCase
         'app.acos',
         'app.roles',
         'app.plugins',
+        'app.menus',
         'app.menu_links',
     ];
 
