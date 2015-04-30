@@ -181,7 +181,7 @@ if (!function_exists('snapshot')) {
             $isCore = strpos($pluginPath, $corePath) !== false;
             $isTheme = str_ends_with($plugin->name, 'Theme');
             $status = (bool)$plugin->status;
-            $humanName = (string)Inflector::humanize((string)Inflector::underscore($plugin->name));
+            $humanName = '';
             $aspects = [];
             $eventListeners = [];
 
@@ -198,8 +198,18 @@ if (!function_exists('snapshot')) {
                 }
             }
 
-            if ($isTheme) {
-                $humanName = trim(str_replace_last('Theme', '', $humanName));
+            if (is_readable("{$pluginPath}composer.json")) {
+                $json = (array)json_decode(file_get_contents("{$pluginPath}composer.json"), true);
+                if (!empty($json['extra']['human_name'])) {
+                    $humanName = $json['extra']['human_name'];
+                }
+            }
+
+            if (empty($humanName)) {
+                $humanName = (string)Inflector::humanize((string)Inflector::underscore($plugin->name));
+                if ($isTheme) {
+                    $humanName = trim(str_replace_last('Theme', '', $humanName));
+                }
             }
 
             $snapshot['plugins'][$plugin->name] = [
