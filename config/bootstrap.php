@@ -231,11 +231,10 @@ if (!$activePlugins) {
  * Initialize Aspects
  */
 AppAspect::getInstance()->init([
-    'debug' => Configure::read('debug'),
+    'debug' => false,
     'appDir' => SITE_ROOT,
-    //'cacheDir' => TMP . 'aop',
+    'cacheDir' => TMP . 'aop',
     'includePaths' => [],
-    'features' => AppAspect::getDefaultFeatures() | Features::INTERCEPT_FUNCTIONS
 ]);
 
 /**
