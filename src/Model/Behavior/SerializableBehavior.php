@@ -119,9 +119,9 @@ class SerializableBehavior extends Behavior
      *
      * ### Options:
      *
-     * - flatten: Flattens serialized information into plain entity properties,
-     *   for example `settings:some_option` => `value`. Valid only column stores
-     *   array values.
+     * - flatten: Flattens serialized information into plain entity properties, for
+     *   example `settings:some_option` => `value`. Valid only for column that
+     *   stores array values.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\ORM\Query $query Query object
