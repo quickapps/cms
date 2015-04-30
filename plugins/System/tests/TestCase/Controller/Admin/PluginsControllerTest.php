@@ -12,7 +12,7 @@
 namespace System\Test\TestCase\Controller\Admin;
 
 use Cake\Filesystem\Folder;
-use Cake\TestSuite\IntegrationTestCase;
+use QuickApps\TestSuite\IntegrationTestCase;
 
 /**
  * PluginsControllerTest class.
@@ -60,7 +60,6 @@ class PluginsControllerTest extends IntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->session(mockUserSession());
         $this->_clear();
     }
 

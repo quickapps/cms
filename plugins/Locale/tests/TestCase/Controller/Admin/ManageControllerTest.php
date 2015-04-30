@@ -12,7 +12,7 @@
 namespace Locale\Test\TestCase\Controller\Admin;
 
 use Cake\ORM\TableRegistry;
-use Cake\TestSuite\IntegrationTestCase;
+use QuickApps\TestSuite\IntegrationTestCase;
 
 /**
  * ManageControllerTest class.
@@ -52,17 +52,6 @@ class ManageControllerTest extends IntegrationTestCase
         'app.users_roles',
         //'app.vocabularies',
     ];
-
-    /**
-     * setUp().
-     *
-     * @return void
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->session(mockUserSession());
-    }
 
     /**
      * test index action.
