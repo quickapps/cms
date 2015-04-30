@@ -13,6 +13,7 @@ namespace Menu\Model\Table;
 
 use Cake\Event\Event;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Menu\Model\Entity\Menu;
 use QuickApps\Event\HookAwareTrait;
@@ -105,7 +106,7 @@ class MenusTable extends Table
     public function afterSave(Event $event, Menu $menu, ArrayObject $options = null)
     {
         if ($menu->isNew()) {
-            $block = $this->Blocks->newEntity([
+            $block = TableRegistry::get('Block.Blocks')->newEntity([
                 'title' => $menu->title . ' ' . __d('menu', '[menu: {0}]', $menu->id),
                 'delta' => $menu->id,
                 'handler' => $menu->handler,
@@ -115,7 +116,7 @@ class MenusTable extends Table
                 'locale' => null,
                 'status' => 0,
             ], ['validate' => false]);
-            $this->Blocks->save($block);
+            TableRegistry::get('Block.Blocks')->save($block);
         }
 
         $this->trigger(["Menu.{$menu->handler}.afterSave", $event->subject()], $menu, $options);
@@ -132,15 +133,7 @@ class MenusTable extends Table
      */
     public function beforeDelete(Event $event, Menu $menu, ArrayObject $options = null)
     {
-        $this->hasOne('Blocks', [
-            'className' => 'Block.Blocks',
-            'dependent' => true,
-            'foreignKey' => 'delta',
-            'propertyName' => 'block',
-            'conditions' => ['Blocks.handler' => $menu->handler],
-            'cascadeCallbacks' => true,
-        ]);
-
+        TableRegistry::get('Block.Blocks')->deleteAll(['Blocks.handler' => $menu->get('handler')]);
         $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeDelete", $event->subject()], $menu, $options);
         if ($menuEvent->isStopped() || $menuEvent->result === false) {
             return false;
