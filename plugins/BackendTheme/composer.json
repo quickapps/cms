@@ -1,6 +1,6 @@
 {
     "name": "quickapps-themes/backend-theme",
-    "description": "QuickAppsCMS’s default backend theme based on Twitter Bootstrap.",
+    "description": "QuickAppsCMS’s default backend theme based on AdminLTE.",
     "type": "quickapps-plugin",
     "keywords": [
         "framework",
@@ -13,9 +13,12 @@
         "full width template",
         "rtl language"
     ],
-    "homepage": "http://quickappscms.org",
+    "homepage": "https://almsaeedstudio.com/",
     "license": "GPL-3.0",
     "authors": [
+        {
+            "name": "Almsaeed Studio"
+        },
         {
             "name": "Christopher Castro",
             "email": "chris@quickapps.es"
