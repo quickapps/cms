@@ -18,6 +18,7 @@ use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Utility\Hash;
 use Cake\View\View as CakeView;
+use QuickApps\Core\Plugin;
 use QuickApps\Event\HookAwareTrait;
 use QuickApps\Event\HooktagAwareTrait;
 use QuickApps\View\ViewModeAwareTrait;
@@ -191,6 +192,21 @@ class View extends CakeView
         }
 
         return $this->hooktags($html);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Workaround patch that allows plugins and themes provide their own independent
+     * "settings.ctp" files so themes won't "override" plugin element.
+     */
+    protected function _getElementFileName($name)
+    {
+        list($plugin, $element) = $this->pluginSplit($name);
+        if ($plugin && $element === 'settings') {
+            return Plugin::classPath($plugin) . "Template/Element/{$element}{$this->_ext}";
+        }
+        return parent::_getElementFileName($name);
     }
 
     /**
