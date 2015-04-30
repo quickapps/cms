@@ -384,7 +384,7 @@ if (!function_exists('theme')) {
 
 if (!function_exists('listeners')) {
     /**
-     * Returns a list of all registered event listeners in the system.
+     * Returns a list of all registered event listeners in the global event manager.
      *
      * @return array
      */
