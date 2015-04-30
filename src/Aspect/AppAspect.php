@@ -18,7 +18,7 @@ use QuickApps\Core\Plugin;
 /**
  * QuickApps Application Aspect Kernel.
  *
- * Global variable `$loadAspects` must exists, an array list classes to be loaded.
+ * Registers all aspects classes.
  */
 class AppAspect extends AspectKernel
 {
@@ -32,8 +32,7 @@ class AppAspect extends AspectKernel
      */
     protected function configureAop(AspectContainer $container)
     {
-        global $loadAspects;
-        foreach ((array)$loadAspects as $class) {
+        foreach ((array)aspects() as $class) {
             $container->registerAspect(new $class);
         }
     }

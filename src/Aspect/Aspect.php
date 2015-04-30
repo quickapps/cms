@@ -21,7 +21,7 @@ class Aspect implements GoAspect
 {
 
     /**
-     * Get property value from the given object, regardless the visibility.
+     * Get property value from the given object, regardless its visibility.
      *
      * @param object $object The object
      * @param string $name Name of the property to get
@@ -36,7 +36,7 @@ class Aspect implements GoAspect
     }
 
     /**
-     * Sets property value of the given object, regardless the visibility.
+     * Sets property value of the given object, regardless its visibility.
      *
      * @param object $object The object
      * @param string $propertyName Name of the property to set

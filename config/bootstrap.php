@@ -177,7 +177,7 @@ if (!is_readable(TMP . 'snapshot.php')) {
 } else {
     try {
         Configure::load('snapshot', 'QuickApps', false);
-    } catch (\Exception $e) {
+    } catch (\Exception $ex) {
         die('No snapshot found. check write permissions on tmp/ directory');
     }
 }
@@ -185,10 +185,9 @@ if (!is_readable(TMP . 'snapshot.php')) {
 /**
  * Load all registered plugins.
  */
-$loadAspects = [];
 $activePlugins = 0;
 Plugin::get()
-    ->each(function ($plugin) use(&$loadAspects, &$activePlugins, $classLoader) {
+    ->each(function ($plugin) use(&$activePlugins, $classLoader) {
         $filter = $plugin->status;
         if ($plugin->isTheme) {
             $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
@@ -197,8 +196,8 @@ Plugin::get()
         if (!$filter) {
             continue;
         }
+
         $activePlugins++;
-        $loadAspects = array_merge($loadAspects, $plugin->aspects);
         $classLoader->addPsr4($plugin->name . "\\", normalizePath("{$plugin->path}/src"), true);
 
         Plugin::load($plugin->name, [

@@ -67,7 +67,8 @@ if (!function_exists('snapshot')) {
             'node_types' => [],
             'plugins' => [],
             'options' => [],
-            'languages' => []
+            'languages' => [],
+            'aspects' => [],
         ];
 
         if (is_readable(ROOT . '/VERSION.txt')) {
@@ -154,6 +155,14 @@ if (!function_exists('snapshot')) {
             }
         }
 
+        $folder = new Folder(QUICKAPPS_CORE . 'src/Aspect/');
+        foreach ($folder->read(false, false, true)[1] as $classFile) {
+            $className = basename(preg_replace('/\.php$/', '', $classFile));
+            if (!in_array($className, ['AppAspect', 'Aspect'])) {
+                $snapshot['aspects'][] = "QuickApps\\Aspect\\{$className}";
+            }
+        }
+
         foreach ($plugins as $plugin) {
             $pluginPath = false;
 
@@ -206,6 +215,10 @@ if (!function_exists('snapshot')) {
                 'status' => $status,
                 'path' => $pluginPath,
             ];
+
+            if ($status) {
+                $snapshot['aspects'] = array_merge($snapshot['aspects'], $aspects);
+            }
         }
 
         Configure::write('QuickApps', $snapshot);
@@ -432,6 +445,18 @@ if (!function_exists('normalizeLocale')) {
     {
         list($language, $region) = localeSplit($locale);
         return !empty($region) ? "{$language}_{$region}" : $language;
+    }
+}
+
+if (!function_exists('aspects')) {
+    /**
+     * Gets a list of all active aspect classes.
+     *
+     * @return array
+     */
+    function aspects()
+    {
+        return quickapps('aspects');
     }
 }
 
