@@ -31,7 +31,14 @@
                     <?php else: ?>
                         <!-- handler:<?php echo $block->handler; ?> -->
                         <?php $this->Form->prefix('settings:'); ?>
-                        <?php echo $this->trigger("Block.{$block->handler}.settings", $block)->result; ?>
+                        <?php
+                            $eventName = Inflector::variable('settings_' . $block->get('delta'));
+                            if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
+                                echo $this->trigger("Block.{$block->handler}.{$eventName}", $block)->result;
+                            } else {
+                                echo $this->trigger("Block.{$block->handler}.settings", $block)->result;
+                            }
+                            ?>
                         <?php $this->Form->prefix(''); ?>
                         <!-- /handler:<?php echo $block->handler; ?> -->
                     <?php endif; ?>
