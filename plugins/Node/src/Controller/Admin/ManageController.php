@@ -221,7 +221,7 @@ class ManageController extends AppController
         $this->title(__d('node', 'Editing Content'));
         $this->set(compact('node', 'languages', 'roles'));
         $this->Breadcrumb
-            ->push('/admin/node/manage')
+            ->push('/admin/node/manage/index')
             ->push(__d('node', 'Editing content'), '#');
     }
 

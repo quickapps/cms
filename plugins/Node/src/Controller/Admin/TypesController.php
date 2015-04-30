@@ -38,7 +38,7 @@ class TypesController extends AppController
         $this->title(__d('node', 'Content Types'));
         $this->set('types', $types);
         $this->Breadcrumb
-            ->push('/admin/node/manage')
+            ->push('/admin/node/types')
             ->push(__d('node', 'Content Types'), '#');
     }
 
