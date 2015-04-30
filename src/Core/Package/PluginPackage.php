@@ -284,8 +284,7 @@ class PluginPackage extends BasePackage
         }
 
         $settings = [];
-        $PluginsTable = TableRegistry::get('System.Plugins');
-        $dbInfo = $PluginsTable
+        $dbInfo = TableRegistry::get('System.Plugins')
             ->find()
             ->select(['name', 'settings'])
             ->where(['name' => $plugin])
