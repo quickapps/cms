@@ -13,7 +13,7 @@ namespace Menu\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\String;
+use Cake\Utility\Text;
 
 /**
  * Represents a single "menu" within "menus" table.
@@ -60,6 +60,6 @@ class Menu extends Entity
         if (empty($description)) {
             return '---';
         }
-        return String::truncate($description, 80);
+        return Text::truncate($description, 80);
     }
 }

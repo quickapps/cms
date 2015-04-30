@@ -63,7 +63,7 @@
 
                 <?php echo $this->Form->input('pages', ['label' => false, 'rows' => 5]); ?>
                 <em class="help-block"><?php echo __d('block', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?></em>
-                <em class="help-block"><?php echo __d('block', 'If the PHP option is chosen, enter PHP code between <code><?php ... ?></code> tags. Examples:'); ?></em>
+                <em class="help-block"><?php echo __d('block', 'If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:'); ?></em>
                 <em class="help-block"><?php echo __d('block', '<code>/product/*.html</code> Matches any product page.'); ?></em>
                 <em class="help-block"><?php echo __d('block', '<code>/find/*type:article*</code> Matches any search result containing articles.'); ?></em>
                 <em class="help-block"><?php echo __d('block', "<code>/</code> Matches site's front page (a.k.a. site's index)."); ?></em>
