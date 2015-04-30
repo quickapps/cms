@@ -15,7 +15,7 @@ use Cake\Event\Event;
 use QuickApps\Event\HookManager;
 
 /**
- * Provides trigger() & alter() methods.
+ * Provides trigger() method for dispatching events.
  *
  * @see QuickApps\Event\HookManager
  */

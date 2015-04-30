@@ -15,76 +15,9 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 
 /**
- * Provides trigger() & alter() methods.
+ * Provides trigger() method for dispatching events.
  *
- * QuickAppsCMS's event system is built over
- * [cake's event system](http://book.cakephp.org/3.0/en/core-libraries/events.html),
- * and allows plugins to communicate with the entire system or other plugins.
- *
- * QuickAppsCMS's Event system is composed of three primary elements:
- *
- * - `Event Listener`: An event listeners class implementing the EventListener
- *    interface.
- * - `Event Handler`: A method in your your listener class which take care of a
- *    single event.
- * - `Event`: Name of the event. e.g.: `FormHelper.input`.
- *
- * An Event Listener class, may listen to many Events. But a Event Handler can only
- * responds to a single Event.
- *
- * Your `Event Listener` class must implement `\Cake\Event\EventListener` interface
- * and provide the `implementedEvents()` method. This method must return an
- * associative array with all Event names that the class will handle. For example:
- * `User.beforeLogin` Event name will respond to:
- *
- * ```php
- * $this->trigger('User.beforeLogin', ...);
- * ```
- *
- * You can provide an unlimited number of arguments which are treated by value.
- *
- * ***
- *
- * ## "Hello World!" Example:
- *
- * ```php
- * // Event Listener Class
- *
- * namespace Event;
- *
- * use Cake\Event\Event;
- * use Cake\Event\EventListenerInterface;
- *
- * class MyEventListener implements EventListenerInterface {
- *     public function implementedEvents() {
- *           return [
- *               'Hello' => 'world',
- *           ];
- *     }
- *
- *      public function world(Event $event, $byValue) {
- *         return $byValue . ' world!';
- *     }
- * }
- * ```
- *
- * ***
- *
- * ```php
- * // Wherever you are able to use event() & alter()
- *
- * $hello = 'Hello';
- *
- * echo $this->trigger('Hello', $hello); // out: "Hello world!"
- * echo $this->trigger('Hello', 'hellooo'); // out: "hellooo world!"
- * ```
- *
- * ## Recommended Reading
- *
- * As QuickAppsCMS's hook system is built on top of CakePHP's events system we
- * highly recommend you to take a look at this part of CakePHP's book:
- *
- * [CakePHP's Events System](http://book.cakephp.org/3.0/en/core-libraries/events.html)
+ * @link http://api.quickappscms.org/book/developers/events-system.html
  */
 class HookManager
 {
