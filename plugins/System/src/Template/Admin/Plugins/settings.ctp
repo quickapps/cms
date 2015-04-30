@@ -15,6 +15,5 @@
     <?php $this->Form->prefix('settings:'); ?>
     <?php echo $this->element("{$plugin->name}.settings"); ?>
     <?php $this->Form->prefix(''); ?>
-
     <?php echo $this->Form->submit(__d('system', 'Save all')); ?>
 <?php echo $this->Form->end(); ?>

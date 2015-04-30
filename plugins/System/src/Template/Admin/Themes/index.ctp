@@ -67,4 +67,4 @@
     </div>
 </div>
 
-<?php echo $this->Html->script('System.themes.management.js'); ?>
+<?php echo $this->Html->script(['System.jquery.ba-hashchange.min.js', 'System.themes.management.js']); ?>

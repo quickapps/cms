@@ -29,12 +29,7 @@
             <?php else: ?>
                 <!-- handler:<?php echo $block->handler; ?> -->
                 <?php $this->Form->prefix('settings:'); ?>
-                <?php $response = $this->trigger("Block.{$block->handler}.settings", $block)->result; ?>
-                <?php if ($response): ?>
-                    <hr />
-                        <?php echo $response; ?>
-                    <hr />
-                <?php endif; ?>
+                <?php echo $this->trigger("Block.{$block->handler}.settings", $block)->result; ?>
                 <?php $this->Form->prefix(''); ?>
                 <!-- /handler:<?php echo $block->handler; ?> -->
             <?php endif; ?>
