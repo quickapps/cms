@@ -218,12 +218,7 @@ class HooktagManager
     {
         $hooktags = static::cache('hooktagsList');
         if ($hooktags === null) {
-            $hooktags = [];
-            foreach (listeners() as $listener) {
-                if (strpos($listener, 'Hooktag.') === 0) {
-                    $hooktags[] = str_replace('Hooktag.', '', $listener);
-                }
-            }
+            $hooktags = (array)listeners();
             static::cache('hooktagsList', $hooktags);
         }
         return $hooktags;
@@ -239,7 +234,6 @@ class HooktagManager
     protected static function _doHooktag($m)
     {
         $EventManager = EventManager::instance();
-
         // allow {{foo}} syntax for escaping a tag
         if ($m[1] == '{' && $m[6] == '}') {
             return substr($m[0], 1, -1);
@@ -247,7 +241,7 @@ class HooktagManager
 
         $tag = $m[2];
         $atts = static::_parseHooktagAttributes($m[3]);
-        $listeners = $EventManager->listeners("Hooktag.{$tag}");
+        $listeners = $EventManager->listeners($tag);
 
         if (!empty($listeners)) {
             $options = [
@@ -260,7 +254,7 @@ class HooktagManager
                 $options['content'] = $m[5];
             }
 
-            $event = new Event("Hooktag.{$tag}", static::cache('context'), $options);
+            $event = new Event($tag, static::cache('context'), $options);
             $EventManager->dispatch($event);
             return $m[1] . $event->result . $m[6];
         }

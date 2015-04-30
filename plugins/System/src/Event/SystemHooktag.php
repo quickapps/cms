@@ -33,12 +33,12 @@ class SystemHooktag implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'Hooktag.random' => 'hooktagRandom',
-            'Hooktag.t' => 'hooktagTranslate',
-            'Hooktag.url' => 'hooktagURL',
-            'Hooktag.date' => 'hooktagDate',
-            'Hooktag.locale' => 'hooktagLocale',
-            'Hooktag.no-hooktag' => 'noHooktag',
+            'random' => 'hooktagRandom',
+            't' => 'hooktagTranslate',
+            'url' => 'hooktagURL',
+            'date' => 'hooktagDate',
+            'locale' => 'hooktagLocale',
+            'no-hooktag' => 'noHooktag',
         ];
     }
 

@@ -33,12 +33,12 @@ trait HooktagAwareTrait
      *
      *     {nice_button color=green}Click Me!{/nice_button}
      *
-     * You must define a Hooktag Lister `Hooktag.nice_button`:
+     * You must define a Hooktag Lister `nice_button`:
      *
      * ```php
      * class YourListener implements EventListenerInterface {
      *     public function implementedEvents() {
-     *         return ['Hooktag.nice_button' => 'hooktagNiceButton'];
+     *         return ['nice_button' => 'hooktagNiceButton'];
      *     }
      *
      *     public function hooktagNiceButton(Event $event, $atts, $content, $tag) {
@@ -46,8 +46,6 @@ trait HooktagAwareTrait
      *     }
      * }
      * ```
-     *
-     * (Note the `Hooktag.` prefix).
      *
      * As you can see hooktags methods will receive three arguments:
      *

@@ -33,7 +33,7 @@ class BlockHooktag implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'Hooktag.block' => 'hooktagBlock',
+            'block' => 'hooktagBlock',
         ];
     }
 
