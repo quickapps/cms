@@ -198,7 +198,11 @@ Plugin::get()
         }
 
         if (!in_array("{$plugin->name}\\", array_keys($classLoader->getPrefixesPsr4()))) {
-            $classLoader->addPsr4("{$plugin->name}\\", normalizePath("{$plugin->path}/src"), true);
+            $classLoader->addPsr4("{$plugin->name}\\", normalizePath("{$plugin->path}/src/"), true);
+        }
+
+        if (!in_array("{$plugin->name}\\Test\\", array_keys($classLoader->getPrefixesPsr4()))) {
+            $classLoader->addPsr4("{$plugin->name}\\Test\\", normalizePath("{$plugin->path}/tests/"), true);
         }
 
         Plugin::load($plugin->name, [
