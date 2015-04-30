@@ -152,13 +152,10 @@ class DateField extends BaseHandler
      */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
-        switch ($options['viewMode']) {
-            default:
-                return [
-                    'label_visibility' => 'above',
-                    'shortcodes' => false,
-                    'hidden' => false,
-                ];
-        }
+        return [
+            'label_visibility' => 'above',
+            'shortcodes' => false,
+            'hidden' => false,
+        ];
     }
 }

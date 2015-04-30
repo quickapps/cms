@@ -260,14 +260,11 @@ class FileField extends BaseHandler
      */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
-        switch ($options['viewMode']) {
-            default:
-                return [
-                    'label_visibility' => 'above',
-                    'shortcodes' => true,
-                    'hidden' => false,
-                    'formatter' => 'link',
-                ];
-        }
+        return [
+            'label_visibility' => 'above',
+            'shortcodes' => true,
+            'hidden' => false,
+            'formatter' => 'link',
+        ];
     }
 }

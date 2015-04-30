@@ -240,16 +240,13 @@ class TaxonomyField extends BaseHandler
      */
     public function instanceViewModeDefaults(Event $event, $instance, $options = [])
     {
-        switch ($options['viewMode']) {
-            default:
-                return [
-                    'label_visibility' => 'above',
-                    'shortcodes' => false,
-                    'hidden' => false,
-                    'formatter' => 'plain',
-                    'link_template' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
-                ];
-        }
+        return [
+            'label_visibility' => 'above',
+            'shortcodes' => false,
+            'hidden' => false,
+            'formatter' => 'plain',
+            'link_template' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
+        ];
     }
 
     /**
