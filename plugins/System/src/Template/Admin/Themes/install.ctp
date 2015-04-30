@@ -13,37 +13,37 @@
 
 <div class="row">
     <div class="col-md-12">
+        <?php echo $this->Form->create(null, ['type' => 'file']); ?>
         <fieldset>
             <legend><?php echo __d('system', 'Upload Theme Package'); ?></legend>
-            <?php echo $this->Form->create(null, ['type' => 'file']); ?>
-                <?php echo $this->Form->input('file', ['type' => 'file', 'label' => __d('system', 'Upload ZIP package')]); ?>
-                <?php echo $this->Form->submit(__d('system', 'Upload package'), ['name' => 'upload']); ?>
-            <?php echo $this->Form->end(); ?>
+            <?php echo $this->Form->input('file', ['type' => 'file', 'label' => __d('system', 'Upload ZIP package')]); ?>
+            <?php echo $this->Form->submit(__d('system', 'Upload package'), ['name' => 'upload']); ?>
         </fieldset>
+        <?php echo $this->Form->end(); ?>
 
+        <?php echo $this->Form->create(null); ?>
         <fieldset>
             <legend><?php echo __d('system', 'Download Theme Package'); ?></legend>
-                <?php echo $this->Form->create(null); ?>
-                    <?php echo $this->Form->input('url', ['type' => 'text', 'label' => __d('system', 'Download ZIP package from URL')]); ?>
-                    <?php echo $this->Form->submit(__d('system', 'Install from URL'), ['name' => 'download']); ?>
-                <?php echo $this->Form->end(); ?>
+            <?php echo $this->Form->input('url', ['type' => 'text', 'label' => __d('system', 'Download ZIP package from URL')]); ?>
+            <?php echo $this->Form->submit(__d('system', 'Install from URL'), ['name' => 'download']); ?>
         </fieldset>
+        <?php echo $this->Form->end(); ?>
 
+        <?php echo $this->Form->create(null); ?>
         <fieldset>
             <legend><?php echo __d('system', 'Use Server Path'); ?></legend>
-                <?php echo $this->Form->create(null); ?>
-                    <?php
-                        echo $this->Form->input('path', [
-                            'label' => __d('system', 'Server directory or ZIP file'),
-                            'placeholder' => __d('system', '/example/path/to/theme.zip'),
-                            'value' => !empty($this->request->query['directory']) ? $this->request->query['directory'] : null,
-                            'class' => 'from-directory',
-                        ]);
+                <?php
+                    echo $this->Form->input('path', [
+                        'label' => __d('system', 'Server directory or ZIP file'),
+                        'placeholder' => __d('system', '/example/path/to/theme.zip'),
+                        'value' => !empty($this->request->query['directory']) ? $this->request->query['directory'] : null,
+                        'class' => 'from-directory',
+                    ]);
 
-                        echo $this->Form->submit(__d('system', 'Install from File System'), ['name' => 'file_system']);
-                    ?>
-                <?php echo $this->Form->end(); ?>
+                    echo $this->Form->submit(__d('system', 'Install from File System'), ['name' => 'file_system']);
+                ?>
         </fieldset>
+        <?php echo $this->Form->end(); ?>
     </div>
 </div>
 

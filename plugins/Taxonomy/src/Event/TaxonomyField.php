@@ -244,7 +244,7 @@ class TaxonomyField extends BaseHandler
             default:
                 return [
                     'label_visibility' => 'above',
-                    'hooktags' => false,
+                    'shortcodes' => false,
                     'hidden' => false,
                     'formatter' => 'plain',
                     'link_template' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',

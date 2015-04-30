@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
 use Cake\Validation\Validator;
 use Field\Model\Entity\Field;
 use QuickApps\Event\HookAwareTrait;
-use QuickApps\Event\HooktagAwareTrait;
+use QuickApps\Shortcode\ShortcodeTrait;
 
 /**
  * Base Handler class.
@@ -29,7 +29,7 @@ class BaseHandler implements EventListenerInterface
 {
 
     use HookAwareTrait;
-    use HooktagAwareTrait;
+    use ShortcodeTrait;
 
     /**
      * Return a list of implemented events.

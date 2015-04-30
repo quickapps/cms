@@ -101,8 +101,8 @@ class FieldHook implements EventListenerInterface
             $event->stopPropagation(); // We don't want other plugins to catch this
             $result = (string)$renderFieldHook->result;
 
-            if (!$field->metadata->view_modes[$viewMode]['hooktags']) {
-                $result = $event->subject()->stripHooktags($result);
+            if (!$field->metadata->view_modes[$viewMode]['shortcodes']) {
+                $result = $event->subject()->stripShortcodes($result);
             }
 
             return $result;

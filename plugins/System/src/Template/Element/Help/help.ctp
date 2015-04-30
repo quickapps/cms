@@ -22,14 +22,14 @@
 
 <h2>Uses</h2>
 <dl>
-    <dt>Hooktags</dt>
+    <dt>Shortcodes</dt>
     <dd>
         <p>
-            A Hooktag is a QuickApps-specific code that lets you do nifty things
-            with very little effort. Hooktags can for example print current language
+            A Shortcode is a QuickApps-specific code that lets you do nifty things
+            with very little effort. Shortcodes can for example print current language
             code (i.e. "en") or call especifics plugins/themes functions. Plugins and
-            themes are able to define their own hooktags. The <em>System</em>
-            plugin provides a series of buil-in hooktags as described below:
+            themes are able to define their own shortcodes. The <em>System</em>
+            plugin provides a series of buil-in shortcodes as described below:
         </p>
 
         <hr />

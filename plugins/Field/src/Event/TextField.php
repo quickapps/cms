@@ -92,7 +92,7 @@ class TextField extends BaseHandler
 
         if (!empty($field->metadata->settings['validation_rule'])) {
             if (!empty($field->metadata->settings['validation_message'])) {
-                $message = $this->hooktags($field->metadata->settings['validation_message']);
+                $message = $this->shortcodes($field->metadata->settings['validation_message']);
             } else {
                 $message = __d('field', 'Invalid field.', $field->label);
             }
@@ -165,7 +165,7 @@ class TextField extends BaseHandler
             default:
                 return [
                     'label_visibility' => 'above',
-                    'hooktags' => true,
+                    'shortcodes' => true,
                     'hidden' => false,
                     'formatter' => 'full',
                     'trim_length' => '',

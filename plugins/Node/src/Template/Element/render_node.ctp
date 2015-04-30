@@ -21,9 +21,9 @@
 <article class="node node-<?php echo $node->node_type_slug; ?> viewmode-<?php echo $this->viewMode(); ?>">
     <header>
         <?php if ($this->viewMode() === 'full'): ?>
-            <h1><?php echo $this->hooktags($node->title); ?></h1>
+            <h1><?php echo $this->shortcodes($node->title); ?></h1>
         <?php else: ?>
-            <h2><?php echo $this->Html->link($this->hooktags($node->title), $node->url); ?></h2>
+            <h2><?php echo $this->Html->link($this->shortcodes($node->title), $node->url); ?></h2>
         <?php endif; ?>
         <p><?php echo __d('node', 'Published'); ?>: <time pubdate="pubdate"><?php echo $node->created->timeAgoInWords(); ?></time></p>
     </header>

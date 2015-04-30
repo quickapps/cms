@@ -47,20 +47,17 @@
                 <em class="help-block"><?php echo __d('user', "Leave both fields empty if you do not need to change User's password."); ?></em>
 
                 <?php echo $this->Form->input('roles._ids', ['type' => 'select', 'options' => $roles, 'label' => __d('user', 'Roles'), 'multiple' => 'checkbox']); ?>
-
-                <?php if (isset($user->_fields) && $user->_fields->count()): ?>
-                <hr />
-
-                <fieldset>
-                    <legend><?php echo __d('user', 'Additional Information'); ?></legend>
-                    <?php foreach ($user->_fields as $field): ?>
-                        <?php echo $this->Form->input($field); ?>
-                    <?php endforeach; ?>
-                </fieldset>
-                <?php endif; ?>
-
                 <?php echo $this->Form->submit(__d('user', 'Save Changes')); ?>
             </fieldset>
+
+            <?php if (isset($user->_fields) && $user->_fields->count()): ?>
+            <fieldset>
+                <legend><?php echo __d('user', 'Additional Information'); ?></legend>
+                <?php foreach ($user->_fields as $field): ?>
+                    <?php echo $this->Form->input($field); ?>
+                <?php endforeach; ?>
+            </fieldset>
+            <?php endif; ?>
         <?php echo $this->Form->end(); ?>
     </div>
 </div>

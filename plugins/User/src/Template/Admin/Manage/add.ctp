@@ -46,25 +46,22 @@
                 <?php echo $this->Form->input('password2', ['type' => 'password', 'label' => __d('user', 'Confirm Password')]); ?>
 
                 <?php echo $this->Form->input('roles._ids', ['type' => 'select', 'options' => $roles, 'label' => __d('user', 'Roles'), 'multiple' => 'checkbox']); ?>
-
-                <?php if (isset($user->_fields) && $user->_fields->count()): ?>
                 <hr />
 
-                <fieldset>
-                    <legend><?php echo __d('user', 'Additional Information'); ?></legend>
-                    <?php foreach ($user->_fields as $field): ?>
-                        <?php echo $this->Form->input($field); ?>
-                    <?php endforeach; ?>
-                </fieldset>
-                <?php endif; ?>
-
-                <hr />
-
-                <?php echo $this->Form->submit(__d('user', 'Register')); ?>
-
-                <?php echo $this->Form->input('welcome_message', ['type' => 'checkbox', 'label' => __d('user', 'Welcome Message')]); ?>
-                <em class="help-block"><?php echo __d('user', 'Sends a welcome message after registration completes.'); ?></em>
             </fieldset>
+
+            <?php if (isset($user->_fields) && $user->_fields->count()): ?>
+            <fieldset>
+                <legend><?php echo __d('user', 'Additional Information'); ?></legend>
+                <?php foreach ($user->_fields as $field): ?>
+                    <?php echo $this->Form->input($field); ?>
+                <?php endforeach; ?>
+            </fieldset>
+            <?php endif; ?>
+
+            <?php echo $this->Form->submit(__d('user', 'Register')); ?>
+            <?php echo $this->Form->input('welcome_message', ['type' => 'checkbox', 'label' => __d('user', 'Welcome Message')]); ?>
+            <em class="help-block"><?php echo __d('user', 'Sends a welcome message after registration completes.'); ?></em>
         <?php echo $this->Form->end(); ?>
     </div>
 </div>

@@ -9,7 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Event;
+namespace QuickApps\Shortcode;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
@@ -19,20 +19,19 @@ use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\View;
 
 /**
- * Provides methods for hooktag parsing.
+ * Provides methods for shortcode parsing.
  *
- * Hooktags are WordPress's shortcodes equivalent for QuickAppsCMS. Hooktags looks
- * as follow:
+ * Shortcodes looks as follow:
  *
  * 1. Self-closing form:
  *
- *     {my_hooktag attr1=val1 attr2=val2 ... /}
+ *     {my_shortcode attr1=val1 attr2=val2 ... /}
  *
  * 2. Enclosed form:
  *
- *     {my_hooktag attr1=val1 attr2=val2 ... } content {/my_hooktag}
+ *     {my_shortcode attr1=val1 attr2=val2 ... } content {/my_shortcode}
  *
- * Hooktags can be escaped by using an additional `{` symbol, for instance:
+ * Shortcodes can be escaped by using an additional `{` symbol, for instance:
  *
  *     {{ something }}
  *     // this will actually prints `{ something }`
@@ -41,7 +40,7 @@ use QuickApps\View\View;
  *     // this will actually prints `{something} dummy {/something}`
  *
  */
-class HooktagManager
+class ShortcodeParser
 {
 
     use HookAwareTrait;
@@ -55,26 +54,26 @@ class HooktagManager
     protected static $_defaultContext = null;
 
     /**
-     * Hooktags parser status.
+     * Parser status.
      *
-     * The `hooktags()` method will not work when set to false.
+     * The `parse()` method will not work when set to false.
      *
      * @var boolean
      */
     protected static $_enabled = true;
 
     /**
-     * Look for hooktags in the given text.
+     * Look for shortcodes in the given $text.
      *
-     * @param string $content The content to parse
+     * @param string $text The content to parse
      * @param object $context The context for \Cake\Event\Event::$subject, if not
      *  given an instance of this class will be used
      * @return string
      */
-    public static function hooktags($content, $context = null)
+    public static function parse($text, $context = null)
     {
-        if (!static::$_enabled || strpos($content, '{') === false) {
-            return $content;
+        if (!static::$_enabled || strpos($text, '{') === false) {
+            return $text;
         }
 
         if ($context === null) {
@@ -82,32 +81,32 @@ class HooktagManager
         }
 
         static::cache('context', $context);
-        $pattern = static::_hooktagRegex();
-        return preg_replace_callback("/{$pattern}/s", 'static::_doHooktag', $content);
+        $pattern = static::_regex();
+        return preg_replace_callback("/{$pattern}/s", 'static::_doShortcode', $text);
     }
 
     /**
-     * Removes all hooktags from the given content. Useful when converting a string
-     * to plain text.
+     * Removes all shortcodes from the given content. Useful when converting a
+     * string to plain text.
      *
-     * @param string $text Text from which to remove hooktags
-     * @return string Content without hooktags markers
+     * @param string $text Text from which to remove shortcodes
+     * @return string Content without shortcodes markers
      */
     public static function strip($text)
     {
-        $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
+        $tagregexp = implode('|', array_map('preg_quote', listeners()));
         return preg_replace('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', '$1$6', $text);
     }
 
     /**
-     * Escapes all hooktags from the given content.
+     * Escapes all shortcodes from the given content.
      *
-     * @param string $text Text from which to escape hooktags
-     * @return string Content with all hooktags escaped
+     * @param string $text Text from which to escape shortcodes
+     * @return string Content with all shortcodes escaped
      */
     public static function escape($text)
     {
-        $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
+        $tagregexp = implode('|', array_map('preg_quote', listeners()));
         preg_match_all('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', $text, $matches);
 
         foreach ($matches[0] as $ht) {
@@ -120,7 +119,7 @@ class HooktagManager
     }
 
     /**
-     * Enables hooktags feature.
+     * Enables shortcode parser.
      *
      * @return void
      */
@@ -130,9 +129,9 @@ class HooktagManager
     }
 
     /**
-     * Globally disables hooktags feature.
+     * Globally disables shortcode parser.
      *
-     * The `hooktags()` method will not work when disabled.
+     * The `parser()` method will not work when disabled.
      *
      * @return void
      */
@@ -155,34 +154,34 @@ class HooktagManager
     }
 
     /**
-     * Retrieve the hooktag regular expression for searching.
+     * Retrieve the shortcode regular expression for searching.
      *
-     * The regular expression combines the hooktag tags in the regular expression
+     * The regular expression combines the shortcode tags in the regular expression
      * in a regex class.
      *
      * The regular expression contains 6 different sub matches to help with parsing.
      *
-     * 1 - An extra { to allow for escaping hooktags: {{ something }}
-     * 2 - The hooktag name
-     * 3 - The hooktag argument list
+     * 1 - An extra { to allow for escaping shortcodes: {{ something }}
+     * 2 - The shortcode name
+     * 3 - The shortcode argument list
      * 4 - The self closing /
-     * 5 - The content of a hooktag when it wraps some content.
-     * 6 - An extra } to allow for escaping hooktags
+     * 5 - The content of a shortcode when it wraps some content.
+     * 6 - An extra } to allow for escaping shortcode
      *
      * @author WordPress
-     * @return string The hooktag search regular expression
+     * @return string The shortcode search regular expression
      */
-    protected static function _hooktagRegex()
+    protected static function _regex()
     {
-        $tagregexp = implode('|', array_map('preg_quote', static::_hooktagsList()));
+        $tagregexp = implode('|', array_map('preg_quote', listeners()));
 
         // @codingStandardsIgnoreStart
         return
             '{'                                  // Opening brackets
-            . '({?)'                             // 1: Optional second opening bracket for escaping hooktags: {{tag}}
-            . "({$tagregexp})"                   // 2: Hooktag name
+            . '({?)'                             // 1: Optional second opening bracket for escaping shortcode: {{tag}}
+            . "({$tagregexp})"                   // 2: Shortcode name
             . '(?![\\w-])'                       // Not followed by word character or hyphen
-            . '('                                // 3: Unroll the loop: Inside the opening hooktag tag
+            . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
             .     '[^}\\/]*'                    // Not a closing bracket or forward slash
             .     '(?:'
             .         '\\/(?!})'                // A forward slash not followed by a closing bracket
@@ -195,43 +194,28 @@ class HooktagManager
             . '|'
             .     '}'                           // Closing bracket
             .     '(?:'
-            .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing hooktag tags
+            .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
             .             '[^{]*+'              // Not an opening bracket
             .             '(?:'
-            .                 '{(?!\\/\\2})'   // An opening bracket not followed by the closing hooktag tag
+            .                 '{(?!\\/\\2})'   // An opening bracket not followed by the closing shortcode tag
             .                 '[^{]*+'          // Not an opening bracket
             .             ')*+'
             .         ')'
-            .         '{\\/\\2}'               // Closing hooktag tag
+            .         '{\\/\\2}'               // Closing shortcode tag
             .     ')?'
             . ')'
-            . '(}?)';                            // 6: Optional second closing bracket for escaping hooktags: {{tag}}
+            . '(}?)';                            // 6: Optional second closing bracket for escaping shortcodes: {{tag}}
         // @codingStandardsIgnoreEnd
     }
 
     /**
-     * Returns a list of all registered hooktags in the system.
+     * Invokes shortcode lister method for the given shortcode.
      *
-     * @return array
-     */
-    protected static function _hooktagsList()
-    {
-        $hooktags = static::cache('hooktagsList');
-        if ($hooktags === null) {
-            $hooktags = (array)listeners();
-            static::cache('hooktagsList', $hooktags);
-        }
-        return $hooktags;
-    }
-
-    /**
-     * Invokes hooktag lister for the given hooktag.
-     *
-     * @param array $m Hooktag as preg array
+     * @param array $m Shortcode as preg array
      * @return string
      * @author WordPress
      */
-    protected static function _doHooktag($m)
+    protected static function _doShortcode($m)
     {
         $EventManager = EventManager::instance();
         // allow {{foo}} syntax for escaping a tag
@@ -240,7 +224,7 @@ class HooktagManager
         }
 
         $tag = $m[2];
-        $atts = static::_parseHooktagAttributes($m[3]);
+        $atts = static::_parseAttributes($m[3]);
         $listeners = $EventManager->listeners($tag);
 
         if (!empty($listeners)) {
@@ -263,13 +247,13 @@ class HooktagManager
     }
 
     /**
-     * Looks for hooktag attributes.
+     * Looks for shortcode's attributes.
      *
      * Attribute names are always converted to lowercase. Values are untouched.
      *
      * ## Example:
      *
-     *     [hook_tag_name attr1="value1" aTTr2=value2 CamelAttr=Val1 /]
+     *     {shortcode_name attr1="value1" aTTr2=value2 CamelAttr=Val1 /}
      *
      * Produces:
      *
@@ -281,11 +265,11 @@ class HooktagManager
      * ]
      * ```
      *
-     * @param string $text The text where to look for hooktags
+     * @param string $text The text where to look for shortcodes
      * @return array Associative array of attributes as `tag_name` => `value`
      * @author WordPress
      */
-    protected static function _parseHooktagAttributes($text)
+    protected static function _parseAttributes($text)
     {
         $atts = [];
         $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';

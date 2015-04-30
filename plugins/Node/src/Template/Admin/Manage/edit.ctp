@@ -16,11 +16,19 @@
         <?php echo $this->Form->create($node, ['id' => 'node-form']); ?>
             <fieldset>
                 <legend><?php echo __d('node', 'Basic Information'); ?></legend>
-                    <?php echo $this->Form->input('title', ['label' => $node->node_type->title_label]); ?>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php echo $node->node_type->title_label . ' *'; ?></span>
+                        <?php echo $this->Form->input('title', ['label' => false]); ?>
+                    </div>
                     <em class="help-block">
-                        <?php echo __d('node', 'Slug'); ?>: <?php echo __d('node', $node->slug); ?>,
-                        <?php echo __d('node', 'URL'); ?>: <?php echo $this->Html->link("/{$node->node_type_slug}/{$node->slug}.html", $node->url, ['target' => '_blank']); ?>
+                        <?php echo __d('node', 'Content URL'); ?>: <?php echo $this->Html->link("/{$node->node_type_slug}/{$node->slug}.html", $node->url, ['target' => '_blank']); ?>
                     </em>
+
+                    <div class="input-group">
+                        <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __d('node', 'Regenerate Slug (actual: {0})', $node->slug)]); ?>
+                        <em class="help-block"><?php echo __d('node', 'Check this to generate a new slug from title.'); ?></em>
+                    </div>
 
                     <?php if ($node->translation_of): ?>
                     <em class="help-block">
@@ -28,10 +36,10 @@
                     </em>
                     <?php endif; ?>
 
-                    <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __d('node', 'Regenerate Slug')]); ?>
-                    <em class="help-block"><?php echo __d('node', 'Check this to generate a new slug from title.'); ?></em>
-
-                    <?php echo $this->Form->input('description'); ?>
+                    <div class="input-group">
+                        <span class="input-group-addon"><?php echo __d('node', 'Description'); ?></span>
+                        <?php echo $this->Form->input('description', ['label' => false]); ?>
+                    </div>
                     <em class="help-block"><?php echo __d('node', 'A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>
             </fieldset>
 
@@ -46,7 +54,7 @@
             <fieldset>
                 <legend><?php echo __d('node', 'Content'); ?></legend>
                 <?php foreach ($node->_fields as $field): ?>
-                    <?php echo $this->escapeHooktags($this->Form->input($field)); ?>
+                    <?php echo $this->escapeShortcodes($this->Form->input($field)); ?>
                 <?php endforeach; ?>
             </fieldset>
             <?php endif; ?>

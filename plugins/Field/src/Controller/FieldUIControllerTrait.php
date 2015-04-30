@@ -370,12 +370,12 @@ trait FieldUIControllerTrait
         $arrayContext = [
             'schema' => [
                 'label_visibility' => ['type' => 'string'],
-                'hooktags' => ['type' => 'boolean'],
+                'shortcodes' => ['type' => 'boolean'],
                 'hidden' => ['type' => 'boolean'],
             ],
             'defaults' => [
                 'label_visibility' => 'hidden',
-                'hooktags' => false,
+                'shortcodes' => false,
                 'hidden' => false,
             ],
             'errors' => []

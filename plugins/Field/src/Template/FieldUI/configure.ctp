@@ -38,10 +38,10 @@
 
             <?php echo $this->fetch('beforeFormContent'); ?>
             <?php if ($advanced = $this->trigger("Field.{$instance->handler}.Instance.settingsForm", $instance)): ?>
-                <fieldset>
-                    <legend><?php echo __d('field', 'Advanced'); ?></legend>
-                    <?php echo $advanced->result; ?>
-                </fieldset>
+            <fieldset>
+                <legend><?php echo __d('field', 'Advanced'); ?></legend>
+                <?php echo $advanced->result; ?>
+            </fieldset>
             <?php endif; ?>
             <?php echo $this->fetch('afterFormContent'); ?>
 

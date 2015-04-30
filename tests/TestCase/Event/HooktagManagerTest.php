@@ -13,12 +13,12 @@ namespace QuickApps\Test\TestCase\Event;
 
 use Cake\Event\EventManager;
 use Cake\TestSuite\TestCase;
-use QuickApps\Event\HooktagManager;
+use QuickApps\Shortcode\ShortcodeParser;
 
 /**
- * HooktagTest class.
+ * ShortcodeParserTest class.
  */
-class HooktagManagerTest extends TestCase
+class ShortcodeParserTest extends TestCase
 {
 
 /**
@@ -36,7 +36,6 @@ class HooktagManagerTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-
         $this->_eventManager = EventManager::instance();
         if (!$this->_eventManager->listeners('dummy')) {
             $this->_eventManager->on('dummy', function ($event, $atts, $content, $code) {
@@ -54,15 +53,15 @@ class HooktagManagerTest extends TestCase
     }
 
 /**
- * test hooktags() method.
+ * test parser() method.
  *
  * @return void
  */
-    public function testHooktags()
+    public function testParse()
     {
-        $this->assertEquals('some text @@DUMMY@@', HooktagManager::hooktags('some text {dummy /}'));
-        $this->assertEquals('hello world', HooktagManager::hooktags('hello {dummy_atts at=world/}'));
-        $this->assertEquals('hello world!', HooktagManager::hooktags('hello {enclosed}world!{/enclosed}'));
+        $this->assertEquals('some text @@DUMMY@@', ShortcodeParser::parse('some text {dummy /}'));
+        $this->assertEquals('hello world', ShortcodeParser::parse('hello {dummy_atts at=world/}'));
+        $this->assertEquals('hello world!', ShortcodeParser::parse('hello {enclosed}world!{/enclosed}'));
     }
 
 /**
@@ -72,8 +71,8 @@ class HooktagManagerTest extends TestCase
  */
     public function testStrip()
     {
-        $this->assertEquals('some text ', HooktagManager::strip('some text {dummy /}'));
-        $this->assertEquals('hello ', HooktagManager::strip('hello {dummy_atts at=world/}'));
+        $this->assertEquals('some text ', ShortcodeParser::strip('some text {dummy /}'));
+        $this->assertEquals('hello ', ShortcodeParser::strip('hello {dummy_atts at=world/}'));
     }
 
 /**
@@ -83,7 +82,7 @@ class HooktagManagerTest extends TestCase
  */
     public function testEscape()
     {
-        $this->assertEquals('some text {{dummy /}}', HooktagManager::escape('some text {dummy /}'));
-        $this->assertEquals('hello {{dummy_atts at=world/}}', HooktagManager::escape('hello {dummy_atts at=world/}'));
+        $this->assertEquals('some text {{dummy /}}', ShortcodeParser::escape('some text {dummy /}'));
+        $this->assertEquals('hello {{dummy_atts at=world/}}', ShortcodeParser::escape('hello {dummy_atts at=world/}'));
     }
 }

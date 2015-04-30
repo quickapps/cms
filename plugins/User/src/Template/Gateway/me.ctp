@@ -41,19 +41,17 @@
 
         <?php echo $this->Form->input('password2', ['type' => 'password', 'label' => __d('user', 'Confirm Password')]); ?>
         <em class="help-block"><?php echo __d('user', "Leave both fields empty if you do not need to change User's password."); ?></em>
-
-        <?php if (isset($user->_fields) && $user->_fields->count()): ?>
-        <hr />
-
-        <fieldset>
-            <legend><?php echo __d('user', 'Additional Information'); ?></legend>
-            <?php foreach ($user->_fields as $field): ?>
-                <?php echo $this->Form->input($field); ?>
-            <?php endforeach; ?>
-        </fieldset>
-        <?php endif; ?>
-
-        <?php echo $this->Form->submit(__d('user', 'Save Changes')); ?>
-        <?php echo $this->Html->link(__d('user', 'Cancel my account'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'cancel_request']); ?>
     </fieldset>
+
+    <?php if (isset($user->_fields) && $user->_fields->count()): ?>
+    <fieldset>
+        <legend><?php echo __d('user', 'Additional Information'); ?></legend>
+        <?php foreach ($user->_fields as $field): ?>
+            <?php echo $this->Form->input($field); ?>
+        <?php endforeach; ?>
+    </fieldset>
+    <?php endif; ?>
+
+    <?php echo $this->Form->submit(__d('user', 'Save Changes')); ?>
+    <?php echo $this->Html->link(__d('user', 'Cancel my account'), ['plugin' => 'User', 'controller' => 'gateway', 'action' => 'cancel_request']); ?>
 <?php echo $this->Form->end(); ?>

@@ -30,30 +30,6 @@ class HookManager
     protected static $_log = [];
 
     /**
-     * Retrieve the number of times an event was triggered, or the complete list
-     * of events that were triggered.
-     *
-     * @param string|null $eventName The name of the event, if null returns the entire
-     *  list of event that were fired
-     * @param bool $sort If first argument is null set this to true to sort the list.
-     *  Defaults to true
-     * @return int|array
-     */
-    public static function triggered($eventName = null, $sort = true)
-    {
-        if ($eventName === null) {
-            if ($sort) {
-                arsort(static::$_log, SORT_NATURAL);
-            }
-            return static::$_log;
-        }
-        if (isset(static::$_log[$eventName])) {
-            return static::$_log[$eventName];
-        }
-        return 0;
-    }
-
-    /**
      * Trigger the given event name.
      *
      * You can provide a context to use by passing an array as first arguments where
@@ -81,6 +57,30 @@ class HookManager
         $event = new Event($eventName, $context, $args);
         EventManager::instance()->dispatch($event);
         return $event;
+    }
+
+    /**
+     * Retrieve the number of times an event was triggered, or the complete list
+     * of events that were triggered.
+     *
+     * @param string|null $eventName The name of the event, if null returns the entire
+     *  list of event that were fired
+     * @param bool $sort If first argument is null set this to true to sort the list.
+     *  Defaults to true
+     * @return int|array
+     */
+    public static function triggered($eventName = null, $sort = true)
+    {
+        if ($eventName === null) {
+            if ($sort) {
+                arsort(static::$_log, SORT_NATURAL);
+            }
+            return static::$_log;
+        }
+        if (isset(static::$_log[$eventName])) {
+            return static::$_log[$eventName];
+        }
+        return 0;
     }
 
     /**

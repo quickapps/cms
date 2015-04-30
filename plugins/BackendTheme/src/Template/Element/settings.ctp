@@ -28,7 +28,6 @@ $skins = [
 
 <fieldset>
     <legend><?php echo __d('backend_theme', 'Layout Options'); ?></legend>
-
     <?php echo $this->Form->input('fixed_layout', ['type' => 'checkbox', 'label' => __d('backend_theme', 'Fixed Layout')]); ?>
     <?php echo $this->Form->input('boxed_layout', ['type' => 'checkbox', 'label' => __d('backend_theme', 'Boxed Layout')]); ?>
     <?php echo $this->Form->input('collapsed_sidebar', ['type' => 'checkbox', 'label' => __d('backend_theme', 'Collapsed Sidebar')]); ?>

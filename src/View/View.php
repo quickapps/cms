@@ -20,7 +20,7 @@ use Cake\Utility\Hash;
 use Cake\View\View as CakeView;
 use QuickApps\Core\Plugin;
 use QuickApps\Event\HookAwareTrait;
-use QuickApps\Event\HooktagAwareTrait;
+use QuickApps\Shortcode\ShortcodeTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**
@@ -34,7 +34,7 @@ use QuickApps\View\ViewModeAwareTrait;
 class View extends CakeView
 {
     use HookAwareTrait;
-    use HooktagAwareTrait;
+    use ShortcodeTrait;
     use ViewModeAwareTrait;
 
     /**
@@ -191,7 +191,7 @@ class View extends CakeView
             }
         }
 
-        return $this->hooktags($html);
+        return $this->shortcodes($html);
     }
 
     /**
@@ -199,11 +199,16 @@ class View extends CakeView
      *
      * Workaround patch that allows plugins and themes provide their own independent
      * "settings.ctp" files so themes won't "override" plugin element.
+     *
+     * The same goes for "help.ctp" template files. So themes and plugins can
+     * provide help information.
      */
     protected function _getElementFileName($name)
     {
         list($plugin, $element) = $this->pluginSplit($name);
-        if ($plugin && $element === 'settings') {
+        if ($plugin &&
+            ($element === 'settings' || strpos($element, 'Help/help') !== false)
+        ) {
             return Plugin::classPath($plugin) . "Template/Element/{$element}{$this->_ext}";
         }
         return parent::_getElementFileName($name);

@@ -156,7 +156,7 @@ class DateField extends BaseHandler
             default:
                 return [
                     'label_visibility' => 'above',
-                    'hooktags' => false,
+                    'shortcodes' => false,
                     'hidden' => false,
                 ];
         }

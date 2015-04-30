@@ -17,7 +17,7 @@ use Cake\Error\ExceptionRenderer as CakeExceptionRenderer;
  * Exception Renderer.
  *
  * Wrapper for Cake's ExceptionRenderer. Allows to render maintenance page and
- * to use hooktags and hooks in error templates.
+ * to use shortcodes and hooks in error templates.
  */
 class ExceptionRenderer extends CakeExceptionRenderer
 {

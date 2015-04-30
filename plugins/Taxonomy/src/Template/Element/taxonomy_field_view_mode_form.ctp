@@ -26,7 +26,7 @@
     ]);
 ?>
 
-{no-hooktag}
+{no_shortcode}
 <div class="option-url-prefix">
     <?php
         echo $this->Form->input('link_template', [
@@ -44,7 +44,7 @@
         <strong><?php echo __d('taxonomy', 'Example'); ?></strong>: <code><?php echo h('<a href="{{url}}"{{attrs}}>{{content}}</a>'); ?></code>
     </em>
 </div>
-{/no-hooktag}
+{/no_shortcode}
 
 <script>
     $(document).ready(function () {

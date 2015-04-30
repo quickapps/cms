@@ -174,7 +174,7 @@ class FieldInstancesTable extends Table
                     $instanceViewModes = $instance->view_modes;
                     $viewModeDefaults = array_merge([
                         'label_visibility' => 'above',
-                        'hooktags' => false,
+                        'shortcodes' => false,
                         'hidden' => false,
                         'ordering' => 0,
                     ], (array)$this->trigger("Field.{$instance->handler}.Instance.viewModeDefaults", $instance, ['viewMode' => $viewMode])->result);

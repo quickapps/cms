@@ -264,7 +264,7 @@ class FileField extends BaseHandler
             default:
                 return [
                     'label_visibility' => 'above',
-                    'hooktags' => true,
+                    'shortcodes' => true,
                     'hidden' => false,
                     'formatter' => 'link',
                 ];

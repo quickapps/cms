@@ -283,7 +283,7 @@ class ImageField extends BaseHandler
             default:
                 return [
                     'label_visibility' => 'above',
-                    'hooktags' => true,
+                    'shortcodes' => true,
                     'hidden' => false,
                     'size' => 'thumbnail',
                     'link_type' => '',

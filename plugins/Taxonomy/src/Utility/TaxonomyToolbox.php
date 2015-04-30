@@ -15,7 +15,7 @@ use Cake\Cache\Cache;
 use Cake\ORM\TableRegistry;
 use Cake\View\View;
 use Field\Model\Entity\Field;
-use QuickApps\Event\HooktagAwareTrait;
+use QuickApps\Shortcode\ShortcodeTrait;
 
 /**
  * Taxonomy utility class.
@@ -25,7 +25,7 @@ use QuickApps\Event\HooktagAwareTrait;
 class TaxonomyToolbox
 {
 
-    use HooktagAwareTrait;
+    use ShortcodeTrait;
 
     /**
      * Holds an instance of this class.
@@ -73,8 +73,8 @@ class TaxonomyToolbox
         }
 
         foreach ($terms as $term) {
-            if ($field->viewModeSettings['hooktags']) {
-                $term->set('name', $instance->hooktags($term->name));
+            if ($field->viewModeSettings['shortcodes']) {
+                $term->set('name', $instance->shortcodes($term->name));
             }
 
             if ($field->viewModeSettings['formatter'] === 'link_localized') {

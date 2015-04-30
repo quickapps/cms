@@ -17,10 +17,10 @@ use Cake\Event\EventListenerInterface;
 use Cake\ORM\TableRegistry;
 
 /**
- * Main Hooktag Listener for Block plugin.
+ * Main Shortcode Listener for Block plugin.
  *
  */
-class BlockHooktag implements EventListenerInterface
+class BlockShortcode implements EventListenerInterface
 {
 
     /**
@@ -33,24 +33,24 @@ class BlockHooktag implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'block' => 'hooktagBlock',
+            'block' => 'shortcodeBlock',
         ];
     }
 
     /**
-     * Implements the "block" hooktag.
+     * Implements the "block" shortcode.
      *
      *     {block 1 /}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
      *  no attributes are given
-     * @param string $content The enclosed content (if the hooktag is used in its
+     * @param string $content The enclosed content (if the shortcode is used in its
      *  enclosing form)
-     * @param string $tag The hooktag tag
+     * @param string $tag The shortcode name
      * @return string
      */
-    public function hooktagBlock(Event $event, array $atts, $content, $tag)
+    public function shortcodeBlock(Event $event, array $atts, $content, $tag)
     {
         $out = '';
         if (isset($atts[0])) {

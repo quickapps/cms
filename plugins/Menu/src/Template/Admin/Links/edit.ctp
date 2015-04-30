@@ -60,30 +60,30 @@
                         ]
                     ]);
                 ?>
-
-                <fieldset>
-                    <legend><?php echo __d('menu', 'Link Activation'); ?></legend>
-                    <em class="help-block"><?php echo __d('menu', 'Choose a method to determinate when this link should be marked as "active".'); ?></em>
-
-                    <?php
-                        echo $this->Form->radio('activation', [
-                            'auto' => __d('menu', 'Automatic, let application decide.'),
-                            'any' => __d('menu', "When visitor's URL match ANY of those listed."),
-                            'none' => __d('menu', "When visitor's URL match NONE of those listed."),
-                            'php' => __d('menu', 'When following PHP code returns TRUE (experts only).'),
-                        ]);
-                    ?>
-
-                    <?php echo $this->Form->input('active', ['type' => 'textarea', 'label' => false]); ?>
-                    <em class="help-block"><?php echo __d('menu', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?></em>
-                    <em class="help-block"><?php echo __d('menu', 'If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:'); ?></em>
-                    <em class="help-block"><?php echo __d('menu', '<code>/product/*.html</code> Matches any product page.'); ?></em>
-                    <em class="help-block"><?php echo __d('menu', '<code>/find/*type:article*</code> Matches any search result containing articles.'); ?></em>
-                    <em class="help-block"><?php echo __d('menu', "<code>/</code> Matches site's front page (a.k.a. site's index)."); ?></em>
-                </fieldset>
-
-                <?php echo $this->Form->submit(__d('menu', 'Save Changes')); ?>
             </fieldset>
+
+            <fieldset>
+                <legend><?php echo __d('menu', 'Link Activation'); ?></legend>
+                <em class="help-block"><?php echo __d('menu', 'Choose a method to determinate when this link should be marked as "active".'); ?></em>
+
+                <?php
+                    echo $this->Form->radio('activation', [
+                        'auto' => __d('menu', 'Automatic, let application decide.'),
+                        'any' => __d('menu', "When visitor's URL match ANY of those listed."),
+                        'none' => __d('menu', "When visitor's URL match NONE of those listed."),
+                        'php' => __d('menu', 'When following PHP code returns TRUE (experts only).'),
+                    ]);
+                ?>
+
+                <?php echo $this->Form->input('active', ['type' => 'textarea', 'label' => false]); ?>
+                <em class="help-block"><?php echo __d('menu', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?></em>
+                <em class="help-block"><?php echo __d('menu', 'If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:'); ?></em>
+                <em class="help-block"><?php echo __d('menu', '<code>/product/*.html</code> Matches any product page.'); ?></em>
+                <em class="help-block"><?php echo __d('menu', '<code>/find/*type:article*</code> Matches any search result containing articles.'); ?></em>
+                <em class="help-block"><?php echo __d('menu', "<code>/</code> Matches site's front page (a.k.a. site's index)."); ?></em>
+            </fieldset>
+
+            <?php echo $this->Form->submit(__d('menu', 'Save Changes')); ?>
         <?php echo $this->Form->end(); ?>
     </div>
 </div>

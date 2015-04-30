@@ -38,8 +38,8 @@
                 ?>
                 <em class="help-block"><?php echo __d('field', 'Position of the field label. Set to "Hidden" for no label.'); ?></em>
 
-                <?php echo $this->Form->input('hooktags', ['type' => 'checkbox', 'label' => __d('field', 'Hooktags')]); ?>
-                <em class="help-block"><?php echo __d('field', 'Whether to parse hooktags in field content or not.'); ?></em>
+                <?php echo $this->Form->input('shortcodes', ['type' => 'checkbox', 'label' => __d('field', 'Shortcodes')]); ?>
+                <em class="help-block"><?php echo __d('field', 'Whether to parse shortcodes in field content or not.'); ?></em>
 
                 <?php echo $this->Form->input('hidden', ['type' => 'checkbox', 'label' => __d('field', 'Hidden Field'), 'onclick' => '$("div.field-view-mode-form").toggle();']); ?>
                 <em class="help-block"><?php echo __d('field', 'Whether to render this field or not on "{0}" view mode.', $viewModeInfo['name']); ?></em>

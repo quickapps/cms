@@ -13,7 +13,7 @@ namespace Field\Utility;
 
 use Field\Lib\Parsedown;
 use Field\Model\Entity\Field;
-use QuickApps\Event\HooktagAwareTrait;
+use QuickApps\Shortcode\ShortcodeTrait;
 
 /**
  * Text utility class.
@@ -23,7 +23,7 @@ use QuickApps\Event\HooktagAwareTrait;
 class TextToolbox
 {
 
-    use HooktagAwareTrait;
+    use ShortcodeTrait;
 
     /**
      * Holds an instance of this class.
@@ -317,14 +317,14 @@ class TextToolbox
     }
 
     /**
-     * Strips HTML tags and any hooktag.
+     * Strips HTML tags and any shortcode.
      *
      * @param string $text The text to process
      * @return string
      */
     public static function filterText($text)
     {
-        return static::getInstance()->stripHooktags(static::stripHtmlTags($text));
+        return static::getInstance()->stripShortcodes(static::stripHtmlTags($text));
     }
 
     /**

@@ -17,10 +17,10 @@ use Cake\I18n\I18n;
 use Cake\Routing\Router;
 
 /**
- * Main Hooktag Listener for System plugin.
+ * Main Shortcode Listener for System plugin.
  *
  */
-class SystemHooktag implements EventListenerInterface
+class SystemShortcode implements EventListenerInterface
 {
 
     /**
@@ -33,29 +33,29 @@ class SystemHooktag implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            'random' => 'hooktagRandom',
-            't' => 'hooktagTranslate',
-            'url' => 'hooktagURL',
-            'date' => 'hooktagDate',
-            'locale' => 'hooktagLocale',
-            'no-hooktag' => 'noHooktag',
+            'random' => 'shortcodeRandom',
+            't' => 'shortcodeTranslate',
+            'url' => 'shortcodeUrl',
+            'date' => 'shortcodeDate',
+            'locale' => 'shortcodeLocale',
+            'no_shortcode' => 'noShortcode',
         ];
     }
 
     /**
-     * Implements the "random" hooktag.
+     * Implements the "random" shortcode.
      *
      *     {random}1,2,3{/random}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
      *  no attributes are given
-     * @param string $content The enclosed content (if the hooktag is used in its
+     * @param string $content The enclosed content (if the shortcode is used in its
      *  enclosing form)
-     * @param string $tag The hooktag tag
+     * @param string $tag The shortcode tag
      * @return string
      */
-    public function hooktagRandom(Event $event, array $atts, $content, $tag)
+    public function shortcodeRandom(Event $event, array $atts, $content, $tag)
     {
         $elements = explode(',', trim($content));
 
@@ -67,19 +67,19 @@ class SystemHooktag implements EventListenerInterface
     }
 
     /**
-     * Implements the "t" hooktag.
+     * Implements the "t" shortcode.
      *
      *     {t}Text for translate{/t}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
      *  no attributes are given
-     * @param string $content The enclosed content (if the hooktag is used in its
+     * @param string $content The enclosed content (if the shortcode is used in its
      *  enclosing form)
-     * @param string $tag The hooktag tag
+     * @param string $tag The shortcode tag
      * @return string
      */
-    public function hooktagTranslate(Event $event, array $atts, $content, $tag)
+    public function shortcodeTranslate(Event $event, array $atts, $content, $tag)
     {
         if (!empty($atts['domain'])) {
             return __d($atts['domain'], $content);
@@ -89,19 +89,19 @@ class SystemHooktag implements EventListenerInterface
     }
 
     /**
-     * Implements the "url" hooktag.
+     * Implements the "url" shortcode.
      *
      *     {url}/some/url/on/my/site{/url}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
      *  no attributes are given
-     * @param string $content The enclosed content (if the hooktag is used in its
+     * @param string $content The enclosed content (if the shortcode is used in its
      *  enclosing form)
-     * @param string $tag The hooktag tag
+     * @param string $tag The shortcode tag
      * @return string
      */
-    public function hooktagURL(Event $event, array $atts, $content, $tag)
+    public function shortcodeUrl(Event $event, array $atts, $content, $tag)
     {
         try {
             $url = Router::url($content, true);
@@ -112,19 +112,19 @@ class SystemHooktag implements EventListenerInterface
     }
 
     /**
-     * Implements the "date" hooktag.
+     * Implements the "date" shortcode.
      *
      *     {date format=d-m-Y}2014-05-06{/date}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
      *  no attributes are given
-     * @param string $content The enclosed content (if the hooktag is used in its
+     * @param string $content The enclosed content (if the shortcode is used in its
      *  enclosing form)
-     * @param string $tag The hooktag tag
+     * @param string $tag The shortcode tag
      * @return string
      */
-    public function hooktagDate(Event $event, array $atts, $content, $tag)
+    public function shortcodeDate(Event $event, array $atts, $content, $tag)
     {
         if (!empty($atts['format']) && !empty($content)) {
             if (is_numeric($content)) {
@@ -138,7 +138,7 @@ class SystemHooktag implements EventListenerInterface
     }
 
     /**
-     * Implements the "locale" hooktag.
+     * Implements the "locale" shortcode.
      *
      *     {locale code /}
      *     {locale name /}
@@ -147,12 +147,12 @@ class SystemHooktag implements EventListenerInterface
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
      *  no attributes are given
-     * @param string $content The enclosed content (if the hooktag is used in its
+     * @param string $content The enclosed content (if the shortcode is used in its
      *  enclosing form)
-     * @param string $tag The hooktag tag
+     * @param string $tag The shortcode tag
      * @return string
      */
-    public function hooktagLocale(Event $event, array $atts, $content, $tag)
+    public function shortcodeLocale(Event $event, array $atts, $content, $tag)
     {
         $option = array_keys((array)$atts);
         $locale = I18n::locale();
@@ -189,24 +189,24 @@ class SystemHooktag implements EventListenerInterface
     }
 
     /**
-     * Used to remove hooktags. Any hooktag within this hooktag's content will not
-     * be converted.
+     * Used to remove shortcodes. Any shortcode within this shortcode's content will
+     * not be converted.
      *
      * ### Usage:
      *
-     *     {no-hooktag}
-     *         This hooktag will not work {some-hooktag /}
-     *     {/no-hooktag}
+     *     {no_shortcode}
+     *         This shortcode will not work {some_shortcode /}
+     *     {/no_shortcode}
      *
      * @param \Cake\Event\Event $event The event that was fired
      * @param array $atts An associative array of attributes, or an empty string if
      *  no attributes are given
-     * @param string $content The enclosed content (if the hooktag is used in its
+     * @param string $content The enclosed content (if the shortcode is used in its
      *  enclosing form)
-     * @param string $tag The hooktag tag
+     * @param string $tag The shortcode tag
      * @return string
      */
-    public function noHooktag(Event $event, array $atts, $content, $tag)
+    public function noShortcode(Event $event, array $atts, $content, $tag)
     {
         return $content;
     }

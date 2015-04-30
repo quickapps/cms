@@ -45,7 +45,7 @@
                 <em class="help-block"><?php echo __d('field', 'Is this field required?'); ?></em>
 
                 <?php echo $this->Form->input('description', ['label' => __d('field', 'Help Text'), 'type' => 'textarea']); ?>
-                <em class="help-block"><?php echo __d('field', 'Instructions to present to the user below this field on the editing form. (hooktags are allowed)'); ?></em>
+                <em class="help-block"><?php echo __d('field', 'Instructions to present to the user below this field on the editing form.'); ?></em>
 
                 <?php echo $this->Form->submit(__d('field', 'Attach')); ?>
             </fieldset>
