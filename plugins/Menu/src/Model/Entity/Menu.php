@@ -12,6 +12,7 @@
 namespace Menu\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\String;
 
 /**
@@ -26,6 +27,27 @@ use Cake\Utility\String;
  */
 class Menu extends Entity
 {
+    /**
+     * Gets menu's associated block.
+     *
+     * @return \Cake\Datasource\EntityInterface|null
+     */
+    protected function _getBlock()
+    {
+        if (!$this->has('handler')) {
+            $menu = TableRegistry::get('Menu.Menus')->get($this->get('id'));
+            $this->set('handler', $menu->get('handler'));
+        }
+
+        return TableRegistry::get('Block.Blocks')
+            ->find()
+            ->where([
+                'Blocks.delta' => $this->get('id'),
+                'Blocks.handler' => $this->get('handler'),
+            ])
+            ->limit(1)
+            ->first();
+    }
 
     /**
      * Gets a brief description of 80 characters long.

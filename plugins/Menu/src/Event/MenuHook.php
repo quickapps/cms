@@ -104,8 +104,7 @@ class MenuHook implements EventListenerInterface
     {
         $menu = TableRegistry::get('Menu.Menus')
             ->find()
-            ->contain(['Blocks'])
-            ->where(['Menus.id' => $block->delta])
+            ->where(['Menus.id' => intval($block->delta)])
             ->first();
         $links = TableRegistry::get('Menu.MenuLinks')
             ->find('threaded')

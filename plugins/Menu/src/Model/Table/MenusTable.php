@@ -41,7 +41,6 @@ class MenusTable extends Table
             'propertyName' => 'links',
             'sort' => ['MenuLinks.lft' => 'ASC'],
         ]);
-        $this->_setHasOne();
         $this->addBehavior('Sluggable');
     }
 
@@ -162,24 +161,5 @@ class MenusTable extends Table
     {
         $this->_setHasOne();
         $this->trigger(["Menu.{$menu->handler}.afterDelete", $event->subject()], $menu, $options);
-    }
-
-    /**
-     * Creates the default "hasOne" association with Blocks table.
-     *
-     * When menu is being deleted this association is re-built in order to
-     * safely remove menu's associated block **(and all copies of that block)**.
-     *
-     * @return void
-     */
-    protected function _setHasOne()
-    {
-        $this->hasOne('Blocks', [
-            'className' => 'Block.Blocks',
-            'dependent' => false,
-            'foreignKey' => 'delta',
-            'propertyName' => 'block',
-            'conditions' => ['Blocks.handler = Menus.handler']
-        ]);
     }
 }
