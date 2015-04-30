@@ -79,7 +79,7 @@ class PluginTest extends TestCase
         $invalid = Plugin::validateJson(['version' => '1.0']);
         $valid = Plugin::validateJson([
             'version' => '1.0',
-            'type' => 'quickapps-plugin',
+            'type' => 'library',
             'name' => 'author/package',
             'description' => 'dummy desc',
         ]);

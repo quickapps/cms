@@ -143,7 +143,7 @@ class Plugin extends CakePlugin
      *
      * - must be a valid JSON file.
      * - key `name` must be present and follow the pattern `author/package`
-     * - key `type` must be present and be "quickapps-plugin" or "cakephp-plugin" (even if it's a theme).
+     * - key `type` must be present.
      * - key `extra.regions` must be present if it's a theme (its name ends with
      *   `-theme`, e.g. `quickapps/blue-sky-theme`)
      *
@@ -177,8 +177,6 @@ class Plugin extends CakePlugin
         } else {
             if (!isset($json['type'])) {
                 $errors[] = __('Missing field: "{0}"', 'type');
-            } elseif (!in_array($json['type'], ['quickapps-plugin', 'cakephp-plugin'])) {
-                $errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'type', $json['type'], 'quickapps-plugin or cakephp-plugin');
             }
 
             if (!isset($json['name'])) {
