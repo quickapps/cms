@@ -35,6 +35,29 @@ class Block extends Entity
     use AccessibleEntityTrait;
 
     /**
+     * Gets block's associated block.
+     *
+     * @return \Cake\Datasource\EntityInterface|null
+     */
+    protected function _getMenu()
+    {
+        if (!$this->has('handler') || !$this->has('delta')) {
+            $block = TableRegistry::get('Block.Blocks')->get($this->get('id'));
+            $this->set('delta', $block->get('delta'));
+            $this->set('handler', $block->get('handler'));
+        }
+
+        return TableRegistry::get('Menu.Menus')
+            ->find()
+            ->where([
+                'Menus.id' => $this->get('delta'),
+                'Menus.handler' => $this->get('handler'),
+            ])
+            ->limit(1)
+            ->first();
+    }
+
+    /**
      * Automatically calculates "delta" for entity's handler.
      *
      * Delta values must be unique within a handler name. That is, there may exists
