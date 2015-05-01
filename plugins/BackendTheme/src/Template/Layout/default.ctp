@@ -12,6 +12,17 @@
 
 $layoutOptions = [];
 $skin = theme()->settings['skin'];
+$boxClass = 'success';
+
+if (strpos($skin, 'blue') !== false || strpos($skin, 'black') !== false) {
+    $boxClass = 'info';
+} elseif (strpos($skin, 'green') !== false) {
+    $boxClass = 'success';
+} elseif (strpos($skin, 'red') !== false || strpos($skin, 'purple') !== false) {
+    $boxClass = 'danger';
+} elseif (strpos($skin, 'yellow') !== false) {
+    $boxClass = 'warning';
+}
 
 if (theme()->settings['fixed_layout']) {
     $layoutOptions[] = 'fixed';
@@ -35,8 +46,11 @@ if (theme()->settings['collapsed_sidebar']) {
                     $this->Html->css('AdminLTE.min.css'),
                     $this->Html->css("skins/skin-{$skin}.min.css"),
                     $this->Html->css('backend.css'),
+                    $this->Html->css("icheck/blue.css"),
+                    $this->Html->script('icheck.min.js'),
                     $this->Html->script('app.min.js'),
                     $this->Html->script('jquery.slimscroll.min.js'),
+                    $this->Html->script('backend.js'),
                 ],
             ]);
         ?>
@@ -133,12 +147,18 @@ if (theme()->settings['collapsed_sidebar']) {
                 <section class="content-header">
                     <h1 class="page-header"><?php echo $this->fetch('title'); ?></h1>
                     <?php echo $this->Breadcrumb->renderIfNotEmpty(); ?>
-                    <p><?php echo $this->Flash->render(); ?></p>
+                </section>
 
-                    <!-- Main content -->
-                    <section class="content">
-                        <?php echo $this->fetch('content'); ?>
-                    </section>
+                <!-- Main content -->
+                <section class="content">
+                    <div class="box box-<?php echo $boxClass; ?>">
+                        <div class="box-header">
+                            <p><?php echo $this->Flash->render(); ?></p>
+                        </div>
+                        <div class="box-body">
+                            <?php echo $this->fetch('content'); ?>
+                        </div>
+                    </div>
                 </section>
             </div>
 

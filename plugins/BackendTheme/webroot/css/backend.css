@@ -1,3 +1,11 @@
 table {
     background: #ffffff !important;
 }
+
+div.checkbox label {
+    padding-left:0 !important;
+}
+
+div.checkbox label div {
+    margin-right: 8px !important;
+}
