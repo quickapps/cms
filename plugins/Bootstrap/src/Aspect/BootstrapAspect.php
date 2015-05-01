@@ -47,6 +47,8 @@ class BootstrapAspect extends Aspect
      * @var array
      */
     protected $_templates = [
+        'checkboxFormGroup' => '{{label}}',
+        'checkboxWrapper' => '<div class="checkbox">{{label}}</div>',
         'dateWidget' => '<div class="row">
             <div class="col-sm-3">{{year}}</div>
             <div class="col-sm-3">{{month}}</div>
@@ -60,8 +62,9 @@ class BootstrapAspect extends Aspect
         'errorList' => '<ul class="text-danger">{{content}}</ul>',
         'inputContainer' => '<div class="form-group {{type}}{{required}}">{{content}}</div>',
         'inputContainerError' => '<div class="form-group has-error has-feedback {{type}}{{required}}">{{content}}<span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>{{error}}</div>',
+        'label' => '<label{{attrs}}>{{text}}</label>',
         'radio' => '<input type="radio" name="{{name}}" value="{{value}}"{{attrs}}> ',
-        'radioWrapper' => '<br/>{{label}}',
+        'radioWrapper' => '<br />{{label}}',
         'submitContainer' => '{{content}}',
     ];
 
