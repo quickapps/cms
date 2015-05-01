@@ -121,9 +121,9 @@ class ManageController extends AppController
         } else {
             $node = $this->Nodes->newEntity(['node_type_slug' => $type->slug]);
             $node->setDefaults($type);
-            $node->set('node_type', $type);
         }
 
+        $node->set('node_type', $type);
         $node = $this->Nodes->attachFields($node);
         $languages = LocaleToolbox::languagesList();
         $roles = $this->Nodes->Roles->find('list');
