@@ -1,78 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit
-	colors="true"
-	processIsolation="false"
-	stopOnFailure="false"
-	syntaxCheck="false"
-	bootstrap="./tests/bootstrap.php"
-	>
-	<php>
-		<ini name="memory_limit" value="-1"/>
-		<ini name="apc.enable_cli" value="1"/>
-	</php>
+    colors="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    syntaxCheck="false"
+    bootstrap="./tests/bootstrap.php"
+    >
+    <php>
+        <ini name="memory_limit" value="-1"/>
+        <ini name="apc.enable_cli" value="1"/>
+    </php>
 
-	<testsuites>
-		<testsuite name="QuickAppsCMS Test Suite">
-			<directory>./tests/TestCase/</directory>
-		</testsuite>
+    <testsuites>
+        <testsuite name="QuickAppsCMS Test Suite">
+            <directory>./tests/TestCase/</directory>
+        </testsuite>
 
-		<testsuite name="Block plugin">
-			<directory>./plugins/Block/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Backend theme">
+            <directory>./plugins/BackendTheme/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Comment plugin">
-			<directory>./plugins/Comment/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Block plugin">
+            <directory>./plugins/Block/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Field plugin">
-			<directory>./plugins/Field/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Bootstrap plugin">
+            <directory>./plugins/Bootstrap/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Installer plugin">
-			<directory>./plugins/Installer/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Captcha plugin">
+            <directory>./plugins/Captcha/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Locale plugin">
-			<directory>./plugins/Locale/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Comment plugin">
+            <directory>./plugins/Comment/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Menu plugin">
-			<directory>./plugins/Menu/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Eav plugin">
+            <directory>./plugins/Eav/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Node plugin">
-			<directory>./plugins/Node/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Field plugin">
+            <directory>./plugins/Field/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Search plugin">
-			<directory>./plugins/Search/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Frontend theme">
+            <directory>./plugins/FrontendTheme/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="System plugin">
-			<directory>./plugins/System/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Installer plugin">
+            <directory>./plugins/Installer/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Taxonomy plugin">
-			<directory>./plugins/Taxonomy/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Jquery plugin">
+            <directory>./plugins/Jquery/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="User plugin">
-			<directory>./plugins/User/tests/TestCase</directory>
-		</testsuite>
+        <testsuite name="Locale plugin">
+            <directory>./plugins/Locale/tests/TestCase</directory>
+        </testsuite>
 
-		<testsuite name="Wysiwyg plugin">
-			<directory>./plugins/Wysiwyg/tests/TestCase</directory>
-		</testsuite>
-	</testsuites>
+        <testsuite name="Menu plugin">
+            <directory>./plugins/Menu/tests/TestCase</directory>
+        </testsuite>
 
-	<listeners>
-		<listener
-			class="\Cake\TestSuite\Fixture\FixtureInjector"
-			file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
-			<arguments>
-				<object class="\Cake\TestSuite\Fixture\FixtureManager" />
-			</arguments>
-		</listener>
-	</listeners>
+        <testsuite name="Node plugin">
+            <directory>./plugins/Node/tests/TestCase</directory>
+        </testsuite>
+
+        <testsuite name="Search plugin">
+            <directory>./plugins/Search/tests/TestCase</directory>
+        </testsuite>
+
+        <testsuite name="System plugin">
+            <directory>./plugins/System/tests/TestCase</directory>
+        </testsuite>
+
+        <testsuite name="Taxonomy plugin">
+            <directory>./plugins/Taxonomy/tests/TestCase</directory>
+        </testsuite>
+
+        <testsuite name="User plugin">
+            <directory>./plugins/User/tests/TestCase</directory>
+        </testsuite>
+
+        <testsuite name="Wysiwyg plugin">
+            <directory>./plugins/Wysiwyg/tests/TestCase</directory>
+        </testsuite>
+    </testsuites>
+
+    <listeners>
+        <listener
+            class="\Cake\TestSuite\Fixture\FixtureInjector"
+            file="./vendor/cakephp/cakephp/src/TestSuite/Fixture/FixtureInjector.php">
+            <arguments>
+                <object class="\Cake\TestSuite\Fixture\FixtureManager" />
+            </arguments>
+        </listener>
+    </listeners>
 </phpunit>
