@@ -6,7 +6,10 @@
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
     "authors": [
-        {"name": "Christopher Castro", "email": "chris@quickapps.es"}
+        {
+            "name": "Christopher Castro",
+            "email": "chris@quickapps.es"
+        }
     ],
     "support": {
         "issues": "https://github.com/quickapps/cms/issues",
@@ -15,7 +18,7 @@
     "require": {
         "php": ">=5.4.19",
         "lisachenko/go-aop-php": "0.6.0",
-        "cakephp/cakephp": "~3.0"
+        "cakephp/cakephp": "3.0.*-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "*",
