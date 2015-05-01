@@ -231,7 +231,7 @@ if (!$activePlugins) {
  * Initialize Aspects
  */
 AppAspect::getInstance()->init([
-    'debug' => false,
+    'debug' => Configure::read('debug'),
     'appDir' => SITE_ROOT,
     'cacheDir' => TMP . 'aop',
     'includePaths' => [],
