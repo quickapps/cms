@@ -18,16 +18,14 @@
                 <legend><?php echo __d('node', 'Basic Information'); ?></legend>
 
                     <div class="input-group">
-                        <span class="input-group-addon"><?php echo $node->node_type->title_label . ' *'; ?></span>
-                        <?php echo $this->Form->input('title', ['label' => false]); ?>
+                        <?php echo $this->Form->input('title', ['label' => $node->node_type->title_label . ' *']); ?>
+                        <em class="help-block"><?php echo __d('node', 'Will be used as content title.'); ?></em>
                     </div>
-                    <em class="help-block"><?php echo __d('node', 'Will be used as content title.'); ?></em>
 
                     <div class="input-group">
-                        <span class="input-group-addon"><?php echo __d('node', 'Description'); ?></span>
-                        <?php echo $this->Form->input('description', ['label' => false]); ?>
+                        <?php echo $this->Form->input('description', ['label' => __d('node', 'Description')]); ?>
+                        <em class="help-block"><?php echo __d('node', 'A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>
                     </div>
-                    <em class="help-block"><?php echo __d('node', 'A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>
             </fieldset>
 
             <fieldset>

@@ -18,12 +18,12 @@
                 <legend><?php echo __d('node', 'Basic Information'); ?></legend>
 
                     <div class="input-group">
-                        <span class="input-group-addon"><?php echo $node->node_type->title_label . ' *'; ?></span>
-                        <?php echo $this->Form->input('title', ['label' => false]); ?>
+                        <?php echo $this->Form->input('title', ['label' => $node->node_type->title_label . ' *']); ?>
+                        <em class="help-block">
+                            <?php echo __d('node', 'Will be used as content title.'); ?><br />
+                            <?php echo __d('node', 'Content URL'); ?>: <?php echo $this->Html->link("/{$node->node_type_slug}/{$node->slug}.html", $node->url, ['target' => '_blank']); ?>
+                        </em>
                     </div>
-                    <em class="help-block">
-                        <?php echo __d('node', 'Content URL'); ?>: <?php echo $this->Html->link("/{$node->node_type_slug}/{$node->slug}.html", $node->url, ['target' => '_blank']); ?>
-                    </em>
 
                     <div class="input-group">
                         <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __d('node', 'Regenerate Slug (actual: {0})', $node->slug)]); ?>
@@ -31,16 +31,18 @@
                     </div>
 
                     <?php if ($node->translation_of): ?>
-                    <em class="help-block">
-                        <strong><?php echo __d('node', 'This content is a translation of'); ?>: </strong><?php echo $this->Html->link($node->translation_of->title, ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->translation_of->id]); ?>
-                    </em>
+                    <div class="input-group">
+                        <em class="help-block">
+                            <strong><?php echo __d('node', 'This content is a translation of'); ?>: </strong>
+                            <?php echo $this->Html->link($node->translation_of->title, ['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', $node->translation_of->id]); ?>
+                        </em>
+                    </div>
                     <?php endif; ?>
 
                     <div class="input-group">
-                        <span class="input-group-addon"><?php echo __d('node', 'Description'); ?></span>
-                        <?php echo $this->Form->input('description', ['label' => false]); ?>
+                        <?php echo $this->Form->input('description', ['label' => __d('node', 'Description')]); ?>
+                        <em class="help-block"><?php echo __d('node', 'A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>
                     </div>
-                    <em class="help-block"><?php echo __d('node', 'A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>
             </fieldset>
 
             <fieldset>
