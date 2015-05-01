@@ -37,7 +37,7 @@
             <hr />
 
             <?php echo $this->fetch('beforeFormContent'); ?>
-            <?php if ($advanced = $this->trigger("Field.{$instance->handler}.Instance.settingsForm", $instance)): ?>
+            <?php if ($advanced = $this->eventDispatcher('Field')->trigger("{$instance->handler}.Instance.settingsForm", $instance)): ?>
             <fieldset>
                 <legend><?php echo __d('field', 'Advanced'); ?></legend>
                 <?php echo $advanced->result; ?>

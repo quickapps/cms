@@ -211,8 +211,8 @@ class FieldableBehavior extends EavBehavior
 
         $entity = $this->attachEntityFields($entity);
         foreach ($entity->get('_fields') as $field) {
-            $fieldEvent = $this->trigger(
-                ["Field.{$field->get('metadata')->get('handler')}.Entity.beforeFind", $options['event']->subject()],
+            $fieldEvent = $this->eventDispatcher('Field')->trigger(
+                ["{$field->get('metadata')->get('handler')}.Entity.beforeFind", $options['event']->subject()],
                 $field,
                 $options['options'],
                 $options['primary']
@@ -315,7 +315,7 @@ class FieldableBehavior extends EavBehavior
 
             $field = $this->_prepareMockField($entity, $attr);
             $options['_post'] = $this->_fetchPost($field);
-            $fieldEvent = $this->trigger(["Field.{$attr->get('instance')->get('handler')}.Entity.beforeSave", $event->subject()], $field, $options);
+            $fieldEvent = $this->eventDispatcher('Field')->trigger(["{$attr->get('instance')->get('handler')}.Entity.beforeSave", $event->subject()], $field, $options);
 
             if ($fieldEvent->result === false) {
                 $this->attachEntityFields($entity);
@@ -388,7 +388,7 @@ class FieldableBehavior extends EavBehavior
 
         foreach ($this->_attributesForEntity($entity) as $attr) {
             $field = $this->_prepareMockField($entity, $attr);
-            $this->trigger(["Field.{$attr->get('instance')->get('handler')}.Entity.afterSave", $event->subject()], $field, $options);
+            $this->eventDispatcher('Field')->trigger(["{$attr->get('instance')->get('handler')}.Entity.afterSave", $event->subject()], $field, $options);
         }
 
         return true;
@@ -421,7 +421,7 @@ class FieldableBehavior extends EavBehavior
 
         foreach ($this->_attributesForEntity($entity) as $attr) {
             $field = $this->_prepareMockField($entity, $attr);
-            $fieldEvent = $this->trigger(["Field.{$attr->get('instance')->get('handler')}.Entity.beforeDelete", $event->subject()], $field, $options);
+            $fieldEvent = $this->eventDispatcher('Field')->trigger(["{$attr->get('instance')->get('handler')}.Entity.beforeDelete", $event->subject()], $field, $options);
 
             if ($fieldEvent->isStopped()) {
                 $event->stopPropagation();
@@ -464,7 +464,7 @@ class FieldableBehavior extends EavBehavior
 
         if (!empty($this->_cache['afterDelete'])) {
             foreach ((array)$this->_cache['afterDelete'] as $field) {
-                $this->trigger(["Field.{$field->handler}.Entity.afterDelete", $event->subject()], $field, $options);
+                $this->eventDispatcher('Field')->trigger(["{$field->handler}.Entity.afterDelete", $event->subject()], $field, $options);
             }
             $this->_cache['afterDelete'] = [];
         }
@@ -520,7 +520,7 @@ class FieldableBehavior extends EavBehavior
                 $this->_fetchPost($mock);
             }
 
-            $this->trigger(["Field.{$attr->get('instance')->get('handler')}.Entity.fieldAttached", $this->_table], $mock);
+            $this->eventDispatcher('Field')->trigger(["{$attr->get('instance')->get('handler')}.Entity.fieldAttached", $this->_table], $mock);
             $_fields[] = $mock;
         }
 
@@ -541,7 +541,7 @@ class FieldableBehavior extends EavBehavior
 
         foreach ($this->_attributesForEntity($entity) as $attr) {
             $field = $this->_prepareMockField($entity, $attr);
-            $fieldEvent = $this->trigger(["Field.{$attr->get('instance')->get('handler')}.Entity.validate", $this->_table], $field, $validator);
+            $fieldEvent = $this->eventDispatcher('Field')->trigger(["{$attr->get('instance')->get('handler')}.Entity.validate", $this->_table], $field, $validator);
             if ($fieldEvent->isStopped()) {
                 $this->attachEntityFields($entity);
                 return $fieldEvent->result;

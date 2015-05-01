@@ -23,46 +23,20 @@ trait EventDispatcherTrait
 {
 
     /**
-     * Retrieves the number of times an event was triggered, or the complete list
-     * of events that were triggered.
-     *
-     * @param string|null $eventName The name of the event, if null returns the
-     *  entire list of event that were fired
-     * @return int|array
-     * @see QuickApps\Event\EventDispatcher::triggered()
-     */
-    public function triggered($eventName = null)
-    {
-        return EventDispatcher::triggered($eventName);
-    }
-
-    /**
-     * Triggers the given event name.
-     *
-     * You can pass an unlimited number of arguments to your event handler method.
-     *
-     * ### Usage:
+     * Triggers the given event name. This method provides a shortcut for:
      *
      * ```php
-     * $this->trigger('GetTime', $arg_0, $arg_1, ..., $arg_n);
+     * EventDispatcher::instance()->trigger('EventName', $arg1, $arg2, ..., $argn);
      * ```
      *
-     * Your `Event Listener` must implement:
+     * You can provide a subject to use by passing an array as first arguments where
+     * the first element is the event name and the second one is the subject:
      *
      * ```php
-     * public function implementedEvents() {
-     *     return ['GetTime' => 'handlerForGetTime'];
-     * }
+     * $this->trigger(['GetTime', new MySubject()], $arg_0, $arg_1, ..., $arg_n);
      * ```
      *
-     * You can provide a context to use by passing an array as first arguments where
-     * the first element is the event name and the second one is the context:
-     *
-     * ```php
-     * $this->trigger(['GetTime', new ContextObject()], $arg_0, $arg_1, ..., $arg_n);
-     * ```
-     *
-     * If no context is given `$this` will be used by default.
+     * If no subject is given `$this` will be used by default.
      *
      * @param array|string $eventName The event name to trigger
      * @return \Cake\Event\Event The event object that was fired
@@ -73,8 +47,42 @@ trait EventDispatcherTrait
         if (is_string($eventName)) {
             $eventName = [$eventName, $this];
         }
-        $args = func_get_args();
-        array_shift($args);
-        return EventDispatcher::trigger($eventName, $args);
+
+        $data = func_get_args();
+        array_shift($data);
+        return EventDispatcher::instance()->triggerArray($eventName, $data);
+    }
+
+    /**
+     * Gets an instance of the given Event Dispatcher name.
+     *
+     * ### Usage:
+     *
+     * ```php
+     * $this->eventDispatcher('myDispatcher')
+     *     ->trigger('MyEventName', $argument)
+     *     ->result;
+     * ```
+     *
+     * @param string $name Name of the dispatcher to get, defaults to 'default'
+     * @return \QuickApps\Event\EventDispatcher
+     */
+    public function eventDispatcher($name = 'default')
+    {
+        return EventDispatcher::instance($name);
+    }
+
+    /**
+     * Retrieves the number of times an event was triggered, or the complete list
+     * of events that were triggered.
+     *
+     * @param string|null $eventName The name of the event, if null returns the
+     *  entire list of event that were fired
+     * @return int|array
+     * @see QuickApps\Event\EventDispatcher::triggered()
+     */
+    public function triggered($eventName = null)
+    {
+        return EventDispatcher::instance()->triggered($eventName);
     }
 }

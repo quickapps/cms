@@ -52,7 +52,6 @@ use Cake\Core\Configure;
 use Cake\Database\Type;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
-use Cake\Event\EventManager;
 use Cake\Log\Log;
 use Cake\Network\Email\Email;
 use Cake\Network\Request;
@@ -60,7 +59,13 @@ use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Security;
 use Go\Aop\Features;
 use QuickApps\Core\Plugin;
+use QuickApps\Event\EventDispatcher;
 use QuickApps\Aspect\AppAspect;
+
+/**
+ * Configure default event dispatcher to use global event manager.
+ */
+EventDispatcher::instance()->eventManager(\Cake\Event\EventManager::instance());
 
 /**
  * Registers custom types.
@@ -216,7 +221,15 @@ Plugin::get()
 
         foreach ($plugin->eventListeners as $fullClassName) {
             if (class_exists($fullClassName)) {
-                EventManager::instance()->on(new $fullClassName);
+                if (str_ends_with($fullClassName, 'Field')) {
+                    EventDispatcher::instance('Field')->eventManager()->on(new $fullClassName);
+                } elseif (str_ends_with($fullClassName, 'Shortcode')) {
+                    EventDispatcher::instance('Shortcode')->eventManager()->on(new $fullClassName);
+                } else {
+                    EventDispatcher::instance()
+                        ->eventManager()
+                        ->on(new $fullClassName);
+                }
             }
         }
 

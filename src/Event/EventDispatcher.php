@@ -23,40 +23,136 @@ class EventDispatcher
 {
 
     /**
+     * Holds a list of all instances.
+     *
+     * @var array
+     */
+    protected static $_instances = [];
+
+    /**
      * Holds a list of all the events that were fired.
      *
      * @var array
      */
-    protected static $_log = [];
+    protected $_log = [];
+
+    /**
+     * EventManager used by this instance.
+     *
+     * @var \Cake\Event\EventManager\EventManager
+     */
+    protected $_eventManager = [];
+
+    /**
+     * Constructor.
+     *
+     */
+    public function __construct()
+    {
+        $this->_eventManager = new EventManager();
+    }
+
+    /**
+     * Gets or sets event manager instance associated to this dispatcher.
+     *
+     * @param \Cake\Event\EventManager|null $eventManager The instance to set
+     * @return \Cake\Event\EventManager
+     */
+    public function eventManager(EventManager $eventManager = null)
+    {
+        if ($eventManager !== null) {
+            $this->_eventManager = $eventManager;
+        }
+        return $this->_eventManager;
+    }
+
+    /**
+     * Gets an instance of this class.
+     *
+     * @param string $name Name of the Event Dispatcher instance to get, if does not
+     *  exists a new instance will be created and registered
+     * @return \QuickApps\Event\EventDispatcher
+     */
+    public static function instance($name = 'default')
+    {
+        if (!isset(static::$_instances[$name])) {
+            static::$_instances[$name] = new EventDispatcher();
+        }
+        return static::$_instances[$name];
+    }
 
     /**
      * Trigger the given event name.
      *
-     * You can provide a context to use by passing an array as first arguments where
-     * the first element is the event name and the second one is the context:
+     * ### Usage:
      *
      * ```php
-     * EventDispatcher::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
+     * EventDispatcher::instance()->trigger('GetTime', $arg0, $arg1, ..., $argn);
      * ```
      *
-     * If no context is given an instance of "EventDispatcher" class will be used by
+     * Your Event Listener must implement:
+     *
+     * ```php
+     * public function implementedEvents()
+     * {
+     *     return ['GetTime' => 'handlerForGetTime'];
+     * }
+     *
+     * public function handlerForGetTime(Event $event, $arg0, $arg1, ..., $argn)
+     * {
+     *     // logic
+     * }
+     * ```
+     *
+     * You can provide a subject to use by passing an array as first arguments where
+     * the first element is the event name and the second one is the subject:
+     *
+     * ```php
+     * EventDispatcher::instance()
+     *     ->trigger(['GetTime', new MySubject()], $arg0, $arg1, ..., $argn);
+     * ```
+     *
+     * If no subject is given an instance of "EventDispatcher" class will be used by
      * default.
      *
      * @param array|string $eventName The event name to trigger
-     * @param array $args Associative array of argument to pass to the Event handler method
-     * @return \Cake\Event\Event The event object that was fired
+     * @return \Cake\Event\Event The event object that was triggered
      */
-    public static function trigger($eventName, $args = [])
+    public function trigger($eventName)
     {
-        if (is_array($eventName)) {
-            list($eventName, $context) = $eventName;
-        } else {
-            $context = new EventDispatcher();
-        }
+        $data = func_get_args();
+        array_shift($data);
+        $event = $this->_prepareEvent($eventName, $data);
+        $this->_log($event->name());
+        $this->_eventManager->dispatch($event);
+        return $event;
+    }
 
-        static::_log($eventName);
-        $event = new Event($eventName, $context, $args);
-        EventManager::instance()->dispatch($event);
+    /**
+     * Similar to "trigger()" but this method expects that data is given as an
+     * associative array instead of function arguments.
+     *
+     * ### Usage:
+     *
+     * ```php
+     * EventDispatcher::instance()->triggerArray('myEvent', [$data1, $data2]);
+     * ```
+     *
+     * Which is equivalent to:
+     *
+     * ```php
+     * EventDispatcher::instance()->trigger('myEvent', $data1, $data2);
+     * ```
+     *
+     * @param array|string $eventName The event name to trigger
+     * @param array $data Information to be passed to event listener
+     * @return \Cake\Event\Event The event object that was triggered
+     */
+    public function triggerArray($eventName, array $data = [])
+    {
+        $event = $this->_prepareEvent($eventName, $data);
+        $this->_log($event->name());
+        $this->_eventManager->dispatch($event);
         return $event;
     }
 
@@ -70,18 +166,36 @@ class EventDispatcher
      *  Defaults to true
      * @return int|array
      */
-    public static function triggered($eventName = null, $sort = true)
+    public function triggered($eventName = null, $sort = true)
     {
         if ($eventName === null) {
             if ($sort) {
-                arsort(static::$_log, SORT_NATURAL);
+                arsort($this->_log, SORT_NATURAL);
             }
-            return static::$_log;
+            return $this->_log;
         }
-        if (isset(static::$_log[$eventName])) {
-            return static::$_log[$eventName];
+        if (isset($this->_log[$eventName])) {
+            return $this->_log[$eventName];
         }
         return 0;
+    }
+
+    /**
+     * Prepares the event object to be triggered.
+     *
+     * @param array|string $eventName The event name to trigger
+     * @param array $data Data to be passed to event listener method
+     * @return \Cake\Event\Event
+     */
+    protected function _prepareEvent($eventName, array $data = [])
+    {
+        if (is_array($eventName)) {
+            list($eventName, $subject) = $eventName;
+        } else {
+            $subject = new EventDispatcher();
+        }
+
+        return new Event($eventName, $subject, $data);
     }
 
     /**
@@ -90,12 +204,12 @@ class EventDispatcher
      * @param string $eventName The event name to log
      * @return void
      */
-    protected static function _log($eventName)
+    protected function _log($eventName)
     {
-        if (isset(static::$_log[$eventName])) {
-            static::$_log[$eventName]++;
+        if (isset($this->_log[$eventName])) {
+            $this->_log[$eventName]++;
         } else {
-            static::$_log[$eventName] = 1;
+            $this->_log[$eventName] = 1;
         }
     }
 }

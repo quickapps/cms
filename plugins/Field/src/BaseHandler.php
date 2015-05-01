@@ -59,28 +59,28 @@ class BaseHandler implements EventListenerInterface
         list(, $handlerName) = namespaceSplit(get_class($this));
         return [
             // Related to Entity:
-            "Field.{$handlerName}.Entity.display" => 'entityDisplay',
-            "Field.{$handlerName}.Entity.edit" => 'entityEdit',
-            "Field.{$handlerName}.Entity.find" => 'entityBeforeFind',
-            "Field.{$handlerName}.Entity.validate" => 'entityValidate',
-            "Field.{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
-            "Field.{$handlerName}.Entity.afterSave" => 'entityAfterSave',
-            "Field.{$handlerName}.Entity.beforeDelete" => 'entityBeforeDelete',
-            "Field.{$handlerName}.Entity.afterDelete" => 'entityAfterDelete',
-            "Field.{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
+            "{$handlerName}.Entity.display" => 'entityDisplay',
+            "{$handlerName}.Entity.edit" => 'entityEdit',
+            "{$handlerName}.Entity.find" => 'entityBeforeFind',
+            "{$handlerName}.Entity.validate" => 'entityValidate',
+            "{$handlerName}.Entity.beforeSave" => 'entityBeforeSave',
+            "{$handlerName}.Entity.afterSave" => 'entityAfterSave',
+            "{$handlerName}.Entity.beforeDelete" => 'entityBeforeDelete',
+            "{$handlerName}.Entity.afterDelete" => 'entityAfterDelete',
+            "{$handlerName}.Entity.fieldAttached" => 'entityFieldAttached',
 
             // Related to Instance:
-            "Field.{$handlerName}.Instance.info" => 'instanceInfo',
-            "Field.{$handlerName}.Instance.settingsForm" => 'instanceSettingsForm',
-            "Field.{$handlerName}.Instance.settingsDefaults" => 'instanceSettingsDefaults',
-            "Field.{$handlerName}.Instance.settingsValidate" => 'instanceSettingsValidate',
-            "Field.{$handlerName}.Instance.viewModeForm" => 'instanceViewModeForm',
-            "Field.{$handlerName}.Instance.viewModeDefaults" => 'instanceViewModeDefaults',
-            "Field.{$handlerName}.Instance.viewModeValidate" => 'instanceViewModeValidate',
-            "Field.{$handlerName}.Instance.beforeAttach" => 'instanceBeforeAttach',
-            "Field.{$handlerName}.Instance.afterAttach" => 'instanceAfterAttach',
-            "Field.{$handlerName}.Instance.beforeDetach" => 'instanceBeforeDetach',
-            "Field.{$handlerName}.Instance.afterDetach" => 'instanceAfterDetach',
+            "{$handlerName}.Instance.info" => 'instanceInfo',
+            "{$handlerName}.Instance.settingsForm" => 'instanceSettingsForm',
+            "{$handlerName}.Instance.settingsDefaults" => 'instanceSettingsDefaults',
+            "{$handlerName}.Instance.settingsValidate" => 'instanceSettingsValidate',
+            "{$handlerName}.Instance.viewModeForm" => 'instanceViewModeForm',
+            "{$handlerName}.Instance.viewModeDefaults" => 'instanceViewModeDefaults',
+            "{$handlerName}.Instance.viewModeValidate" => 'instanceViewModeValidate',
+            "{$handlerName}.Instance.beforeAttach" => 'instanceBeforeAttach',
+            "{$handlerName}.Instance.afterAttach" => 'instanceAfterAttach',
+            "{$handlerName}.Instance.beforeDetach" => 'instanceBeforeDetach',
+            "{$handlerName}.Instance.afterDetach" => 'instanceAfterDetach',
         ];
     }
 

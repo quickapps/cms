@@ -53,9 +53,9 @@ class EventDispatcherTest extends TestCase
      */
     public function testTriggered()
     {
-        $this->assertTrue(EventDispatcher::triggered('unexisting') === 0);
-        EventDispatcher::trigger('Test.hook');
-        $this->assertTrue(EventDispatcher::triggered('Test.hook') === 1);
+        $this->assertTrue(EventDispatcher::instance()->triggered('unexisting') === 0);
+        EventDispatcher::instance()->trigger('Test.hook');
+        $this->assertTrue(EventDispatcher::instance()->triggered('Test.hook') === 1);
     }
 
     /**
@@ -65,7 +65,7 @@ class EventDispatcherTest extends TestCase
      */
     public function testTrigger()
     {
-        $return = EventDispatcher::trigger('Test.hook');
+        $return = EventDispatcher::instance()->trigger('Test.hook');
         $this->assertTrue($return instanceof Event);
         $this->assertEquals($return->result, 'event response');
     }

@@ -216,7 +216,11 @@ trait FieldUIControllerTrait
             }
 
             $validator = $this->FieldInstances->validator('settings');
-            $this->trigger(["Field.{$instance->handler}.Instance.settingsValidate", $this->FieldInstances], $this->request->data(), $validator);
+            $this->eventDispatcher('Field')->trigger(
+                ["{$instance->handler}.Instance.settingsValidate", $this->FieldInstances],
+                $this->request->data(),
+                $validator
+            );
             $errors = $validator->errors($this->request->data(), false);
 
             if (empty($errors)) {
@@ -384,7 +388,11 @@ trait FieldUIControllerTrait
 
         if ($this->request->data()) {
             $validator = $this->FieldInstances->validator('viewMode');
-            $this->trigger(["Field.{$instance->handler}.Instance.viewModeValidate", $this->FieldInstances], $this->request->data(), $validator);
+            $this->eventDispatcher('Field')->trigger(
+                ["{$instance->handler}.Instance.viewModeValidate", $this->FieldInstances],
+                $this->request->data(),
+                $validator
+            );
             $errors = $validator->errors($this->request->data(), false);
 
             if (empty($errors)) {

@@ -191,6 +191,22 @@ class View extends CakeView
             }
         }
 
+        // parse shortcodes if not layout was applied
+        if (!$layout || !$this->autoLayout) {
+            $this->shortcodes($html);
+        }
+
+        return $html;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Parses shortcodes.
+     */
+    public function renderLayout($content, $layout = null)
+    {
+        $html = parent::renderLayout($content, $layout);
         return $this->shortcodes($html);
     }
 

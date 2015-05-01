@@ -15,6 +15,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Routing\Router;
 use QuickApps\Core\StaticCacheTrait;
+use QuickApps\Event\EventDispatcher;
 use QuickApps\View\View;
 
 /**
@@ -50,6 +51,13 @@ class ShortcodeParser
      * @var object
      */
     protected static $_defaultContext = null;
+
+    /**
+     * Holds a list of all registered shortcodes.
+     *
+     * @var array
+     */
+    protected static $_listeners = [];
 
     /**
      * Parser status.
@@ -92,7 +100,7 @@ class ShortcodeParser
      */
     public static function strip($text)
     {
-        $tagregexp = implode('|', array_map('preg_quote', listeners()));
+        $tagregexp = implode('|', array_map('preg_quote', static::_list()));
         return preg_replace('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', '$1$6', $text);
     }
 
@@ -104,7 +112,7 @@ class ShortcodeParser
      */
     public static function escape($text)
     {
-        $tagregexp = implode('|', array_map('preg_quote', listeners()));
+        $tagregexp = implode('|', array_map('preg_quote', static::_list()));
         preg_match_all('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', $text, $matches);
 
         foreach ($matches[0] as $ht) {
@@ -136,6 +144,23 @@ class ShortcodeParser
     public static function disable()
     {
         static::$_enabled = false;
+    }
+
+    /**
+     * Returns a list of all registered shortcodes.
+     *
+     * @return array
+     */
+    protected static function _list()
+    {
+        if (empty(static::$_listeners)) {
+            $manager = EventDispatcher::instance('Shortcode')->eventManager();
+            $class = new \ReflectionClass($manager);
+            $property = $class->getProperty('_listeners');
+            $property->setAccessible(true);
+            static::$_listeners = array_keys($property->getValue($manager));
+        }
+        return static::$_listeners;
     }
 
     /**
@@ -171,38 +196,37 @@ class ShortcodeParser
      */
     protected static function _regex()
     {
-        $tagregexp = implode('|', array_map('preg_quote', listeners()));
-
+        $tagregexp = implode('|', array_map('preg_quote', static::_list()));
         // @codingStandardsIgnoreStart
         return
-            '{'                                  // Opening brackets
-            . '({?)'                             // 1: Optional second opening bracket for escaping shortcode: {{tag}}
-            . "({$tagregexp})"                   // 2: Shortcode name
+            '\\{'                                // Opening bracket
+            . '(\\{?)'                           // 1: Optional second opening bracket for escaping shortcodes: {{tag}}
+            . "($tagregexp)"                     // 2: Shortcode name
             . '(?![\\w-])'                       // Not followed by word character or hyphen
             . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
-            .     '[^}\\/]*'                    // Not a closing bracket or forward slash
+            .     '[^\\}\\/]*'                   // Not a closing bracket or forward slash
             .     '(?:'
-            .         '\\/(?!})'                // A forward slash not followed by a closing bracket
-            .         '[^}\\/]*'                // Not a closing bracket or forward slash
+            .         '\\/(?!\\})'               // A forward slash not followed by a closing bracket
+            .         '[^\\}\\/]*'               // Not a closing bracket or forward slash
             .     ')*?'
             . ')'
             . '(?:'
             .     '(\\/)'                        // 4: Self closing tag ...
-            .     '}'                           // ... and closing bracket
+            .     '\\}'                          // ... and closing bracket
             . '|'
-            .     '}'                           // Closing bracket
+            .     '\\}'                          // Closing bracket
             .     '(?:'
             .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
-            .             '[^{]*+'              // Not an opening bracket
+            .             '[^\\{]*+'             // Not an opening bracket
             .             '(?:'
-            .                 '{(?!\\/\\2})'   // An opening bracket not followed by the closing shortcode tag
-            .                 '[^{]*+'          // Not an opening bracket
+            .                 '\\{(?!\\/\\2\\})' // An opening bracket not followed by the closing shortcode tag
+            .                 '[^\\{]*+'         // Not an opening bracket
             .             ')*+'
             .         ')'
-            .         '{\\/\\2}'               // Closing shortcode tag
+            .         '\\{\\/\\2\\}'             // Closing shortcode tag
             .     ')?'
             . ')'
-            . '(}?)';                            // 6: Optional second closing bracket for escaping shortcodes: {{tag}}
+            . '(\\}?)';                          // 6: Optional second closing brocket for escaping shortcodes: {{tag}}
         // @codingStandardsIgnoreEnd
     }
 
@@ -215,7 +239,6 @@ class ShortcodeParser
      */
     protected static function _doShortcode($m)
     {
-        $EventManager = EventManager::instance();
         // allow {{foo}} syntax for escaping a tag
         if ($m[1] == '{' && $m[6] == '}') {
             return substr($m[0], 1, -1);
@@ -223,7 +246,9 @@ class ShortcodeParser
 
         $tag = $m[2];
         $atts = static::_parseAttributes($m[3]);
-        $listeners = $EventManager->listeners($tag);
+        $listeners = EventDispatcher::instance('Shortcode')
+            ->eventManager()
+            ->listeners($tag);
 
         if (!empty($listeners)) {
             $options = [
@@ -236,9 +261,10 @@ class ShortcodeParser
                 $options['content'] = $m[5];
             }
 
-            $event = new Event($tag, static::cache('context'), $options);
-            $EventManager->dispatch($event);
-            return $m[1] . $event->result . $m[6];
+            $result = EventDispatcher::instance('Shortcode')
+                ->triggerArray([$tag, static::cache('context')], $options)
+                ->result;
+            return $m[1] . $result . $m[6];
         }
 
         return '';
