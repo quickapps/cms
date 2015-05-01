@@ -39,7 +39,7 @@ class EventDispatcher
     /**
      * EventManager used by this instance.
      *
-     * @var \Cake\Event\EventManager\EventManager
+     * @var \Cake\Event\EventManager
      */
     protected $_eventManager = [];
 
