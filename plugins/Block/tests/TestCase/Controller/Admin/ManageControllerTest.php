@@ -122,7 +122,6 @@ class ManageControllerTest extends IntegrationTestCase
         $this->get('/admin/block/manage/duplicate/1');
         $session = $this->_controller->request->session()->read('Flash');
         $flash = !empty($session['flash']['element']) ? $session['flash']['element'] : '';
-        $this->assertTextContains('success', $flash);
         $query = TableRegistry::get('Block.Blocks')->find()->where(['copy_id' => 1]);
         $this->assertEquals(1, $query->count());
     }
