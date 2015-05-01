@@ -14,7 +14,7 @@ namespace Comment\View\Helper;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
 use Captcha\CaptchaManager;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\View\Helper;
 
 /**
@@ -25,7 +25,7 @@ use QuickApps\View\Helper;
 class CommentHelper extends Helper
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * Renders a comments section for given entity.

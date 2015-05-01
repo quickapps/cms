@@ -13,7 +13,7 @@ namespace Field\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**
@@ -58,7 +58,7 @@ use QuickApps\View\ViewModeAwareTrait;
 class FieldHook implements EventListenerInterface
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ViewModeAwareTrait;
 
     /**

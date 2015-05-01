@@ -16,7 +16,7 @@ use Cake\Event\EventListenerInterface;
 use Cake\ORM\Entity;
 use Cake\Validation\Validator;
 use Field\Model\Entity\Field;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\Shortcode\ShortcodeTrait;
 
 /**
@@ -28,7 +28,7 @@ use QuickApps\Shortcode\ShortcodeTrait;
 class BaseHandler implements EventListenerInterface
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ShortcodeTrait;
 
     /**

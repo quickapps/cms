@@ -13,7 +13,7 @@ namespace QuickApps\View;
 
 use Cake\View\Helper as CakeHelper;
 use Quickapps\Core\StaticCacheTrait;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Application Helper
@@ -24,6 +24,6 @@ use QuickApps\Event\HookAwareTrait;
 class Helper extends CakeHelper
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use StaticCacheTrait;
 }

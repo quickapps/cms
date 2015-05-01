@@ -17,7 +17,7 @@ use Cake\Filesystem\Folder;
 use Installer\Shell\Task\ListenerHandlerTrait;
 use QuickApps\Core\Package\PluginPackage;
 use QuickApps\Core\Plugin;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use User\Utility\AcoManager;
 
 /**
@@ -29,7 +29,7 @@ use User\Utility\AcoManager;
 class PluginUninstallTask extends Shell
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * The plugin being managed by this task.

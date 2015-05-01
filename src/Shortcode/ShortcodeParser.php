@@ -15,7 +15,6 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\Routing\Router;
 use QuickApps\Core\StaticCacheTrait;
-use QuickApps\Event\HookAwareTrait;
 use QuickApps\View\View;
 
 /**
@@ -43,7 +42,6 @@ use QuickApps\View\View;
 class ShortcodeParser
 {
 
-    use HookAwareTrait;
     use StaticCacheTrait;
 
     /**

@@ -16,7 +16,7 @@ use Installer\Shell\Task\ListenerHandlerTrait;
 use QuickApps\Core\Package\PluginPackage;
 use QuickApps\Core\Package\Rule\RuleChecker;
 use QuickApps\Core\Plugin;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Plugin toggler, enables or disables a plugin.
@@ -25,7 +25,7 @@ use QuickApps\Event\HookAwareTrait;
 class PluginToggleTask extends Shell
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ListenerHandlerTrait;
 
     /**

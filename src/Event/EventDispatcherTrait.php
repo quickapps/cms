@@ -12,14 +12,14 @@
 namespace QuickApps\Event;
 
 use Cake\Event\Event;
-use QuickApps\Event\HookManager;
+use QuickApps\Event\EventDispatcher;
 
 /**
  * Provides trigger() method for dispatching events.
  *
- * @see QuickApps\Event\HookManager
+ * @see QuickApps\Event\EventDispatcher
  */
-trait HookAwareTrait
+trait EventDispatcherTrait
 {
 
     /**
@@ -29,11 +29,11 @@ trait HookAwareTrait
      * @param string|null $eventName The name of the event, if null returns the
      *  entire list of event that were fired
      * @return int|array
-     * @see QuickApps\Event\HookManager::triggered()
+     * @see QuickApps\Event\EventDispatcher::triggered()
      */
     public function triggered($eventName = null)
     {
-        return HookManager::triggered($eventName);
+        return EventDispatcher::triggered($eventName);
     }
 
     /**
@@ -66,7 +66,7 @@ trait HookAwareTrait
      *
      * @param array|string $eventName The event name to trigger
      * @return \Cake\Event\Event The event object that was fired
-     * @see QuickApps\Event\HookManager::trigger()
+     * @see QuickApps\Event\EventDispatcher::trigger()
      */
     public function trigger($eventName)
     {
@@ -75,6 +75,6 @@ trait HookAwareTrait
         }
         $args = func_get_args();
         array_shift($args);
-        return HookManager::trigger($eventName, $args);
+        return EventDispatcher::trigger($eventName, $args);
     }
 }

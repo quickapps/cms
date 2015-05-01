@@ -19,7 +19,7 @@ use Cake\Network\Response;
 use Cake\Utility\Hash;
 use Cake\View\View as CakeView;
 use QuickApps\Core\Plugin;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\Shortcode\ShortcodeTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
@@ -33,7 +33,7 @@ use QuickApps\View\ViewModeAwareTrait;
  */
 class View extends CakeView
 {
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ShortcodeTrait;
     use ViewModeAwareTrait;
 

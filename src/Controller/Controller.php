@@ -14,7 +14,7 @@ namespace QuickApps\Controller;
 use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Controller as CakeController;
 use QuickApps\Error\SiteUnderMaintenanceException;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\View\ViewModeAwareTrait;
 use ReflectionException;
 use ReflectionMethod;
@@ -28,7 +28,7 @@ use ReflectionMethod;
 class Controller extends CakeController
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ViewModeAwareTrait;
 
     /**

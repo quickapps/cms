@@ -20,7 +20,7 @@ use Cake\Validation\Validation;
 use QuickApps\Core\Package\PluginPackage;
 use QuickApps\Core\Package\Rule\RuleChecker;
 use QuickApps\Core\Plugin;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use User\Utility\AcoManager;
 
 /**
@@ -32,7 +32,7 @@ use User\Utility\AcoManager;
 class PluginInstallTask extends Shell
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ListenerHandlerTrait;
 
     /**

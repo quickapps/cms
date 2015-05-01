@@ -19,7 +19,7 @@ use Cake\Event\EventManager;
  *
  * @link http://api.quickappscms.org/book/developers/events-system.html
  */
-class HookManager
+class EventDispatcher
 {
 
     /**
@@ -36,10 +36,11 @@ class HookManager
      * the first element is the event name and the second one is the context:
      *
      * ```php
-     * HookManager::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
+     * EventDispatcher::trigger(['GetTime', new ContextObject()], ['arg0' => 'val0', ...]);
      * ```
      *
-     * If no context is given an instance of "HookManager" class will be used by default.
+     * If no context is given an instance of "EventDispatcher" class will be used by
+     * default.
      *
      * @param array|string $eventName The event name to trigger
      * @param array $args Associative array of argument to pass to the Event handler method
@@ -50,7 +51,7 @@ class HookManager
         if (is_array($eventName)) {
             list($eventName, $context) = $eventName;
         } else {
-            $context = new HookManager();
+            $context = new EventDispatcher();
         }
 
         static::_log($eventName);

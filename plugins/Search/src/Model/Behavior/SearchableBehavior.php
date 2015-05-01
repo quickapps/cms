@@ -19,7 +19,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use Search\Operator;
 use Search\Token;
 
@@ -293,7 +293,7 @@ use Search\Token;
 class SearchableBehavior extends Behavior
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * The table this behavior is attached to.

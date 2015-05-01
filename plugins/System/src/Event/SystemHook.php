@@ -13,7 +13,7 @@ namespace System\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Main Hook Listener for System plugin.
@@ -22,7 +22,7 @@ use QuickApps\Event\HookAwareTrait;
 class SystemHook implements EventListenerInterface
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * Returns a list of hooks this Hook Listener is implementing. When the class is

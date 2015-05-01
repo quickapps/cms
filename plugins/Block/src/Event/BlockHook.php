@@ -20,7 +20,7 @@ use Cake\Event\EventManager;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use QuickApps\Core\StaticCacheTrait;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Block rendering dispatcher.
@@ -69,7 +69,7 @@ use QuickApps\Event\HookAwareTrait;
 class BlockHook implements EventListenerInterface
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use StaticCacheTrait;
 
     /**

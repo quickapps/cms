@@ -12,7 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Represents an "instance" from the "field_instances" database table.
@@ -31,7 +31,7 @@ use QuickApps\Event\HookAwareTrait;
 class FieldInstance extends Entity
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * Gets a human-readable name of the field handler class.

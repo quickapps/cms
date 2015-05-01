@@ -19,7 +19,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Field\Model\Entity\FieldInstance;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\View\ViewModeAwareTrait;
 use \ArrayObject;
 
@@ -42,7 +42,7 @@ use \ArrayObject;
 class FieldInstancesTable extends Table
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ViewModeAwareTrait;
 
     /**

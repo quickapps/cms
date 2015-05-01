@@ -14,12 +14,12 @@ namespace QuickApps\Test\TestCase\Event;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\TestSuite\TestCase;
-use QuickApps\Event\HookManager;
+use QuickApps\Event\EventDispatcher;
 
 /**
- * HookTest class.
+ * EventDispatcherTest class.
  */
-class HookManagerTest extends TestCase
+class EventDispatcherTest extends TestCase
 {
 
     /**
@@ -53,9 +53,9 @@ class HookManagerTest extends TestCase
      */
     public function testTriggered()
     {
-        $this->assertTrue(HookManager::triggered('unexisting') === 0);
-        HookManager::trigger('Test.hook');
-        $this->assertTrue(HookManager::triggered('Test.hook') === 1);
+        $this->assertTrue(EventDispatcher::triggered('unexisting') === 0);
+        EventDispatcher::trigger('Test.hook');
+        $this->assertTrue(EventDispatcher::triggered('Test.hook') === 1);
     }
 
     /**
@@ -65,7 +65,7 @@ class HookManagerTest extends TestCase
      */
     public function testTrigger()
     {
-        $return = HookManager::trigger('Test.hook');
+        $return = EventDispatcher::trigger('Test.hook');
         $this->assertTrue($return instanceof Event);
         $this->assertEquals($return->result, 'event response');
     }

@@ -20,7 +20,7 @@ use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use QuickApps\Core\Plugin;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**
@@ -40,7 +40,7 @@ use \ArrayObject;
 class BlocksTable extends Table
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * Get the Model callbacks this table is interested in.

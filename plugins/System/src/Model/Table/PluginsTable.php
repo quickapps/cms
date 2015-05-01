@@ -18,7 +18,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**
@@ -28,7 +28,7 @@ use \ArrayObject;
 class PluginsTable extends Table
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * Get the Model callbacks this table is interested in.

@@ -13,7 +13,7 @@ namespace Installer\Shell\Task;
 
 use Cake\Console\Shell;
 use QuickApps\Core\Plugin;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Task for switching site's theme.
@@ -22,7 +22,7 @@ use QuickApps\Event\HookAwareTrait;
 class ThemeActivationTask extends Shell
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ListenerHandlerTrait;
 
     /**

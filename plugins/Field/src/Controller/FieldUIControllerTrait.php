@@ -20,7 +20,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**
@@ -70,7 +70,7 @@ use QuickApps\View\ViewModeAwareTrait;
 trait FieldUIControllerTrait
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ViewModeAwareTrait;
 
     /**

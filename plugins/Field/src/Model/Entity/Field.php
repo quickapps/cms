@@ -12,7 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\View\ViewModeAwareTrait;
 
 /**
@@ -47,7 +47,7 @@ use QuickApps\View\ViewModeAwareTrait;
 class Field extends Entity
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
     use ViewModeAwareTrait;
 
     /**

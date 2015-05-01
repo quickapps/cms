@@ -10,7 +10,7 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
-use QuickApps\Event\HookManager;
+use QuickApps\Event\EventDispatcher;
 
 if (!function_exists('fieldsInfo')) {
     /**
@@ -49,7 +49,7 @@ if (!function_exists('fieldsInfo')) {
                     'handler' => $handler,
                     'maxInstances' => 0,
                     'searchable' => true,
-                ], (array)HookManager::trigger($listener)->result);
+                ], (array)EventDispatcher::trigger($listener)->result);
                 $fields[$handler] = $response;
             }
         }

@@ -16,7 +16,7 @@ namespace QuickApps\View\Helper;
 
 use Cake\View\Helper;
 use Cake\View\Helper\UrlHelper as CakeUrlHelper;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * UrlHelper class for generating urls.
@@ -24,5 +24,5 @@ use QuickApps\Event\HookAwareTrait;
 class UrlHelper extends CakeUrlHelper
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 }

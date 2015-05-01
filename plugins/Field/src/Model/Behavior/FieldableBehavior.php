@@ -23,7 +23,7 @@ use Cake\Validation\Validator;
 use Eav\Model\Behavior\EavBehavior;
 use Field\Collection\FieldCollection;
 use Field\Model\Entity\Field;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**
@@ -58,7 +58,7 @@ use \ArrayObject;
 class FieldableBehavior extends EavBehavior
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * Used for reduce BD queries and allow inter-method communication.

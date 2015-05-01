@@ -16,7 +16,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Menu\Model\Entity\Menu;
-use QuickApps\Event\HookAwareTrait;
+use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**
@@ -26,7 +26,7 @@ use \ArrayObject;
 class MenusTable extends Table
 {
 
-    use HookAwareTrait;
+    use EventDispatcherTrait;
 
     /**
      * Initialize a table instance. Called after the constructor.
