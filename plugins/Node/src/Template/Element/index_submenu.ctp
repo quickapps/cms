@@ -26,5 +26,6 @@ $menuItems = [[
     'activation' => 'any',
     'active' => '/admin/node/comments*',
 ]];
+?>
 
-echo $this->Menu->render($menuItems, ['class' => 'nav nav-pills']);
+<p><?php echo $this->Menu->render($menuItems, ['class' => 'nav nav-pills']); ?></p>
