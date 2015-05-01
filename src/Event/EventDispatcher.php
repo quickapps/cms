@@ -17,7 +17,7 @@ use Cake\Event\EventManager;
 /**
  * Provides trigger() method for dispatching events.
  *
- * @link http://api.quickappscms.org/book/developers/events-system.html
+ * @link http://book.quickappscms.org/2.0/developers/events-system.html
  */
 class EventDispatcher
 {
