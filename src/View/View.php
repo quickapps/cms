@@ -271,6 +271,19 @@ class View extends CakeView
     }
 
     /**
+     * {@inheritDoc}
+     */
+    protected function _evaluate($viewFile, $dataForView)
+    {
+        $this->__viewFile = $viewFile;
+        extract($dataForView);
+        ob_start();
+        include $this->__viewFile;
+        unset($this->__viewFile);
+        return ob_get_clean();
+    }
+
+    /**
      * Sets title for layout.
      *
      * It sets `title_for_layout` view variable, if no previous title was set on
