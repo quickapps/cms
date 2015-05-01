@@ -11,8 +11,11 @@
  */
 
 /**
- * Backend themes should always implement both "dashboard-main" and
- * "dashboard-sidebar" in order to properly fill this page.
+ * Backend themes should implement both regions "dashboard-main" and "dashboard-
+ * sidebar" in order to properly fill this page. Or they can "override" this
+ * template creating their own and place it at
+ * `MyTheme/Template/Plugin/System/Dashboard/index`, and then implement any desired
+ * region.
  */
 ?>
 
