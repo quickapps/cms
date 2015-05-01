@@ -101,7 +101,7 @@ class LanguageFilter extends RoutingFilter
             !preg_match("/\/{$localesPattern}\//", $normalizedURL)
         ) {
             $url = Router::url('/' . I18n::locale() . $normalizedURL, true);
-            http_response_code(200);
+            http_response_code(303);
             header("Location: {$url}");
             die;
         }
