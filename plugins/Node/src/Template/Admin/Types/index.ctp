@@ -19,9 +19,9 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="text-right">
+        <p class="text-right">
             <?php echo $this->Html->link(__d('node', 'Define new content type'), ['plugin' => 'Node', 'controller' => 'types', 'action' => 'add'], ['class' => 'btn btn-primary']); ?>
-        </div>
+        </p>
     </div>
 </div>
 

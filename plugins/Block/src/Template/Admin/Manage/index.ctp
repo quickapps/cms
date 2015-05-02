@@ -15,7 +15,7 @@ use QuickApps\Core\Plugin;
 
 <div class="row">
     <div class="col-md-12">
-        <div class="text-right">
+        <p class="text-right">
             <?php
                 echo $this->Html->link(__d('block', 'Create New Block'), [
                     'plugin' => 'Block',
@@ -25,7 +25,7 @@ use QuickApps\Core\Plugin;
                     'class' => 'btn btn-primary'
                 ]);
             ?>
-        </div>
+        </p>
     </div>
 </div>
 

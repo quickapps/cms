@@ -19,15 +19,19 @@
 </div>
 <?php echo $this->fetch('afterSubmenu'); ?>
 
-<div class="clearfix">
-    <?php echo $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline pull-right']); ?>
-        <div class="input-group">
-            <?php echo $this->Form->input('search', ['type' => 'text', 'label' => false, 'value' => $search]); ?>
-            <span class="input-group-btn">
-                <?php echo $this->Form->submit(__d('comment', 'Search Comments')); ?>
-            </span>
-        </div>
-    <?php echo $this->Form->end(); ?>
+<div class="row">
+    <div class="col-md-12">
+        <p>
+            <?php echo $this->Form->create(null, ['type' => 'get', 'class' => 'form-inline pull-right']); ?>
+                <div class="input-group">
+                    <?php echo $this->Form->input('search', ['type' => 'text', 'label' => false, 'value' => $search]); ?>
+                    <span class="input-group-btn">
+                        <?php echo $this->Form->submit(__d('comment', 'Search Comments')); ?>
+                    </span>
+                </div>
+            <?php echo $this->Form->end(); ?>
+        </p>
+    </div>
 </div>
 
 <?php echo $this->fetch('beforeTable'); ?>

@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div class="text-right">
+        <p class="text-right">
             <?php
                 echo $this->Html->link(__d('menu', 'Create new menu'), [
                     'plugin' => 'Menu',
@@ -23,7 +23,7 @@
                     'class' => 'btn btn-primary'
                 ]);
             ?>
-        </div>
+        </p>
     </div>
 </div>
 

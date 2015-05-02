@@ -19,28 +19,29 @@
 
 <div class="row">
     <div class="col-md-8">
-        <?php
-            echo $this->Html->link(__d('user','{plus_icon} New User', ['plus_icon' => '<span class="glyphicon glyphicon-plus"></span>']),
-                [
-                    'plugin' => 'User',
-                    'controller' => 'manage',
-                    'action' => 'add'
-                ], [
-                    'class' => 'btn btn-primary',
-                    'escape' => false,
-                ]
-            );
-        ?>
-    </div>
-    <div class="col-md-4">
         <p>
-            <?php echo $this->Form->create(null, ['type' => 'get']); ?>
-            <div class="input-group">
-                <?php echo $this->Form->input('filter', ['label' => false]) ?>
-                <span class="input-group-btn"><?php echo $this->Form->submit(__d('user', 'Search Users')); ?></span>
-            </div>
-            <?php echo $this->Form->end(); ?>
+            <?php
+                echo $this->Html->link(__d('user','{plus_icon} New User', ['plus_icon' => '<span class="glyphicon glyphicon-plus"></span>']),
+                    [
+                        'plugin' => 'User',
+                        'controller' => 'manage',
+                        'action' => 'add'
+                    ], [
+                        'class' => 'btn btn-primary',
+                        'escape' => false,
+                    ]
+                );
+            ?>
         </p>
+    </div>
+
+    <div class="col-md-4">
+        <?php echo $this->Form->create(null, ['type' => 'get']); ?>
+        <div class="input-group">
+            <?php echo $this->Form->input('filter', ['label' => false]) ?>
+            <span class="input-group-btn"><?php echo $this->Form->submit(__d('user', 'Search Users')); ?></span>
+        </div>
+        <?php echo $this->Form->end(); ?>
     </div>
 </div>
 
