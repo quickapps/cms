@@ -155,10 +155,7 @@ class ShortcodeParser
     {
         if (empty(static::$_listeners)) {
             $manager = EventDispatcher::instance('Shortcode')->eventManager();
-            $class = new \ReflectionClass($manager);
-            $property = $class->getProperty('_listeners');
-            $property->setAccessible(true);
-            static::$_listeners = array_keys($property->getValue($manager));
+            static::$_listeners = listeners($manager);
         }
         return static::$_listeners;
     }

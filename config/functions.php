@@ -394,16 +394,22 @@ if (!function_exists('theme')) {
 
 if (!function_exists('listeners')) {
     /**
-     * Returns a list of all registered event listeners in the global event manager.
+     * Returns a list of all registered event listeners within the provided event
+     * manager, or within the global manager if not provided.
      *
+     * @param \Cake\Event\EventManager\null $manager Event manager instance, or null
+     *  to use global manager instance.
      * @return array
      */
-    function listeners()
+    function listeners(EventManager $manager = null)
     {
-        $class = new \ReflectionClass(EventManager::instance());
+        if ($manager === null) {
+            $manager = EventManager::instance();
+        }
+        $class = new \ReflectionClass($manager);
         $property = $class->getProperty('_listeners');
         $property->setAccessible(true);
-        $listeners = array_keys($property->getValue(EventManager::instance()));
+        $listeners = array_keys($property->getValue($manager));
         return $listeners;
     }
 }

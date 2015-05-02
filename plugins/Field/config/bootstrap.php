@@ -14,7 +14,7 @@ use QuickApps\Event\EventDispatcher;
 
 if (!function_exists('fieldsInfo')) {
     /**
-     * Gets a collection of information of every registered field in the system., or
+     * Gets a collection of information of every registered field in the system, or
      * information for a particular field.
      *
      * Some fields may register themselves as hidden when they are intended to be
@@ -30,17 +30,16 @@ if (!function_exists('fieldsInfo')) {
      * ```
      *
      * @param string|null $field Field for which get its information as an array, or
-     *  null (default) to get a all of them as a collection.
+     *  null (default) to get all of them as a collection.
      * @return \Cake\Collection\Collection|array A collection of fields information
      */
     function fieldsInfo($field = null)
     {
         $fields = [];
-        foreach (listeners() as $listener) {
-            if (strpos($listener, 'Field.') === 0 &&
-                str_ends_with($listener, '.Instance.info')
-            ) {
-                $handler = explode('.', $listener)[1];
+        $eventManager = EventDispatcher::instance('Field')->eventManager();
+        foreach (listeners($eventManager) as $listener) {
+            if (str_ends_with($listener, '.Instance.info')) {
+                $handler = explode('.', $listener)[0];
                 $response = array_merge([
                     'type' => 'varchar',
                     'name' => null,
@@ -49,7 +48,7 @@ if (!function_exists('fieldsInfo')) {
                     'handler' => $handler,
                     'maxInstances' => 0,
                     'searchable' => true,
-                ], (array)EventDispatcher::trigger($listener)->result);
+                ], (array)EventDispatcher::instance('Field')->trigger($listener)->result);
                 $fields[$handler] = $response;
             }
         }
