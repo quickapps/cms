@@ -57,12 +57,19 @@ class SystemShortcode implements EventListenerInterface
      */
     public function shortcodeRandom(Event $event, array $atts, $content, $tag)
     {
-        $elements = explode(',', trim($content));
-        if (is_array($elements)) {
-            return $elements[array_rand($elements)];
+        if (strpos($content, ',') === false) {
+            return '';
         }
 
-        return '';
+        $elements = explode(',', trim($content));
+        $elements = array_map('trim', $elements);
+        $c = count($elements);
+
+        if ($c == 2 && is_numeric($elements[0]) && is_numeric($elements[1])) {
+            return rand($elements[0], $elements[1]);
+        }
+
+        return $elements[array_rand($elements)];
     }
 
     /**
