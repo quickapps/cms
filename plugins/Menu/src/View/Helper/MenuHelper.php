@@ -50,7 +50,7 @@ class MenuHelper extends Helper
      * - `split`: Split menu into multiple root menus (multiple UL's). Must be an integer,
      *    or false for no split (by default).
      * - `breadcrumbGuessing`: Whether to mark an item as "active" if its URL is on
-     *   the breadcrumb stack. Default to false.
+     *   the breadcrumb stack. Default to true.
      * - `templates`: HTML templates used when formating items.
      *   - `div`: Template of the wrapper element which holds all menus when using `split`.
      *   - `root`: Top UL/OL menu template.
@@ -102,7 +102,7 @@ class MenuHelper extends Helper
         'lastClass' => 'last-item',
         'hasChildrenClass' => 'has-children',
         'split' => false,
-        'breadcrumbGuessing' => false,
+        'breadcrumbGuessing' => true,
         'templates' => [
             'div' => '<div{{attrs}}>{{content}}</div>',
             'root' => '<ul{{attrs}}>{{content}}</ul>',

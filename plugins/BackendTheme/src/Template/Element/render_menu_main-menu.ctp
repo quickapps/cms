@@ -16,7 +16,6 @@
 echo $this->Menu->render($menu->links, [
     'class' => 'sidebar-menu',
     'hasChildrenClass' => 'treeview',
-    'breadcrumbGuessing' => true,
     'formatter' => function ($item, $info) {
         $options = [];
         if ($info['depth'] > 0) {

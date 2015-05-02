@@ -32,12 +32,12 @@ class LinkHelper extends Helper
      * Default configuration for this class.
      *
      * - `breadcrumbGuessing`: Whether to mark an item as "active" if its URL is on
-     *   the breadcrumb stack. Defaults to false
+     *   the breadcrumb stack. Defaults to true
      *
      * @var array
      */
     protected $_defaultConfig = [
-        'breadcrumbGuessing' => false,
+        'breadcrumbGuessing' => true,
     ];
 
     /**
