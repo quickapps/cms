@@ -18,6 +18,7 @@ use Cake\Utility\Inflector;
         <?php echo $this->Form->create($block, ['role' => 'form']); ?>
             <fieldset>
                 <legend><?php echo __d('block', 'Block Information'); ?></legend>
+
                 <?php echo $this->Form->input('title', ['label' => __d('block', 'Title *')]); ?>
                 <em class="help-block"><?php echo __d('block', 'The title of the block as shown to the user.'); ?></em>
 
@@ -31,18 +32,27 @@ use Cake\Utility\Inflector;
                     <?php echo $this->Form->input('body', ['label' => __d('block', 'Body *'), 'class' => 'ckeditor']); ?>
                     <em class="help-block"><?php echo __d('block', 'The content of the block as shown to the user.'); ?></em>
                 <?php else: ?>
-                    <!-- handler:<?php echo $block->handler; ?> -->
                     <?php $this->Form->prefix('settings:'); ?>
                     <?php
                         $eventName = Inflector::variable('settings_' . $block->get('delta'));
                         if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-                            echo $this->trigger("Block.{$block->handler}.{$eventName}", $block)->result;
+                            $settings = $this->trigger("Block.{$block->handler}.{$eventName}", $block)->result;
                         } else {
-                            echo $this->trigger("Block.{$block->handler}.settings", $block)->result;
+                            $settings = $this->trigger("Block.{$block->handler}.settings", $block)->result;
                         }
                         ?>
                     <?php $this->Form->prefix(''); ?>
-                    <!-- /handler:<?php echo $block->handler; ?> -->
+
+                    <?php if (!empty($settings)): ?>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><?php echo __d('block', 'Widget Settings'); ?></h3>
+                            </div>
+                            <div class="panel-body">
+                                <?php echo $settings; ?>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 <?php endif; ?>
 
                 <?php echo $this->Form->input('locale', ['type' => 'select', 'error' => false, 'label' => __d('block', 'Language'), 'options' => $languages, 'multiple' => 'checkbox']); ?>
@@ -50,8 +60,11 @@ use Cake\Utility\Inflector;
             </fieldset>
 
             <fieldset>
-                <legend><?php echo __d('block', 'Theme Region'); ?></legend>
-                <em class="help-block"><?php echo __d('block', 'Specify in which themes and regions this block is displayed.'); ?></em>
+                <legend>
+                    <?php echo __d('block', 'Theme Region'); ?><br />
+                    <small class="text-muted"><?php echo __d('block', 'Specify in which themes and regions this block is displayed.'); ?></small>
+                </legend>
+
                 <?php foreach ($regions as $info): ?>
                     <?php
                         echo $this->Form->input("region.{$info['theme_machine_name']}", [
@@ -81,13 +94,13 @@ use Cake\Utility\Inflector;
                 ?>
 
                 <?php echo $this->Form->input('pages', ['label' => false, 'rows' => 5]); ?>
-                <em class="help-block"><?php echo __d('block', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?></em>
-                <em class="help-block"><?php echo __d('block', 'If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:'); ?></em>
-                <em class="help-block"><?php echo __d('block', '<code>/product/*.html</code> Matches any product page.'); ?></em>
-                <em class="help-block"><?php echo __d('block', '<code>/find/*type:article*</code> Matches any search result containing articles.'); ?></em>
-                <em class="help-block"><?php echo __d('block', "<code>/</code> Matches site's front page (a.k.a. site's index)."); ?></em>
-
-                <hr />
+                <em class="help-block">
+                    <?php echo __d('block', 'Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page.'); ?><br />
+                    <?php echo __d('block', 'If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:'); ?><br />
+                    <?php echo __d('block', '<code>/product/*.html</code> Matches any product page.'); ?><br />
+                    <?php echo __d('block', '<code>/find/*type:article*</code> Matches any search result containing articles.'); ?><br />
+                    <?php echo __d('block', "<code>/</code> Matches site's front page (a.k.a. site's index)."); ?>
+                </em>
 
                 <?php echo $this->Form->input('roles._ids', ['type' => 'select', 'options' => $roles, 'multiple' => true, 'label' => __d('block', 'Show Block For Specific Roles')]); ?>
                 <em class="help-block">(<?php echo __d('block', 'Show this block only for the selected role(s). If you select no roles, the block will be visible to all users.'); ?>)</em>

@@ -18,19 +18,13 @@
                 <fieldset>
                     <legend><?php echo __d('node', 'Translating Content'); ?></legend>
 
-                    <div class="form-group">
-                        <?php echo $this->Form->input('title', ['label' => $node->node_type->title_label . ' *']); ?>
-                        <em class="help-block"><?php echo __d('node', 'New title for the translated version.'); ?></em>
-                    </div>
+                    <?php echo $this->Form->input('title', ['label' => $node->node_type->title_label . ' *']); ?>
+                    <em class="help-block"><?php echo __d('node', 'New title for the translated version.'); ?></em>
 
-                    <div class="form-group">
-                        <?php echo $this->Form->input('language', ['type' => 'select', 'label' => __d('node', 'Translate to'), 'options' => $languages]); ?>
-                        <em class="help-block"><?php echo __d('node', 'Select the language to which you desire translate this content.'); ?></em>
-                    </div>
+                    <?php echo $this->Form->input('language', ['type' => 'select', 'label' => __d('node', 'Translate to'), 'options' => $languages]); ?>
+                    <em class="help-block"><?php echo __d('node', 'Select the language to which you desire translate this content.'); ?></em>
 
-                    <div class="form-group">
-                        <?php echo $this->Form->submit( __d('node', 'Continue')); ?>
-                    </div>
+                    <?php echo $this->Form->submit( __d('node', 'Continue')); ?>
 
                     <?php if ($translations->count()): ?>
                         <h3><?php echo __d('node', 'Available Translations'); ?></h3>
