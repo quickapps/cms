@@ -533,12 +533,8 @@ trait FieldUIControllerTrait
     protected function _getInstances()
     {
         $conditions = ['EavAttribute.table_alias' => $this->_tableAlias];
-        if (isset($this->_bundle)) {
-            if (empty($this->_bundle)) {
-                $conditions['EavAttribute.bundle'] = $this->_bundle;
-            } else {
-                $conditions['EavAttribute.bundle LIKE'] = $this->_bundle;
-            }
+        if (!empty($this->_bundle)) {
+            $conditions['EavAttribute.bundle'] = $this->_bundle;
         }
 
         $this->loadModel('Field.FieldInstances');
