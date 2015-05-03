@@ -17,7 +17,6 @@ use Cake\Event\Event;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use QuickApps\Core\Plugin;
 use \ArrayObject;
 
 /**

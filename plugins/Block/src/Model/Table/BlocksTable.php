@@ -19,7 +19,6 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
-use QuickApps\Core\Plugin;
 use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
 
