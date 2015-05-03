@@ -245,7 +245,6 @@ if (!$activePlugins) {
  */
 AppAspect::getInstance()->init([
     'debug' => Configure::read('debug'),
-    'appDir' => SITE_ROOT,
     'cacheDir' => TMP . 'aop',
     'includePaths' => [
         SITE_ROOT . DS . 'plugins',
