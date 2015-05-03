@@ -23,5 +23,9 @@
         <?php if ($user->public_email): ?>
             <p><strong><?php echo __d('user', 'Email'); ?>:</strong> <?php echo $user->email; ?></p>
         <?php endif; ?>
+
+        <?php foreach ($user->_fields as $field): ?>
+            <p><?php echo $this->render($field); ?></p>
+        <?php endforeach; ?>
     </div>
 </div>

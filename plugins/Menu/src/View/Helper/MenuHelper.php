@@ -132,19 +132,16 @@ class MenuHelper extends Helper
     /**
      * Constructor.
      *
-     * @param View $View The View this helper is being attached to
-     * @param array $config Configuration settings for the helper, will replace
-     *  'self::$_deaultConfig' property.
+     * @param View $view The View this helper is being attached to
+     * @param array $config Configuration settings for the helper, will have no
+     *  effect as configuration is set on every `render()` call
      */
-    public function __construct(View $View, $config = [])
+    public function __construct(View $view, array $config = [])
     {
-        if (empty($config['formatter'])) {
-            $this->_defaultConfig['formatter'] = function ($entity, $info) {
-                return $this->formatter($entity, $info);
-            };
-        }
-        parent::__construct($View, $config);
-        $this->_defaultConfig = $this->config();
+        $this->_defaultConfig['formatter'] = function ($entity, $info) {
+            return $this->formatter($entity, $info);
+        };
+        parent::__construct($view, $config);
     }
 
     /**

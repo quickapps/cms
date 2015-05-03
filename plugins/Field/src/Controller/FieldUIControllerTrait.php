@@ -35,9 +35,9 @@ use QuickApps\View\ViewModeAwareTrait;
  * # Usage:
  *
  * Beside adding `use FieldUIControllerTrait;` to your controller you MUST also
- * indicate the name of the table being managed using the `$_manageTable`
- * property, you must set this property to any valid table alias within your system
- * (dot notation is also allowed). For example:
+ * indicate the name of the table being managed using the **$_manageTable
+ * property**, you must set this property to any valid table alias within your
+ * system (dot notation is also allowed). For example:
  *
  * ```php
  * uses Field\Controller\FieldUIControllerTrait;
@@ -49,7 +49,7 @@ use QuickApps\View\ViewModeAwareTrait;
  * ```
  *
  * Optionally you can indicate a bundle within your table to manage by declaring the
- * `$_bundle` property:
+ * **$_bundle property**:
  *
  * ```php
  * uses Field\Controller\FieldUIControllerTrait;
@@ -545,10 +545,7 @@ trait FieldUIControllerTrait
         return $this->FieldInstances
             ->find()
             ->contain(['EavAttribute'])
-            ->where([
-                'EavAttribute.table_alias' => $this->_tableAlias,
-                'EavAttribute.bundle' => $this->_bundle,
-            ])
+            ->where($conditions)
             ->order(['FieldInstances.ordering' => 'ASC'])
             ->all();
     }
