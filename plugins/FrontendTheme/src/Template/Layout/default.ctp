@@ -80,7 +80,7 @@
             <footer>
                 <p class="text-center">
                     <small>
-                        <?php echo __d('backend_theme', 'Powered by <a href="http://www.quickappscms.org/">QuickAppsCMS</a> v{0}.', quickapps('version')); ?>
+                        <?php echo __d('fontend_theme', 'Powered by <a href="http://www.quickappscms.org/">QuickAppsCMS</a> v{0}.', quickapps('version')); ?>
                     </small>
                 </p>
             </footer>

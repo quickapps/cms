@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-11 23:23+0000\n"
+"POT-Creation-Date: 2015-05-03 00:19+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,485 +14,483 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:92
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:92
 msgid "CommentUIControllerTrait: The property $_manageTable was not found or is empty."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:94
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:94
 msgid "CommentUIControllerTrait: This trait must be used on instances of Cake\\Controller\\Controller."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:96
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:96
 msgid "CommentUIControllerTrait: This trait must be used on backend-controllers only."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:98
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:98
 msgid "CommentUIControllerTrait: This trait needs you to implement the \"_inResponseTo()\" method."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:242
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:220
+msgid "Comments List"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:243
 msgid "Comment could not be found."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:253
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:254
 msgid "Comment saved!."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:256
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:257
 msgid "Comment could not be saved, please check your information."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:299
-msgid "Comment was successfully deleted!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:301
-msgid "Comment could not be deleted, please try again."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:304
-msgid "Invalid comment, comment was not found."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:319
-msgid "All comments in trash were successfully removed!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:136
-msgid "Your comment could not be saved, please check your information."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:141
-msgid "Comment saved!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:144
-msgid "Your comment is awaiting moderation."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:480
-msgid "Invalid user."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:493
-msgid "Invalid user, please try again."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:515
-msgid "We were not able to verify you as human. Please try again."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:53
-msgid "anonymous"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:54;91
-msgid "Anonymous"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:55
-msgid "(no website)"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:56
-msgid "(no email given)"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:57
-msgid "You need to provide a comment subject."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:67
-msgid "Your comment message cannot be empty"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:96
-msgid "Invalid parent comment!."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:120
-msgid "Your name need to be at least 3 characters long."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:124
-msgid "You must provide your name."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:135
-msgid "e-Mail must be valid."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:139
-msgid "You must provide an email."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:150
-msgid "Website must be a valid URL."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:154
-msgid "You must provide a website URL."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:16
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:261
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:18
 msgid "Editing Comment"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:21
-msgid "Author Name *"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:282
+msgid "Change Comment Status"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:21
-msgid "Author Name"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:302
+msgid "Comment was successfully deleted!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:26
-msgid "Author e-Mail *"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:304
+msgid "Comment could not be deleted, please try again."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:26
-msgid "Author e-Mail"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:307
+msgid "Invalid comment, comment was not found."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:31
-msgid "Author Website *"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:310
+msgid "Delete Comment"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:31
-msgid "Author Website"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:323
+msgid "All comments in trash were successfully removed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:48
-msgid "Subject"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:52
-msgid "Status"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:54
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:60
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:20
-msgid "Approved"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:55
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:64
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:17
-msgid "Pending"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:56
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:68
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:23
-msgid "Spam"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:57
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:72
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:26
-msgid "Trash"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:64
-msgid "Message"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:68
-msgid "Save"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:23
-msgid "Search Comments"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:33
-msgid "Author"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:34
-msgid "Comment"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:35
-msgid "In Response To"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:56
-msgid "Submitted on {0}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:57
-msgid "Move to"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:74
-msgid "Delete Permanently"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:74
-msgid "Delete this comment?"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:86
-msgid "No comments awaiting moderation."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:86
-msgid "No comments found."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:95
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:324
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:107
 msgid "Empty Trash"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:95
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:145
+msgid "Your comment could not be saved, please check your information."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:150
+msgid "Comment saved!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:152
+msgid "Your comment is awaiting moderation."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:450
+msgid "Invalid user."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:463
+msgid "Invalid user, please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:480
+msgid "We were not able to verify you as human. Please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:53
+msgid "anonymous"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:54;91
+msgid "Anonymous"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:55
+msgid "(no website)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Entity/Comment.php:56
+msgid "(no email given)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:57
+msgid "You need to provide a comment subject."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:67
+msgid "Your comment message cannot be empty"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:96
+msgid "Invalid parent comment!."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:120
+msgid "Your name need to be at least 3 characters long."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:124
+msgid "You must provide your name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:135
+msgid "e-Mail must be valid."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:139
+msgid "You must provide an email."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:150
+msgid "Website must be a valid URL."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Model/Table/CommentsTable.php:154
+msgid "You must provide a website URL."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:23
+msgid "Author Name *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:23
+msgid "Author Name"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:28
+msgid "Author e-Mail *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:28
+msgid "Author e-Mail"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:33
+msgid "Author Website *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:33
+msgid "Author Website"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:50
+msgid "Subject"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:54
+msgid "Status"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:56
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:70
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:20
+msgid "Approved"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:57
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:74
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:17
+msgid "Pending"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:58
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:78
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:23
+msgid "Spam"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:59
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:82
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:26
+msgid "Trash"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:66
+msgid "Message"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:70
+msgid "Save"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:29
+msgid "Search Comments"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:43
+msgid "Author"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:44
+msgid "Comment"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:45
+msgid "In Response To"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:66
+msgid "Submitted on {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:67
+msgid "Move to"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:84
+msgid "Delete Permanently"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:84
+msgid "Delete this comment?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:96
+msgid "No comments awaiting moderation."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:96
+msgid "No comments found."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:107
 msgid "Delete all comments in the trash? This operation can not be undone."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:109
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:127
 msgid "Page {{page}} of {{pages}}, showing {{current}} comments out of {{count}} total."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:24
 msgid "By @{0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:29
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:29
 msgid "Published at <time pubdate=\"pubdate\">{0}</time>"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:31
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:31
 msgid "F jS, Y h:i A"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:51
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:51
 msgid "Reply"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments.ctp:20
-msgid "Comments"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments.ctp:28
-msgid "There are no comments yet."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:23
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:23
 msgid "Post New Comment"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:24
 msgid "Cancel Reply"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:30
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:30
 msgid "You must be logged in to post comments."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:45
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:45
 msgid "Will not be published."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:58
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:96
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:58
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:96
 msgid "No HTML tags allowed."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:59;65;69
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:97;106;113
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:59;65;69
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:97;106;113
 msgid "Web page addresses and e-mail addresses turn into links automatically."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:60;71
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:98;115
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:60;71
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:98;115
 msgid "Lines and paragraphs break automatically."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:64
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:105
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:64
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:105
 msgid "All HTML tags allowed."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:70
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:114
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:70
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:114
 msgid "Allowed HTML tags: &lt;a&gt; &lt;em&gt; &lt;strong&gt; &lt;cite&gt; &lt;blockquote&gt; &lt;code&gt; &lt;ul&gt; &lt;ol&gt; &lt;li&gt; &lt;dl&gt; &lt;dt&gt; &lt;dd&gt;"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:75
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:122
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:75
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:122
 msgid "<a href=\"{0}\" target=\"_blank\">Markdown</a> text format allowed only."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:80
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_form.ctp:80
 msgid "Publish"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:15
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_list.ctp:20
+msgid "Comments"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comments_list.ctp:28
+msgid "There are no comments yet."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:15
 msgid "Commenting Options"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:17
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:17
 msgid "Auto approve comments"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:18
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:18
 msgid "Comments will automatically approved an published."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:20
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:20
 msgid "Anonymous commenting"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:21
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:21
 msgid "Anonymous users can comment."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:24
 msgid "Anonymous's name"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:27
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:27
 msgid "Anonymous users {0} leave their name."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:33;50;67
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:33;50;67
 msgid "Must"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:34;51;68
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:34;51;68
 msgid "May"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:41
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:41
 msgid "Anonymous's email"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:44
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:44
 msgid "Anonymous users {0} leave an email address."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:58
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:58
 msgid "Anonymous's website"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:61
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:61
 msgid "Anonymous users {0} leave a website URL."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:83;94
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:83;94
 msgid "Plain text"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:84;103
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:84;103
 msgid "Full HTML"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:85;111
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:85;111
 msgid "Filtered HTML"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:86;120
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:86;120
 msgid "Markdown"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:88
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:88
 msgid "Text processing"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:132
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:132
 msgid "CAPTCHA Protection"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:134
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:137
 msgid "Enable Human Verification"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:135
-msgid "Service provided by \"Are You A Human\", <a href=\"{0}\" target=\"_blank\">register</a> and get your keys"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:142
+msgid "You can configure CAPTCHA parameters by clicking <a href=\"{0}\">this link</a>."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:137
-msgid "Publisher Key *"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:138
-msgid "e.g. 310203ef720d21451c2516f2633c645acadc225a"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:140
-msgid "Scoring Key *"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:141
-msgid "e.g. 6233426d2e41a5c37d11c65202fa23c1fca50520"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:148
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:149
 msgid "SPAM Protection"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:150
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:151
 msgid "Use Akismet"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:153
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:154
 msgid "Akismet API Key *"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:154
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:155
 msgid "Sign up for an Akismet <a href=\"{0}\" target=\"_blank\">API key here</a>."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:156
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:157
 msgid "On Spam detected"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:159
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:160
 msgid "Mark as SPAM"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:160
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/settings.ctp:161
 msgid "Delete comment"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:14
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/CommentUI/index_submenu.ctp:14
 msgid "All"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:54
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:54
 msgid "Illegal usage of \\Comment\\View\\Helper\\CommentHelper."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:94
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:92
 msgid "Name (required)"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:94
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:92
 msgid "Name"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:97
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:95
 msgid "e-Mail (required)"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:97
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:95
 msgid "e-Mail"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:100
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:98
 msgid "Website (required)"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:100
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:98
 msgid "Website"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:103
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:101
 msgid "Subject (required)"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:108
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/View/Helper/CommentHelper.php:106
 msgid "Message (required)"
 msgstr ""
 

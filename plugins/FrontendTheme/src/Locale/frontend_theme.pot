@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-11 23:23+0000\n"
+"POT-Creation-Date: 2015-05-03 00:19+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,35 +14,35 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/default.ctp:30
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/default.ctp:30
 msgid "Toggle navigation"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:31
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:31
 msgid "Sign In"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:42
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:42
 msgid "username or email"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:49
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:49
 msgid "password"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:58
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:58
 msgid "Remember me"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:65
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:65
 msgid "Sign in"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:67
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:67
 msgid "Forgot password?"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:69
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/FrontendTheme/src/Template/Layout/login.ctp:69
 msgid "Resend activation email?"
 msgstr ""
 

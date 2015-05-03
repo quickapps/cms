@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-04-11 23:24+0000\n"
+"POT-Creation-Date: 2015-05-03 00:19+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,498 +14,580 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/AppController.php:45
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/AppController.php:45
 msgid "Some {type, select, plugin{plugins} other{themes}} are awaiting for installation"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:73
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:73
 msgid "Configuration successfully saved!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:77
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:77
 msgid "Configuration could not be saved, please check your information."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:101
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:86
+msgid "Site’ Configuration"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:103
 msgid "Site's name must be at least 3 characters long."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:106
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ConfigurationController.php:108
 msgid "Invalid e-Mail."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/HelpController.php:85
-msgid "No help was found."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/DashboardController.php:34
+msgid "Dashboard"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/HelpController.php:90
-msgid "About {0}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:73
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:93
-msgid "Plugins installed but some errors occur"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:81
-msgid "Plugins successfully installed!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:84
-msgid "Plugins could not be installed"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:93
-msgid "Install new plugin"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:108
-msgid "Plugin was successfully removed!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:110
-msgid "Plugins could not be removed"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:132
-msgid "Plugin was successfully enabled!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:134
-msgid "Plugin could not be enabled"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:156
-msgid "Plugin was successfully disabled!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:158
-msgid "Plugin could not be disabled"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:204
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:237
-msgid "The requested page was not found."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:211
-msgid "Plugin settings saved!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:215
-msgid "Plugin settings could not be saved."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:222
-msgid "Settings for \"{0}\" plugin"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:101
-msgid "Theme successfully installed!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:104
-msgid "Theme could not be installed"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:112
-msgid "Install new theme"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:126
-msgid "You cannot remove a core theme!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:130
-msgid "Theme successfully removed!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:132
-msgid "Theme could not be removed"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:139
-msgid "This theme cannot be removed as it is currently being used."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:157
-msgid "Theme successfully activated!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:159
-msgid "Theme could not be activated"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:165
-msgid "This theme is already active."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:184
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:36
-msgid "Details"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:244
-msgid "Theme settings saved!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:248
-msgid "Theme settings could not be saved."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:255
-msgid "Settings for {0} theme"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:37
-msgid "Export database"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:40
-msgid "Where to place the exported tables."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:45
-msgid "Optional, comma-separated list of table names to export. All tables will be exported if not provided."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:50
-msgid "Exclude \"id\" columns from records, useful for some DB driver such as Postgres."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:56
-msgid "Generates Fixture classes suitable for testing environments."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:62
-msgid "What to export, \"full\" exports schema and records, or \"schema\" for schema only."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:89
-msgid "Removing existing directory: {0}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:92
-msgid "Creating directory: {0}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:102
-msgid "Table \"{0}\" skipped"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:178
-msgid "Table \"{0}\" exported!"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:181
-msgid "Database exported to: {0}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:18
-msgid "Site name"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:19
-msgid "This is used as default page's title."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:23
-msgid "e-Mail address"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:24
-msgid "The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:28
-msgid "Slogan"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:29
-msgid "How this is used depends on your site's theme."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:33
-msgid "Description"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:34
-msgid "A brief description about your site, this will be used as default meta-description in layout."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:41
-msgid "Number of contents on home page"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:56
-msgid "The maximum number of contents displayed on home page."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:65
-msgid "Site under maintenance"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:67;97
-msgid "No"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:68;98
-msgid "Yes"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:75
-msgid "Maintenance IP"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:78
-msgid "Add my IP"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:80
-msgid "IP addresses allowed to access the Front Office even if the site is disabled. Use a comma to separate them (e.g., 42.24.4.2,127.0.0.1,99.98.97.96)"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:88
-msgid "Default language"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:89
-msgid "Default language in which website is presented to anonymous users (authenticated users may select their preferred language)."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:100
-msgid "URL locale prefix"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:103
-msgid "URLs like http://www.example.com/en-us/about-me.html set language to English-US. <strong>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</strong>"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:107
-msgid "Save Changes"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:117
-msgid "Other plugin settings"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:18
-msgid "All"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:24
-msgid "Enabled"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:30
-msgid "Disabled"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:40
-msgid "Install plugin"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:55
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:49
-msgid "Filter by"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:15
-msgid "Install New Plugin"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:21
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:18
-msgid "Upload ZIP package"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:26;45;66
-msgid "Activate after installation"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:30
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:19
-msgid "Upload package"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:39
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:25
-msgid "Download ZIP package from URL"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:40
-msgid "http://example.com/my-plugin.zip"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:49
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:26
-msgid "Install from URL"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:58
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:34
-msgid "Server directory or ZIP file"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:59
-msgid "/example/path/to/package.zip"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:70
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:40
-msgid "Install from File System"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/settings.ctp:16
-msgid "Plugin Settings"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/settings.ctp:22
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/settings.ctp:22
-msgid "Save all"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:18
-msgid "Front Themes"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:24
-msgid "Back Themes"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:34
-msgid "Install theme"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:15
-msgid "Install New Theme"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:35
-msgid "/example/path/to/theme.zip"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/settings.ctp:16
-msgid "Theme Settings"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:17
-msgid "Homepage"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:21
-msgid "Issues"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:25
-msgid "Forum"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:29
-msgid "Wiki"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:33
-msgid "IRC"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:37
-msgid "Source"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:42
-msgid "Authors"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:65
-msgid "Theme Regions"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:83
-msgid "Requires"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:84
-msgid "Requires (Dev)"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:85
-msgid "Suggests"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:86
-msgid "Provides"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:87
-msgid "Conflicts"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:88
-msgid "Replaces"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:104
-msgid "None"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:30
-msgid "Permissons"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:44
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/HelpController.php:56
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:43
 msgid "Help"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:59
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/HelpController.php:87
+msgid "No help was found."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/HelpController.php:90
+msgid "About \"{0}\""
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/HelpController.php:93
+msgid "About {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:46
+msgid "Plugins"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:74
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:94
+msgid "Plugins installed but some errors occur"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:82
+msgid "Plugins successfully installed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:85
+msgid "Plugins could not be installed"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:92
+msgid "Install Plugin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:95
+msgid "Install new plugin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:110
+msgid "Plugin was successfully removed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:112
+msgid "Plugins could not be removed"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:118
+msgid "Uninstall Plugin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:135
+msgid "Plugin was successfully enabled!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:137
+msgid "Plugin could not be enabled"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:143
+msgid "Enable Plugin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:160
+msgid "Plugin was successfully disabled!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:162
+msgid "Plugin could not be disabled"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:168
+msgid "Disable Plugin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:209
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:244
+msgid "The requested page was not found."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:216
+msgid "Plugin settings saved!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:220
+msgid "Plugin settings could not be saved."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:224
+msgid "Plugin’s Settings"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/PluginsController.php:228
+msgid "Settings for \"{0}\" plugin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/StructureController.php:41
+msgid "Site’s Structure"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:67
+msgid "Themes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:102
+msgid "Theme successfully installed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:105
+msgid "Theme could not be installed"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:112
+msgid "Install Theme"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:115
+msgid "Install new theme"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:129
+msgid "You cannot remove a core theme!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:133
+msgid "Theme successfully removed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:135
+msgid "Theme could not be removed"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:142
+msgid "This theme cannot be removed as it is currently being used."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:145
+msgid "Uninstall Theme"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:161
+msgid "Theme successfully activated!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:163
+msgid "Theme could not be activated"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:169
+msgid "This theme is already active."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:172
+msgid "Activate Theme"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:186
+msgid "Theme Information"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:191
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:114
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:36
+msgid "Details"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:251
+msgid "Theme settings saved!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:255
+msgid "Theme settings could not be saved."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:259
+msgid "Theme’s Settings"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/Admin/ThemesController.php:263
+msgid "Settings for {0} theme"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:37
+msgid "Export database"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:40
+msgid "Where to place the exported tables."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:45
+msgid "Optional, comma-separated list of table names to export. All tables will be exported if not provided."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:50
+msgid "Exclude \"id\" columns from records, useful for some DB driver such as Postgres."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:56
+msgid "Generates Fixture classes suitable for testing environments."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:62
+msgid "What to export, \"full\" exports schema and records, or \"schema\" for schema only."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:89
+msgid "Removing existing directory: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:92
+msgid "Creating directory: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:102
+msgid "Table \"{0}\" skipped"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:180
+msgid "Table \"{0}\" exported!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:183
+msgid "Database exported to: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:20
+msgid "Site name"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:21
+msgid "This is used as default page's title."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:25
+msgid "e-Mail address"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:26
+msgid "The From address in automated e-mails sent during registration and new password requests, and other notifications. (Use an address ending in your site's domain to help prevent this e-mail being flagged as spam.)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:30
+msgid "Slogan"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:31
+msgid "How this is used depends on your site's theme."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:35
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:68
+msgid "Description"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:36
+msgid "A brief description about your site, this will be used as default meta-description in layout."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:43
+msgid "Number of contents on home page"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:58
+msgid "The maximum number of contents displayed on home page."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:67
+msgid "Site under maintenance"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:69;99
+msgid "No"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:70;100
+msgid "Yes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:77
+msgid "Maintenance IP"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:80
+msgid "Add my IP"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:82
+msgid "IP addresses allowed to access the Front Office even if the site is disabled. Use a comma to separate them (e.g., 42.24.4.2,127.0.0.1,99.98.97.96)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:90
+msgid "Default language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:91
+msgid "Default language in which website is presented to anonymous users (authenticated users may select their preferred language)."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:102
+msgid "URL locale prefix"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:105
+msgid "URLs like http://www.example.com/en-us/about-me.html set language to English-US. <strong>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</strong>"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:109
+msgid "Save Changes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:119
+msgid "Other plugin settings"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:18
+msgid "All"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:24
+msgid "Enabled"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:30
+msgid "Disabled"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:40
+msgid "Install plugin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:55
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:49
+msgid "Filter by"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:67
+msgid "Plugin Name"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:18
+msgid "Upload Plugin Package"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:22
+msgid "Select ZIP package"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:27;47;69
+msgid "Activate after installation"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:31
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:20
+msgid "Upload package"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:38
+msgid "Download Plugin Package"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:41
+msgid "From URL"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:42
+msgid "http://example.com/my-plugin.zip"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:51
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:28
+msgid "Install from URL"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:58
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:34
+msgid "Use Server Path"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:61
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:37
+msgid "Server directory or ZIP file"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:62
+msgid "/example/path/to/package.zip"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/install.ctp:73
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:43
+msgid "Install from File System"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/settings.ctp:20
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/settings.ctp:20
+msgid "Save all"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:18
+msgid "Front Themes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:24
+msgid "Back Themes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:34
+msgid "Install theme"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:18
+msgid "Upload Theme Package"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:19
+msgid "Upload ZIP package"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:26
+msgid "Download Theme Package"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:27
+msgid "Download ZIP package from URL"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/install.ctp:38
+msgid "/example/path/to/theme.zip"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:17
+msgid "Homepage"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:21
+msgid "Issues"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:25
+msgid "Forum"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:29
+msgid "Wiki"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:33
+msgid "IRC"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:37
+msgid "Source"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:42
+msgid "Authors"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:65
+msgid "Theme Regions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:83
+msgid "Requires"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:84
+msgid "Requires (Dev)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:85
+msgid "Suggests"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:86
+msgid "Provides"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:87
+msgid "Conflicts"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:88
+msgid "Replaces"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/composer_details.ctp:104
+msgid "None"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:29
+msgid "Permissons"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:58
 msgid "Settings"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:75
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:74
 msgid "Enable"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:88
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:87
 msgid "Disable"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:89
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:88
 msgid "Disable this this plugin?, are you sure?"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:103
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:102
 msgid "Delete"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:104
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:103
 msgid "Delete this plugin? This operation cannot be undone!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:116
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/plugin_item.ctp:118
 msgid "Package location: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:28
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:28
 msgid "Active"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:47
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:47
 msgid "Customize"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:59
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:59
 msgid "Activate"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:70
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:70
 msgid "Uninstall"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:76
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/theme_item.ctp:76
 msgid "Delete this theme? This operation cannot be undone!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps2/vendor/quickapps/cms/plugins/System/src/Template/Element/Flash/stashed_plugins.ctp:30
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Element/Flash/stashed_plugins.ctp:30
 msgid "Run installation: {0}"
 msgstr ""
 

@@ -66,7 +66,7 @@ class FileHandlerController extends AppController
         }
 
         $this->layout = 'ajax';
-        $this->title(__d('block', 'Upload File'));
+        $this->title(__d('field', 'Upload File'));
         $this->set(compact('response'));
     }
 
@@ -93,7 +93,7 @@ class FileHandlerController extends AppController
 
         $response = '';
         $this->layout = 'ajax';
-        $this->title(__d('block', 'Delete File'));
+        $this->title(__d('field', 'Delete File'));
         $this->set(compact('response'));
     }
 
