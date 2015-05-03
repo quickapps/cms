@@ -13,6 +13,7 @@ namespace User\Controller\Admin;
 
 use Locale\Utility\LocaleToolbox;
 use User\Controller\AppController;
+use User\Notification\NotificationManager;
 
 /**
  * User manager controller.
@@ -84,7 +85,7 @@ class ManageController extends AppController
             $user = $this->Users->patchEntity($user, $data);
             if ($this->Users->save($user)) {
                 if ($sendWelcomeMessage) {
-                    $this->trigger('User.registered', $user);
+                    NotificationManager::welcome($user)->send();
                 }
 
                 $this->Flash->success(__d('user', 'User successfully registered!'));
@@ -153,7 +154,7 @@ class ManageController extends AppController
             if ($this->Users->updateAll(['status' => 0], ['id' => $user->id])) {
                 $this->Flash->success(__d('user', 'User {0} was successfully blocked!', $user->name));
                 $user->updateToken();
-                $this->trigger('User.blocked', $user);
+                NotificationManager::blocked($user)->send();
             } else {
                 $this->Flash->danger(__d('user', 'User could not be blocked, please try again.'));
             }
@@ -177,7 +178,7 @@ class ManageController extends AppController
         $user = $this->Users->get($id, ['fields' => ['id', 'name', 'email']]);
 
         if ($this->Users->updateAll(['status' => 1], ['id' => $user->id])) {
-            $this->trigger('User.activated', $user);
+            NotificationManager::activated($user)->send();
             $this->Flash->success(__d('user', 'User {0} was successfully activated!', $user->name));
         } else {
             $this->Flash->danger(__d('user', 'User could not be activated, please try again.'));
@@ -199,7 +200,7 @@ class ManageController extends AppController
         $user = $this->Users->get($id, ['fields' => ['id', 'name', 'email']]);
 
         if ($user) {
-            $this->trigger('User.passwordRequest', $user);
+            NotificationManager::passwordRequest($user)->send();
             $this->Flash->success(__d('user', 'Instructions we successfully sent to {0}', $user->name));
         } else {
             $this->Flash->danger(__d('user', 'User was not found.'));
@@ -226,7 +227,7 @@ class ManageController extends AppController
             $this->Flash->danger(__d('user', 'You cannot remove this user as it is the last administrator available.'));
         } else {
             if ($this->Users->delete($user)) {
-                $this->trigger('User.canceled', $user);
+                NotificationManager::canceled($user)->send();
                 $this->Flash->success(__d('user', 'User successfully removed!'));
                 $this->redirect($this->referer());
             } else {

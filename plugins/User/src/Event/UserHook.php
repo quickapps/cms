@@ -34,23 +34,8 @@ class UserHook implements EventListenerInterface
     public function implementedEvents()
     {
         return [
-            // model
-            'User.beforeIdentify' => 'beforeIdentify',
-            'User.afterIdentify' => 'afterIdentify',
-            'User.beforeLogout' => 'beforeLogout',
-            'User.afterLogout' => 'afterLogout',
-            'User.registered' => 'registered',
-            'User.activated' => 'activated',
-            'User.blocked' => 'blocked',
-            'User.cancelRequest' => 'cancelRequest',
-            'User.canceled' => 'canceled',
-            'User.passwordRequest' => 'passwordRequest',
-
-            // plugin
             'Plugin.User.settingsValidate' => 'settingsValidate',
             'Plugin.User.settingsDefaults' => 'settingsDefaults',
-
-            // Blocks
             'Block.User.display' => 'renderBlock',
         ];
     }
@@ -70,134 +55,6 @@ class UserHook implements EventListenerInterface
     public function renderBlock(Event $event, $block, $options = [])
     {
         return $event->subject()->element("User.{$block->delta}_render", compact('block', 'options'));
-    }
-
-    /**
-     * Event triggered before users is identified.
-     *
-     * Returning false or stopping the event will halt the identification process.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @return bool
-     */
-    public function beforeIdentify(Event $event)
-    {
-        return true;
-    }
-
-    /**
-     * Triggered After user's identification operation has been completed.
-     *
-     * This event is triggered even on identification failure, you must
-     * distinguish between success or failure using the given argument `$result`.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param mixed $result Result of AuthComponent::identify(), false if user could
-     *  not be identified, or an array of user's info if was successfully identified
-     * @return null
-     */
-    public function afterIdentify(Event $event, $result)
-    {
-    }
-
-    /**
-     * Event triggered before user logout action.
-     *
-     * Returning false or stopping the event will halt the logout process.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @return bool
-     */
-    public function beforeLogout(Event $event)
-    {
-        return true;
-    }
-
-    /**
-     * Event triggered after user logout action.
-     *
-     * Event listeners can return an alternative redirection URL, if not given
-     * default URL will be used.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param string|array $redirect Default redirection URL that will be used
-     * @return string|null
-     */
-    public function afterLogout(Event $event, $redirect = '')
-    {
-    }
-
-    /**
-     * Event triggered when new users are registered on DB.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \User\Model\Entity\User $user The user entity that was registered
-     * @return bool
-     */
-    public function registered(Event $event, User $user)
-    {
-        return NotificationManager::welcome($user)->send();
-    }
-
-    /**
-     * Event triggered when an user is activated (status = 1).
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \User\Model\Entity\User $user The user entity that was activated
-     * @return bool
-     */
-    public function activated(Event $event, User $user)
-    {
-        return NotificationManager::activated($user)->send();
-    }
-
-    /**
-     * Event triggered when user has been blocked (status = 0).
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \User\Model\Entity\User $user The user entity that was blocked
-     * @return bool
-     */
-    public function blocked(Event $event, User $user)
-    {
-        return NotificationManager::blocked($user)->send();
-    }
-
-    /**
-     * Event triggered when user requests to cancel his/her account.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \User\Model\Entity\User $user The user entity which requested account
-     *  cancellation
-     * @return bool
-     */
-    public function cancelRequest(Event $event, User $user)
-    {
-        return NotificationManager::cancelRequest($user)->send();
-    }
-
-    /**
-     * Event triggered after user account was removed.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \User\Model\Entity\User $user The user entity that was canceled
-     * @return bool
-     */
-    public function canceled(Event $event, User $user)
-    {
-        return NotificationManager::canceled($user)->send();
-    }
-
-    /**
-     * Event triggered when user request for a new password.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \User\Model\Entity\User $user The user entity requesting a new password
-     * @return bool
-     */
-    public function passwordRequest(Event $event, User $user)
-    {
-        return NotificationManager::passwordRequest($user)->send();
     }
 
     /**

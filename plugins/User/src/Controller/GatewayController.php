@@ -16,6 +16,7 @@ use Cake\Event\Event;
 use Locale\Utility\LocaleToolbox;
 use User\Controller\AppController;
 use User\Controller\UserSignTrait;
+use User\Notification\NotificationManager;
 
 /**
  * Gateway controller.
@@ -47,7 +48,7 @@ class GatewayController extends AppController
                 ->first();
 
             if ($user) {
-                $emailSent = $this->trigger('User.passwordRequest', $user)->result;
+                $emailSent = NotificationManager::passwordRequest($user)->send();
                 if ($emailSent) {
                     $this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
                 } else {
@@ -76,7 +77,7 @@ class GatewayController extends AppController
 
         $this->loadModel('User.Users');
         $user = $this->Users->get($user->id);
-        $emailSent = $this->trigger('User.cancelRequest', $user)->result;
+        $emailSent = NotificationManager::cancelRequest($user)->send();
         if ($emailSent) {
             $this->Flash->success(__d('user', 'Further instructions have been sent to your e-mail address.'));
         } else {
@@ -114,7 +115,7 @@ class GatewayController extends AppController
 
         if ($user && $code == $user->cancel_code) {
             if ($this->Users->delete($user)) {
-                $this->trigger('User.canceled', $user);
+                NotificationManager::canceled($user)->send();
                 $this->Flash->success(__d('user', 'Account successfully canceled'));
             } else {
                 $this->Flash->danger(__d('user', 'Account could not be canceled due to an internal error, please try again later.'));
@@ -146,7 +147,7 @@ class GatewayController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->data);
 
             if ($this->Users->save($user)) {
-                $this->trigger('User.registered', $user);
+                NotificationManager::welcome($user)->send();
                 $this->Flash->success(__d('user', 'Account successfully created, further instructions have been sent to your e-mail address.', ['key' => 'register']));
                 $registered = true;
             } else {
@@ -182,7 +183,7 @@ class GatewayController extends AppController
                 ->first();
 
             if ($user) {
-                $this->trigger('User.registered', $user);
+                NotificationManager::welcome($user)->send();
                 $this->Flash->success(__d('user', 'Instructions have been sent to your e-mail address.'), ['key' => 'activation_email']);
                 $sent = true;
             } else {
@@ -217,7 +218,7 @@ class GatewayController extends AppController
 
         if ($user) {
             if ($this->Users->updateAll(['status' => 1], ['id' => $user->id])) {
-                $this->trigger('User.activated', $user);
+                NotificationManager::activated($user)->send();
                 $activated = true;
                 $this->Flash->success(__d('user', 'Account successfully activated.'), ['key' => 'activate']);
             } else {
