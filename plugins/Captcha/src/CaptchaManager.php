@@ -69,7 +69,7 @@ class CaptchaManager
     {
         $class = null;
         if ($name === null) {
-            $default = (string)Plugin::get('Captcha')->settings('default_adapter');
+            $default = (string)plugin('Captcha')->settings('default_adapter');
             if (!empty($default)) {
                 return static::adapter($default, $config);
             }
@@ -79,7 +79,7 @@ class CaptchaManager
         }
 
         if (empty($config)) {
-            $config = (array)Plugin::get('Captcha')->settings($name);
+            $config = (array)plugin('Captcha')->settings($name);
         }
 
         if (is_string($class) && class_exists($class)) {

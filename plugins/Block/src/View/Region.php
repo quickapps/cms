@@ -92,7 +92,7 @@ class Region
         ];
         $this->_machineName = Inflector::slug($name, '-');
         $this->_View = $view;
-        $this->_theme = Plugin::get($options['theme']);
+        $this->_theme = plugin($options['theme']);
 
         if (isset($this->_theme->composer['extra']['regions'])) {
             $validRegions = array_keys($this->_theme->composer['extra']['regions']);

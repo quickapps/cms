@@ -197,10 +197,10 @@ class AcoManager
         }
 
         if ($for === null) {
-            $plugins = Plugin::get()->toArray();
+            $plugins = plugin()->toArray();
         } else {
             try {
-                $plugins = [Plugin::get($for)];
+                $plugins = [plugin($for)];
             } catch (\Exception $e) {
                 return false;
             }
@@ -271,7 +271,7 @@ class AcoManager
     {
         if ($for !== null) {
             try {
-                $for = Plugin::get($for)->name;
+                $for = plugin($for)->name;
             } catch (\Exception $e) {
                 return [];
             }

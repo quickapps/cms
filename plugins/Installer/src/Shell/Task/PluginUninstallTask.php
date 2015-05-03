@@ -118,7 +118,7 @@ class PluginUninstallTask extends Shell
         $this->loadModel('System.Plugins');
 
         try {
-            $plugin = Plugin::get($this->params['plugin']);
+            $plugin = plugin($this->params['plugin']);
             $pluginEntity = $this->Plugins
                 ->find()
                 ->where(['name' => $this->params['plugin']])

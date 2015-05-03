@@ -63,7 +63,7 @@ class BlockRegionsTable extends Table
         return $validator
             ->add('theme', 'validTheme', [
                 'rule' => function ($value, $context) {
-                    $exists = Plugin::get()
+                    $exists = plugin()
                         ->filter(function ($plugin) use ($value) {
                             return $plugin->isTheme && $plugin->name === $value;
                         })

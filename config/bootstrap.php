@@ -191,7 +191,7 @@ if (!is_readable(TMP . 'snapshot.php')) {
  * Load all registered plugins.
  */
 $activePlugins = 0;
-Plugin::get()
+plugin()
     ->each(function ($plugin) use(&$activePlugins, $classLoader) {
         $filter = $plugin->status;
         if ($plugin->isTheme) {

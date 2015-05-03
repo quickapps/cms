@@ -567,7 +567,7 @@ class PluginInstallTask extends Shell
                 ];
 
                 if (Plugin::exists($this->_plugin['name'])) {
-                    $exists = Plugin::get($this->_plugin['name']);
+                    $exists = plugin($this->_plugin['name']);
                     if ($exists->status) {
                         $errors[] = __d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is already installed.', ['type' => $this->_plugin['type'], 'name' => $this->_plugin['name']]);
                     } else {

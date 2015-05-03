@@ -264,7 +264,7 @@ class ManageController extends AppController
      */
     protected function _setRegions($block = null)
     {
-        $regions = Plugin::get()
+        $regions = plugin()
             ->filter(function ($plugin) {
                 return $plugin->isTheme;
             })

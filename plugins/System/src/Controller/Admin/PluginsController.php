@@ -32,7 +32,7 @@ class PluginsController extends AppController
      */
     public function index()
     {
-        $collection = Plugin::get()->filter(function ($plugin) {
+        $collection = plugin()->filter(function ($plugin) {
             return !$plugin->isTheme;
         });
         $plugins = $collection->toArray();
@@ -103,7 +103,7 @@ class PluginsController extends AppController
      */
     public function delete($pluginName)
     {
-        $plugin = Plugin::get($pluginName); // throws if not exists
+        $plugin = plugin($pluginName); // throws if not exists
         $task = (bool)WebShellDispatcher::run("Installer.plugins uninstall -p {$plugin->name}");
 
         if ($task) {
@@ -128,7 +128,7 @@ class PluginsController extends AppController
      */
     public function enable($pluginName)
     {
-        $plugin = Plugin::get($pluginName);
+        $plugin = plugin($pluginName);
         $task = (bool)WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s enable");
 
         if ($task) {
@@ -153,7 +153,7 @@ class PluginsController extends AppController
      */
     public function disable($pluginName)
     {
-        $plugin = Plugin::get($pluginName);
+        $plugin = plugin($pluginName);
         $task = (bool)WebShellDispatcher::run("Installer.plugins toggle -p {$plugin->name} -s disable");
 
         if ($task) {
@@ -201,7 +201,7 @@ class PluginsController extends AppController
      */
     public function settings($pluginName)
     {
-        $info = Plugin::get($pluginName);
+        $info = plugin($pluginName);
         $this->loadModel('System.Plugins');
         $plugin = $this->Plugins->get($pluginName, ['flatten' => true]);
 
