@@ -248,9 +248,10 @@ AppAspect::getInstance()->init([
     'appDir' => SITE_ROOT,
     'cacheDir' => TMP . 'aop',
     'includePaths' => [
-        CAKE,
-        ROOT,
         SITE_ROOT . DS . 'plugins',
+        ROOT . DS . 'plugins',
+        ROOT . DS . 'src',
+        CAKE,
     ],
     'excludePaths' => [TMP . 'aop'],
     'features' => AppAspect::getDefaultFeatures() | \Go\Aop\Features::INTERCEPT_FUNCTIONS,
