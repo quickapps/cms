@@ -15,7 +15,6 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 use Cake\Validation\Validator;
 use User\Model\Entity\User;
-use User\Notification\NotificationManager;
 
 /**
  * Main Hook Listener for User plugin.

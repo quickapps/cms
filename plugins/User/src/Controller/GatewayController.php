@@ -11,8 +11,6 @@
  */
 namespace User\Controller;
 
-use Cake\Cache\Cache;
-use Cake\Event\Event;
 use Locale\Utility\LocaleToolbox;
 use User\Controller\AppController;
 use User\Controller\UserSignTrait;

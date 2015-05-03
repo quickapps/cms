@@ -51,16 +51,21 @@ use User\Notification\Message\BaseMessage;
  * NotificationManager::bye($user, $optionsArray)->send();
  * ```
  *
- * @method \User\Notification\Message\WelcomeMessage welcome(\User\Model\Entity\User $user, array $config = [])
- * @method \User\Notification\Message\ActivatedMessage activated(\User\Model\Entity\User $user, array $config = [])
- * @method \User\Notification\Message\BlockedMessage blocked(\User\Model\Entity\User $user, array $config = [])
- * @method \User\Notification\Message\CancelRequestMessage cancelRequest(\User\Model\Entity\User $user, array $config = [])
- * @method \User\Notification\Message\CanceledMessage canceled(\User\Model\Entity\User $user, array $config = [])
- * @method \User\Notification\Message\PasswordRequestMessage passwordRequest(\User\Model\Entity\User $user, array $config = [])
+ * @method \User\Notification\Message\WelcomeMessage welcome(\Cake\Datasource\EntityInterface $user, array $config = [])
+ * @method \User\Notification\Message\ActivatedMessage activated(\Cake\Datasource\EntityInterface $user, array $config = [])
+ * @method \User\Notification\Message\BlockedMessage blocked(\Cake\Datasource\EntityInterface $user, array $config = [])
+ * @method \User\Notification\Message\CancelRequestMessage cancelRequest(\Cake\Datasource\EntityInterface $user, array $config = [])
+ * @method \User\Notification\Message\CanceledMessage canceled(\Cake\Datasource\EntityInterface $user, array $config = [])
+ * @method \User\Notification\Message\PasswordRequestMessage passwordRequest(\Cake\Datasource\EntityInterface $user, array $config = [])
  */
 class NotificationManager
 {
 
+    /**
+     * Defaults registered messages.
+     *
+     * @var array
+     */
     protected static $_messages = [
         'welcome' => 'User\\Notification\\Message\\WelcomeMessage',
         'activated' => 'User\\Notification\\Message\\ActivatedMessage',
