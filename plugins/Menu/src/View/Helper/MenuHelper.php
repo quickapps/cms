@@ -11,6 +11,7 @@
  */
 namespace Menu\View\Helper;
 
+use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
@@ -132,7 +133,8 @@ class MenuHelper extends Helper
      * Constructor.
      *
      * @param View $View The View this helper is being attached to
-     * @param array $config Configuration settings for the helper
+     * @param array $config Configuration settings for the helper, will replace
+     *  'self::$_deaultConfig' property.
      */
     public function __construct(View $View, $config = [])
     {
@@ -142,7 +144,7 @@ class MenuHelper extends Helper
             };
         }
         parent::__construct($View, $config);
-        $this->Link->config($config);
+        $this->_defaultConfig = $this->config();
     }
 
     /**
@@ -160,10 +162,11 @@ class MenuHelper extends Helper
      *
      * ### Options:
      *
-     * You can pass an associative array `key => value`.
-     * Any `key` not in `$_defaultConfig` will be treated as an additional attribute
-     * for the top level UL (root). If `key` is in `$_defaultConfig` it will temporally
-     * overwrite default configuration parameters:
+     * You can pass an associative array `key => value`. Any `key` not in
+     * `$_defaultConfig` will be treated as an additional attribute for the top
+     * level UL (root). If `key` is in `$_defaultConfig` it will temporally
+     * overwrite default configuration parameters, it will be restored to its
+     * default values after rendering completes:
      *
      * - `formatter`: Callable method used when formating each item.
      * - `activeClass`: CSS class to use when an item is active (its URL matches current URL).
@@ -189,19 +192,27 @@ class MenuHelper extends Helper
      * and information abut the item (has children, depth, etc) as second.
      *
      * You can pass the ID or slug of a menu as fist argument to render that menu's
-     * links.
+     * links:
+     *
+     * ```php
+     * echo $this->Menu->render('management');
+     *
+     * // OR
+     *
+     * echo $this->Menu->render(1);
+     * ```
      *
      * @param int|string|array|\Cake\Collection\Collection $items Nested items
      *  to render, given as a query result set or as an array list. Or an integer as
      *  menu ID in DB to render, or a string as menu Slug in DB to render.
-     * @param callable|array $options An array of HTML attributes and options as
+     * @param callable|array $config An array of HTML attributes and options as
      *  described above or a callable function to use as `formatter`
      * @return string HTML
      * @throws \Cake\Error\FatalErrorException When loop invocation is detected,
      *  that is, when "render()" method is invoked within a callable method when
      *  rendering menus.
      */
-    public function render($items, $options = [])
+    public function render($items, $config = [])
     {
         if ($this->_rendering) {
             throw new FatalErrorException(__d('menu', 'Loop detected, MenuHelper already rendering.'));
@@ -212,17 +223,18 @@ class MenuHelper extends Helper
             return '';
         }
 
-        list($options, $attrs) = $this->_prepareOptions($options);
+        list($config, $attrs) = $this->_prepareOptions($config);
         $this->_rendering = true;
         $this->countItems($items);
-        $out = '';
+        $this->config($config);
 
-        if (isset($options['breadcrumbGuessing'])) {
-            $this->Link->config(['breadcrumbGuessing' => $options['breadcrumbGuessing']]);
+        if ($this->config('breadcrumbGuessing')) {
+            $this->Link->config(['breadcrumbGuessing' => $this->config('breadcrumbGuessing')]);
         }
 
+        $out = '';
         if (intval($this->config('split')) > 1) {
-            $out .= $this->_renderPart($items, $options, $attrs);
+            $out .= $this->_renderPart($items, $config, $attrs);
         } else {
             $out .= $this->formatTemplate('root', [
                 'attrs' => $this->templater()->formatAttributes($attrs),
@@ -459,7 +471,7 @@ class MenuHelper extends Helper
                     ->where(['slug' => $slug])
                     ->first();
 
-                if (is_object($menu)) {
+                if ($menu instanceof EntityInterface) {
                     $items = TableRegistry::get('Menu.MenuLinks')
                         ->find('threaded')
                         ->where(['menu_id' => $menu->id])
@@ -582,6 +594,7 @@ class MenuHelper extends Helper
         $this->_count = 0;
         $this->_rendering = false;
         $this->config($this->_defaultConfig);
+        $this->Link->config(['breadcrumbGuessing' => $this->_defaultConfig['breadcrumbGuessing']]);
         $this->resetTemplates();
     }
 }
