@@ -245,7 +245,13 @@ if (!$activePlugins) {
  */
 AppAspect::getInstance()->init([
     'debug' => Configure::read('debug'),
+    'appDir' => SITE_ROOT,
     'cacheDir' => TMP . 'aop',
+    'includePaths' => [
+        CAKE,
+        ROOT,
+        SITE_ROOT . DS . 'plugins',
+    ],
     'excludePaths' => [TMP . 'aop'],
     'features' => AppAspect::getDefaultFeatures() | \Go\Aop\Features::INTERCEPT_FUNCTIONS,
 ]);
