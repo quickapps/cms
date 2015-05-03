@@ -12,7 +12,6 @@
 namespace User\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\Core\Plugin;
 
 /**
  * Represents single "aco" in "acos" database table.

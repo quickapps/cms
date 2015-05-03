@@ -12,7 +12,6 @@
 namespace QuickApps\Aspect;
 
 use Go\Aop\Aspect as GoAspect;
-use Go\Aop\Intercept\MethodInvocation;
 
 /**
  * Base Aspect. All aspects should extend this class.

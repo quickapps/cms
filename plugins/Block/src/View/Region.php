@@ -18,7 +18,6 @@ use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Core\Plugin;
 use QuickApps\Core\StaticCacheTrait;
 use QuickApps\View\View;
 

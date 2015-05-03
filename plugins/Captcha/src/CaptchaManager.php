@@ -13,7 +13,6 @@ namespace Captcha;
 
 use Captcha\Adapter\BaseAdapter;
 use Captcha\Error\AdapterNotFoundException;
-use QuickApps\Core\Plugin;
 
 /**
  * Class for dealing with CAPTCHA adapters.

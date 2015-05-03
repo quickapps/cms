@@ -13,7 +13,6 @@ namespace QuickApps\Aspect;
 
 use Go\Core\AspectContainer;
 use Go\Core\AspectKernel;
-use Go\Instrument\Transformer\CachingTransformer;
 
 /**
  * QuickApps Application Aspect Kernel.

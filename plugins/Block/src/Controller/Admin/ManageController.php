@@ -13,7 +13,6 @@ namespace Block\Controller\Admin;
 
 use Block\Controller\AppController;
 use Locale\Utility\LocaleToolbox;
-use QuickApps\Core\Plugin;
 
 /**
  * Block manager controller.
