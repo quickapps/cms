@@ -218,7 +218,7 @@ class ManageController extends AppController
         $languages = LocaleToolbox::languagesList();
         $roles = $this->Nodes->Roles->find('list');
 
-        $this->title(__d('node', 'Editing Content: {0}', $node->title));
+        $this->title(__d('node', 'Editing Content'));
         $this->set(compact('node', 'languages', 'roles'));
         $this->Breadcrumb
             ->push('/admin/node/manage/index')

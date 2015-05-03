@@ -9,6 +9,8 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
+
+use QuickApps\Core\Plugin;
 ?>
 
 <div class="row">
@@ -34,7 +36,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#front-theme">
-                            <?php echo __d('block', 'Theme: {0}', plugin(option('front_theme'))->human_name); ?>
+                            <?php echo __d('block', 'Theme: {0}', Plugin::get(option('front_theme'))->human_name); ?>
                         </a>
                     </h4>
                 </div>
@@ -113,7 +115,7 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#back-theme">
-                            <?php echo __d('block', 'Theme: {0}', plugin(option('back_theme'))->human_name); ?>
+                            <?php echo __d('block', 'Theme: {0}', Plugin::get(option('back_theme'))->human_name); ?>
                         </a>
                     </h4>
                 </div>

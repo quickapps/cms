@@ -149,7 +149,7 @@ class BlocksTable extends Table
     protected function _inTheme($type = 'front')
     {
         $theme = option("{$type}_theme");
-        $composer = plugin($theme)->composer(true);
+        $composer = Plugin::get($theme)->composer(true);
         $regions = $composer['extra']['regions'];
         $out = [];
 

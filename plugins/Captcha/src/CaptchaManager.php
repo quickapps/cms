@@ -13,6 +13,7 @@ namespace Captcha;
 
 use Captcha\Adapter\BaseAdapter;
 use Captcha\Error\AdapterNotFoundException;
+use QuickApps\Core\Plugin;
 
 /**
  * Class for dealing with CAPTCHA adapters.
@@ -68,7 +69,7 @@ class CaptchaManager
     {
         $class = null;
         if ($name === null) {
-            $default = (string)plugin('Captcha')->settings('default_adapter');
+            $default = (string)Plugin::get('Captcha')->settings('default_adapter');
             if (!empty($default)) {
                 return static::adapter($default, $config);
             }
@@ -78,7 +79,7 @@ class CaptchaManager
         }
 
         if (empty($config)) {
-            $config = (array)plugin('Captcha')->settings($name);
+            $config = (array)Plugin::get('Captcha')->settings($name);
         }
 
         if (is_string($class) && class_exists($class)) {

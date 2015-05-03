@@ -74,7 +74,7 @@ class ThemeActivationTask extends Shell
             return false;
         }
 
-        $plugin = plugin($this->params['theme']);
+        $plugin = Plugin::get($this->params['theme']);
         if (!$plugin->isTheme) {
             $this->err(__d('installer', '"{0}" is not a theme.', $plugin->human_name));
             return false;
@@ -143,7 +143,7 @@ class ThemeActivationTask extends Shell
     protected function _copyBlockPositions($dst, $src)
     {
         $this->loadModel('Block.BlockRegions');
-        $dstTheme = plugin($dst);
+        $dstTheme = Plugin::get($dst);
         $newRegions = isset($dstTheme->composer['extra']['regions']) ? array_keys($dstTheme->composer['extra']['regions']) : [];
 
         if (empty($newRegions)) {

@@ -18,6 +18,7 @@ use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
+use QuickApps\Core\Plugin;
 use QuickApps\Core\StaticCacheTrait;
 use QuickApps\View\View;
 
@@ -91,7 +92,7 @@ class Region
         ];
         $this->_machineName = Inflector::slug($name, '-');
         $this->_View = $view;
-        $this->_theme = plugin($options['theme']);
+        $this->_theme = Plugin::get($options['theme']);
 
         if (isset($this->_theme->composer['extra']['regions'])) {
             $validRegions = array_keys($this->_theme->composer['extra']['regions']);

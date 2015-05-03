@@ -378,7 +378,7 @@ if (!function_exists('theme')) {
             $name = option($option);
         }
 
-        $theme = plugin()
+        $theme = Plugin::get()
             ->filter(function ($plugin) use($name) {
                 return $plugin->isTheme && $plugin->name == $name;
             })

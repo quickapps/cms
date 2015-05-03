@@ -2676,9 +2676,9 @@ class upload
 
         // determines the language
         $this->lang               = $lang;
-        if ($this->lang != 'en_GB' && file_exists(dirname('C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Field\src\Lib\class.upload.php').'/lang') && file_exists(dirname('C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Field\src\Lib\class.upload.php').'/lang/class.upload.' . $lang . '.php')) {
+        if ($this->lang != 'en_GB' && file_exists(dirname(__FILE__).'/lang') && file_exists(dirname(__FILE__).'/lang/class.upload.' . $lang . '.php')) {
             $translation = null;
-            include \Go\Instrument\Transformer\FilterInjectorTransformer::rewrite((dirname('C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Field\src\Lib\class.upload.php').'/lang/class.upload.' . $lang . '.php'), 'C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Field\src\Lib');
+            include(dirname(__FILE__).'/lang/class.upload.' . $lang . '.php');
             if (is_array($translation)) {
                 $this->translation = array_merge($this->translation, $translation);
             } else {
@@ -3214,7 +3214,7 @@ class upload
             $dir = $tmp;
         }
         if (!$dir) {
-            $tmp = tempnam('C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Field\src\Lib\class.upload.php', '');
+            $tmp = tempnam(__FILE__, '');
             if (file_exists($tmp)) {
                 unlink($tmp);
                 $dir = dirname($tmp);

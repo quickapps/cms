@@ -78,7 +78,7 @@ class ConfigurationController extends AppController
             }
         }
 
-        $pluginSettings = plugin()
+        $pluginSettings = Plugin::get()
             ->filter(function ($plugin) {
                 return !$plugin->isTheme && $plugin->hasSettings;
             });

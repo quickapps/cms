@@ -14,6 +14,7 @@ namespace System\Controller\Admin;
 use Cake\Network\Exception\NotFoundException;
 use Installer\Utility\PackageUploader;
 use QuickApps\Console\WebShellDispatcher;
+use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 
 /**
@@ -33,7 +34,7 @@ class ThemesController extends AppController
      */
     public function index()
     {
-        $themes = plugin()
+        $themes = Plugin::get()
             ->filter(function ($plugin) {
                 return $plugin->isTheme;
             });
@@ -122,7 +123,7 @@ class ThemesController extends AppController
      */
     public function uninstall($themeName)
     {
-        $theme = plugin($themeName); // throws
+        $theme = Plugin::get($themeName); // throws
         if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
             if ($theme->isCore) {
                 $this->Flash->danger(__d('system', 'You cannot remove a core theme!'));
@@ -153,7 +154,7 @@ class ThemesController extends AppController
      */
     public function activate($themeName)
     {
-        $theme = plugin($themeName); // throws
+        $theme = Plugin::get($themeName); // throws
         if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
             $task = (bool)WebShellDispatcher::run("Installer.themes change -t {$theme->name}");
             if ($task) {
@@ -180,7 +181,8 @@ class ThemesController extends AppController
      */
     public function details($themeName)
     {
-        $theme = plugin($themeName); // throws
+        $theme = Plugin::get($themeName); // throws
+
         $this->title(__d('system', 'Theme Information'));
         $this->set(compact('theme'));
         $this->Breadcrumb
@@ -197,7 +199,7 @@ class ThemesController extends AppController
      */
     public function screenshot($themeName)
     {
-        $theme = plugin($themeName); // throws
+        $theme = Plugin::get($themeName); // throws
         $this->response->file("{$theme->path}/webroot/screenshot.png");
         return $this->response;
     }
@@ -234,7 +236,7 @@ class ThemesController extends AppController
      */
     public function settings($themeName)
     {
-        $info = plugin($themeName); // throws
+        $info = Plugin::get($themeName);
         $this->loadModel('System.Plugins');
         $theme = $this->Plugins->get($themeName, ['flatten' => true]);
 

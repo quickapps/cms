@@ -111,7 +111,7 @@ class PluginUpdateTask extends PluginInstall
             $this->err(__d('installer', 'The plugin "{0}" is not installed, you cannot update a plugin that is not installed in your system.', $this->_plugin['name']));
             return false;
         } else {
-            $plugin = plugin($this->_plugin['name']);
+            $plugin = Plugin::get($this->_plugin['name']);
             if ($plugin->isCore) {
                 $this->err(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $plugin->human_name));
                 return false;

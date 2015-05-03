@@ -76,7 +76,7 @@ class PluginToggleTask extends Shell
         $this->loadModel('System.Plugins');
 
         try {
-            $plugin = plugin($this->params['plugin']);
+            $plugin = Plugin::get($this->params['plugin']);
             $existsInDb = (bool)$this->Plugins
                 ->find()
                 ->where(['name' => $this->params['plugin']])

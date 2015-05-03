@@ -16,6 +16,7 @@ use Cake\Error\FatalErrorException;
 use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
 use Cake\Utility\Inflector;
+use QuickApps\Core\Plugin;
 use QuickApps\Core\StaticCacheTrait;
 use ReflectionException;
 use ReflectionMethod;
@@ -196,10 +197,10 @@ class AcoManager
         }
 
         if ($for === null) {
-            $plugins = plugin()->toArray();
+            $plugins = Plugin::get()->toArray();
         } else {
             try {
-                $plugins = [plugin($for)];
+                $plugins = [Plugin::get($for)];
             } catch (\Exception $e) {
                 return false;
             }
@@ -270,7 +271,7 @@ class AcoManager
     {
         if ($for !== null) {
             try {
-                $for = plugin($for)->name;
+                $for = Plugin::get($for)->name;
             } catch (\Exception $e) {
                 return [];
             }

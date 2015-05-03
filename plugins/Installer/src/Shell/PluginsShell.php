@@ -177,7 +177,7 @@ class PluginsShell extends Shell
      */
     protected function _uninstall()
     {
-        $allPlugins = plugin()
+        $allPlugins = Plugin::get()
             ->filter(function ($plugin) {
                 return !$plugin->isTheme;
             })
@@ -200,7 +200,7 @@ class PluginsShell extends Shell
             } elseif (intval($in) < 1 || !isset($allPlugins[intval($in)])) {
                 $this->err(__d('installer', 'Invalid option'));
             } else {
-                $plugin = plugin($allPlugins[$in]->name());
+                $plugin = Plugin::get($allPlugins[$in]->name());
                 $this->hr();
                 $this->out(__d('installer', '<info>The following plugin will be UNINSTALLED</info>'));
                 $this->hr();
@@ -239,7 +239,7 @@ class PluginsShell extends Shell
      */
     protected function _enable()
     {
-        $disabledPlugins = plugin()
+        $disabledPlugins = Plugin::get()
             ->filter(function ($plugin) {
                 return !$plugin->status && !$plugin->isTheme;
             })
@@ -292,7 +292,7 @@ class PluginsShell extends Shell
      */
     protected function _disable()
     {
-        $enabledPlugins = plugin()
+        $enabledPlugins = Plugin::get()
             ->filter(function ($plugin) {
                 return $plugin->status && !$plugin->isTheme;
             })
@@ -322,7 +322,7 @@ class PluginsShell extends Shell
             } elseif (intval($in) < 1 || !isset($enabledPlugins[intval($in)])) {
                 $this->err(__d('installer', 'Invalid option'));
             } else {
-                $plugin = plugin($enabledPlugins[$in]->name());
+                $plugin = Plugin::get($enabledPlugins[$in]->name());
                 $this->hr();
                 $this->out(__d('installer', '<info>The following plugin will be DISABLED</info>'));
                 $this->hr();

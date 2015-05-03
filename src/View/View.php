@@ -278,7 +278,7 @@ class View extends CakeView
         $this->__viewFile = $viewFile;
         extract($dataForView);
         ob_start();
-        include \Go\Instrument\Transformer\FilterInjectorTransformer::rewrite( $this->__viewFile, 'C:\xampp\htdocs\quickapps\vendor\quickapps\cms\src\View');
+        include $this->__viewFile;
         unset($this->__viewFile);
         return ob_get_clean();
     }

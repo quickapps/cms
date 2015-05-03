@@ -49,7 +49,7 @@ class HelpController extends AppController
      */
     public function index()
     {
-        $plugins = plugin()->filter(function ($plugin) {
+        $plugins = Plugin::get()->filter(function ($plugin) {
             return $plugin->status && $plugin->hasHelp;
         });
 
