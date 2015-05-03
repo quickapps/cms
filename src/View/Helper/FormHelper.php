@@ -65,8 +65,8 @@ class FormHelper extends CakeFormHelper
         if ($fieldName instanceof \Field\Model\Entity\Field) {
             if (!$this->_isRendering) {
                 $this->_isRendering = true;
-                $event = $this->eventDispatcher('Field')->trigger(
-                    ["{$fieldName->metadata->handler}.Entity.edit", $this->_View],
+                $event = $this->trigger(
+                    ["Field::{$fieldName->metadata->handler}.Entity.edit", $this->_View],
                     $fieldName,
                     $options
                 );

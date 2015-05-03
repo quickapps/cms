@@ -40,7 +40,7 @@ class FieldInstance extends Entity
      */
     protected function _getHandlerName()
     {
-        $info = $this->eventDispatcher('Field')->trigger(["{$this->handler}.Instance.info", $this]);
+        $info = $this->trigger(["Field::{$this->handler}.Instance.info", $this]);
 
         if (!empty($info->result['name'])) {
             return $info->result['name'];

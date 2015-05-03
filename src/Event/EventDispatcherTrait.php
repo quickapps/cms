@@ -26,17 +26,26 @@ trait EventDispatcherTrait
      * Triggers the given event name. This method provides a shortcut for:
      *
      * ```php
-     * EventDispatcher::instance()->trigger('EventName', $arg1, $arg2, ..., $argn);
+     * $this->trigger('EventName', $arg1, $arg2, ..., $argn);
      * ```
      *
      * You can provide a subject to use by passing an array as first arguments where
-     * the first element is the event name and the second one is the subject:
+     * the first element is the event name and the second one is the subject, if no
+     * subject is given `$this` will be used by default:
      *
      * ```php
      * $this->trigger(['GetTime', new MySubject()], $arg_0, $arg_1, ..., $arg_n);
      * ```
      *
-     * If no subject is given `$this` will be used by default.
+     * You can also indicate an EventDispatcher instance to use by prefixing the
+     * event name with `<InstanceName>::`, for instance:
+     *
+     * ```php
+     * $this->trigger('Blog::EventName', $arg1, $arg2, ..., $argn);
+     * ```
+     *
+     * This will use the EventDispacher instance named `Blog` and will trigger the
+     * event `EventName` within that instance.
      *
      * @param array|string $eventName The event name to trigger
      * @return \Cake\Event\Event The event object that was fired
@@ -50,6 +59,10 @@ trait EventDispatcherTrait
 
         $data = func_get_args();
         array_shift($data);
+        if (strpos($eventName[0], '::') > 0) {
+            list($instance, $eventName[0]) = explode('::', $eventName[0]);
+            return EventDispatcher::instance($instance)->triggerArray($eventName, $data);
+        }
         return EventDispatcher::instance()->triggerArray($eventName, $data);
     }
 

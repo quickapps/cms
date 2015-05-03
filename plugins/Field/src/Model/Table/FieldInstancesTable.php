@@ -82,7 +82,7 @@ class FieldInstancesTable extends Table
     {
         // check max instances limit
         $rules->addCreate(function ($instance, $options) {
-            $info = (array)$this->eventDispatcher('Field')->trigger(["{$instance->handler}.Instance.info", $this])->result;
+            $info = (array)$this->trigger(["Field::{$instance->handler}.Instance.info", $this])->result;
             if (isset($info['maxInstances']) && $info['maxInstances'] > 0) {
                 if (!$instance->get('eav_attribute')) {
                     return false;
@@ -177,7 +177,7 @@ class FieldInstancesTable extends Table
                         'shortcodes' => false,
                         'hidden' => false,
                         'ordering' => 0,
-                    ], (array)$this->eventDispatcher('Field')->trigger(["{$instance->handler}.Instance.viewModeDefaults", $this], $instance, ['viewMode' => $viewMode])->result);
+                    ], (array)$this->trigger(["Field::{$instance->handler}.Instance.viewModeDefaults", $this], $instance, ['viewMode' => $viewMode])->result);
 
                     if (!isset($instanceViewModes[$viewMode])) {
                         $instanceViewModes[$viewMode] = [];
@@ -187,7 +187,7 @@ class FieldInstancesTable extends Table
                     $instance->set('view_modes', $instanceViewModes);
                 }
 
-                $settingsDefaults = (array)$this->eventDispatcher('Field')->trigger(["{$instance->handler}.Instance.settingsDefaults", $this], $instance, [])->result;
+                $settingsDefaults = (array)$this->trigger(["Field::{$instance->handler}.Instance.settingsDefaults", $this], $instance, [])->result;
                 if (!empty($settingsDefaults)) {
                     $instanceSettings = $instance->get('settings');
                     foreach ($settingsDefaults as $k => $v) {
@@ -213,7 +213,7 @@ class FieldInstancesTable extends Table
      */
     public function beforeSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $instanceEvent = $this->eventDispatcher('Field')->trigger(["{$instance->handler}.Instance.beforeAttach", $event->subject()], $instance, $options);
+        $instanceEvent = $this->trigger(["Field::{$instance->handler}.Instance.beforeAttach", $event->subject()], $instance, $options);
         if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
             return false;
         }
@@ -230,7 +230,7 @@ class FieldInstancesTable extends Table
      */
     public function afterSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $this->eventDispatcher('Field')->trigger(["{$instance->handler}.Instance.afterAttach", $event->subject()], $instance, $options);
+        $this->trigger(["Field::{$instance->handler}.Instance.afterAttach", $event->subject()], $instance, $options);
     }
 
     /**
@@ -243,7 +243,7 @@ class FieldInstancesTable extends Table
      */
     public function beforeDelete(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $instanceEvent = $this->eventDispatcher('Field')->trigger(["{$instance->handler}.Instance.beforeDetach", $event->subject()], $instance, $options);
+        $instanceEvent = $this->trigger(["Field::{$instance->handler}.Instance.beforeDetach", $event->subject()], $instance, $options);
         if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
             return false;
         }
@@ -265,7 +265,7 @@ class FieldInstancesTable extends Table
     {
         if (!empty($this->_deleted)) {
             TableRegistry::get('Eav.EavAttribute')->delete($this->_deleted->get('eav_attribute'));
-            $this->eventDispatcher('Field')->trigger(["{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
+            $this->trigger(["Field::{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
             $this->_deleted = null;
         }
     }
