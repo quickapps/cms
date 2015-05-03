@@ -43,8 +43,8 @@
                         <?php endif; ?>
                         <?php echo $instance->label; ?>
                     </td>
-                    <td class="hidden-xs"><?php echo $instance->slug; ?></td>
-                    <td class="hidden-xs"><?php echo $instance->handlerName; ?></td>
+                    <td class="hidden-xs"><?php echo $instance->get('eav_attribute')->get('name'); ?></td>
+                    <td class="hidden-xs"><?php echo $instance->get('handlerName'); ?></td>
                     <td>
                         <div class="btn-group">
                             <?php if ($k > 0): ?>
