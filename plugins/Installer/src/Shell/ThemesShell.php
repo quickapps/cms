@@ -174,7 +174,7 @@ class ThemesShell extends Shell
      */
     protected function _uninstall()
     {
-        $allThemes = Plugin::get()
+        $allThemes = plugin()
             ->filter(function ($plugin) {
                 return $plugin->isTheme;
             })
@@ -197,7 +197,7 @@ class ThemesShell extends Shell
             } elseif (intval($in) < 1 || !isset($allThemes[intval($in)])) {
                 $this->err(__d('installer', 'Invalid option'));
             } else {
-                $plugin = Plugin::get($allThemes[$in]->name());
+                $plugin = plugin($allThemes[$in]->name());
                 $this->hr();
                 $this->out(__d('installer', '<info>The following theme will be uninstalled</info>'));
                 $this->hr();
@@ -235,7 +235,7 @@ class ThemesShell extends Shell
      */
     protected function _change()
     {
-        $disabledThemes = Plugin::get()
+        $disabledThemes = plugin()
             ->filter(function ($theme) {
                 return $theme->isTheme && !in_array($theme->name, [option('front_theme'), option('back_theme')]);
             })

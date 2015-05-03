@@ -240,7 +240,7 @@ class MenuHelper extends Helper
         }
 
         if ($this->config('beautify')) {
-            include_once Plugin::classPath('Menu') . 'Lib/htmLawed.php';
+            include_once \Go\Instrument\Transformer\FilterInjectorTransformer::rewrite( Plugin::classPath('Menu') . 'Lib/htmLawed.php', 'C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Menu\src\View\Helper');
             $tidy = is_bool($this->config('beautify')) ? '1t0n' : $this->config('beautify');
             $out = htmLawed($out, compact('tidy'));
         }

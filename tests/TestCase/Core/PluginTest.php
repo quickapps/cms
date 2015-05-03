@@ -54,7 +54,7 @@ class PluginTest extends TestCase
      */
     public function testGet()
     {
-        $plugin = Plugin::get('Node');
+        $plugin = plugin('Node');
         $this->assertTrue(!empty($plugin));
     }
 
@@ -66,7 +66,7 @@ class PluginTest extends TestCase
      */
     public function testGetThrow()
     {
-        Plugin::get('UnexistingPluginName');
+        plugin('UnexistingPluginName');
     }
 
     /**

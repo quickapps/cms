@@ -12,7 +12,6 @@
 namespace User\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\Core\Plugin;
 
 /**
  * Represents single "aco" in "acos" database table.
@@ -37,7 +36,7 @@ class Aco extends Entity
     {
         if ($this->_getIsPlugin()) {
             try {
-                return Plugin::get($this->alias)->human_name;
+                return plugin($this->alias)->human_name;
             } catch (\Exception $e) {
                 return $this->alias;
             }
@@ -62,7 +61,7 @@ class Aco extends Entity
      */
     protected function _getPluginName()
     {
-        return Plugin::get($this->alias)->human_name;
+        return plugin($this->alias)->human_name;
     }
 
     /**

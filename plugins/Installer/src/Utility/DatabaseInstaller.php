@@ -171,7 +171,7 @@ class DatabaseInstaller
         }
 
         if (is_readable(SITE_ROOT . '/config/settings.php.tmp')) {
-            $dbConfig = include SITE_ROOT . '/config/settings.php.tmp';
+            $dbConfig = include \Go\Instrument\Transformer\FilterInjectorTransformer::rewrite( SITE_ROOT . '/config/settings.php.tmp', 'C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Installer\src\Utility');
             if (empty($dbConfig['Datasources']['default'])) {
                 $this->error(__d('installer', 'Invalid database information in file "{0}"', SITE_ROOT . '/config/settings.php.tmp'));
                 return false;
@@ -321,7 +321,7 @@ class DatabaseInstaller
             return false;
         }
 
-        require $path;
+        require \Go\Instrument\Transformer\FilterInjectorTransformer::rewrite( $path, 'C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Installer\src\Utility');
         $className = str_replace('.php', '', basename($path));
         $fixture = new $className;
         $fields = (array)$fixture->fields;

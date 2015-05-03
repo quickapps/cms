@@ -116,7 +116,7 @@ class ImageToolbox extends FileToolbox
         $srcPath = dirname($filePath) . DS;
         $dstPath = normalizePath("{$srcPath}/.tmb/");
         $previewInfo = static::getPreviews($previewSize);
-        require_once Plugin::classPath('Field') . 'Lib/class.upload.php';
+        require_once \Go\Instrument\Transformer\FilterInjectorTransformer::rewrite( Plugin::classPath('Field') . 'Lib/class.upload.php', 'C:\xampp\htdocs\quickapps\vendor\quickapps\cms\plugins\Field\src\Utility');
         $handle = new \upload($srcPath . $srcFileName);
 
         if (empty($previewInfo)) {

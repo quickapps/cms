@@ -13,7 +13,6 @@ namespace Block\Controller\Admin;
 
 use Block\Controller\AppController;
 use Locale\Utility\LocaleToolbox;
-use QuickApps\Core\Plugin;
 
 /**
  * Block manager controller.
@@ -264,7 +263,7 @@ class ManageController extends AppController
      */
     protected function _setRegions($block = null)
     {
-        $regions = Plugin::get()
+        $regions = plugin()
             ->filter(function ($plugin) {
                 return $plugin->isTheme;
             })

@@ -191,50 +191,49 @@ if (!is_readable(TMP . 'snapshot.php')) {
  * Load all registered plugins.
  */
 $activePlugins = 0;
-Plugin::get()
-    ->each(function ($plugin) use(&$activePlugins, $classLoader) {
-        $filter = $plugin->status;
-        if ($plugin->isTheme) {
-            $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
-        }
+plugin()->each(function ($plugin) use(&$activePlugins, $classLoader) {
+    $filter = $plugin->status;
+    if ($plugin->isTheme) {
+        $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
+    }
 
-        if (!$filter) {
-            return;
-        }
+    if (!$filter) {
+        return;
+    }
 
-        if (!in_array("{$plugin->name}\\", array_keys($classLoader->getPrefixesPsr4()))) {
-            $classLoader->addPsr4("{$plugin->name}\\", normalizePath("{$plugin->path}/src/"), true);
-        }
+    if (!in_array("{$plugin->name}\\", array_keys($classLoader->getPrefixesPsr4()))) {
+        $classLoader->addPsr4("{$plugin->name}\\", normalizePath("{$plugin->path}/src/"), true);
+    }
 
-        if (!in_array("{$plugin->name}\\Test\\", array_keys($classLoader->getPrefixesPsr4()))) {
-            $classLoader->addPsr4("{$plugin->name}\\Test\\", normalizePath("{$plugin->path}/tests/"), true);
-        }
+    if (!in_array("{$plugin->name}\\Test\\", array_keys($classLoader->getPrefixesPsr4()))) {
+        $classLoader->addPsr4("{$plugin->name}\\Test\\", normalizePath("{$plugin->path}/tests/"), true);
+    }
 
-        Plugin::load($plugin->name, [
-            'autoload' => false,
-            'bootstrap' => true,
-            'routes' => true,
-            'path' => normalizePath("{$plugin->path}/"),
-            'classBase' => 'src',
-            'ignoreMissing' => true,
-        ]);
+    Plugin::load($plugin->name, [
+        'autoload' => false,
+        'bootstrap' => true,
+        'routes' => true,
+        'path' => normalizePath("{$plugin->path}/"),
+        'classBase' => 'src',
+        'ignoreMissing' => true,
+    ]);
 
-        foreach ($plugin->eventListeners as $fullClassName) {
-            if (class_exists($fullClassName)) {
-                if (str_ends_with($fullClassName, 'Field')) {
-                    EventDispatcher::instance('Field')->eventManager()->on(new $fullClassName);
-                } elseif (str_ends_with($fullClassName, 'Shortcode')) {
-                    EventDispatcher::instance('Shortcode')->eventManager()->on(new $fullClassName);
-                } else {
-                    EventDispatcher::instance()
-                        ->eventManager()
-                        ->on(new $fullClassName);
-                }
+    foreach ($plugin->eventListeners as $fullClassName) {
+        if (class_exists($fullClassName)) {
+            if (str_ends_with($fullClassName, 'Field')) {
+                EventDispatcher::instance('Field')->eventManager()->on(new $fullClassName);
+            } elseif (str_ends_with($fullClassName, 'Shortcode')) {
+                EventDispatcher::instance('Shortcode')->eventManager()->on(new $fullClassName);
+            } else {
+                EventDispatcher::instance()
+                    ->eventManager()
+                    ->on(new $fullClassName);
             }
         }
+    }
 
-        $activePlugins++;
-    });
+    $activePlugins++;
+});
 
 if (!$activePlugins) {
     die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
