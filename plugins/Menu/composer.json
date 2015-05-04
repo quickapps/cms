@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugins/menu",
 	"description": "Allows administrators to customize the site navigation menu.",
-	"type": "quickapps-plugin",
+	"type": "cakephp-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",
