@@ -32,7 +32,9 @@ class AppAspect extends AspectKernel
     protected function configureAop(AspectContainer $container)
     {
         foreach ((array)aspects() as $class) {
-            $container->registerAspect(new $class);
+            if (class_exists($class)) {
+                $container->registerAspect(new $class);
+            }
         }
     }
     // @codingStandardsIgnoreEnd
