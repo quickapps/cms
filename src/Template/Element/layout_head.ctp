@@ -26,7 +26,7 @@
     <?php echo is_array($prepend) ? implode("\n", $prepend) : $prepend; ?>
 <?php endif; ?>
 
-<title><?php echo $this->fetch('title'); ?></title>
+<title><?php echo strip_tags($this->fetch('title')); ?></title>
 <?php echo $this->Html->charset(); ?>
 
 <?php if (isset($icon) && $icon === true): ?>
