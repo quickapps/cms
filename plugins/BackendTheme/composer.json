@@ -1,7 +1,7 @@
 {
     "name": "quickapps-themes/backend-theme",
     "description": "QuickAppsCMS’s default backend theme based on AdminLTE.",
-    "type": "quickapps-plugin",
+    "type": "cakephp-plugin",
     "keywords": [
         "framework",
         "cms",

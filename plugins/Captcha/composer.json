@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugins/captcha",
 	"description": "Provides CAPTCHA API, and allows to protect web forms using Captcha adapters.",
-	"type": "quickapps-plugin",
+	"type": "cakephp-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "captcha", "security"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",

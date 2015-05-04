@@ -1,7 +1,7 @@
 {
     "name": "quickapps-themes/frontend-theme",
     "description": "QuickAppsCMS’s default frontend theme based on Twitter Bootstrap.",
-    "type": "quickapps-plugin",
+    "type": "cakephp-plugin",
     "keywords": [
         "framework",
         "cms",

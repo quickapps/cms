@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugins/jquery",
 	"description": "Provides jQuery JS assets.",
-	"type": "quickapps-plugin",
+	"type": "cakephp-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "jquery", "jquery ui"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",

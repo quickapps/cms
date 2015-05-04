@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugins/jquery",
 	"description": "Provides Twitter Bootstrap assets.",
-	"type": "quickapps-plugin",
+	"type": "cakephp-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "twitter", "bootstrap", "css"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",

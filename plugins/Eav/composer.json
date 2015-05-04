@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugins/eav",
 	"description": "Provides EAV (Entity-Attribute-Value) design pattern.",
-	"type": "quickapps-plugin",
+	"type": "cakephp-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "model", "database", "eav"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",

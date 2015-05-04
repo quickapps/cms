@@ -1,7 +1,7 @@
 {
 	"name": "quickapps-plugins/locale",
 	"description": "Adds language handling functionality and enables the translation of the user interface to languages other than English.",
-	"type": "quickapps-plugin",
+	"type": "cakephp-plugin",
 	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
 	"homepage": "http://quickappscms.org",
 	"license": "GPL-3.0",
