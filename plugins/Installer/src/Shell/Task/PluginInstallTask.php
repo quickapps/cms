@@ -454,8 +454,10 @@ class PluginInstallTask extends Shell
                     'X-Requested-With' => 'XMLHttpRequest'
                 ]
             ]);
-        } catch (\Exception $e) {
+        } catch (\Exception $ex) {
             $response = false;
+            $this->err(__d('installer', 'Could not download the package. Details: {0}', $ex->getMessage()));
+            return false;
         }
 
         if ($response && $response->isOk()) {
