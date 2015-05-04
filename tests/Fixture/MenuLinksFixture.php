@@ -222,8 +222,8 @@ class MenuLinksFixture extends TestFixture
     3 =>
     [
     'menu_id' => 1,
-    'lft' => 21,
-    'rght' => 26,
+    'lft' => 23,
+    'rght' => 28,
     'parent_id' => 0,
     'url' => '/admin/system/themes',
     'description' => '',
@@ -237,8 +237,8 @@ class MenuLinksFixture extends TestFixture
     4 =>
     [
     'menu_id' => 1,
-    'lft' => 27,
-    'rght' => 32,
+    'lft' => 29,
+    'rght' => 34,
     'parent_id' => 0,
     'url' => '/admin/system/plugins',
     'description' => '',
@@ -252,8 +252,8 @@ class MenuLinksFixture extends TestFixture
     5 =>
     [
     'menu_id' => 1,
-    'lft' => 33,
-    'rght' => 42,
+    'lft' => 35,
+    'rght' => 44,
     'parent_id' => 0,
     'url' => '/admin/user/manage',
     'description' => '',
@@ -267,8 +267,8 @@ class MenuLinksFixture extends TestFixture
     6 =>
     [
     'menu_id' => 1,
-    'lft' => 49,
-    'rght' => 50,
+    'lft' => 51,
+    'rght' => 52,
     'parent_id' => 0,
     'url' => '/admin/system/configuration',
     'description' => '',
@@ -282,8 +282,8 @@ class MenuLinksFixture extends TestFixture
     7 =>
     [
     'menu_id' => 1,
-    'lft' => 51,
-    'rght' => 52,
+    'lft' => 53,
+    'rght' => 54,
     'parent_id' => 0,
     'url' => '/admin/system/help',
     'description' => '',
@@ -305,8 +305,8 @@ class MenuLinksFixture extends TestFixture
     'title' => 'Blocks',
     'target' => '_self',
     'expanded' => 0,
-    'active' => null,
-    'activation' => null,
+    'active' => '/admin/block/*',
+    'activation' => 'any',
     'status' => true,
     ],
     9 =>
@@ -342,8 +342,8 @@ class MenuLinksFixture extends TestFixture
     11 =>
     [
     'menu_id' => 1,
-    'lft' => 43,
-    'rght' => 48,
+    'lft' => 45,
+    'rght' => 50,
     'parent_id' => 0,
     'url' => '/admin/locale/',
     'description' => '',
@@ -441,7 +441,8 @@ class MenuLinksFixture extends TestFixture
     'title' => 'Content Types',
     'target' => '',
     'expanded' => 0,
-    'active' => '/admin/node/fields*',
+    'active' => '/admin/node/types*
+/admin/node/fields*',
     'activation' => 'any',
     'status' => true,
     ],
@@ -456,15 +457,15 @@ class MenuLinksFixture extends TestFixture
     'title' => 'Comments',
     'target' => '',
     'expanded' => 0,
-    'active' => '',
-    'activation' => 'auto',
+    'active' => '/admin/node/comments/*',
+    'activation' => 'any',
     'status' => true,
     ],
     19 =>
     [
     'menu_id' => 1,
-    'lft' => 22,
-    'rght' => 23,
+    'lft' => 24,
+    'rght' => 25,
     'parent_id' => 4,
     'url' => '/admin/system/themes/index',
     'description' => '',
@@ -479,8 +480,8 @@ class MenuLinksFixture extends TestFixture
     20 =>
     [
     'menu_id' => 1,
-    'lft' => 24,
-    'rght' => 25,
+    'lft' => 26,
+    'rght' => 27,
     'parent_id' => 4,
     'url' => '/admin/system/themes/install',
     'description' => '',
@@ -494,8 +495,8 @@ class MenuLinksFixture extends TestFixture
     21 =>
     [
     'menu_id' => 1,
-    'lft' => 28,
-    'rght' => 29,
+    'lft' => 30,
+    'rght' => 31,
     'parent_id' => 5,
     'url' => '/admin/system/plugins/index',
     'description' => '',
@@ -509,8 +510,8 @@ class MenuLinksFixture extends TestFixture
     22 =>
     [
     'menu_id' => 1,
-    'lft' => 30,
-    'rght' => 31,
+    'lft' => 32,
+    'rght' => 33,
     'parent_id' => 5,
     'url' => '/admin/system/plugins/install',
     'description' => '',
@@ -524,23 +525,23 @@ class MenuLinksFixture extends TestFixture
     23 =>
     [
     'menu_id' => 1,
-    'lft' => 34,
-    'rght' => 35,
+    'lft' => 36,
+    'rght' => 37,
     'parent_id' => 6,
-    'url' => '/admin/user/manage/index',
+    'url' => '/admin/user/manage/',
     'description' => '',
     'title' => 'Users List',
     'target' => '',
     'expanded' => 0,
-    'active' => '',
-    'activation' => 'auto',
+    'active' => '/admin/user/manage/*',
+    'activation' => 'any',
     'status' => true,
     ],
     24 =>
     [
     'menu_id' => 1,
-    'lft' => 36,
-    'rght' => 37,
+    'lft' => 38,
+    'rght' => 39,
     'parent_id' => 6,
     'url' => '/admin/user/roles',
     'description' => '',
@@ -554,8 +555,8 @@ class MenuLinksFixture extends TestFixture
     25 =>
     [
     'menu_id' => 1,
-    'lft' => 38,
-    'rght' => 39,
+    'lft' => 40,
+    'rght' => 41,
     'parent_id' => 6,
     'url' => '/admin/user/permissions',
     'description' => '',
@@ -569,8 +570,8 @@ class MenuLinksFixture extends TestFixture
     26 =>
     [
     'menu_id' => 1,
-    'lft' => 44,
-    'rght' => 45,
+    'lft' => 46,
+    'rght' => 47,
     'parent_id' => 13,
     'url' => '/admin/locale/manage/index',
     'description' => '',
@@ -584,8 +585,8 @@ class MenuLinksFixture extends TestFixture
     27 =>
     [
     'menu_id' => 1,
-    'lft' => 46,
-    'rght' => 47,
+    'lft' => 48,
+    'rght' => 49,
     'parent_id' => 13,
     'url' => '/admin/locale/manage/add',
     'description' => '',
@@ -599,8 +600,8 @@ class MenuLinksFixture extends TestFixture
     28 =>
     [
     'menu_id' => 1,
-    'lft' => 40,
-    'rght' => 41,
+    'lft' => 42,
+    'rght' => 43,
     'parent_id' => 6,
     'url' => '/admin/user/fields',
     'description' => '',
@@ -608,6 +609,21 @@ class MenuLinksFixture extends TestFixture
     'target' => '',
     'expanded' => 0,
     'active' => '/admin/user/fields*',
+    'activation' => 'any',
+    'status' => true,
+    ],
+    29 =>
+    [
+    'menu_id' => 1,
+    'lft' => 21,
+    'rght' => 22,
+    'parent_id' => 0,
+    'url' => '/admin/media_manager/explorer',
+    'description' => '',
+    'title' => 'Media',
+    'target' => '',
+    'expanded' => 1,
+    'active' => '/admin/media_manager/explorer*',
     'activation' => 'any',
     'status' => true,
     ],

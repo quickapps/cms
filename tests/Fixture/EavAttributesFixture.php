@@ -57,7 +57,7 @@ class EavAttributesFixture extends TestFixture
     [
     'type' => 'string',
     'length' => 50,
-    'null' => false,
+    'null' => true,
     'default' => null,
     'comment' => '',
     'precision' => null,
