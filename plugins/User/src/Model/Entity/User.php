@@ -42,17 +42,25 @@ class User extends Entity
     }
 
     /**
-     * Verifies this user can access the given ACO.
+     * Verifies this user is allowed access the given ACO.
+     *
+     * ### Usage:
+     *
+     * ```php
+     * // Checks if current user is allowed to edit created contents:
+     * user()->isAllowed('Node/Admin/Manage/edit');
+     * ```
      *
      * @param string $aco An ACO path. e.g. `Plugin/Prefix/Controller/action`
      * @return bool True if user can access ACO, false otherwise
      */
-    public function can($aco)
+    public function isAllowed($aco)
     {
-        $cache = static::cache("can({$aco})");
+        $cacheKey = 'isAllowed(' . $this->get('id') . ", {$aco})";
+        $cache = static::cache($cacheKey);
         if ($cache === null) {
             $cache = TableRegistry::get('User.Permissions')->check($this, $aco);
-            static::cache("can({$aco})", $cache);
+            static::cache($cacheKey, $cache);
         }
         return $cache;
     }
@@ -77,11 +85,11 @@ class User extends Entity
      * Powered by Gravatar, it uses user's email to get avatar image URL from
      * Gravatar service.
      *
-     * Use this method if you need to customize avatar's parameters such as `size`,
-     * etc.
+     * Use this method instead of `avatar` property when you need to customize
+     * avatar's parameters such as `size`, etc.
      *
      * ```php
-     * $user->avatar(['s' => 150]);
+     * $user->avatar(['s' => 150]); // instead of: $user->avatar;
      * ```
      *
      * @param array $options Array of options for Gravatar API

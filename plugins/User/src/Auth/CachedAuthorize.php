@@ -53,7 +53,7 @@ class CachedAuthorize extends BaseAuthorize
         }
 
         if (!isset($permissions[$path])) {
-            $allowed = $user->can($path);
+            $allowed = $user->isAllowed($path);
             $permissions[$path] = $allowed;
             Cache::write($cacheKey, $permissions, 'permissions');
         } else {
