@@ -27,7 +27,7 @@
                 <tr>
                     <th><?php echo __d('field', 'Field label'); ?></th>
                     <th class="hidden-xs"><?php echo __d('field', 'Machine name'); ?></th>
-                    <th class="hidden-xs"><?php echo __d('field', 'Handler'); ?></th>
+                    <th class="hidden-xs"><?php echo __d('field', 'Type'); ?></th>
                     <th><?php echo __d('field', 'Actions'); ?></th>
                 </tr>
             </thead>
