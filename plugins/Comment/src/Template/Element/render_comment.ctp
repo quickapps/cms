@@ -11,9 +11,7 @@
  */
 
 /**
- * Renders a single comment.
- *
- * It will renders its children if it has.
+ * Renders a single comment and its children.
  */
 ?>
 
@@ -34,21 +32,30 @@
         </p>
     </header>
 
-    <div class="message">
-        <p><?php echo $comment->body; ?></p>
-    </div>
-
-    <?php if ($comment->has('children') && !empty($comment->children)): ?>
-        <div calss="comment-answers">
-        <?php foreach($comment->children as $child): ?>
-            <?php echo $this->render($child); ?>
-        <?php endforeach; ?>
+    <div class="comment-body">
+        <div class="message">
+            <p><?php echo $comment->body; ?></p>
         </div>
-    <?php endif; ?>
+
+        <?php if ($comment->has('children') && !empty($comment->children)): ?>
+            <div calss="comment-answers">
+                <?php foreach($comment->children as $child): ?>
+                    <?php echo $this->render($child); ?>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 
     <footer>
         <?php if ($this->Comment->config('visibility') === 1): ?>
-            <p><?php echo $this->Form->button(__d('comment', 'Reply'), ['class' => 'btn btn-default btn-sm', 'onclick' => "CommentForm.replyTo({$comment->id});"]); ?></p>
+            <p>
+                <?php
+                    echo $this->Form->button(__d('comment', 'Reply'), [
+                        'class' => 'btn btn-default btn-sm',
+                        'onclick' => "CommentForm.replyTo({$comment->id});"
+                    ]);
+                ?>
+            </p>
         <?php endif; ?>
     </footer>
 </article>

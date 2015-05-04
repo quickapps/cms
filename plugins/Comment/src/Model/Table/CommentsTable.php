@@ -80,15 +80,15 @@ class CommentsTable extends Table
                         // the same bundle (table)
                         $conditions = [
                             'id' => $value,
-                            'entity_id' => $context['providers']['entity']->entity_id,
-                            'table_alias' => $context['providers']['entity']->table_alias,
+                            'entity_id' => $context['data']['entity_id'],
+                            'table_alias' => $context['data']['table_alias'],
                         ];
 
                         return TableRegistry::get('Comment.Comments')->find()
                             ->where($conditions)
                             ->count() > 0;
                     } else {
-                        $context['providers']['entity']->parent_id = null;
+                        $context['data']['parent_id'] = null;
                     }
 
                     return true;

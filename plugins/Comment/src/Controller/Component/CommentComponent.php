@@ -345,6 +345,7 @@ class CommentComponent extends Component
         $pk = (string)TableRegistry::get($entity->source())->primaryKey();
         $data = [];
         $return = [
+            'parent_id' => null,
             'subject' => '',
             'body' => '',
             'status' => 'pending',
@@ -365,7 +366,12 @@ class CommentComponent extends Component
         }
 
         if (!empty($data['subject'])) {
-            $return['subject'] = TextToolbox::process($data['subject'], $this->config('settings.text_processing'));
+            $return['subject'] = h($data['subject']);
+        }
+
+        if (!empty($data['parent_id'])) {
+            // this is validated at Model side
+            $return['parent_id'] = $data['parent_id'];
         }
 
         if (!empty($data['body'])) {
