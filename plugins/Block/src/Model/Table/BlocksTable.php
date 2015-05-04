@@ -200,8 +200,8 @@ class BlocksTable extends Table
         return $validator
             ->requirePresence('title')
             ->add('title', [
-                'notBlank' => [
-                    'rule' => 'notBlank',
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
                     'message' => __d('block', 'You need to provide a title.'),
                 ],
                 'length' => [
@@ -211,8 +211,8 @@ class BlocksTable extends Table
             ])
             ->requirePresence('description')
             ->add('description', [
-                'notBlank' => [
-                    'rule' => 'notBlank',
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
                     'message' => __d('block', 'You need to provide a description.'),
                 ],
                 'length' => [
@@ -238,7 +238,7 @@ class BlocksTable extends Table
             ])
             ->requirePresence('handler', 'create', __d('block', 'This field is required.'))
             ->add('handler', 'validHandler', [
-                'rule' => 'notBlank',
+                'rule' => 'notEmpty',
                 'on' => 'create',
                 'message' => __d('block', 'Invalid block handler'),
             ]);
@@ -259,8 +259,8 @@ class BlocksTable extends Table
         return $this->validationWidget($validator)
             ->requirePresence('body')
             ->add('body', [
-                'notBlank' => [
-                    'rule' => 'notBlank',
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
                     'message' => __d('block', "You need to provide a content for block's body."),
                 ],
                 'length' => [

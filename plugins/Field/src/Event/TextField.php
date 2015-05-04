@@ -62,7 +62,7 @@ class TextField extends BaseHandler
         if ($field->metadata->required) {
             $validator
                 ->requirePresence($field->name, __d('field', 'This field required.'))
-                ->add($field->name, 'notBlank', [
+                ->add($field->name, 'notEmpty', [
                     'rule' => function ($value, $context) use ($field) {
                         if ($field->metadata->settings['type'] === 'textarea') {
                             $clean = html_entity_decode(trim(strip_tags($value)));

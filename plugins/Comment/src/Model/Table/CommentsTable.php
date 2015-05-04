@@ -52,8 +52,8 @@ class CommentsTable extends Table
     {
         $validator
             ->add('subject', [
-                'notBlank' => [
-                    'rule' => 'notBlank',
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
                     'message' => __d('comment', 'You need to provide a comment subject.'),
                 ],
                 'length' => [
@@ -62,8 +62,8 @@ class CommentsTable extends Table
                 ]
             ])
             ->add('body', [
-                'notBlank' => [
-                    'rule' => 'notBlank',
+                'notEmpty' => [
+                    'rule' => 'notEmpty',
                     'message' => __d('comment', 'Your comment message cannot be empty')
                 ],
                 'length' => [
