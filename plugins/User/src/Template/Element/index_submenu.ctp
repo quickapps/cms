@@ -14,7 +14,7 @@ $menuItems = [[
     'title' => '<span class="glyphicon glyphicon-th-list"></span> ' . __d('user', 'Users'),
     'url' => '/admin/user/manage/',
     'activation' => 'any',
-    'active' => "/admin/user/manage\n/admin/user/manage/\n/admin/user\n/admin/user/\n/admin/user/manage/add\n/admin/user/manage/add/",
+    'active' => "/admin/user/manage\n/admin/user/manage/\n/admin/user/manage/index\n/admin/user\n/admin/user/\n/admin/user/manage/add\n/admin/user/manage/add/",
 ], [
     'title' => '<span class="glyphicon glyphicon-user"></span> ' . __d('user', 'Roles'),
     'url' => ['plugin' => 'User', 'controller' => 'roles', 'action' => 'index'],
