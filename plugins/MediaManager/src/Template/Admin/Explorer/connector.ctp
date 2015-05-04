@@ -9,26 +9,24 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-?>
 
-<?php
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
-use Cake\Routing\Router;
+use QuickApps\Core\Plugin;
 
-//error_reporting(0);
-$pp = Plugin::classPath('Wysiwyg');
-require $pp . 'Lib/ElFinder/elFinderConnector.class.php';
-require $pp . 'Lib/ElFinder/elFinder.class.php';
-require $pp . 'Lib/ElFinder/elFinderVolumeDriver.class.php';
-require $pp . 'Lib/ElFinder/elFinderVolumeLocalFileSystem.class.php';
+$pluginPath = Plugin::classPath('MediaManager');
+require $pluginPath . 'Lib/ElFinder/elFinderConnector.class.php';
+require $pluginPath . 'Lib/ElFinder/elFinder.class.php';
+require $pluginPath . 'Lib/ElFinder/elFinderVolumeDriver.class.php';
+require $pluginPath . 'Lib/ElFinder/elFinderVolumeLocalFileSystem.class.php';
 
 /**
- * Simple function to demonstrate how to control file access using "accessControl" callback.
- * This method will disable accessing files/folders starting from  '.' (dot)
+ * Simple function to demonstrate how to control file access using "accessControl"
+ * callback. This method will disable accessing files/folders starting from  '.'
+ * (dot)
  *
  * @param string $attr attribute name (read|write|locked|hidden)
- * @param string $path  file path relative to volume root directory started with directory separator
+ * @param string $path  file path relative to volume root directory started with
+ *  directory separator
  * @return bool|null
  **/
 function access($attr, $path, $data, $volume)
@@ -56,7 +54,7 @@ $opts = [
     'locale' => 'en_US.UTF-8',
     'debug' => Configure::read('debug'),
     'roots' => [[
-        'alias' => __d('wysiwyg', 'Site Files'),
+        'alias' => __d('media_manager', 'Site Files'),
         'driver' => 'LocalFileSystem',
         'path' => SITE_ROOT . '/webroot/files/',
         'URL' => $this->Url->build('/files', true),
@@ -67,13 +65,14 @@ $opts = [
         'tmbSize' => 200,
         'acceptedName'    => '/^[^\.].*$/',
         'accessControl' => 'access',
-        'dateFormat' => __d('wysiwyg', 'j M Y H:i'),
+        'dateFormat' => __d('media_manager', 'j M Y H:i'),
         'defaults' => ['read' => true, 'write' => true],
+        'icon' => $this->Url->build('/media_manager/img/volume_icon_local.png'),
     ], [
-        'alias' => __d('wysiwyg', 'Plugins'),
+        'alias' => __d('media_manager', 'Plugins'),
         'driver' => 'LocalFileSystem',
         'path' => SITE_ROOT . '/plugins/',
-        'URL' => $this->Url->build(['plugin' => 'Wysiwyg', 'controller' => 'finder', 'action' => 'plugin_file', 'file' => '#'], true),
+        'URL' => $this->Url->build(['plugin' => 'MediaManager', 'controller' => 'explorer', 'action' => 'plugin_file', 'file' => '#'], true),
         'mimeDetect' => 'internal',
         'tmbPath' => '.tmb',
         'utf8fix' => true,
@@ -81,8 +80,9 @@ $opts = [
         'tmbSize' => 200,
         'acceptedName'    => '/^[^\.].*$/',
         'accessControl' => 'access',
-        'dateFormat' => __d('wysiwyg', 'j M Y H:i'),
+        'dateFormat' => __d('media_manager', 'j M Y H:i'),
         'defaults' => ['read' => true, 'write' => true],
+        'icon' => $this->Url->build('/media_manager/img/volume_icon_local.png'),
     ]]
 ];
 

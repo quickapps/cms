@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `acos` (
   `plugin` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `alias_hash` varchar(32) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=186 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `acos`
@@ -172,17 +172,16 @@ INSERT INTO `acos` (`id`, `parent_id`, `lft`, `rght`, `plugin`, `alias`, `alias_
 (150, 147, 318, 319, 'Block', 'edit', 'de95b43bceeb4b998aed4aed5cef1ae7'),
 (151, 147, 320, 321, 'Block', 'delete', '099af53f601532dbd31e0ea99ffdeb64'),
 (152, 147, 322, 323, 'Block', 'duplicate', '24f1b0a79473250c195c7fb84e393392'),
-(153, NULL, 327, 338, 'Wysiwyg', 'Wysiwyg', 'fcb1d5c3299a281fbb55851547dfac9e'),
-(154, 153, 328, 337, 'Wysiwyg', 'Admin', 'e3afed0047b08059d0fada10f400c1e5'),
-(155, 154, 329, 336, 'Wysiwyg', 'Finder', 'd151508da8d36994e1635f7875594424'),
+(153, NULL, 327, 334, 'Wysiwyg', 'Wysiwyg', 'fcb1d5c3299a281fbb55851547dfac9e'),
+(154, 153, 328, 333, 'Wysiwyg', 'Admin', 'e3afed0047b08059d0fada10f400c1e5'),
+(155, 154, 329, 332, 'Wysiwyg', 'Finder', 'd151508da8d36994e1635f7875594424'),
 (156, 155, 330, 331, 'Wysiwyg', 'index', '6a992d5529f459a44fee58c733255e86'),
-(157, 155, 332, 333, 'Wysiwyg', 'connector', '266e0d3d29830abfe7d4ed98b47966f7'),
-(159, NULL, 339, 350, 'Field', 'Field', '6f16a5f8ff5d75ab84c018adacdfcbb7'),
-(160, 159, 340, 345, 'Field', 'FileHandler', 'd3d5308974962037be1ce87e7b7bbfe2'),
-(161, 160, 341, 342, 'Field', 'upload', '76ee3de97a1b8b903319b7c013d8c877'),
-(162, 160, 343, 344, 'Field', 'delete', '099af53f601532dbd31e0ea99ffdeb64'),
-(163, 159, 346, 349, 'Field', 'ImageHandler', '0f6984d93393387e52ea884c7ca0fd93'),
-(164, 163, 347, 348, 'Field', 'thumbnail', '951d4dff3c22e9fcc4a2707009f45ea8'),
+(159, NULL, 335, 346, 'Field', 'Field', '6f16a5f8ff5d75ab84c018adacdfcbb7'),
+(160, 159, 336, 341, 'Field', 'FileHandler', 'd3d5308974962037be1ce87e7b7bbfe2'),
+(161, 160, 337, 338, 'Field', 'upload', '76ee3de97a1b8b903319b7c013d8c877'),
+(162, 160, 339, 340, 'Field', 'delete', '099af53f601532dbd31e0ea99ffdeb64'),
+(163, 159, 342, 345, 'Field', 'ImageHandler', '0f6984d93393387e52ea884c7ca0fd93'),
+(164, 163, 343, 344, 'Field', 'thumbnail', '951d4dff3c22e9fcc4a2707009f45ea8'),
 (165, 127, 288, 289, 'Locale', 'setDefault', 'd16b26f218cfb8cde187e3b95a78813c'),
 (166, 85, 198, 199, 'Node', 'emptyTrash', 'b13b982da42afc395fd5f9ad46381e23'),
 (167, 91, 212, 213, 'Node', 'viewModeList', 'f6730c40f9e93768852502275e0c9ed5'),
@@ -203,7 +202,12 @@ INSERT INTO `acos` (`id`, `parent_id`, `lft`, `rght`, `plugin`, `alias`, `alias_
 (182, 19, 54, 55, 'User', 'block', '14511f2f5564650d129ca7cabc333278'),
 (183, 19, 56, 57, 'User', 'activate', 'd4ee0fbbeb7ffd4fd7a7d477a7ecd922'),
 (184, 19, 58, 59, 'User', 'passwordInstructions', '1aae12034ad9d692f6802c1721cc622f'),
-(185, 155, 334, 335, 'Wysiwyg', 'pluginFile', 'a840980787c4260a4a710f753641a8c6');
+(186, NULL, 347, 358, 'MediaManager', 'MediaManager', 'ce0a1f03091160e6528b72e9f9ea7eff'),
+(187, 186, 348, 357, 'MediaManager', 'Admin', 'e3afed0047b08059d0fada10f400c1e5'),
+(188, 187, 349, 356, 'MediaManager', 'Explorer', '94fbbf67e0c8cea8cbaff55287746f3e'),
+(189, 188, 350, 351, 'MediaManager', 'index', '6a992d5529f459a44fee58c733255e86'),
+(190, 188, 352, 353, 'MediaManager', 'connector', '266e0d3d29830abfe7d4ed98b47966f7'),
+(191, 188, 354, 355, 'MediaManager', 'pluginFile', 'a840980787c4260a4a710f753641a8c6');
 
 -- --------------------------------------------------------
 
@@ -318,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
 CREATE TABLE IF NOT EXISTS `eav_attributes` (
 `id` int(11) NOT NULL,
   `table_alias` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  `bundle` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `bundle` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'varchar',
   `searchable` tinyint(1) NOT NULL DEFAULT '1',
@@ -482,7 +486,7 @@ CREATE TABLE IF NOT EXISTS `menu_links` (
   `active` text COLLATE utf8_unicode_ci COMMENT 'php code, or regular expression. based on active_on_type',
   `activation` varchar(5) COLLATE utf8_unicode_ci DEFAULT 'auto' COMMENT 'php: on php return TRUE. auto: auto-detect; any: request''s URL matches any in "active" column; none: request''s URL matches none of listed in "active" column',
   `status` tinyint(1) NOT NULL DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `menu_links`
@@ -492,32 +496,33 @@ INSERT INTO `menu_links` (`id`, `menu_id`, `lft`, `rght`, `parent_id`, `url`, `d
 (1, 1, 1, 2, 0, '/admin/system/dashboard', NULL, 'Dashboard', '_self', 1, '/admin/system/dashboard\r\n/admin\r\n/admin/', 'any', 1),
 (2, 1, 3, 10, 0, '/admin/system/structure', '', 'Structure', '_self', 1, '', 'auto', 1),
 (3, 1, 11, 20, 0, '/admin/node/manage', '', 'Content', '_self', 1, '/admin/node/manage*\r\n/admin/node/comments*\r\n/admin/node/types*\r\n/admin/node/fields*', 'any', 1),
-(4, 1, 21, 26, 0, '/admin/system/themes', '', 'Appearance', '_self', 1, 'admin/system/themes*', 'any', 1),
-(5, 1, 27, 32, 0, '/admin/system/plugins', '', 'Extensions', '_self', 1, 'admin/system/plugins*', 'any', 1),
-(6, 1, 33, 42, 0, '/admin/user/manage', '', 'Users & Security', '_self', 1, '/admin/user*', 'any', 1),
-(7, 1, 49, 50, 0, '/admin/system/configuration', '', 'Configuration', '_self', 0, '/admin/system/configuration*', 'any', 1),
-(8, 1, 51, 52, 0, '/admin/system/help', '', 'Help', '_self', 0, '/admin/system/help*', 'any', 1),
-(9, 1, 4, 5, 2, '/admin/block/manage', 'Configure what block content appears in your site''s sidebars and other regions.', 'Blocks', '_self', 0, NULL, NULL, 1),
+(4, 1, 23, 28, 0, '/admin/system/themes', '', 'Appearance', '_self', 1, 'admin/system/themes*', 'any', 1),
+(5, 1, 29, 34, 0, '/admin/system/plugins', '', 'Extensions', '_self', 1, 'admin/system/plugins*', 'any', 1),
+(6, 1, 35, 44, 0, '/admin/user/manage', '', 'Users & Security', '_self', 1, '/admin/user*', 'any', 1),
+(7, 1, 51, 52, 0, '/admin/system/configuration', '', 'Configuration', '_self', 0, '/admin/system/configuration*', 'any', 1),
+(8, 1, 53, 54, 0, '/admin/system/help', '', 'Help', '_self', 0, '/admin/system/help*', 'any', 1),
+(9, 1, 4, 5, 2, '/admin/block/manage', 'Configure what block content appears in your site''s sidebars and other regions.', 'Blocks', '_self', 0, '/admin/block/*', 'any', 1),
 (11, 1, 6, 7, 2, '/admin/menu/manage', 'Add new menus to your site, edit existing menus, and rename and reorganize menu links.', 'Menus', '_self', 0, NULL, NULL, 1),
 (12, 1, 8, 9, 2, '/admin/taxonomy/vocabularies', 'Manage tagging, categorization, and classification of your content.', 'Taxonomy', '_self', 0, NULL, NULL, 1),
-(13, 1, 43, 48, 0, '/admin/locale/', '', 'Languages', '_self', 1, '/admin/locale/*', 'any', 1),
+(13, 1, 45, 50, 0, '/admin/locale/', '', 'Languages', '_self', 1, '/admin/locale/*', 'any', 1),
 (14, 2, 3, 4, 0, '/page/about.html', '', 'About', '_self', 0, NULL, NULL, 1),
 (16, 2, 1, 2, 0, '/', '', 'Home', '_self', 0, NULL, NULL, 1),
 (17, 2, 5, 6, 0, '/find/type:article', '', 'Blog', '_self', 0, '/article/*.html\r\n/find/*type:article*', 'any', 1),
 (18, 1, 12, 13, 3, '/admin/node/manage/index', '', 'Contents List', '', 0, '', 'auto', 1),
 (19, 1, 14, 15, 3, '/admin/node/manage/create', '', 'Create New Content', '', 0, '', 'auto', 1),
-(20, 1, 16, 17, 3, '/admin/node/types', '', 'Content Types', '', 0, '/admin/node/fields*', 'any', 1),
-(21, 1, 18, 19, 3, '/admin/node/comments/', '', 'Comments', '', 0, '', 'auto', 1),
-(22, 1, 22, 23, 4, '/admin/system/themes/index', '', 'Themes', '', 0, '/admin/system/themes\r\n/admin/system/themes/index', 'any', 1),
-(23, 1, 24, 25, 4, '/admin/system/themes/install', '', 'Install New Theme', '', 0, '', 'auto', 1),
-(24, 1, 28, 29, 5, '/admin/system/plugins/index', '', 'Plugins', '', 0, '', 'auto', 1),
-(25, 1, 30, 31, 5, '/admin/system/plugins/install', '', 'Install New Plugin', '', 0, '', 'auto', 1),
-(26, 1, 34, 35, 6, '/admin/user/manage/index', '', 'Users List', '', 0, '', 'auto', 1),
-(27, 1, 36, 37, 6, '/admin/user/roles', '', 'User Roles', '', 0, '', 'auto', 1),
-(28, 1, 38, 39, 6, '/admin/user/permissions', '', 'Permissions', '', 0, '', 'auto', 1),
-(29, 1, 44, 45, 13, '/admin/locale/manage/index', '', 'Installed Languages', '', 0, '', 'auto', 1),
-(30, 1, 46, 47, 13, '/admin/locale/manage/add', '', 'Add New Language', '', 0, '', 'auto', 1),
-(31, 1, 40, 41, 6, '/admin/user/fields', '', 'Virtual Fields', '', 0, '/admin/user/fields*', 'any', 1);
+(20, 1, 16, 17, 3, '/admin/node/types', '', 'Content Types', '', 0, '/admin/node/types*\r\n/admin/node/fields*', 'any', 1),
+(21, 1, 18, 19, 3, '/admin/node/comments/', '', 'Comments', '', 0, '/admin/node/comments/*', 'any', 1),
+(22, 1, 24, 25, 4, '/admin/system/themes/index', '', 'Themes', '', 0, '/admin/system/themes\r\n/admin/system/themes/index', 'any', 1),
+(23, 1, 26, 27, 4, '/admin/system/themes/install', '', 'Install New Theme', '', 0, '', 'auto', 1),
+(24, 1, 30, 31, 5, '/admin/system/plugins/index', '', 'Plugins', '', 0, '', 'auto', 1),
+(25, 1, 32, 33, 5, '/admin/system/plugins/install', '', 'Install New Plugin', '', 0, '', 'auto', 1),
+(26, 1, 36, 37, 6, '/admin/user/manage/', '', 'Users List', '', 0, '/admin/user/manage/*', 'any', 1),
+(27, 1, 38, 39, 6, '/admin/user/roles', '', 'User Roles', '', 0, '', 'auto', 1),
+(28, 1, 40, 41, 6, '/admin/user/permissions', '', 'Permissions', '', 0, '', 'auto', 1),
+(29, 1, 46, 47, 13, '/admin/locale/manage/index', '', 'Installed Languages', '', 0, '', 'auto', 1),
+(30, 1, 48, 49, 13, '/admin/locale/manage/add', '', 'Add New Language', '', 0, '', 'auto', 1),
+(31, 1, 42, 43, 6, '/admin/user/fields', '', 'Virtual Fields', '', 0, '/admin/user/fields*', 'any', 1),
+(32, 1, 21, 22, 0, '/admin/media_manager/explorer', '', 'Media', '', 1, '/admin/media_manager/explorer*', 'any', 1);
 
 -- --------------------------------------------------------
 
@@ -690,13 +695,14 @@ INSERT INTO `plugins` (`name`, `package`, `settings`, `status`, `ordering`) VALU
 ('Installer', 'quickapps-plugin/installer', '', 1, 8),
 ('Jquery', 'quickapps-plugin/jquery', '', 1, 9),
 ('Locale', 'quickapps-plugin/locale', '', 1, 10),
-('Menu', 'quickapps-plugin/menu', '', 1, 11),
-('Node', 'quickapps-plugin/node', '', 1, 12),
-('Search', 'quickapps-plugin/search', '', 1, 13),
-('System', 'quickapps-plugin/system', '', 1, 14),
-('Taxonomy', 'quickapps-plugin/taxonomy', '', 1, 15),
-('User', 'quickapps-plugin/user', 'a:17:{s:21:"failed_login_attempts";s:0:"";s:35:"failed_login_attempts_block_seconds";s:0:"";s:23:"message_welcome_subject";s:50:"Account details for {{user:name}} at {{site:name}}";s:20:"message_welcome_body";s:462:"{{user:name}},\r\n\r\nThank you for registering at {{site:name}}. You may now log in by clicking this link or copying and pasting it to your browser:\r\n\r\n{{user:one-time-login-url}}\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\nAfter setting your password, you will be able to log in at {{site:login-url}} in the future using:\r\n\r\nusername: {{user:name}}\r\npassword: Your password\r\n\r\n--  {{site:name}} team";s:18:"message_activation";s:1:"1";s:26:"message_activation_subject";s:61:"Account details for {{user:name}} at {{site:name}} (approved)";s:23:"message_activation_body";s:473:"{{user:name}},\r\n\r\nYour account at {{site:name}} has been activated.\r\n\r\nYou may now log in by clicking this link or copying and pasting it into your browser:\r\n\r\n{{user:one-time-login-url}}\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\nAfter setting your password, you will be able to log in at {{site:login-url}} in the future using:\r\n\r\nusername: {{user:name}}\r\npassword: Your password\r\n\r\n--  {{site:name}} team";s:15:"message_blocked";s:1:"1";s:23:"message_blocked_subject";s:60:"Account details for {{user:name}} at {{site:name}} (blocked)";s:20:"message_blocked_body";s:91:"{{user:name}},\r\n\r\nYour account on {{site:name}} has been blocked.\r\n\r\n--  {{site:name}} team";s:33:"message_password_recovery_subject";s:65:"Password recovery instructions for {{user:name}} at {{site:name}}";s:30:"message_password_recovery_body";s:348:"{{user:name}},\r\n\r\nA request to reset the password for your account has been made at {{site:name}}.\r\n\r\nYou may now log in by clicking this link or copying and pasting it to your browser:\r\n\r\n{{user:one-time-login-url}}\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\n--  {{site:name}} team";s:30:"message_cancel_request_subject";s:63:"Account cancellation request for {{user:name}} at {{site:name}}";s:27:"message_cancel_request_body";s:310:"{{user:name}},\r\n\r\nA request to cancel your account has been made at {{site:name}}.\r\n\r\nYou may now cancel your account on {{site:url}} by clicking this link or copying and pasting it into your browser:\r\n\r\n{{user:cancel-url}}\r\n\r\nNOTE: The cancellation of your account is not reversible.\r\n\r\n--  {{site:name}} team";s:16:"message_canceled";s:1:"1";s:24:"message_canceled_subject";s:61:"Account details for {{user:name}} at {{site:name}} (canceled)";s:21:"message_canceled_body";s:92:"{{user:name}},\r\n\r\nYour account on {{site:name}} has been canceled.\r\n\r\n--  {{site:name}} team";}', 1, 16),
-('Wysiwyg', 'quickapps-plugin/wysiwyg', '', 1, 17);
+('MediaManager', 'quickapps-plugin/media-manager', '', 1, 11),
+('Menu', 'quickapps-plugin/menu', '', 1, 12),
+('Node', 'quickapps-plugin/node', '', 1, 13),
+('Search', 'quickapps-plugin/search', '', 1, 14),
+('System', 'quickapps-plugin/system', '', 1, 15),
+('Taxonomy', 'quickapps-plugin/taxonomy', '', 1, 16),
+('User', 'quickapps-plugin/user', 'a:17:{s:21:"failed_login_attempts";s:0:"";s:35:"failed_login_attempts_block_seconds";s:0:"";s:23:"message_welcome_subject";s:50:"Account details for {{user:name}} at {{site:name}}";s:20:"message_welcome_body";s:462:"{{user:name}},\r\n\r\nThank you for registering at {{site:name}}. You may now log in by clicking this link or copying and pasting it to your browser:\r\n\r\n{{user:one-time-login-url}}\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\nAfter setting your password, you will be able to log in at {{site:login-url}} in the future using:\r\n\r\nusername: {{user:name}}\r\npassword: Your password\r\n\r\n--  {{site:name}} team";s:18:"message_activation";s:1:"1";s:26:"message_activation_subject";s:61:"Account details for {{user:name}} at {{site:name}} (approved)";s:23:"message_activation_body";s:473:"{{user:name}},\r\n\r\nYour account at {{site:name}} has been activated.\r\n\r\nYou may now log in by clicking this link or copying and pasting it into your browser:\r\n\r\n{{user:one-time-login-url}}\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\nAfter setting your password, you will be able to log in at {{site:login-url}} in the future using:\r\n\r\nusername: {{user:name}}\r\npassword: Your password\r\n\r\n--  {{site:name}} team";s:15:"message_blocked";s:1:"1";s:23:"message_blocked_subject";s:60:"Account details for {{user:name}} at {{site:name}} (blocked)";s:20:"message_blocked_body";s:91:"{{user:name}},\r\n\r\nYour account on {{site:name}} has been blocked.\r\n\r\n--  {{site:name}} team";s:33:"message_password_recovery_subject";s:65:"Password recovery instructions for {{user:name}} at {{site:name}}";s:30:"message_password_recovery_body";s:348:"{{user:name}},\r\n\r\nA request to reset the password for your account has been made at {{site:name}}.\r\n\r\nYou may now log in by clicking this link or copying and pasting it to your browser:\r\n\r\n{{user:one-time-login-url}}\r\n\r\nThis link can only be used once to log in and will lead you to a page where you can set your password.\r\n\r\n--  {{site:name}} team";s:30:"message_cancel_request_subject";s:63:"Account cancellation request for {{user:name}} at {{site:name}}";s:27:"message_cancel_request_body";s:310:"{{user:name}},\r\n\r\nA request to cancel your account has been made at {{site:name}}.\r\n\r\nYou may now cancel your account on {{site:url}} by clicking this link or copying and pasting it into your browser:\r\n\r\n{{user:cancel-url}}\r\n\r\nNOTE: The cancellation of your account is not reversible.\r\n\r\n--  {{site:name}} team";s:16:"message_canceled";s:1:"1";s:24:"message_canceled_subject";s:61:"Account details for {{user:name}} at {{site:name}} (canceled)";s:21:"message_canceled_body";s:92:"{{user:name}},\r\n\r\nYour account on {{site:name}} has been canceled.\r\n\r\n--  {{site:name}} team";}', 1, 17),
+('Wysiwyg', 'quickapps-plugin/wysiwyg', '', 1, 18);
 
 -- --------------------------------------------------------
 
@@ -1004,7 +1010,7 @@ ALTER TABLE `vocabularies`
 -- AUTO_INCREMENT for table `acos`
 --
 ALTER TABLE `acos`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=186;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=192;
 --
 -- AUTO_INCREMENT for table `blocks`
 --
@@ -1059,7 +1065,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 -- AUTO_INCREMENT for table `menu_links`
 --
 ALTER TABLE `menu_links`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=32;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `nodes`
 --

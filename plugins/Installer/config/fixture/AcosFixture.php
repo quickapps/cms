@@ -1541,7 +1541,7 @@ class AcosFixture
     'id' => 153,
     'parent_id' => null,
     'lft' => 327,
-    'rght' => 338,
+    'rght' => 334,
     'plugin' => 'Wysiwyg',
     'alias' => 'Wysiwyg',
     'alias_hash' => 'fcb1d5c3299a281fbb55851547dfac9e',
@@ -1551,7 +1551,7 @@ class AcosFixture
     'id' => 154,
     'parent_id' => 153,
     'lft' => 328,
-    'rght' => 337,
+    'rght' => 333,
     'plugin' => 'Wysiwyg',
     'alias' => 'Admin',
     'alias_hash' => 'e3afed0047b08059d0fada10f400c1e5',
@@ -1561,7 +1561,7 @@ class AcosFixture
     'id' => 155,
     'parent_id' => 154,
     'lft' => 329,
-    'rght' => 336,
+    'rght' => 332,
     'plugin' => 'Wysiwyg',
     'alias' => 'Finder',
     'alias_hash' => 'd151508da8d36994e1635f7875594424',
@@ -1578,75 +1578,65 @@ class AcosFixture
     ],
     147 =>
     [
-    'id' => 157,
-    'parent_id' => 155,
-    'lft' => 332,
-    'rght' => 333,
-    'plugin' => 'Wysiwyg',
-    'alias' => 'connector',
-    'alias_hash' => '266e0d3d29830abfe7d4ed98b47966f7',
-    ],
-    148 =>
-    [
     'id' => 159,
     'parent_id' => null,
-    'lft' => 339,
-    'rght' => 350,
+    'lft' => 335,
+    'rght' => 346,
     'plugin' => 'Field',
     'alias' => 'Field',
     'alias_hash' => '6f16a5f8ff5d75ab84c018adacdfcbb7',
     ],
-    149 =>
+    148 =>
     [
     'id' => 160,
     'parent_id' => 159,
-    'lft' => 340,
-    'rght' => 345,
+    'lft' => 336,
+    'rght' => 341,
     'plugin' => 'Field',
     'alias' => 'FileHandler',
     'alias_hash' => 'd3d5308974962037be1ce87e7b7bbfe2',
     ],
-    150 =>
+    149 =>
     [
     'id' => 161,
     'parent_id' => 160,
-    'lft' => 341,
-    'rght' => 342,
+    'lft' => 337,
+    'rght' => 338,
     'plugin' => 'Field',
     'alias' => 'upload',
     'alias_hash' => '76ee3de97a1b8b903319b7c013d8c877',
     ],
-    151 =>
+    150 =>
     [
     'id' => 162,
     'parent_id' => 160,
-    'lft' => 343,
-    'rght' => 344,
+    'lft' => 339,
+    'rght' => 340,
     'plugin' => 'Field',
     'alias' => 'delete',
     'alias_hash' => '099af53f601532dbd31e0ea99ffdeb64',
     ],
-    152 =>
+    151 =>
     [
     'id' => 163,
     'parent_id' => 159,
-    'lft' => 346,
-    'rght' => 349,
+    'lft' => 342,
+    'rght' => 345,
     'plugin' => 'Field',
     'alias' => 'ImageHandler',
     'alias_hash' => '0f6984d93393387e52ea884c7ca0fd93',
     ],
-    153 =>
+    152 =>
     [
     'id' => 164,
     'parent_id' => 163,
-    'lft' => 347,
-    'rght' => 348,
+    'lft' => 343,
+    'rght' => 344,
     'plugin' => 'Field',
     'alias' => 'thumbnail',
     'alias_hash' => '951d4dff3c22e9fcc4a2707009f45ea8',
     ],
-    154 =>
+    153 =>
     [
     'id' => 165,
     'parent_id' => 127,
@@ -1656,7 +1646,7 @@ class AcosFixture
     'alias' => 'setDefault',
     'alias_hash' => 'd16b26f218cfb8cde187e3b95a78813c',
     ],
-    155 =>
+    154 =>
     [
     'id' => 166,
     'parent_id' => 85,
@@ -1666,7 +1656,7 @@ class AcosFixture
     'alias' => 'emptyTrash',
     'alias_hash' => 'b13b982da42afc395fd5f9ad46381e23',
     ],
-    156 =>
+    155 =>
     [
     'id' => 167,
     'parent_id' => 91,
@@ -1676,7 +1666,7 @@ class AcosFixture
     'alias' => 'viewModeList',
     'alias_hash' => 'f6730c40f9e93768852502275e0c9ed5',
     ],
-    157 =>
+    156 =>
     [
     'id' => 168,
     'parent_id' => 91,
@@ -1686,7 +1676,7 @@ class AcosFixture
     'alias' => 'viewModeEdit',
     'alias_hash' => 'ecb551e7896f4007ed8df082a8184878',
     ],
-    158 =>
+    157 =>
     [
     'id' => 169,
     'parent_id' => 91,
@@ -1696,7 +1686,7 @@ class AcosFixture
     'alias' => 'viewModeMove',
     'alias_hash' => '5a2933f9feebe723793d21c183be08c6',
     ],
-    159 =>
+    158 =>
     [
     'id' => 170,
     'parent_id' => 100,
@@ -1706,7 +1696,7 @@ class AcosFixture
     'alias' => 'deleteRevision',
     'alias_hash' => '0049d291ee36657bd271c65979383af3',
     ],
-    160 =>
+    159 =>
     [
     'id' => 171,
     'parent_id' => 2,
@@ -1716,7 +1706,7 @@ class AcosFixture
     'alias' => 'cancelRequest',
     'alias_hash' => 'd101217dd06f14b4a695fca3b2407320',
     ],
-    161 =>
+    160 =>
     [
     'id' => 172,
     'parent_id' => 2,
@@ -1726,7 +1716,7 @@ class AcosFixture
     'alias' => 'cancel',
     'alias_hash' => '10aec35353f9c4096a71c38654c3d402',
     ],
-    162 =>
+    161 =>
     [
     'id' => 173,
     'parent_id' => 2,
@@ -1736,7 +1726,7 @@ class AcosFixture
     'alias' => 'register',
     'alias_hash' => '9de4a97425678c5b1288aa70c1669a64',
     ],
-    163 =>
+    162 =>
     [
     'id' => 174,
     'parent_id' => 2,
@@ -1746,7 +1736,7 @@ class AcosFixture
     'alias' => 'activationEmail',
     'alias_hash' => '86b62e721d1fb2f94f296bda930ffd34',
     ],
-    164 =>
+    163 =>
     [
     'id' => 175,
     'parent_id' => 2,
@@ -1756,7 +1746,7 @@ class AcosFixture
     'alias' => 'activate',
     'alias_hash' => 'd4ee0fbbeb7ffd4fd7a7d477a7ecd922',
     ],
-    165 =>
+    164 =>
     [
     'id' => 176,
     'parent_id' => 10,
@@ -1766,7 +1756,7 @@ class AcosFixture
     'alias' => 'viewModeList',
     'alias_hash' => 'f6730c40f9e93768852502275e0c9ed5',
     ],
-    166 =>
+    165 =>
     [
     'id' => 177,
     'parent_id' => 10,
@@ -1776,7 +1766,7 @@ class AcosFixture
     'alias' => 'viewModeEdit',
     'alias_hash' => 'ecb551e7896f4007ed8df082a8184878',
     ],
-    167 =>
+    166 =>
     [
     'id' => 178,
     'parent_id' => 10,
@@ -1786,7 +1776,7 @@ class AcosFixture
     'alias' => 'viewModeMove',
     'alias_hash' => '5a2933f9feebe723793d21c183be08c6',
     ],
-    168 =>
+    167 =>
     [
     'id' => 179,
     'parent_id' => 9,
@@ -1796,7 +1786,7 @@ class AcosFixture
     'alias' => 'Gateway',
     'alias_hash' => '926dec9494209cb088b4962509df1a91',
     ],
-    169 =>
+    168 =>
     [
     'id' => 180,
     'parent_id' => 179,
@@ -1806,7 +1796,7 @@ class AcosFixture
     'alias' => 'login',
     'alias_hash' => 'd56b699830e77ba53855679cb1d252da',
     ],
-    170 =>
+    169 =>
     [
     'id' => 181,
     'parent_id' => 179,
@@ -1816,7 +1806,7 @@ class AcosFixture
     'alias' => 'logout',
     'alias_hash' => '4236a440a662cc8253d7536e5aa17942',
     ],
-    171 =>
+    170 =>
     [
     'id' => 182,
     'parent_id' => 19,
@@ -1826,7 +1816,7 @@ class AcosFixture
     'alias' => 'block',
     'alias_hash' => '14511f2f5564650d129ca7cabc333278',
     ],
-    172 =>
+    171 =>
     [
     'id' => 183,
     'parent_id' => 19,
@@ -1836,7 +1826,7 @@ class AcosFixture
     'alias' => 'activate',
     'alias_hash' => 'd4ee0fbbeb7ffd4fd7a7d477a7ecd922',
     ],
-    173 =>
+    172 =>
     [
     'id' => 184,
     'parent_id' => 19,
@@ -1846,13 +1836,63 @@ class AcosFixture
     'alias' => 'passwordInstructions',
     'alias_hash' => '1aae12034ad9d692f6802c1721cc622f',
     ],
+    173 =>
+    [
+    'id' => 186,
+    'parent_id' => null,
+    'lft' => 347,
+    'rght' => 358,
+    'plugin' => 'MediaManager',
+    'alias' => 'MediaManager',
+    'alias_hash' => 'ce0a1f03091160e6528b72e9f9ea7eff',
+    ],
     174 =>
     [
-    'id' => 185,
-    'parent_id' => 155,
-    'lft' => 334,
-    'rght' => 335,
-    'plugin' => 'Wysiwyg',
+    'id' => 187,
+    'parent_id' => 186,
+    'lft' => 348,
+    'rght' => 357,
+    'plugin' => 'MediaManager',
+    'alias' => 'Admin',
+    'alias_hash' => 'e3afed0047b08059d0fada10f400c1e5',
+    ],
+    175 =>
+    [
+    'id' => 188,
+    'parent_id' => 187,
+    'lft' => 349,
+    'rght' => 356,
+    'plugin' => 'MediaManager',
+    'alias' => 'Explorer',
+    'alias_hash' => '94fbbf67e0c8cea8cbaff55287746f3e',
+    ],
+    176 =>
+    [
+    'id' => 189,
+    'parent_id' => 188,
+    'lft' => 350,
+    'rght' => 351,
+    'plugin' => 'MediaManager',
+    'alias' => 'index',
+    'alias_hash' => '6a992d5529f459a44fee58c733255e86',
+    ],
+    177 =>
+    [
+    'id' => 190,
+    'parent_id' => 188,
+    'lft' => 352,
+    'rght' => 353,
+    'plugin' => 'MediaManager',
+    'alias' => 'connector',
+    'alias_hash' => '266e0d3d29830abfe7d4ed98b47966f7',
+    ],
+    178 =>
+    [
+    'id' => 191,
+    'parent_id' => 188,
+    'lft' => 354,
+    'rght' => 355,
+    'plugin' => 'MediaManager',
     'alias' => 'pluginFile',
     'alias_hash' => 'a840980787c4260a4a710f753641a8c6',
     ],

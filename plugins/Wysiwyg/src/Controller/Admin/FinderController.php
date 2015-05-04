@@ -27,34 +27,6 @@ class FinderController extends AppController
      */
     public function index()
     {
-        $this->layout = 'elfinder';
-    }
-
-    /**
-     * elFinder UI connector.
-     *
-     * @return void
-     */
-    public function connector()
-    {
-    }
-
-    /**
-     * Returns the given plugin's file within webroot directory.
-     *
-     * @return void
-     */
-    public function pluginFile()
-    {
-        if (!empty($this->request->query['file'])) {
-            $path = $this->request->query['file'];
-            $path = str_replace_once('#', '', $path);
-            $file = str_replace('//', '/', SITE_ROOT . "/plugins/{$path}");
-            if ((strpos($file, 'webroot') !== false || strpos($file, '.tmb') !== false) && file_exists($file)) {
-                $this->response->file($file);
-                return $this->response;
-            }
-        }
-        die;
+        $this->layout = 'Wysiwyg.elfinder';
     }
 }

@@ -9,17 +9,14 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-?>
+namespace MediaManager\Controller;
 
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>elFinder 2.0</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <?php echo $this->Html->head(['bootstrap' => true]); ?>
-    </head>
+use QuickApps\Controller\Controller;
 
-    <body>
-        <?php echo $this->fetch('content'); ?>
-    </body>
-</html>
+/**
+ * Main controller for Wysiwyg plugin.
+ *
+ */
+class AppController extends Controller
+{
+}

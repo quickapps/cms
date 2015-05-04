@@ -172,45 +172,53 @@ class PluginsFixture
     ],
     11 =>
     [
-    'name' => 'Menu',
-    'package' => 'quickapps-plugin/menu',
+    'name' => 'MediaManager',
+    'package' => 'quickapps-plugin/media-manager',
     'settings' => '',
     'status' => true,
     'ordering' => 11,
     ],
     12 =>
     [
-    'name' => 'Node',
-    'package' => 'quickapps-plugin/node',
+    'name' => 'Menu',
+    'package' => 'quickapps-plugin/menu',
     'settings' => '',
     'status' => true,
     'ordering' => 12,
     ],
     13 =>
     [
-    'name' => 'Search',
-    'package' => 'quickapps-plugin/search',
+    'name' => 'Node',
+    'package' => 'quickapps-plugin/node',
     'settings' => '',
     'status' => true,
     'ordering' => 13,
     ],
     14 =>
     [
-    'name' => 'System',
-    'package' => 'quickapps-plugin/system',
+    'name' => 'Search',
+    'package' => 'quickapps-plugin/search',
     'settings' => '',
     'status' => true,
     'ordering' => 14,
     ],
     15 =>
     [
-    'name' => 'Taxonomy',
-    'package' => 'quickapps-plugin/taxonomy',
+    'name' => 'System',
+    'package' => 'quickapps-plugin/system',
     'settings' => '',
     'status' => true,
     'ordering' => 15,
     ],
     16 =>
+    [
+    'name' => 'Taxonomy',
+    'package' => 'quickapps-plugin/taxonomy',
+    'settings' => '',
+    'status' => true,
+    'ordering' => 16,
+    ],
+    17 =>
     [
     'name' => 'User',
     'package' => 'quickapps-plugin/user',
@@ -272,15 +280,15 @@ Your account on {{site:name}} has been canceled.
 
 --  {{site:name}} team";}',
     'status' => true,
-    'ordering' => 16,
+    'ordering' => 17,
     ],
-    17 =>
+    18 =>
     [
     'name' => 'Wysiwyg',
     'package' => 'quickapps-plugin/wysiwyg',
     'settings' => '',
     'status' => true,
-    'ordering' => 17,
+    'ordering' => 18,
     ],
     ];
 }
