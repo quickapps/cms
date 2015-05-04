@@ -80,6 +80,7 @@ class DatabaseInstaller
         'encoding' => 'utf8',
         'timezone' => 'UTC',
         'log' => false,
+        'cacheMetadata' => true,
     ];
 
     /**
