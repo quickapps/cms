@@ -13,7 +13,7 @@ namespace Node\Controller;
 
 use Cake\I18n\I18n;
 use Cake\Network\Exception\ForbiddenException;
-use Cake\Network\Exception\NotFoundException;
+use Node\Error\ContentNotFoundException;
 
 /**
  * Node serve controller.
@@ -100,7 +100,7 @@ class ServeController extends AppController
      * @param string $nodeTypeSlug Node's type-slug. e.g. `article`, `basic-page`
      * @param string $nodeSlug Node's slug. e.g. `this-is-an-article`
      * @return \Cake\Network\Response|null
-     * @throws \Cake\Network\Exception\NotFoundException When content is not found
+     * @throws \Node\Error\ContentNotFoundException When content is not found
      * @throws \Cake\Network\Exception\ForbiddenException When user can't access
      *  this content due to role restrictions
      */
@@ -122,7 +122,7 @@ class ServeController extends AppController
             ->first();
 
         if (!$node) {
-            throw new NotFoundException(__d('node', 'The requested page was not found.'));
+            throw new ContentNotFoundException(__d('node', 'The requested page was not found.'));
         } elseif (!$node->isAccessible()) {
             throw new ForbiddenException(__d('node', 'You have not sufficient permissions to see this page.'));
         }
@@ -148,7 +148,7 @@ class ServeController extends AppController
                 return $this->response;
             }
 
-            throw new NotFoundException(__d('node', 'The requested page was not found.'));
+            throw new ContentNotFoundException(__d('node', 'The requested page was not found.'));
         }
 
         // Post new comment logic

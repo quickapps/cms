@@ -12,6 +12,7 @@
 namespace Node\Model\Table;
 
 use Cake\Event\Event;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -187,14 +188,33 @@ class NodesTable extends Table
     }
 
     /**
-     * Saves a revision version of each node being saved if it has changed.
+     * This callback performs two action, saving revisions and checking publishing
+     * constraints.
+     *
+     * - Saves a revision version of each node being saved if it has changed.
+     *
+     * - Verifies the publishing status and forces to be "false" if use has no
+     *   publishing permissions for this content type.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Node\Model\Entity\Node $entity The entity being saved
      * @param \ArrayObject $options Array of options
      * @return bool True on success
      */
-    public function beforeSave(Event $event, $entity, ArrayObject $options = null)
+    public function beforeSave(Event $event, Entity $entity, ArrayObject $options = null)
+    {
+        $this->_saveRevision($entity);
+        $this->_ensureStatus($entity);
+        return true;
+    }
+
+    /**
+     * Tries to create a revision for the given content node.
+     *
+     * @param \Cake\ORM\Entity $node The node
+     * @return void
+     */
+    protected function _saveRevision(Entity $entity)
     {
         if ($entity->isNew()) {
             return true;
@@ -211,6 +231,7 @@ class NodesTable extends Table
             if (!$exists) {
                 $revision = $this->NodeRevisions->newEntity([
                     'node_id' => $prev->id,
+                    'summary' => $entity->get('edit_summary'),
                     'data' => $prev,
                     'hash' => $hash,
                 ]);
@@ -223,8 +244,50 @@ class NodesTable extends Table
         } catch (\Exception $ex) {
             // unable to create node's review
         }
+    }
 
-        return true;
+    /**
+     * Ensures that content node has the correct publishing status based in content
+     * type restrictions.
+     *
+     * If it's a new node it will set the correct status. However if it's an
+     * existing node and user has no publishing permissions this method will not
+     * change node's status, so it will remain published if it was already published
+     * by an administrator.
+     *
+     * @param \Cake\ORM\Entity $entity The node
+     * @return void
+     */
+    protected function _ensureStatus(Entity $entity)
+    {
+        if (!$entity->has('status')) {
+            return;
+        }
+
+        $type = null;
+        if (!$entity->has('node_type') &&
+            ($entity->has('node_type_id') || $entity->has('node_type_slug'))
+        ) {
+            if ($entity->has('node_type_id')) {
+                $type = $this->NodeTypes->get($entity->get('node_type_id'));
+            } else {
+                $type = $this->NodeTypes
+                    ->find()
+                    ->where(['node_type_slug' => $entity->get('node_type_id')])
+                    ->limit(1)
+                    ->first();
+            }
+        } else {
+            $type = $entity->get('node_type');
+        }
+
+        if ($type && !$type->userAllowed('publish')) {
+            if ($entity->isNew()) {
+                $entity->set('status', false);
+            } else {
+                $entity->unsetPropery('status');
+            }
+        }
     }
 
     /**

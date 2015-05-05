@@ -578,6 +578,7 @@ CREATE TABLE IF NOT EXISTS `nodes_roles` (
 CREATE TABLE IF NOT EXISTS `node_revisions` (
 `id` int(11) NOT NULL,
   `node_id` int(11) NOT NULL,
+  `summary` varchar(160) COLLATE utf8_unicode_ci DEFAULT NULL,
   `data` longtext COLLATE utf8_unicode_ci NOT NULL,
   `hash` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL
@@ -605,6 +606,19 @@ CREATE TABLE IF NOT EXISTS `node_types` (
 INSERT INTO `node_types` (`id`, `slug`, `name`, `description`, `title_label`, `defaults`) VALUES
 (1, 'article', 'Article', 'Use <em>Articles</em> for time-sensitive content like news, press releases or blog posts.', 'Title', 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"1";s:6:"sticky";s:1:"1";s:11:"author_name";s:1:"1";s:9:"show_date";s:1:"1";s:14:"comment_status";s:1:"1";s:8:"language";s:0:"";}'),
 (2, 'page', 'Basic Page', 'Use <em>Basic Pages</em> for your static content, such as an ''About us'' page.', 'Title', 'a:7:{s:6:"status";s:1:"1";s:7:"promote";s:1:"0";s:6:"sticky";s:1:"0";s:11:"author_name";s:1:"0";s:9:"show_date";s:1:"0";s:14:"comment_status";s:1:"0";s:8:"language";s:0:"";}');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `node_type_permissions`
+--
+
+CREATE TABLE IF NOT EXISTS `node_type_permissions` (
+`id` int(11) NOT NULL,
+  `node_type_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `action` varchar(15) COLLATE utf8_unicode_ci NOT NULL COMMENT 'create, edit, delete, publish'
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -949,6 +963,12 @@ ALTER TABLE `node_types`
  ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `slug` (`slug`);
 
 --
+-- Indexes for table `node_type_permissions`
+--
+ALTER TABLE `node_type_permissions`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `options`
 --
 ALTER TABLE `options`
@@ -1086,6 +1106,11 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 ALTER TABLE `node_types`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `node_type_permissions`
+--
+ALTER TABLE `node_type_permissions`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=25;
 --
 -- AUTO_INCREMENT for table `options`
 --

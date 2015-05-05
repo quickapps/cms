@@ -70,7 +70,7 @@
                         ?>
                     </div>
                     <h4 class="list-group-item-heading"><?php echo $type->name; ?> <small>(id: <?php echo $type->slug; ?>)</small></h4>
-                    <p class="list-group-item-text"><?php echo $type->description; ?></p>
+                    <p class="list-group-item-text"><?php echo !empty($type->description) ? $type->description : __d('node', '(no description)'); ?></p>
                 </li>
             <?php endforeach; ?>
         </ul>

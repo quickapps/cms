@@ -22,20 +22,63 @@
         <?php echo $this->Form->create($type); ?>
             <fieldset>
                 <legend><?php echo __d('node', 'Content Type Information'); ?></legend>
-                <?php echo $this->Form->input('name', ['label' => __d('node', 'Name')]); ?>
+                <?php echo $this->Form->input('name', ['label' => __d('node', 'Name *')]); ?>
                 <em class="help-block"><?php echo __d('node', 'This text will be displayed as part of the list on the "Add New Content" page.'); ?></em>
 
-                <?php echo $this->Form->input('slug', ['label' => __d('node', 'Machine name'), 'disabled']); ?>
+                <?php echo $this->Form->input('slug', ['label' => __d('node', 'Machine name *'), 'readonly']); ?>
                 <em class="help-block">
                     <?php echo __d('node', 'A unique name for this content type. This value can not be changed after content type is created.'); ?>
                 </em>
 
-
-                <?php echo $this->Form->input('title_label', ['label' => __d('node', 'Title field label')]); ?>
+                <?php echo $this->Form->input('title_label', ['label' => __d('node', 'Title field label *')]); ?>
                 <em class="help-block"><?php echo __d('node', 'Label name for the "Title" field. e.g. "Product name", "Author name", etc.'); ?></em>
 
                 <?php echo $this->Form->input('description', ['label' => __d('node', 'Description'), 'type' => 'textarea']); ?>
                 <em class="help-block"><?php echo __d('node', 'Describe this content type. The text will be displayed on the Add new content page.'); ?></em>
+            </fieldset>
+
+            <hr />
+
+            <fieldset>
+                <legend><?php echo __d('node', 'Permissions'); ?></legend>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th><?php echo __d('node', 'Role'); ?></th>
+                            <th><?php echo __d('node', 'Create'); ?></th>
+                            <th><?php echo __d('node', 'Edit'); ?></th>
+                            <th><?php echo __d('node', 'Translate'); ?></th>
+                            <th><?php echo __d('node', 'Delete'); ?></th>
+                            <th><?php echo __d('node', 'Publish'); ?></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php foreach ($roles as $id => $role): ?>
+                        <tr>
+                            <td><?php echo $role; ?></td>
+                            <?php foreach (['create', 'edit', 'translate', 'delete', 'publish'] as $action): ?>
+                                <td>
+                                    <?php if ($id == ROLE_ID_ADMINISTRATOR): ?>
+                                        <?php echo __d('node', 'yes'); ?>
+                                    <?php else: ?>
+                                        <?php
+                                            echo $this->Form->input('_dummy', [
+                                                'type' => 'checkbox',
+                                                'name' => "permissions[{$action}][]",
+                                                'label' => false,
+                                                'value' => $id,
+                                                ($type->checkPermission($id, $action) ? 'checked' : '')
+                                            ]);
+                                        ?>
+                                    <?php endif; ?>
+                                </td>
+                            <?php endforeach; ?>
+                         </tr>
+                        <?php endforeach; ?>
+                    <tbody>
+                </table>
             </fieldset>
 
             <hr />

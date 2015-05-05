@@ -51,6 +51,16 @@ class NodeRevisionsFixture
     'precision' => null,
     'autoIncrement' => null,
     ],
+    'summary' =>
+    [
+    'type' => 'string',
+    'length' => 160,
+    'null' => true,
+    'default' => null,
+    'comment' => '',
+    'precision' => null,
+    'fixed' => null,
+    ],
     'data' =>
     [
     'type' => 'text',

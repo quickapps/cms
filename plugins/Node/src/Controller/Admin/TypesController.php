@@ -50,9 +50,11 @@ class TypesController extends AppController
     public function add()
     {
         $this->loadModel('Node.NodeTypes');
+        $this->loadModel('User.Roles');
+        $type = $this->NodeTypes->newEntity();
 
         if ($this->request->data()) {
-            $type = $this->NodeTypes->newEntity($this->request->data());
+            $type = $this->NodeTypes->patchEntity($type, $this->request->data());
             $success = empty($type->errors());
 
             if ($success) {
@@ -66,12 +68,11 @@ class TypesController extends AppController
             if (!$success) {
                 $this->Flash->danger(__d('node', 'Content type could not be created, check your information.'));
             }
-        } else {
-            $type = $this->NodeTypes->newEntity();
         }
 
+        $roles = $this->Roles->find('list');
         $this->title(__d('node', 'Define New Content Type'));
-        $this->set('type', $type);
+        $this->set(compact('type', 'roles'));
         $this->set('languages', LocaleToolbox::languagesList());
         $this->Breadcrumb
             ->push('/admin/node/manage')
@@ -90,7 +91,10 @@ class TypesController extends AppController
     public function edit($slug)
     {
         $this->loadModel('Node.NodeTypes');
-        $type = $this->NodeTypes->find()
+        $this->loadModel('User.Roles');
+
+        $type = $this->NodeTypes
+            ->find()
             ->where(['slug' => $slug])
             ->first();
 
@@ -99,11 +103,11 @@ class TypesController extends AppController
         }
 
         if ($this->request->data()) {
-            $type->accessible('*', true);
             $type->accessible(['id', 'slug'], false);
-            $type->set($this->request->data);
+            $data = $this->request->data();
+            $type = $this->NodeTypes->patchEntity($type, $data);
 
-            if ($this->NodeTypes->save($type)) {
+            if ($this->NodeTypes->save($type, ['associated' => ['Roles']])) {
                 $this->Flash->success(__d('node', 'Content type updated!'));
                 $this->redirect(['plugin' => 'Node', 'controller' => 'types', 'action' => 'edit', $type->slug]);
             } else {
@@ -114,8 +118,9 @@ class TypesController extends AppController
             $this->request->data = $type->toArray();
         }
 
+        $roles = $this->Roles->find('list');
         $this->title(__d('node', 'Configure Content Type'));
-        $this->set('type', $type);
+        $this->set(compact('type', 'roles'));
         $this->set('languages', LocaleToolbox::languagesList());
         $this->Breadcrumb
             ->push('/admin/node/manage')

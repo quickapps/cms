@@ -15,6 +15,12 @@ use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Query;
 use Locale\Utility\LocaleToolbox;
 use Node\Controller\AppController;
+use Node\Error\ContentCreateException;
+use Node\Error\ContentDeleteException;
+use Node\Error\ContentEditException;
+use Node\Error\ContentNotFoundException;
+use Node\Error\ContentTranslateException;
+use Node\Error\ContentTypeNotFoundException;
 
 /**
  * Node manager controller.
@@ -89,21 +95,27 @@ class ManageController extends AppController
      *
      * @param string|bool $type Node type slug. e.g.: "article", "product-info"
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When content type was not found
+     * @throws \Node\Error\ContentTypeNotFoundException When content type was not
+     *  found
+     * @throws \Node\Error\ContentCreateException When current user is not allowed
+     *  to create contents of this type
      */
-    public function add($type = false)
+    public function add($typeSlug)
     {
-        if ($type === false) {
-            $this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'create', 'prefix' => 'admin']);
-        }
-
         $this->loadModel('Node.NodeTypes');
         $this->loadModel('Node.Nodes');
         $this->Nodes->unbindComments();
-        $type = $this->NodeTypes->find()->where(['slug' => $type])->first();
+        $type = $this->NodeTypes->find()
+            ->where(['slug' => $typeSlug])
+            ->limit(1)
+            ->first();
 
         if (!$type) {
-            throw new NotFoundException(__d('node', 'The specified content type does not exists.'));
+            throw new ContentTypeNotFoundException(__d('node', 'The specified content type ({0}) does not exists.', $type));
+        }
+
+        if (!$type->userAllowed('create')) {
+            throw new ContentCreateException(__d('node', 'You are not allowed to create contents of this type ({0}).', $type->name));
         }
 
         if ($this->request->data()) {
@@ -113,7 +125,11 @@ class ManageController extends AppController
             $node = $this->Nodes->newEntity($data);
 
             if ($this->Nodes->save($node)) {
-                $this->Flash->success(__d('node', 'Content created!.'));
+                if (!$type->userAllowed('publish')) {
+                    $this->Flash->warning(__d('node', 'Content created, but awaiting moderation before publishing it.'));
+                } else {
+                    $this->Flash->success(__d('node', 'Content created!.'));
+                }
                 $this->redirect(['plugin' => 'Node', 'controller' => 'manage', 'action' => 'edit', 'prefix' => 'admin', $node->id]);
             } else {
                 $this->Flash->danger(__d('node', 'Something went wrong, please check your information.'));
@@ -142,8 +158,10 @@ class ManageController extends AppController
      * @param int $id Node's ID
      * @param false|int $revisionId Fill form with node's revision information
      * @return void
-     * @throws \Cake\Network\Exception\NotFoundException When content type, or when
+     * @throws \Node\Error\ContentNotFoundException When content type, or when
      *  content node was not found
+     * @throws \Node\Error\ContentEditException When user is not allowed to edit
+     *  contents of this type
      */
     public function edit($id, $revisionId = false)
     {
@@ -175,7 +193,8 @@ class ManageController extends AppController
                 }
             }
         } else {
-            $node = $this->Nodes->find()
+            $node = $this->Nodes
+                ->find()
                 ->where(['Nodes.id' => $id])
                 ->contain([
                     'Roles',
@@ -188,7 +207,11 @@ class ManageController extends AppController
         }
 
         if (!$node || empty($node->node_type)) {
-            throw new NotFoundException(__d('node', 'The requested page was not found.'));
+            throw new ContentNotFoundException(__d('node', 'The requested page was not found.'));
+        }
+
+        if (!$node->node_type->userAllowed('edit')) {
+            throw new ContentEditException(__d('node', 'You are not allowed to create contents of this type ({0}).', $node->node_type->name));
         }
 
         if (!empty($this->request->data)) {
@@ -208,7 +231,7 @@ class ManageController extends AppController
 
             $node = $this->Nodes->patchEntity($node, $this->request->data());
             if ($this->Nodes->save($node, ['atomic' => true, 'associated' => ['Roles']])) {
-                $this->Flash->success(__d('node', 'Information was saved!'));
+                $this->Flash->success(__d('node', 'Content updated!'));
                 $this->redirect("/admin/node/manage/edit/{$id}");
             } else {
                 $this->Flash->danger(__d('node', 'Something went wrong, please check your information.'));
@@ -230,11 +253,23 @@ class ManageController extends AppController
      *
      * @param int $nodeId Node's ID
      * @return void
+     * @throws \Node\Error\ContentNotFoundException When content type, or when
+     *  content node was not found
+     * @throws \Node\Error\ContentTranslateException When user is not allowed to
+     *  translate contents of this type
      */
     public function translate($nodeId)
     {
         $this->loadModel('Node.Nodes');
         $node = $this->Nodes->get($nodeId, ['contain' => 'NodeTypes']);
+
+        if (!$node || empty($node->node_type)) {
+            throw new ContentNotFoundException(__d('node', 'The requested page was not found.'));
+        }
+
+        if (!$node->node_type->userAllowed('translate')) {
+            throw new ContentTranslateException(__d('node', 'You are not allowed to translate contents of this type ({0}).', $node->node_type->name));
+        }
 
         if (!$node->language || $node->translation_for) {
             $this->Flash->danger(__d('node', 'You cannot translate this content.'));
@@ -247,6 +282,7 @@ class ManageController extends AppController
             ->all();
         $languages = LocaleToolbox::languagesList();
         $illegal = array_merge([$node->language], $translations->extract('language')->toArray());
+
         foreach ($languages as $code => $name) {
             if (in_array($code, $illegal)) {
                 unset($languages[$code]);
@@ -297,7 +333,15 @@ class ManageController extends AppController
     public function delete($nodeId)
     {
         $this->loadModel('Node.Nodes');
-        $node = $this->Nodes->get($nodeId);
+        $node = $this->Nodes->get($nodeId, ['contain' => ['NodeTypes']]);
+
+        if (!$node || empty($node->node_type)) {
+            throw new ContentNotFoundException(__d('node', 'The requested page was not found.'));
+        }
+
+        if (!$node->node_type->userAllowed('translate')) {
+            throw new ContentDeleteException(__d('node', 'You are not allowed to delete contents of this type ({0}).', $node->node_type->name));
+        }
 
         if ($this->Nodes->delete($node, ['atomic' => true])) {
             $this->Flash->success(__d('node', 'Content was successfully removed!'));

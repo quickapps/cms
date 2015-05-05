@@ -11,8 +11,8 @@
  */
 namespace Node\Model\Table;
 
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
-use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use \ArrayObject;
@@ -33,6 +33,10 @@ class NodeTypesTable extends Table
      */
     public function initialize(array $config)
     {
+        $this->belongsToMany('User.Roles', [
+            'propertyName' => 'permissions',
+            'through' => 'Node.NodeTypePermissions',
+        ]);
         $this->addBehavior('Sluggable', [
             'label' => 'name',
             'slug' => 'slug',
@@ -41,6 +45,28 @@ class NodeTypesTable extends Table
         $this->addBehavior('Serializable', [
             'columns' => ['settings', 'defaults']
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function patchEntity(EntityInterface $type, array $data, array $options = [])
+    {
+        $return = parent::patchEntity($type, $data);
+        if (!empty($data['permissions'])) {
+            $roles = [];
+            foreach ($data['permissions'] as $rule => $ids) {
+                foreach ($ids as $roleId) {
+                    if (!empty($roleId)) {
+                        $role = $this->Roles->get($roleId);
+                        $role->set('_joinData', $this->NodeTypePermissions->newEntity(['action' => $rule]));
+                        $roles[] = $role;
+                    }
+                }
+            }
+            $return->set('permissions', $roles);
+        }
+        return $return;
     }
 
     /**
@@ -90,11 +116,11 @@ class NodeTypesTable extends Table
      * Regenerates snapshot after new content type is created.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity that was saved
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
      * @param \ArrayObject $options Array of options
      * @return void
      */
-    public function afterSave(Event $event, Entity $entity, ArrayObject $options = null)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options = null)
     {
         if ($entity->isNew()) {
             snapshot();

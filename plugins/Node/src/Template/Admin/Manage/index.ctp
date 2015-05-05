@@ -92,6 +92,8 @@
                         </td>
                         <td>
                             <div class="btn-group">
+                                <!-- edit -->
+                                <?php if ($node->node_type->userAllowed('edit')): ?>
                                 <?php
                                     echo $this->Html->link('', [
                                         'plugin' => 'Node',
@@ -103,6 +105,9 @@
                                         'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
                                     ]);
                                 ?>
+                                <?php endif; ?>
+
+                                <!-- view -->
                                 <?php
                                     echo $this->Html->link('', $node->url, [
                                         'title' => __d('node', 'Visit published content'),
@@ -110,7 +115,9 @@
                                         'target' => '_blank',
                                     ]);
                                 ?>
-                                <?php if ($node->language && !$node->translation_for): ?>
+
+                                <!-- translate -->
+                                <?php if ($node->node_type->userAllowed('translate') && $node->language && !$node->translation_for): ?>
                                 <?php
                                     echo $this->Html->link('', [
                                         'plugin' => 'Node',
@@ -123,6 +130,9 @@
                                     ]);
                                 ?>
                                 <?php endif; ?>
+
+                                <!-- delete -->
+                                <?php if ($node->node_type->userAllowed('delete')): ?>
                                 <?php
                                     echo $this->Html->link('', [
                                         'plugin' => 'Node',
@@ -135,6 +145,7 @@
                                         'confirm' => __d('node', 'You are about to delete: "{0}". Are you sure ?', $node->title),
                                     ]);
                                 ?>
+                                <?php endif; ?>
                             </div>
                         </td>
                     </tr>

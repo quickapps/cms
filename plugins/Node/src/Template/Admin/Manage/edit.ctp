@@ -26,6 +26,7 @@
                 <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __d('node', 'Regenerate Slug (actual: {0})', $node->slug)]); ?>
                 <em class="help-block"><?php echo __d('node', 'Check this to generate a new slug from title.'); ?></em>
 
+
                 <?php if ($node->translation_of): ?>
                     <em class="help-block">
                         <strong><?php echo __d('node', 'This content is a translation of'); ?>: </strong>
@@ -35,11 +36,19 @@
 
                 <?php echo $this->Form->input('description', ['label' => __d('node', 'Description')]); ?>
                 <em class="help-block"><?php echo __d('node', 'A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content node.'); ?></em>
+
+                <?php echo $this->Form->input('edit_summary', ['label' => __d('node', 'Edit Summary')]); ?>
+                <em class="help-block"><?php echo __d('node', 'Briefly describe your changes.'); ?></em>
             </fieldset>
 
             <fieldset>
                 <legend><?php echo __d('node', 'Publishing'); ?></legend>
-                <?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('node', 'Published')]); ?>
+                <?php if ($node->node_type->userAllowed('publish')): ?>
+                    <?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('node', 'Published')]); ?>
+                <?php else: ?>
+                    <?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('node', 'Published'), 'disabled']); ?>
+                    <em class="help-block"><?php echo __d('node', 'This content must reviewed by an administrator before publishing it.'); ?></em>
+                <?php endif; ?>
                 <?php echo $this->Form->input('promote', ['type' => 'checkbox', 'label' => __d('node', 'Promoted to front page')]); ?>
                 <?php echo $this->Form->input('sticky', ['type' => 'checkbox', 'label' => __d('node', 'Sticky at top of lists')]); ?>
             </fieldset>
@@ -79,7 +88,7 @@
                     <thead>
                         <tr>
                             <th><?php echo __d('node', 'Title'); ?></th>
-                            <th><?php echo __d('node', 'Description'); ?></th>
+                            <th><?php echo __d('node', 'Summary'); ?></th>
                             <th><?php echo __d('node', 'Language'); ?></th>
                             <th><?php echo __d('node', 'Revision date'); ?></th>
                             <th><?php echo __d('node', 'Actions'); ?></th>
@@ -89,9 +98,16 @@
                     <tbody>
                     <?php foreach ($node->node_revisions as $revision): ?>
                         <tr>
-                            <td><?php echo $revision->data->title; ?></td>
-                            <td><?php echo !empty($revision->data->description) ? $revision->data->description : '---'; ?></td>
-                            <td><?php echo $revision->data->language ? $revision->data->language : __d('node', '--any--'); ?></td>
+                            <td>
+                                <?php echo $revision->data->title; ?><br />
+                                <em>
+                                    <small>
+                                        (<?php echo !empty($revision->data->description) ? $this->Text->truncate($revision->data->description, 30) : '---'; ?>)
+                                    </small>
+                                </em>
+                            </td>
+                            <td><?php echo !empty($revision->summary) ? $revision->summary : __d('node', '--not provided--'); ?></td>
+                            <td><?php echo !empty($revision->data->language) ? $revision->data->language : __d('node', '--any--'); ?></td>
                             <td><?php echo $revision->created->format(__d('node', 'Y-m-d H:i:s')); ?></td>
                             <td>
                                 <div class="btn-group">

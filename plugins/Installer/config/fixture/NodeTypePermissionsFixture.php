@@ -9,14 +9,11 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\Fixture;
 
-use Cake\TestSuite\Fixture\TestFixture;
-
-class NodeRevisionsFixture extends TestFixture
+class NodeTypePermissionsFixture
 {
 
-    public $table = 'node_revisions';
+    public $table = 'node_type_permissions';
 
     public $fields = [
     '_constraints' =>
@@ -43,7 +40,7 @@ class NodeRevisionsFixture extends TestFixture
     'autoIncrement' => true,
     'precision' => null,
     ],
-    'node_id' =>
+    'node_type_id' =>
     [
     'type' => 'integer',
     'length' => 11,
@@ -54,43 +51,26 @@ class NodeRevisionsFixture extends TestFixture
     'precision' => null,
     'autoIncrement' => null,
     ],
-    'summary' =>
+    'role_id' =>
+    [
+    'type' => 'integer',
+    'length' => 11,
+    'unsigned' => false,
+    'null' => false,
+    'default' => null,
+    'comment' => '',
+    'precision' => null,
+    'autoIncrement' => null,
+    ],
+    'action' =>
     [
     'type' => 'string',
-    'length' => 160,
-    'null' => true,
+    'length' => 15,
+    'null' => false,
     'default' => null,
-    'comment' => '',
+    'comment' => 'create, edit, delete, publish',
     'precision' => null,
     'fixed' => null,
-    ],
-    'data' =>
-    [
-    'type' => 'text',
-    'length' => null,
-    'null' => false,
-    'default' => null,
-    'comment' => '',
-    'precision' => null,
-    ],
-    'hash' =>
-    [
-    'type' => 'string',
-    'length' => 100,
-    'null' => false,
-    'default' => null,
-    'comment' => '',
-    'precision' => null,
-    'fixed' => null,
-    ],
-    'created' =>
-    [
-    'type' => 'datetime',
-    'length' => null,
-    'null' => false,
-    'default' => null,
-    'comment' => '',
-    'precision' => null,
     ],
     ];
 
