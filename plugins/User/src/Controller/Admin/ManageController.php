@@ -28,12 +28,7 @@ class ManageController extends AppController
      *
      * @var array
      */
-    public $helpers = [
-        'Paginator' => [
-            'className' => 'QuickApps\View\Helper\PaginatorHelper',
-            'templates' => 'System.paginator-templates',
-        ],
-    ];
+    public $helpers = ['Paginator'];
 
     /**
      * Shows a list of all the nodes.

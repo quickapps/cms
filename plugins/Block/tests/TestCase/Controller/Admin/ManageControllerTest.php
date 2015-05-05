@@ -101,11 +101,11 @@ class ManageControllerTest extends IntegrationTestCase
     }
 
     /**
-     * test that non-custom blocks cannot be deleted.
+     * test that widget blocks cannot be deleted through administrator section.
      *
      * @return void
      */
-    public function testDeleteNonCustom()
+    public function testDeleteWidget()
     {
         $this->get('/admin/block/manage/delete/1');
         $query = TableRegistry::get('Block.Blocks')->find()->where(['id' => 1]);

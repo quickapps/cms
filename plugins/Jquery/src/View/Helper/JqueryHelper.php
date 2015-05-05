@@ -140,16 +140,16 @@ class JqueryHelper extends Helper
      *
      * If no theme is given ($themeName = null) this method will try to:
      *
-     * - Use global parameter `jQueryUI.default_theme`.
+     * - Use global parameter `jQueryUI.defaultTheme`.
      * - Use `Jquery.ui-lightness` otherwise.
      *
      * ### Default theme
      *
-     * You can define the global parameter `jQueryUI.default_theme` in your site's
+     * You can define the global parameter `jQueryUI.defaultTheme` in your site's
      * `bootstrap.php` to indicate the theme to use by default. For instance:
      *
      * ```php
-     * Configure::write('jQueryUI.default_theme', 'MyPlugin.ui-darkness');
+     * Configure::write('jQueryUI.defaultTheme', 'MyPlugin.ui-darkness');
      * ```
      *
      * The `MyPlugin.ui-darkness` theme will be used by default every time this

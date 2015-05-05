@@ -100,10 +100,7 @@ trait CommentUIControllerTrait
 
         $this->_manageTable = Inflector::underscore($this->_manageTable);
         $this->helpers[] = 'Time';
-        $this->helpers['Paginator'] = [
-            'className' => 'QuickApps\View\Helper\PaginatorHelper',
-            'templates' => 'System.paginator-templates',
-        ];
+        $this->helpers[] = 'Paginator';
         $this->paginate['limit'] = 10;
 
         $this->loadComponent('Paginator');

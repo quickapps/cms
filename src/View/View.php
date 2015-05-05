@@ -74,7 +74,6 @@ class View extends CakeView
             'helpers' => [
                 'Form' => ['className' => 'QuickApps\View\Helper\FormHelper'],
                 'Html' => ['className' => 'QuickApps\View\Helper\HtmlHelper'],
-                'Url' => ['className' => 'QuickApps\View\Helper\UrlHelper'],
                 'Menu' => ['className' => 'Menu\View\Helper\MenuHelper'],
                 'jQuery' => ['className' => 'Jquery\View\Helper\JqueryHelper'],
             ]

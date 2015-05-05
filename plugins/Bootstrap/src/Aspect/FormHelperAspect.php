@@ -23,10 +23,6 @@ use QuickApps\Core\StaticCacheTrait;
  * By default all CSS and HTML code generated automatically by QuickAppsCMS follow
  * Twitter Bootstrap's conventions.
  *
- * Anyway you are able to define your own "Stylizer" by creating a Event Listener
- * with higher priority and stopping hook propagation. This listener has a priory
- * of 10 by default.
- *
  * If you need disable Twitter Bootstrap's CSS classes to be applied, you can set
  * the special `bootstrap` key as FALSE in your array of options. For example:
  *
@@ -36,7 +32,7 @@ use QuickApps\Core\StaticCacheTrait;
  * echo $this->Form->end();
  * ```
  */
-class BootstrapAspect extends Aspect
+class FormHelperAspect extends Aspect
 {
 
     use StaticCacheTrait;

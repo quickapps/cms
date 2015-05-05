@@ -9,18 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\View\Helper;
+use Cake\Core\Configure;
 
-use Cake\Event\Event;
-use Cake\View\Helper\PaginatorHelper as CakePaginatorHelper;
-use QuickApps\Event\EventDispatcherTrait;
-
-/**
- * Paginator helper library.
- *
- */
-class PaginatorHelper extends CakePaginatorHelper
-{
-
-    use EventDispatcherTrait;
-}
+Configure::write('jQueryUI.defaultTheme', 'Jquery.flick');

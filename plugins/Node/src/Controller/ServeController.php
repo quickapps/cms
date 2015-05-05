@@ -39,13 +39,7 @@ class ServeController extends AppController
      *
      * @var array
      */
-    public $helpers = [
-        'Time',
-        'Paginator' => [
-            'className' => 'QuickApps\View\Helper\PaginatorHelper',
-            'templates' => 'System.paginator-templates',
-        ],
-    ];
+    public $helpers = ['Time', 'Paginator'];
 
     /**
      * Paginator settings.
