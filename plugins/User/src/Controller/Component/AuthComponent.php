@@ -12,7 +12,6 @@
 namespace User\Controller\Component;
 
 use Cake\Controller\Component\AuthComponent as CakeAuthComponent;
-use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Authentication control component class
@@ -23,6 +22,4 @@ use QuickApps\Event\EventDispatcherTrait;
  */
 class AuthComponent extends CakeAuthComponent
 {
-
-    use EventDispatcherTrait;
 }

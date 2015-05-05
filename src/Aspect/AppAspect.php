@@ -13,6 +13,7 @@ namespace QuickApps\Aspect;
 
 use Go\Core\AspectContainer;
 use Go\Core\AspectKernel;
+use QuickApps\Aspect\Aspect;
 
 /**
  * QuickApps Application Aspect Kernel.
@@ -32,8 +33,9 @@ class AppAspect extends AspectKernel
     protected function configureAop(AspectContainer $container)
     {
         foreach ((array)aspects() as $class) {
-            if (class_exists($class)) {
-                $container->registerAspect(new $class);
+            $class = class_exists($class) ? new $class : null;
+            if ($class instanceof Aspect) {
+                $container->registerAspect($class);
             }
         }
     }
