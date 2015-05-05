@@ -20,6 +20,8 @@ use \ArrayObject;
 /**
  * Represents "node_types" database table.
  *
+ * @property \User\Model\Table\RolesTable $Roles
+ * @property \User\Model\Table\NodeTypePermissions $NodeTypePermissions
  * @method void unbindSluggable()
  */
 class NodeTypesTable extends Table

@@ -88,11 +88,11 @@ class NodeType extends Entity
     protected function _loadPermissions()
     {
         if (empty($this->_permissions)) {
-            $this->_permissions = TableRegistry::get('Node.NodeTypePermissions')
+            $permissions = TableRegistry::get('Node.NodeTypePermissions')
                 ->find()
                 ->where(['node_type_id' => $this->get('id')])
                 ->toArray();
-            $this->_permissions = collection($this->_permissions);
+            $this->_permissions = collection($permissions);
         }
     }
 }

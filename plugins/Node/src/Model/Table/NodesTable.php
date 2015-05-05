@@ -36,8 +36,8 @@ use \ArrayObject;
  * @method void configureFieldable(array $config)
  * @method void bindFieldable()
  * @method void unbindFieldable()
+ * @method \Cake\Datasource\EntityInterface attachFields(\Cake\Datasource\EntityInterface $entity)
  * @method \Cake\Datasource\ResultSetDecorator findComments(\Cake\ORM\Query $query, $options)
- * @method \Cake\ORM\Entity attachFields(\Cake\ORM\Entity $entity)
  * @method \Cake\ORM\Query search(string $criteria, \Cake\ORM\Query|null $query = null)
  */
 class NodesTable extends Table
@@ -211,13 +211,13 @@ class NodesTable extends Table
     /**
      * Tries to create a revision for the given content node.
      *
-     * @param \Cake\ORM\Entity $node The node
+     * @param \Cake\ORM\Entity $entity The node
      * @return void
      */
     protected function _saveRevision(Entity $entity)
     {
         if ($entity->isNew()) {
-            return true;
+            return;
         }
 
         try {
@@ -264,7 +264,6 @@ class NodesTable extends Table
             return;
         }
 
-        $type = null;
         if (!$entity->has('node_type') &&
             ($entity->has('node_type_id') || $entity->has('node_type_slug'))
         ) {
@@ -285,7 +284,7 @@ class NodesTable extends Table
             if ($entity->isNew()) {
                 $entity->set('status', false);
             } else {
-                $entity->unsetPropery('status');
+                $entity->unsetProperty('status');
             }
         }
     }

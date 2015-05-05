@@ -11,7 +11,6 @@
  */
 namespace Node\Controller\Admin;
 
-use Cake\Network\Exception\NotFoundException;
 use Cake\ORM\Query;
 use Locale\Utility\LocaleToolbox;
 use Node\Controller\AppController;
@@ -93,7 +92,7 @@ class ManageController extends AppController
     /**
      * Shows the "new node" form.
      *
-     * @param string|bool $type Node type slug. e.g.: "article", "product-info"
+     * @param string $typeSlug Node type slug. e.g.: "article", "product-info"
      * @return void
      * @throws \Node\Error\ContentTypeNotFoundException When content type was not
      *  found

@@ -18,9 +18,9 @@
  * @return void
  */
 function tryDefine($name, $value) {
-	if (!defined($name)) {
-		define($name, $value);
-	}
+    if (!defined($name)) {
+        define($name, $value);
+    }
 }
 
 /**
