@@ -11,13 +11,13 @@
  */
 namespace User\Error;
 
-use Cake\Core\Exception\Exception;
+use Cake\Network\Exception\HttpException;
 
 /**
- * Exception raised when a user is required to be logged in, but he/she is not.
+ * Exception raised when a user is required to be logged in but he/she is not.
  *
  */
-class UserNotLoggedInException extends Exception
+class UserNotLoggedInException extends HttpException
 {
 
     /**
@@ -26,4 +26,14 @@ class UserNotLoggedInException extends Exception
      * @var string
      */
     protected $_messageTemplate = 'User not logged in.';
+
+    /**
+     * Constructor
+     *
+     * @param int $code Status code, defaults to 401
+     */
+    public function __construct($message = null, $code = 401)
+    {
+        parent::__construct($message, $code);
+    }
 }
