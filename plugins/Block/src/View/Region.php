@@ -262,7 +262,7 @@ class Region
 
         if (!$blocksCache) {
             $Blocks = TableRegistry::get('Block.Blocks');
-            $blocks = $Blocks->find()
+            $blocks = $Blocks->find('all')
                 ->contain(['Roles', 'BlockRegions'])
                 ->matching('BlockRegions', function ($q) {
                     return $q->where([
@@ -271,8 +271,7 @@ class Region
                     ]);
                 })
                 ->where(['Blocks.status' => 1])
-                ->order(['BlockRegions.ordering' => 'ASC'])
-                ->all();
+                ->order(['BlockRegions.ordering' => 'ASC']);
 
             $blocks->sortBy(function ($block) {
                 return $block->region->ordering;

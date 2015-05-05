@@ -90,7 +90,8 @@ class Block extends Entity
     }
 
     /**
-     * Checks if whether this block can be rendered or not.
+     * Checks if whether this block can be rendered or not, that is, exists an event
+     * listeners for handling block rendering task.
      *
      * @return bool
      */

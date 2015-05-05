@@ -13,19 +13,17 @@
 /**
  * Default layout for error pages.
  *
- * This layout is used when a `404` or `500` error is reached.
- *
- * @author Christopher Castro <chris@quickapps.es>
+ * This layout is used when a `404` or `500` error is raised.
  */
 ?>
 <!DOCTYPE html>
 <html>
-	<head>
-		<?php echo $this->Html->head(['bootstrap' => true]); ?>
-	</head>
-	<body class="error">
-		<div class="container">
-			<?php echo $this->fetch('content'); ?>
-		</div>
-	</body>
+    <head>
+        <?php echo $this->Html->head(['bootstrap' => true]); ?>
+    </head>
+    <body class="error">
+        <div class="container">
+            <?php echo $this->fetch('content'); ?>
+        </div>
+    </body>
 </html>
