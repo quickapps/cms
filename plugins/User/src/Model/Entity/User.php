@@ -42,6 +42,17 @@ class User extends Entity
     }
 
     /**
+     * Whether this use belongs to the administrator role.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        $roles = $this->_getRoleIds();
+        return in_array(ROLE_ID_ADMINISTRATOR, $roles);
+    }
+
+    /**
      * Verifies this user is allowed access the given ACO.
      *
      * ### Usage:
@@ -134,10 +145,11 @@ class User extends Entity
     protected function _getRoleIds()
     {
         $ids = [];
-        if ($this->has('roles')) {
-            foreach ($this->roles as $k => $role) {
-                $ids[] = $role->id;
-            }
+        if (!$this->has('roles')) {
+            return $ids;
+        }
+        foreach ($this->roles as $k => $role) {
+            $ids[] = $role->id;
         }
         return $ids;
     }
@@ -150,12 +162,30 @@ class User extends Entity
     protected function _getRoleNames()
     {
         $names = [];
-        if ($this->has('roles')) {
-            foreach ($this->roles as $k => $role) {
-                $names[] = $role->name;
-            }
+        if (!$this->has('roles')) {
+            return $names;
+        }
+        foreach ($this->roles as $k => $role) {
+            $names[] = $role->name;
         }
         return $names;
+    }
+
+    /**
+     * Gets an array list of role NAMES this user belongs to.
+     *
+     * @return array
+     */
+    protected function _getRoleSlugs()
+    {
+        $slugs = [];
+        if (!$this->has('roles')) {
+            return $slugs;
+        }
+        foreach ($this->roles as $role) {
+            $slugs[] = $role->slug;
+        }
+        return $slugs;
     }
 
     /**

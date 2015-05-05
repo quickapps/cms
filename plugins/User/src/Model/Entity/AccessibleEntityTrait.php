@@ -14,12 +14,13 @@ namespace User\Model\Entity;
 /**
  * Provides "isAccessible()" method to entities.
  *
+ * Entity must have a relationship with "User.Roles" model.
  */
 trait AccessibleEntityTrait
 {
 
     /**
-     * Whether this entity can be accessed by current logged in user.
+     * Whether this entity can be accessed by current user.
      *
      * @param array|null $roles Array list of roles to checks against to, or NULL to
      *  automatically use entity's "roles" property
@@ -41,12 +42,7 @@ trait AccessibleEntityTrait
             $entityRolesID[] = $role->get('id');
         }
 
-        foreach (user()->role_ids as $userRoleID) {
-            if (in_array($userRoleID, $entityRolesID)) {
-                return true;
-            }
-        }
-
-        return false;
+        $intersect = array_intersect($entityRolesID, (array)user()->get('role_ids'));
+        return !empty($intersect);
     }
 }
