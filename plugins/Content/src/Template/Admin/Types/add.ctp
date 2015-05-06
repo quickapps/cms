@@ -43,42 +43,44 @@
             <fieldset>
                 <legend><?php echo __d('content', 'Permissions'); ?></legend>
 
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th><?php echo __d('content', 'Role'); ?></th>
-                            <th><?php echo __d('content', 'Create'); ?></th>
-                            <th><?php echo __d('content', 'Edit'); ?></th>
-                            <th><?php echo __d('content', 'Translate'); ?></th>
-                            <th><?php echo __d('content', 'Delete'); ?></th>
-                            <th><?php echo __d('content', 'Publish'); ?></th>
-                        </tr>
-                    </thead>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th><?php echo __d('content', 'Role'); ?></th>
+                                <th><?php echo __d('content', 'Create'); ?></th>
+                                <th><?php echo __d('content', 'Edit'); ?></th>
+                                <th><?php echo __d('content', 'Translate'); ?></th>
+                                <th><?php echo __d('content', 'Delete'); ?></th>
+                                <th><?php echo __d('content', 'Publish'); ?></th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <?php foreach ($roles as $id => $role): ?>
-                        <tr>
-                            <td><?php echo $role; ?></td>
-                            <?php foreach (['create', 'edit', 'translate', 'delete', 'publish'] as $action): ?>
-                                <td>
-                                    <?php if ($id == ROLE_ID_ADMINISTRATOR): ?>
-                                        <?php echo __d('content', 'yes'); ?>
-                                    <?php else: ?>
-                                        <?php
-                                            echo $this->Form->input('_dummy', [
-                                                'type' => 'checkbox',
-                                                'name' => "permissions[{$action}][]",
-                                                'label' => false,
-                                                'value' => $id,
-                                            ]);
-                                        ?>
-                                    <?php endif; ?>
-                                </td>
+                        <tbody>
+                            <?php foreach ($roles as $id => $role): ?>
+                            <tr>
+                                <td><?php echo $role; ?></td>
+                                <?php foreach (['create', 'edit', 'translate', 'delete', 'publish'] as $action): ?>
+                                    <td>
+                                        <?php if ($id == ROLE_ID_ADMINISTRATOR): ?>
+                                            <?php echo __d('content', 'yes'); ?>
+                                        <?php else: ?>
+                                            <?php
+                                                echo $this->Form->input('_dummy', [
+                                                    'type' => 'checkbox',
+                                                    'name' => "permissions[{$action}][]",
+                                                    'label' => false,
+                                                    'value' => $id,
+                                                ]);
+                                            ?>
+                                        <?php endif; ?>
+                                    </td>
+                                <?php endforeach; ?>
+                             </tr>
                             <?php endforeach; ?>
-                         </tr>
-                        <?php endforeach; ?>
-                    <tbody>
-                </table>
+                        <tbody>
+                    </table>
+                </div>
             </fieldset>
 
             <hr />
