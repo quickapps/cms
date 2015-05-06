@@ -27,7 +27,7 @@ class ManageController extends AppController
 {
 
     /**
-     * Shows a list of all the nodes.
+     * Shows a list of all the blocks & widgets.
      *
      * @return void
      */
