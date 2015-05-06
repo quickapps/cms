@@ -20,7 +20,7 @@
 <dl>
     <dt>Default and custom settings</dt>
     <dd>
-        Each <?php echo $this->Html->link('content type', ['plugin' => 'Node', 'controller' => 'types', 'prefix' => 'admin']); ?> can have its own default comment settings configured as:
+        Each <?php echo $this->Html->link('content type', ['plugin' => 'Content', 'controller' => 'types', 'prefix' => 'admin']); ?> can have its own default comment settings configured as:
         <em>Open</em> to allow new comments and show existing ones, <em>Closed</em> to prevent new comments and do not show existing ones, or <em>Read only</em> to show existing comments but prevent new ones.
         These defaults will apply to all new content created (changes to the settings on existing content must be done manually).
         Other comment settings can also be customized per content type, and can be overridden for any given item of content.
@@ -28,8 +28,8 @@
 
     <dt>Comment approval</dt>
     <dd>
-        All comments are placed in the <?php echo $this->Html->link('Unapproved comments', ['plugin' => 'Comment', 'controller' => 'manage', 'action' => 'unpublished', 'prefix' => 'admin']); ?> queue,
+        All comments are placed in the <?php echo $this->Html->link('Unapproved comments', ['plugin' => 'Content', 'controller' => 'comments', 'action' => 'index', 'prefix' => 'admin', 'approved']); ?> queue,
         until a user who has the proper permissions will publishes them, mark them as spam, move them to trash bin or just deletes them.
-        Published comments can be bulk managed on the <?php echo $this->Html->link('Published comments', ['plugin' => 'Comment', 'controller' => 'manage', 'action' => 'published', 'prefix' => 'admin']); ?> administration page.
+        Published comments can be bulk managed on the <?php echo $this->Html->link('Published comments', ['plugin' => 'Content', 'controller' => 'comments', 'action' => 'index', 'prefix' => 'admin', 'pending']); ?> administration page.
     </dd>
 </dl>

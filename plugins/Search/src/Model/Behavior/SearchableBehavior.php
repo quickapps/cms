@@ -172,12 +172,12 @@ use Search\Token;
  * NOTE: Operators names are treated as **lowercase_and_underscored**, so
  * `AuthorName`, `AUTHOR_NAME` or `AuThoR_naMe` are all treated as: `author_name`.
  *
- * You can define custom operators for your table by using the
- * `addSearchOperator()` method. For example, you might need create a custom
- * operator `author` which allows you to search a `Node` entity by `author name`.
- * A search-criteria using this operator may looks as follow:
+ * You can define custom operators for your table by using the `addSearchOperator()`
+ * method. For example, you might need create a custom operator `author` which
+ * allows you to search a `Content` entity by `author name`. A search-criteria using
+ * this operator may looks as follow:
  *
- *     // get all nodes containing `this phrase` and created by `JohnLocke`
+ *     // get all contents containing `this phrase` and created by `JohnLocke`
  *     "this phrase" author:JohnLocke
  *
  * You can define in your table an operator method and register it into this

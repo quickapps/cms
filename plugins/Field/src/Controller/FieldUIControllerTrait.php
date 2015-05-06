@@ -44,7 +44,7 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  * class MyCleanController extends <Plugin>AppController {
  *     use FieldUIControllerTrait;
- *     protected $_manageTable = 'Node.Nodes';
+ *     protected $_manageTable = 'Content.Contents';
  * }
  * ```
  *
@@ -56,7 +56,7 @@ use QuickApps\View\ViewModeAwareTrait;
  *
  * class MyCleanController extends <Plugin>AppController {
  *     use FieldUIControllerTrait;
- *     protected $_manageTable = 'Node.Nodes';
+ *     protected $_manageTable = 'Content.Contents';
  *     protected $_bundle = 'articles';
  * }
  * ```

@@ -64,7 +64,7 @@ if (!function_exists('snapshot')) {
         $corePath = normalizePath(ROOT);
         $snapshot = [
             'version' => null,
-            'node_types' => [],
+            'content_types' => [],
             'plugins' => [],
             'options' => [],
             'languages' => [],
@@ -85,10 +85,10 @@ if (!function_exists('snapshot')) {
                 $PluginTable = TableRegistry::get('SnapshotPlugins');
             }
 
-            if (!TableRegistry::exists('SnapshotNodeTypes')) {
-                $NodeTypesTable = TableRegistry::get('SnapshotNodeTypes', ['table' => 'node_types']);
+            if (!TableRegistry::exists('SnapshotContentTypes')) {
+                $ContentTypesTable = TableRegistry::get('SnapshotContentTypes', ['table' => 'content_types']);
             } else {
-                $NodeTypesTable = TableRegistry::get('SnapshotNodeTypes');
+                $ContentTypesTable = TableRegistry::get('SnapshotContentTypes');
             }
 
             if (!TableRegistry::exists('SnapshotLanguages')) {
@@ -113,7 +113,7 @@ if (!function_exists('snapshot')) {
                     'name' => 'ASC',
                 ])
                 ->all();
-            $nodeTypes = $NodeTypesTable->find()
+            $contentTypes = $ContentTypesTable->find()
                 ->select(['slug'])
                 ->all();
             $languages = $LanguagesTable->find()
@@ -125,8 +125,8 @@ if (!function_exists('snapshot')) {
                 ->where(['autoload' => 1])
                 ->all();
 
-            foreach ($nodeTypes as $nodeType) {
-                $snapshot['node_types'][] = $nodeType->slug;
+            foreach ($contentTypes as $contentType) {
+                $snapshot['content_types'][] = $contentType->slug;
             }
 
             foreach ($options as $option) {

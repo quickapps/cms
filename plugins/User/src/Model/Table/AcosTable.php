@@ -37,7 +37,7 @@ class AcosTable extends Table
             'propertyName' => 'roles',
         ]);
 
-        // removes all permissions when a node is removed from the tree
+        // removes all permissions when a content is removed from the tree
         $this->hasMany('Permissions', [
             'className' => 'User.Permissions',
             'propertyName' => 'permissions',
@@ -61,7 +61,7 @@ class AcosTable extends Table
     }
 
     /**
-     * Retrieves the ACO nodes for the given ACO path.
+     * Retrieves the ACO contents for the given ACO path.
      *
      * ### ACO path format:
      *

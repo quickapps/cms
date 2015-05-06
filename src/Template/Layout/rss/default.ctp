@@ -13,7 +13,7 @@
 /**
  * Default layout for rendering RSS feeds.
  *
- * This layout is used by `Node\Controller\ServeController::rss()`.
+ * This layout is used by `Content\Controller\ServeController::rss()`.
  * Or any other plugin which need to serve its content as RSS feed.
  *
  * @author Christopher Castro <chris@quickapps.es>

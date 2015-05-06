@@ -104,7 +104,7 @@ class EavAttributesFixture
     0 =>
     [
     'id' => 1,
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'article',
     'name' => 'article-introduction',
     'type' => 'text',
@@ -114,7 +114,7 @@ class EavAttributesFixture
     1 =>
     [
     'id' => 2,
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'article',
     'name' => 'article-body',
     'type' => 'text',
@@ -124,7 +124,7 @@ class EavAttributesFixture
     2 =>
     [
     'id' => 3,
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'article',
     'name' => 'article-category',
     'type' => 'text',
@@ -134,7 +134,7 @@ class EavAttributesFixture
     3 =>
     [
     'id' => 4,
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'page',
     'name' => 'page-body',
     'type' => 'text',

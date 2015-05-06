@@ -38,7 +38,7 @@
 
                     <div class="form-group">
                         <?php
-                            echo $this->Form->input('site_nodes_home', [
+                            echo $this->Form->input('site_contents_home', [
                                 'type' => 'select',
                                 'label' => __d('system', 'Number of contents on home page'),
                                 'options' => [

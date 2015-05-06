@@ -31,7 +31,7 @@ class PackageFactoryTest extends TestCase
      */
     public function testCreatePlugin()
     {
-        $package = PackageFactory::create('Node');
+        $package = PackageFactory::create('Content');
         $this->assertTrue($package instanceof PluginPackage);
     }
 

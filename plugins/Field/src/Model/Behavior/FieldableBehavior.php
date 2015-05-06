@@ -30,7 +30,7 @@ use \ArrayObject;
  * Fieldable Behavior.
  *
  * A more flexible EAV approach. Allows additional fields to be attached to Tables.
- * Any Table (Nodes, Users, etc.) can use this behavior to make itself `fieldable`
+ * Any Table (Contents, Users, etc.) can use this behavior to make itself `fieldable`
  * and thus allow fields to be attached to it.
  *
  * The Field API defines two primary data structures, FieldInstance and FieldValue:
@@ -84,10 +84,10 @@ class FieldableBehavior extends EavBehavior
      * - `enabled`: True enables this behavior or false for disable. Default to
      *   true.
      *
-     * Bundles are usually set to dynamic values. For example, for the "nodes" table
-     * we have "node" entities, but we may have "article nodes", "page nodes", etc
-     * depending on the "type of node" they are; is said that "article" and "page"
-     * **are bundles** of "nodes" table.
+     * Bundles are usually set to dynamic values. For example, for the "contents"
+     * table we have "content" entities, but we may have "article contents", "page
+     * contents", etc depending on the "type of content" they are; is said that
+     * "article" and "page" **are bundles** of "contents" table.
      *
      * @var array
      */
@@ -160,8 +160,8 @@ class FieldableBehavior extends EavBehavior
      * find method. e.g.:
      *
      * ```php
-     * $nodes = $this->Nodes->find('all', ['fieldable' => false]);
-     * $node = $this->Nodes->get($id, ['fieldable' => false]);
+     * $contents = $this->Contents->find('all', ['fieldable' => false]);
+     * $content = $this->Contents->get($id, ['fieldable' => false]);
      * ```
      *
      * It also looks for custom fields in WHERE clause. This will search entities in
@@ -169,7 +169,7 @@ class FieldableBehavior extends EavBehavior
      * specific bundle you must use the `bundle` key in find()'s options:
      *
      * ```php
-     * $this->Nodes
+     * $this->Contents
      *     ->find('all', ['bundle' => 'articles'])
      *     ->where(['article-title' => 'My first article!']);
      * ```

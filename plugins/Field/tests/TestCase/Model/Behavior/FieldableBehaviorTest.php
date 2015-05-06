@@ -31,7 +31,7 @@ class FieldableBehaviorTest extends TestCase
         'app.eav_attributes',
         'app.eav_values',
         'app.field_instances',
-        'app.nodes',
+        'app.contents',
         'app.plugins',
     ];
 
@@ -42,7 +42,7 @@ class FieldableBehaviorTest extends TestCase
      */
     public function setUp()
     {
-        $this->table = TableRegistry::get('Node.Nodes');
+        $this->table = TableRegistry::get('Content.Contents');
         $this->table->addBehavior('Field.Fieldable');
     }
 

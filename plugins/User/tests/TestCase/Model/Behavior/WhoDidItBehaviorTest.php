@@ -36,7 +36,7 @@ class WhoDidItBehaviorTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.nodes',
+        'app.contents',
     ];
 
     /**
@@ -46,7 +46,7 @@ class WhoDidItBehaviorTest extends TestCase
      */
     public function setUp()
     {
-        $table = TableRegistry::get('Nodes');
+        $table = TableRegistry::get('Contents');
         $this->Behavior = new WhoDidItBehavior($table, [
             'idCallable' => function () {
                 return 1;

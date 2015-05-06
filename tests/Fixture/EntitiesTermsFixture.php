@@ -94,14 +94,14 @@ class EntitiesTermsFixture extends TestFixture
     'entity_id' => 1,
     'term_id' => 1,
     'field_instance_id' => 4,
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     ],
     1 =>
     [
     'entity_id' => 1,
     'term_id' => 5,
     'field_instance_id' => 4,
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     ],
     ];
 }

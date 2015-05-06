@@ -25,7 +25,7 @@
                     $options = [];
                     if (!$info['depth']) {
                         $options['templates']['child'] = '<li{{attrs}}><strong>{{content}}</strong>{{children}}</li>';
-                        $options['childAttrs']['id'] = 'node-' . $item->title;
+                        $options['childAttrs']['id'] = 'node-' . $item->alias;
                     }
                     if (!$info['hasChildren']) {
                         $options['linkAttrs']['class'] = 'leaf-aco';

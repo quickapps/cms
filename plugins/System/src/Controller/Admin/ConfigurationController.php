@@ -40,7 +40,7 @@ class ConfigurationController extends AppController
                 'site_slogan' => 'string',
                 'site_description' => 'string',
                 'site_email' => 'string',
-                'site_nodes_home' => 'integer',
+                'site_contents_home' => 'integer',
 
                 'site_maintenance' => 'boolean',
                 'site_maintenance_ip' => 'string',

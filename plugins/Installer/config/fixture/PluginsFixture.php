@@ -88,7 +88,7 @@ class PluginsFixture
     'package' => 'quickapps-theme/backend-theme',
     'settings' => '',
     'status' => true,
-    'ordering' => 0,
+    'ordering' => 1,
     ],
     1 =>
     [
@@ -96,7 +96,7 @@ class PluginsFixture
     'package' => 'quickapps-plugin/block',
     'settings' => '',
     'status' => true,
-    'ordering' => 1,
+    'ordering' => 2,
     ],
     2 =>
     [
@@ -104,7 +104,7 @@ class PluginsFixture
     'package' => 'quickapps-plugin/bootstrap',
     'settings' => '',
     'status' => true,
-    'ordering' => 2,
+    'ordering' => 3,
     ],
     3 =>
     [
@@ -112,7 +112,7 @@ class PluginsFixture
     'package' => 'quickapps-plugin/captcha',
     'settings' => '',
     'status' => true,
-    'ordering' => 3,
+    'ordering' => 4,
     ],
     4 =>
     [
@@ -120,79 +120,79 @@ class PluginsFixture
     'package' => 'quickapps-plugin/comment',
     'settings' => 'a:13:{s:12:"auto_approve";s:1:"0";s:15:"allow_anonymous";s:1:"1";s:14:"anonymous_name";s:1:"1";s:23:"anonymous_name_required";s:1:"1";s:15:"anonymous_email";s:1:"1";s:24:"anonymous_email_required";s:1:"1";s:13:"anonymous_web";s:1:"1";s:22:"anonymous_web_required";s:1:"0";s:15:"text_processing";s:5:"plain";s:11:"use_captcha";s:1:"0";s:11:"use_akismet";s:1:"0";s:11:"akismet_key";s:1:"s";s:14:"akismet_action";s:6:"delete";}',
     'status' => true,
-    'ordering' => 4,
+    'ordering' => 5,
     ],
     5 =>
+    [
+    'name' => 'Content',
+    'package' => 'quickapps-plugin/content',
+    'settings' => '',
+    'status' => true,
+    'ordering' => 6,
+    ],
+    6 =>
     [
     'name' => 'Eav',
     'package' => 'quickapps-plugin/eav',
     'settings' => '',
     'status' => true,
-    'ordering' => 5,
+    'ordering' => 7,
     ],
-    6 =>
+    7 =>
     [
     'name' => 'Field',
     'package' => 'quickapps-plugin/field',
     'settings' => '',
     'status' => true,
-    'ordering' => 6,
+    'ordering' => 8,
     ],
-    7 =>
+    8 =>
     [
     'name' => 'FrontendTheme',
     'package' => 'quickapps-theme/frontend-theme',
     'settings' => '',
     'status' => true,
-    'ordering' => 7,
+    'ordering' => 9,
     ],
-    8 =>
+    9 =>
     [
     'name' => 'Installer',
     'package' => 'quickapps-plugin/installer',
     'settings' => '',
     'status' => true,
-    'ordering' => 8,
+    'ordering' => 10,
     ],
-    9 =>
+    10 =>
     [
     'name' => 'Jquery',
     'package' => 'quickapps-plugin/jquery',
     'settings' => '',
     'status' => true,
-    'ordering' => 9,
+    'ordering' => 11,
     ],
-    10 =>
+    11 =>
     [
     'name' => 'Locale',
     'package' => 'quickapps-plugin/locale',
     'settings' => '',
     'status' => true,
-    'ordering' => 10,
+    'ordering' => 12,
     ],
-    11 =>
+    12 =>
     [
     'name' => 'MediaManager',
     'package' => 'quickapps-plugin/media-manager',
     'settings' => '',
     'status' => true,
-    'ordering' => 11,
+    'ordering' => 13,
     ],
-    12 =>
+    13 =>
     [
     'name' => 'Menu',
     'package' => 'quickapps-plugin/menu',
     'settings' => '',
     'status' => true,
-    'ordering' => 12,
-    ],
-    13 =>
-    [
-    'name' => 'Node',
-    'package' => 'quickapps-plugin/node',
-    'settings' => '',
-    'status' => true,
-    'ordering' => 13,
+    'ordering' => 14,
     ],
     14 =>
     [
@@ -200,7 +200,7 @@ class PluginsFixture
     'package' => 'quickapps-plugin/search',
     'settings' => '',
     'status' => true,
-    'ordering' => 14,
+    'ordering' => 15,
     ],
     15 =>
     [
@@ -208,7 +208,7 @@ class PluginsFixture
     'package' => 'quickapps-plugin/system',
     'settings' => '',
     'status' => true,
-    'ordering' => 15,
+    'ordering' => 16,
     ],
     16 =>
     [
@@ -216,7 +216,7 @@ class PluginsFixture
     'package' => 'quickapps-plugin/taxonomy',
     'settings' => '',
     'status' => true,
-    'ordering' => 16,
+    'ordering' => 17,
     ],
     17 =>
     [
@@ -280,7 +280,7 @@ Your account on {{site:name}} has been canceled.
 
 --  {{site:name}} team";}',
     'status' => true,
-    'ordering' => 17,
+    'ordering' => 18,
     ],
     18 =>
     [
@@ -288,7 +288,7 @@ Your account on {{site:name}} has been canceled.
     'package' => 'quickapps-plugin/wysiwyg',
     'settings' => '',
     'status' => true,
-    'ordering' => 18,
+    'ordering' => 19,
     ],
     ];
 }

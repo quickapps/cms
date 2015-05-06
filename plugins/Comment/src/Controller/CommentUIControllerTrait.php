@@ -39,7 +39,7 @@ use QuickApps\Core\Plugin;
  * class MyCleanController extends AppController {
  *     use CommentUIControllerTrait;
  *     // underscored table alias. e.g.: "user_photos"
- *     protected $_manageTable = 'nodes';
+ *     protected $_manageTable = 'contents';
  * }
  * ```
  *
@@ -165,6 +165,7 @@ trait CommentUIControllerTrait
      *
      * - `all`: Comments marked as `pending` or `approved`. (by default)
      * - `pending`: Comments awaiting for moderation.
+     * - `approved`: Comments approved and published.
      * - `spam`: Comments marked as SPAM by Akismet.
      * - `trash`: Comments that were sent to trash bin.
      *

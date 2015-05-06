@@ -155,7 +155,7 @@ class OptionsFixture
     10 =>
     [
     'id' => 11,
-    'name' => 'site_nodes_home',
+    'name' => 'site_contents_home',
     'value' => '5',
     'autoload' => true,
     ],

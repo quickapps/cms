@@ -47,7 +47,7 @@ class BaseHandler implements EventListenerInterface
      * - `Field`: Prefix, the event subspace.
      * - `TextField`: Name of the class for Text Handler in this example.
      * - `Entity` or `Instance`: "Entity" for events related to entities
-     *    (an User, a Node, etc), or "Instance" for field instances events.
+     *    (an User, a Content, etc), or "Instance" for field instances events.
      * - `edit`: The name of the event.
      *
      * You can override this method and provide a customized set of event handlers.

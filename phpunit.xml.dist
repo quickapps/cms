@@ -65,8 +65,8 @@
             <directory>./plugins/Menu/tests/TestCase</directory>
         </testsuite>
 
-        <testsuite name="Node plugin">
-            <directory>./plugins/Node/tests/TestCase</directory>
+        <testsuite name="Content plugin">
+            <directory>./plugins/Content/tests/TestCase</directory>
         </testsuite>
 
         <testsuite name="Search plugin">

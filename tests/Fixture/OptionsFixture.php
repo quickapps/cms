@@ -147,7 +147,7 @@ class OptionsFixture extends TestFixture
     ],
     10 =>
     [
-    'name' => 'site_nodes_home',
+    'name' => 'site_contents_home',
     'value' => '5',
     'autoload' => true,
     ],

@@ -106,7 +106,7 @@ class EavAttributesFixture extends TestFixture
     public $records = [
     0 =>
     [
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'article',
     'name' => 'article-introduction',
     'type' => 'text',
@@ -115,7 +115,7 @@ class EavAttributesFixture extends TestFixture
     ],
     1 =>
     [
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'article',
     'name' => 'article-body',
     'type' => 'text',
@@ -124,7 +124,7 @@ class EavAttributesFixture extends TestFixture
     ],
     2 =>
     [
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'article',
     'name' => 'article-category',
     'type' => 'text',
@@ -133,7 +133,7 @@ class EavAttributesFixture extends TestFixture
     ],
     3 =>
     [
-    'table_alias' => 'nodes',
+    'table_alias' => 'contents',
     'bundle' => 'page',
     'name' => 'page-body',
     'type' => 'text',

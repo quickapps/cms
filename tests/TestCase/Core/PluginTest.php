@@ -54,7 +54,7 @@ class PluginTest extends TestCase
      */
     public function testGet()
     {
-        $plugin = Plugin::get('Node');
+        $plugin = Plugin::get('Content');
         $this->assertTrue(!empty($plugin));
     }
 

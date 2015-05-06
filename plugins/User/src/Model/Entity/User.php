@@ -59,7 +59,7 @@ class User extends Entity
      *
      * ```php
      * // Checks if current user is allowed to edit created contents:
-     * user()->isAllowed('Node/Admin/Manage/edit');
+     * user()->isAllowed('Content/Admin/Manage/edit');
      * ```
      *
      * @param string $aco An ACO path. e.g. `Plugin/Prefix/Controller/action`

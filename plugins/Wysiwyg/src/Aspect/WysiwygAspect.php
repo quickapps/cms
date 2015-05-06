@@ -69,7 +69,7 @@ class WysiwygAspect extends Aspect
                         config.filebrowserBrowseUrl = "' . $filebrowserBrowseUrl . '";
                     };
                 });', ['block' => true]);
-                $this->_includeLinksToNodes($view);
+                $this->_includeLinksToContents($view);
             }
         }
 
@@ -86,21 +86,21 @@ class WysiwygAspect extends Aspect
      * @param \Cake\View\View $view Instance of view class
      * @return void
      */
-    protected function _includeLinksToNodes($view)
+    protected function _includeLinksToContents($view)
     {
         $items = [];
-        $nodes = TableRegistry::get('Node.Nodes')
+        $contents = TableRegistry::get('Content.Contents')
             ->find('all', ['fieldable' => false])
-            ->contain(['NodeTypes'])
+            ->contain(['ContentTypes'])
             ->where(['status' => 1])
             ->order(['sticky' => 'DESC', 'modified' => 'DESC']);
 
-        foreach ($nodes as $node) {
-            $items[] = ["{$node->type}: " . h($node->title), $view->Url->build($node->url, true)];
+        foreach ($contents as $content) {
+            $items[] = ["{$content->type}: " . h($content->title), $view->Url->build($content->url, true)];
         }
 
-        $view->Html->scriptBlock('var linksToNodesItems = ' . json_encode($items) . ';', ['block' => true]);
-        $view->Html->scriptBlock('var linksToNodesLabel = "' . __d('wysiwyg', 'Link to content') . '";', ['block' => true]);
-        $view->Html->script('Wysiwyg.ckeditor.node.links.js', ['block' => true]);
+        $view->Html->scriptBlock('var linksToContentsItems = ' . json_encode($items) . ';', ['block' => true]);
+        $view->Html->scriptBlock('var linksToContentsLabel = "' . __d('wysiwyg', 'Link to content') . '";', ['block' => true]);
+        $view->Html->script('Wysiwyg.ckeditor.content.links.js', ['block' => true]);
     }
 }

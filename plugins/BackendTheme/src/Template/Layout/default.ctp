@@ -118,7 +118,7 @@ if (theme()->settings['collapsed_sidebar']) {
             <!-- Left side column. contains the sidebar -->
             <aside class="main-sidebar">
                 <section class="sidebar">
-                    <?php echo $this->Form->create(null, ['class' => 'sidebar-form', 'type' => 'get', 'url' => '/admin/node/manage/index']); ?>
+                    <?php echo $this->Form->create(null, ['class' => 'sidebar-form', 'type' => 'get', 'url' => '/admin/content/manage/index']); ?>
                         <div class="input-group">
                             <?php
                                 echo $this->Form->input('filter', [

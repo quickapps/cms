@@ -16,7 +16,7 @@ use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
 
 /**
- * Main Hook Listener for Node plugin.
+ * Main Hook Listener for Taxonomy plugin.
  *
  */
 class TaxonomyHook implements EventListenerInterface

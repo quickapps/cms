@@ -22,7 +22,7 @@ class ManageController extends AppController
 {
 
     /**
-     * Shows a list of all the nodes.
+     * Shows a list of all the menus.
      *
      * @return void
      */

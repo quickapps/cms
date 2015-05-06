@@ -102,7 +102,7 @@ class LinksController extends AppController
     public function add($menuId)
     {
         $this->loadModel('Menu.Menus');
-        $this->loadModel('Node.Nodes');
+        $this->loadModel('Content.Contents');
         $menu = $this->Menus->get($menuId);
         $link = $this->Menus->MenuLinks->newEntity();
         $link->set([
@@ -144,16 +144,15 @@ class LinksController extends AppController
         }
 
         $contentLinks = [];
-        $contents = $this->Nodes
+        $contents = $this->Contents
             ->find()
-            ->select(['id', 'slug', 'node_type_slug', 'title'])
+            ->select(['id', 'slug', 'content_type_slug', 'title'])
             ->all();
         foreach ($contents as $content) {
-            $contentLinks[stripLanguagePrefix($content->get('url'))] = __d(
-                'menu',
-                '{title} [{content_type}]',
-                ['title' => $content->title, 'content_type' => $content->node_type_slug]
-            );
+            $contentLinks[stripLanguagePrefix($content->get('url'))] = __d('menu', '{title} [{content_type}]', [
+                'title' => $content->title,
+                'content_type' => $content->content_type_slug
+            ]);
         }
 
         $parentsTree = $this->Menus->MenuLinks
@@ -183,7 +182,7 @@ class LinksController extends AppController
     public function edit($id)
     {
         $this->loadModel('Menu.MenuLinks');
-        $this->loadModel('Node.Nodes');
+        $this->loadModel('Content.Contents');
         $link = $this->MenuLinks->get($id, ['contain' => ['Menus']]);
 
         if (!empty($this->request->data)) {
@@ -209,12 +208,12 @@ class LinksController extends AppController
         }
 
         $contentLinks = [];
-        $contents = $this->Nodes
+        $contents = $this->Contents
             ->find()
-            ->select(['id', 'slug', 'node_type_slug', 'title'])
+            ->select(['id', 'slug', 'content_type_slug', 'title'])
             ->all();
         foreach ($contents as $content) {
-            $contentLinks[$content->get('url')] = __d('menu', '{0} [{1}]', $content->title, $content->node_type_slug);
+            $contentLinks[$content->get('url')] = __d('menu', '{0} [{1}]', $content->title, $content->content_type_slug);
         }
 
         $this->title(__d('menu', 'Editing Link'));

@@ -118,11 +118,11 @@ class BreadcrumbComponent extends Component
      *
      * ### Example:
      *
-     * For the given URL, `/admin/node/manage/index/arg1/arg2?get1=v1&get2=v2`
+     * For the given URL, `/admin/content/manage/index/arg1/arg2?get1=v1&get2=v2`
      * where:
      *
      * - `/admin`: Prefix.
-     * - `/node`: Plugin name.
+     * - `/content`: Plugin name.
      * - `/manage`: Controller name.
      * - `/index`: Controller's action.
      * - `/arg1` and `/arg2`: Action's arguments.
@@ -132,11 +132,11 @@ class BreadcrumbComponent extends Component
      *
      * ```php
      * [
-     *     "/admin/node/node/index/arg1/arg2?get1=v1&get2=v2",
-     *     "/admin/node/node/arg1/arg2",
-     *     "/admin/node/arg1/arg2",
-     *     "/admin/node/arg1",
-     *     "/admin/node",
+     *     "/admin/content/content/index/arg1/arg2?get1=v1&get2=v2",
+     *     "/admin/content/content/arg1/arg2",
+     *     "/admin/content/arg1/arg2",
+     *     "/admin/content/arg1",
+     *     "/admin/content",
      * ]
      * ```
      *

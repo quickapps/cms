@@ -130,8 +130,8 @@ class View extends CakeView
      * **Example:**
      *
      * ```php
-     * // $node, instance of: Node\Model\Entity\Node
-     * $this->render($node);
+     * // $content, instance of: Content\Model\Entity\Content
+     * $this->render($content);
      *
      * // $block, instance of: Block\Model\Entity\Block
      * $this->render($block);
@@ -141,14 +141,14 @@ class View extends CakeView
      * ```
      *
      * When rendering objects the `Render.<ClassName>` event is automatically
-     * triggered. For example, when rendering a Node Entity the following event is
-     * triggered, and event handlers should provide a HTML representation of the
+     * triggered. For example, when rendering a Content Entity the following event
+     * is triggered, and event handlers should provide a HTML representation of the
      * given object, it basically works as the `__toString()` magic method:
      *
      * ```php
-     * $someNode = TableRegistry::get('Node.Nodes')->get(1);
-     * $this->render($someNode);
-     * // triggers: Render.Node\Model\Entity\Node
+     * $someContent = TableRegistry::get('Content.Contents')->get(1);
+     * $this->render($someContent);
+     * // triggers: Render.Content\Model\Entity\Content
      * ```
      *
      * It is not limited to Entity instances only, you can virtually define a

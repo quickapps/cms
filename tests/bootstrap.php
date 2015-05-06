@@ -48,7 +48,7 @@ function snapshot()
 {
     $snapshot = [
         'version' => '2.0.0-dev',
-        'node_types' => ['article', 'page'],
+        'content_types' => ['article', 'page'],
         'plugins' => [],
         'options' => [
             'back_theme' => 'BackendTheme',
@@ -59,7 +59,7 @@ function snapshot()
             'site_maintenance' => '0',
             'site_maintenance_ip' => '192.168.0.1',
             'site_maintenance_message' => 'We sincerely apologize for the inconvenience.<br/>Our site is currently undergoing scheduled maintenance and upgrades, but will return shortly.<br/>Thanks you for your patience.',
-            'site_nodes_home' => '5',
+            'site_contents_home' => '5',
             'site_slogan' => 'Open Source CMS built on CakePHP 3.0',
             'site_title' => 'My QuickApps CMS Site',
             'url_locale_prefix' => '0',

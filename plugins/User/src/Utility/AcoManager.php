@@ -88,11 +88,11 @@ class AcoManager
         }
 
         // path already exists
-        $nodes = $this->Acos->node($path);
-        if (is_object($nodes)) {
-            $nodes = $nodes->extract('alias')->toArray();
+        $contents = $this->Acos->node($path);
+        if (is_object($contents)) {
+            $contents = $contents->extract('alias')->toArray();
         }
-        if (!empty($nodes) && implode('/', $nodes) === $path) {
+        if (!empty($contents) && implode('/', $contents) === $path) {
             return true;
         }
 
@@ -102,10 +102,10 @@ class AcoManager
         $this->Acos->connection()->transactional(function () use ($parts, $current, &$parent, $path) {
             foreach ($parts as $alias) {
                 $current[] = $alias;
-                $node = $this->Acos->node(implode('/', $current));
+                $content = $this->Acos->node(implode('/', $current));
 
-                if ($node) {
-                    $parent = $node->first();
+                if ($content) {
+                    $parent = $content->first();
                 } else {
                     $acoEntity = $this->Acos->newEntity([
                         'parent_id' => (isset($parent->id) ? $parent->id : null),
@@ -150,14 +150,14 @@ class AcoManager
      */
     public function remove($path)
     {
-        $nodes = $this->Acos->node($path);
-        if (!$nodes) {
+        $contents = $this->Acos->node($path);
+        if (!$contents) {
             return false;
         }
 
-        $node = $nodes->first();
-        $this->Acos->removeFromTree($node);
-        $this->Acos->delete($node);
+        $content = $contents->first();
+        $this->Acos->removeFromTree($content);
+        $this->Acos->delete($content);
         return true;
     }
 

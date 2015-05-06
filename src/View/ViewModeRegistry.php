@@ -17,7 +17,7 @@ use Cake\Network\Exception\InternalErrorException;
  * ViewModeRegistry is used as a registry for handling view modes, also provides
  * a few utility methods such as add() & remove().
  *
- * View modes tells nodes how they should be rendered.
+ * View modes tells contents how they should be rendered.
  *
  * Plugins are allowed to register their own view modes at any time.
  * But it is recommended to do this at bootstrap so all plugins will be aware of

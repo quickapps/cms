@@ -31,7 +31,7 @@ class ManageController extends AppController
     public $helpers = ['Paginator'];
 
     /**
-     * Shows a list of all the nodes.
+     * Shows a list of all registered users.
      *
      * @return void
      */

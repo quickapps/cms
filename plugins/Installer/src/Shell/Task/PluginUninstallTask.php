@@ -251,10 +251,10 @@ class PluginUninstallTask extends Shell
         }
 
         $folder = new Folder($path);
-        $content = $folder->tree();
+        $folderContent = $folder->tree();
         $notWritable = [];
 
-        foreach ($content as $foldersOrFiles) {
+        foreach ($folderContent as $foldersOrFiles) {
             foreach ($foldersOrFiles as $element) {
                 if (!is_writable($element)) {
                     $notWritable[] = $element;

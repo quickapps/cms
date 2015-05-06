@@ -33,7 +33,7 @@ use Cake\Network\Request;
 Request::addDetector('home', function ($request) {
     return
         !empty($request->params['plugin']) &&
-        strtolower($request->params['plugin']) === 'node' &&
+        strtolower($request->params['plugin']) === 'content' &&
         !empty($request->params['controller']) &&
         strtolower($request->params['controller']) === 'serve' &&
         !empty($request->params['action']) &&
