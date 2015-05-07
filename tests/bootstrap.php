@@ -111,7 +111,7 @@ function snapshot()
 
                 $snapshot['plugins'][$name] = [
                     'name' => $name,
-                    'human_name' => $humanName,
+                    'humanName' => $humanName,
                     'package' => $package,
                     'isTheme' => $isTheme,
                     'isCore' => $isCore,

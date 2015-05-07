@@ -187,7 +187,7 @@ class ThemesController extends AppController
         $this->set(compact('theme'));
         $this->Breadcrumb
             ->push('/admin/system/themes')
-            ->push($theme->human_name, '#')
+            ->push($theme->humanName, '#')
             ->push(__d('system', 'Details'), '#');
     }
 

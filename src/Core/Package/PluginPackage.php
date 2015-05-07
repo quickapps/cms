@@ -16,21 +16,22 @@ use Cake\Utility\Inflector;
 use QuickApps\Core\Plugin;
 
 /**
- * Represents a QuickAppsCMS plugin (including themes).
+ * Represents a QuickAppsCMS plugin or theme.
  *
- * @property string $name
- * @property string $human_name
- * @property string $package
- * @property string $path
- * @property bool $isTheme
- * @property bool $isCore
- * @property bool $hasHelp
- * @property bool $hasSettings
- * @property bool $status
- * @property array $eventListeners
- * @property array $settings
- * @property array $composer
- * @property array $permissions
+ * @property string $name CamelizedName of the plugin, e.g. `Megamenu`
+ * @property string $humanName Human readable name of the plugin, e.g. `Megamenu Builder`
+ * @property string $package Composer package name as `vendor/name`, e.g. `quickapps/megamenu`
+ * @property string $path Full path to plugin root directory, where the `src` directory can be found
+ * @property bool $isTheme Whether or not this plugin is actually a theme
+ * @property bool $isCore Whether or not belongs to QuickAppCMS's core
+ * @property bool $hasHelp Whether or not this plugin provides help documentation
+ * @property bool $hasSettings Whether or not this plugin provides configurable values
+ * @property bool $status Whether this plugin is enabled or not
+ * @property array $aspects List of aspect classes used by AOP API
+ * @property array $eventListeners List of event listener classes
+ * @property array $settings Array of configurable values
+ * @property array $composer Composer's json file as an array
+ * @property array $permissions Plugin permissions tree indexed by role
  */
 class PluginPackage extends BasePackage
 {

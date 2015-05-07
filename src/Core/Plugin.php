@@ -228,7 +228,7 @@ class Plugin extends CakePlugin
                 );
 
                 if (in_array(strtolower($pluginName), $packages)) {
-                    $out[] = $plugin->human_name;
+                    $out[] = $plugin->humanName;
                 }
             }
         }

@@ -170,8 +170,13 @@ if (!function_exists('snapshot')) {
                 $pluginPath = Plugin::scan()[$plugin->name];
             }
 
-            if ($pluginPath === false || !is_readable($pluginPath . '/composer.json')) {
-                Debugger::log(sprintf('Plugin "%s" was found in DB but QuickAppsCMS was unable to locate its root directory or its "composer.json" file in the file system.', $plugin->name));
+            if ($pluginPath === false) {
+                Debugger::log(sprintf('Plugin "%s" was found in DB but QuickAppsCMS was unable to locate its root directory.', $plugin->name));
+                continue;
+            }
+
+            if (!Plugin::validateJson("{$pluginPath}/composer.json")) {
+                Debugger::log(sprintf('Plugin "%s" has a corrupt "composer.json" file (%s).', $plugin->name, "{$pluginPath}/composer.json"));
                 continue;
             }
 
@@ -200,8 +205,8 @@ if (!function_exists('snapshot')) {
 
             if (is_readable("{$pluginPath}composer.json")) {
                 $json = (array)json_decode(file_get_contents("{$pluginPath}composer.json"), true);
-                if (!empty($json['extra']['human_name'])) {
-                    $humanName = $json['extra']['human_name'];
+                if (!empty($json['extra']['human-name'])) {
+                    $humanName = $json['extra']['human-name'];
                 }
             }
 
@@ -214,7 +219,7 @@ if (!function_exists('snapshot')) {
 
             $snapshot['plugins'][$plugin->name] = [
                 'name' => $plugin->name,
-                'human_name' => $humanName,
+                'humanName' => $humanName,
                 'package' => $plugin->package,
                 'isTheme' => $isTheme,
                 'isCore' => $isCore,

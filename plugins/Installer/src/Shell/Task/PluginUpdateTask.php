@@ -113,7 +113,7 @@ class PluginUpdateTask extends PluginInstall
         } else {
             $plugin = plugin($this->_plugin['name']);
             if ($plugin->isCore) {
-                $this->err(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $plugin->human_name));
+                $this->err(__d('installer', 'Plugin "{0}" is a core plugin, you cannot update system\'s core using this method.', $plugin->humanName));
                 return false;
             } elseif (!$this->canBeDeleted($plugin->path)) {
                 $this->err(__d('installer', 'Unable to update, please check write permissions for "{0}".', $plugin->path));

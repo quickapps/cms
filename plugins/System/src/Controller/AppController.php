@@ -20,11 +20,13 @@ use QuickApps\Core\Plugin;
  */
 class AppController extends Controller
 {
+
     /**
      * Look for plugin/themes awaiting for installation and sets a flash message
      * with instructions about how to proceed.
      *
-     * @param string $type Possible values `plugin` (default) or `theme`
+     * @param string $type Possible values `plugin` (default) or `theme`, defaults
+     *  to "plugin"
      * @return void
      */
     protected function _awaitingPlugins($type = 'plugin')

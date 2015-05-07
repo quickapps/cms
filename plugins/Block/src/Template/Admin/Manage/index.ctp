@@ -36,7 +36,7 @@ use QuickApps\Core\Plugin;
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#front-theme">
-                            <?php echo __d('block', 'Theme: {0}', plugin(option('front_theme'))->human_name); ?>
+                            <?php echo __d('block', 'Theme: {0}', plugin(option('front_theme'))->humanName); ?>
                         </a>
                     </h4>
                 </div>
@@ -115,7 +115,7 @@ use QuickApps\Core\Plugin;
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#back-theme">
-                            <?php echo __d('block', 'Theme: {0}', plugin(option('back_theme'))->human_name); ?>
+                            <?php echo __d('block', 'Theme: {0}', plugin(option('back_theme'))->humanName); ?>
                         </a>
                     </h4>
                 </div>

@@ -136,18 +136,18 @@ class PluginUninstallTask extends Shell
         $this->_plugin = $plugin;
         $type = $plugin->isTheme ? 'theme' : 'plugin';
         if ($plugin->isTheme && in_array($plugin->name, [option('front_theme'), option('back_theme')])) {
-            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is currently being used and cannot be removed.', ['type' => $type, 'name' => $plugin->human_name]));
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is currently being used and cannot be removed.', ['type' => $type, 'name' => $plugin->humanName]));
             return false;
         }
 
         if ($plugin->isCore) {
-            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is a core plugin, you cannot remove core\'s plugins.', ['type' => $type, 'name' => $plugin->human_name]));
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is a core plugin, you cannot remove core\'s plugins.', ['type' => $type, 'name' => $plugin->humanName]));
             return false;
         }
 
         $requiredBy = Plugin::checkReverseDependency($this->params['plugin']);
         if (!empty($requiredBy)) {
-            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" cannot be removed as it is required by: {required}', ['type' => $type, 'name' => $plugin->human_name, 'required' => implode(', ', $requiredBy)]));
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" cannot be removed as it is required by: {required}', ['type' => $type, 'name' => $plugin->humanName, 'required' => implode(', ', $requiredBy)]));
             return false;
         }
 
@@ -169,7 +169,7 @@ class PluginUninstallTask extends Shell
         }
 
         if (!$this->Plugins->delete($pluginEntity)) {
-            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" could not be unregistered from DB.', ['type' => $type, 'name' => $plugin->human_name]));
+            $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" could not be unregistered from DB.', ['type' => $type, 'name' => $plugin->humanName]));
             return false;
         }
 

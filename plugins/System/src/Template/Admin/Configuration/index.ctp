@@ -124,7 +124,7 @@
                         <li>
                             <strong>
                                 <?php
-                                    echo $this->Html->link($plugin->human_name, [
+                                    echo $this->Html->link($plugin->humanName, [
                                         'plugin' => 'System',
                                         'controller' => 'plugins',
                                         'action' => 'settings',

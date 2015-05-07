@@ -76,12 +76,12 @@ class ThemeActivationTask extends Shell
 
         $plugin = plugin($this->params['theme']);
         if (!$plugin->isTheme) {
-            $this->err(__d('installer', '"{0}" is not a theme.', $plugin->human_name));
+            $this->err(__d('installer', '"{0}" is not a theme.', $plugin->humanName));
             return false;
         }
 
         if (in_array($this->params['theme'], [option('front_theme'), option('back_theme')])) {
-            $this->err(__d('installer', 'Theme "{0}" is already active.', $plugin->human_name));
+            $this->err(__d('installer', 'Theme "{0}" is already active.', $plugin->humanName));
             return false;
         }
 

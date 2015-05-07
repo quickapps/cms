@@ -280,7 +280,7 @@ class ManageController extends AppController
 
                 return [
                     'theme_machine_name' => $theme->name,
-                    'theme_human_name' => $theme->human_name,
+                    'theme_human_name' => $theme->humanName,
                     'description' => $theme->composer['description'],
                     'regions' => (array)$theme->composer['extra']['regions'],
                     'value' => $value,

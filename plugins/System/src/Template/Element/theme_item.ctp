@@ -27,7 +27,7 @@
                 <?php if ($theme->name === option($type)): ?>
                     <strong><?php echo __d('system', 'Active'); ?>:</strong>
                 <?php endif; ?>
-                <?php echo $theme->human_name; ?>
+                <?php echo $theme->humanName; ?>
             </h4>
             <p><small><em><?php echo $this->Text->truncate($theme->composer['description'], 80); ?></em></small></p>
             <p>

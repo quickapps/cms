@@ -91,7 +91,7 @@ class PluginToggleTask extends Shell
         }
 
         if ($plugin->isCore) {
-            $this->err(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $plugin->human_name));
+            $this->err(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $plugin->humanName));
             return false;
         }
 
@@ -112,7 +112,7 @@ class PluginToggleTask extends Shell
     {
         $checker = new RuleChecker((array)$plugin->composer['require']);
         if (!$checker->check()) {
-            $this->err(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed: {1}', $plugin->human_name, $checker->fail(true)));
+            $this->err(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed: {1}', $plugin->humanName, $checker->fail(true)));
             return false;
         }
 
@@ -139,7 +139,7 @@ class PluginToggleTask extends Shell
     {
         $requiredBy = Plugin::checkReverseDependency($plugin->name);
         if ($this->params['status'] === 'disable' && !empty($requiredBy)) {
-            $this->err(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $plugin->human_name, implode(', ', $requiredBy)));
+            $this->err(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $plugin->humanName, implode(', ', $requiredBy)));
             return false;
         }
 
@@ -170,9 +170,9 @@ class PluginToggleTask extends Shell
 
         if (!$this->Plugins->save($pluginEntity)) {
             if ($this->params['status'] === 'enable') {
-                $this->err(__d('installer', 'Plugin "{0}" could not be enabled due to an internal error.', $plugin->human_name));
+                $this->err(__d('installer', 'Plugin "{0}" could not be enabled due to an internal error.', $plugin->humanName));
             } else {
-                $this->err(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $plugin->human_name));
+                $this->err(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $plugin->humanName));
             }
             return false;
         }

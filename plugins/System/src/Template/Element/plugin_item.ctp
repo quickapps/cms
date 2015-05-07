@@ -16,7 +16,7 @@ $classes[] = $plugin->isCore ? 'plugin-core' : 'plugin-third-party';
 ?>
 <tr class="<?php echo implode(' ', $classes); ?>">
     <td>
-        <p><?php echo $plugin->human_name; ?> (<?php echo $plugin->version(); ?>)</p>
+        <p><?php echo $plugin->humanName; ?> (<?php echo $plugin->version(); ?>)</p>
         <div class="btn-group">
             <?php
                 echo $this->Html->link('', [
