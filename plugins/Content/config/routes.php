@@ -40,7 +40,7 @@ ViewModeRegistry::add([
 ]);
 
 if (is_array(quickapps('content_types'))) {
-    Router::connect('/:content_type_slug/:content_slug.html', [
+    Router::connect('/:content_type_slug/:content_slug' . CONTENT_EXTENSION, [
         'plugin' => 'Content',
         'controller' => 'Serve',
         'action' => 'details'

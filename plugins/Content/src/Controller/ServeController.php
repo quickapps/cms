@@ -126,7 +126,7 @@ class ServeController extends AppController
         if (!empty($content->language) && $content->language != I18n::locale()) {
             $translation = $content->hasTranslation();
             if ($translation) {
-                $url = "/{$translation->content_type_slug}/{$translation->slug}.html";
+                $url = "/{$translation->content_type_slug}/{$translation->slug}" . CONTENT_EXTENSION;
                 if (option('url_locale_prefix')) {
                     $url = "/{$translation->language}{$url}";
                 }
@@ -136,7 +136,7 @@ class ServeController extends AppController
 
             $parentLocale = $content->parentLocale();
             if ($parentLocale) {
-                $url = "/{$translation->content_type_slug}/{$parentLocale->slug}.html";
+                $url = "/{$translation->content_type_slug}/{$parentLocale->slug}" . CONTENT_EXTENSION;
                 if (option('url_locale_prefix')) {
                     $url = "/{$parentLocale->language}{$url}";
                 }

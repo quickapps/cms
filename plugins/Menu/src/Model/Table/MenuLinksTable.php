@@ -64,7 +64,7 @@ class MenuLinksTable extends Table
                         return $full || $internal;
                     }
                 },
-                'message' => __d('menu', 'Invalid URL. Internal links must start with "/", e.g. "/article-my-first-article.html"'),
+                'message' => __d('menu', 'Invalid URL. Internal links must start with "/", e.g. "/article-my-first-article{0}"', CONTENT_EXTENSION),
                 'provider' => 'table',
             ])
             ->requirePresence('title')

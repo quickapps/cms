@@ -19,8 +19,7 @@
 
                 <?php echo $this->Form->input('title', ['label' => $content->content_type->title_label . ' *']); ?>
                 <em class="help-block">
-                    <?php echo __d('content', 'Will be used as content title.'); ?><br />
-                    <?php echo __d('content', 'Content URL'); ?>: <?php echo $this->Html->link("/{$content->content_type_slug}/{$content->slug}.html", $content->url, ['target' => '_blank']); ?>
+                    <b><?php echo __d('content', 'Permalink'); ?>:</b> <?php echo $this->Html->link(stripLanguagePrefix($content->url), $content->url, ['target' => '_blank']); ?>
                 </em>
 
                 <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __d('content', 'Regenerate Slug (actual: {0})', $content->slug)]); ?>

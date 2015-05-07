@@ -22,7 +22,7 @@
                 <?php if ($link->menu->handler === 'Menu'): ?>
                     <?php echo $this->Form->input('url', ['label' => __d('menu', 'URL'), 'class' => 'link-url']); ?>
                     <?php echo $this->Form->input('content_link', ['type' => 'select', 'label' => __d('menu', 'Link to content'), 'options' => $contentLinks, 'value' => $link->url, 'empty' => true, 'onchange' => "$('.link-url').val(this.value);"]); ?>
-                    <em class="help-block"><?php echo __d('menu', 'The path for this menu link. This can be an internal QuickApps CMS path such as "/article/my-first-article.html" or an external URL such as http://quickappscms.org. Enter "/" to link to the front page. You can easily link to an existing content using the "Link to content" option above.'); ?></em>
+                    <em class="help-block"><?php echo __d('menu', 'The path for this menu link. This can be an internal QuickAppsCMS path such as "/article/my-first-article{0}" or an external URL such as http://quickappscms.org. Enter "/" to link to the front page. You can easily link to an existing content using the "Link to content" option above.', CONTENT_EXTENSION); ?></em>
 
                     <hr />
                 <?php else: ?>

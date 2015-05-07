@@ -63,7 +63,7 @@
 
         <p>
             <code>{{url}/some_path/image.jpg{/url}}</code>
-            <p>Return well formatted url. URL can be an relative url (/type-of-content/my-post.html) or external (http://www.example.com/my-url).</p>
+            <p>Return well formatted url. URL can be an relative url (/type-of-content/my-post<?php echo CONTENT_EXTENSION; ?>) or external (http://www.example.com/my-url).</p>
         </p>
 
         <p>

@@ -72,7 +72,7 @@ class Content extends Entity
      *
      * Content's details URL's follows the syntax below:
      *
-     *     http://example.com/[content-type-slug]/[content-slug].html
+     *     http://example.com/{content-type-slug}/{content-slug}{CONTENT_EXTENSION}
      *
      * Example:
      *
@@ -87,8 +87,8 @@ class Content extends Entity
             $url .= '/' . I18n::locale();
         }
 
-        $url .= "/{$this->content_type_slug}/{$this->slug}.html";
-        return Router::normalize($url);
+        $url .= "/{$this->content_type_slug}/{$this->slug}";
+        return Router::normalize($url) . CONTENT_EXTENSION;
     }
 
     /**

@@ -102,7 +102,7 @@
                                 'label' => __d('system', 'URL locale prefix'),
                             ]);
                         ?>
-                        <em class="help-block"><?php echo __d('system', 'URLs like http://www.example.com/en-us/about-me.html set language to English-US. <strong>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</strong>'); ?></em>
+                        <em class="help-block"><?php echo __d('system', 'URLs like http://www.example.com/en-us/about-me{0} set language to English-US. <strong>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</strong>', CONTENT_EXTENSION); ?></em>
                     </div>
 
                     <div class="form-group">
