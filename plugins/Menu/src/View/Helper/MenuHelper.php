@@ -16,6 +16,7 @@ use Cake\Error\FatalErrorException;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
+use Cake\Utility\Inflector;
 use Cake\View\StringTemplateTrait;
 use Cake\View\View;
 use QuickApps\Core\Plugin;
@@ -426,8 +427,20 @@ class MenuHelper extends Helper
             $linkAttrs['class'][] = $this->config('activeClass');
         }
 
-        $linkAttrs['class'] = array_unique($linkAttrs['class']);
+        if ($item->has('id')) {
+            $id = $item->id;
+        } elseif (is_array($item->url)) {
+            $id = Inflector::slug(strtolower(implode(' ', array_values($item->url))));
+        } else {
+            $id = Inflector::slug(strtolower($item->url));
+        }
+
+        if (!empty($id)) {
+            $childAttrs['class'][] = "menu-link-{$id}";
+        }
+
         $childAttrs['class'] = array_unique($childAttrs['class']);
+        $linkAttrs['class'] = array_unique($linkAttrs['class']);
 
         return [
             'link' => $linkAttrs,
