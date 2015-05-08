@@ -223,6 +223,22 @@ class MenuLinksFixture
     [
     'id' => 4,
     'menu_id' => 1,
+    'lft' => 21,
+    'rght' => 22,
+    'parent_id' => 0,
+    'url' => '/admin/media_manager/explorer',
+    'description' => '',
+    'title' => 'Media',
+    'target' => '',
+    'expanded' => 1,
+    'active' => '/admin/media_manager/explorer*',
+    'activation' => 'any',
+    'status' => true,
+    ],
+    4 =>
+    [
+    'id' => 5,
+    'menu_id' => 1,
     'lft' => 23,
     'rght' => 28,
     'parent_id' => 0,
@@ -235,9 +251,9 @@ class MenuLinksFixture
     'activation' => 'any',
     'status' => true,
     ],
-    4 =>
+    5 =>
     [
-    'id' => 5,
+    'id' => 6,
     'menu_id' => 1,
     'lft' => 29,
     'rght' => 34,
@@ -251,9 +267,9 @@ class MenuLinksFixture
     'activation' => 'any',
     'status' => true,
     ],
-    5 =>
+    6 =>
     [
-    'id' => 6,
+    'id' => 7,
     'menu_id' => 1,
     'lft' => 35,
     'rght' => 44,
@@ -267,9 +283,25 @@ class MenuLinksFixture
     'activation' => 'any',
     'status' => true,
     ],
-    6 =>
+    7 =>
     [
-    'id' => 7,
+    'id' => 8,
+    'menu_id' => 1,
+    'lft' => 45,
+    'rght' => 50,
+    'parent_id' => 0,
+    'url' => '/admin/locale/',
+    'description' => '',
+    'title' => 'Languages',
+    'target' => '_self',
+    'expanded' => 1,
+    'active' => '/admin/locale/*',
+    'activation' => 'any',
+    'status' => true,
+    ],
+    8 =>
+    [
+    'id' => 9,
     'menu_id' => 1,
     'lft' => 51,
     'rght' => 52,
@@ -283,9 +315,9 @@ class MenuLinksFixture
     'activation' => 'any',
     'status' => true,
     ],
-    7 =>
+    9 =>
     [
-    'id' => 8,
+    'id' => 10,
     'menu_id' => 1,
     'lft' => 53,
     'rght' => 54,
@@ -299,23 +331,7 @@ class MenuLinksFixture
     'activation' => 'any',
     'status' => true,
     ],
-    8 =>
-    [
-    'id' => 9,
-    'menu_id' => 1,
-    'lft' => 4,
-    'rght' => 5,
-    'parent_id' => 2,
-    'url' => '/admin/block/manage',
-    'description' => 'Configure what block content appears in your site\'s sidebars and other regions.',
-    'title' => 'Blocks',
-    'target' => '_self',
-    'expanded' => 0,
-    'active' => '/admin/block/*',
-    'activation' => 'any',
-    'status' => true,
-    ],
-    9 =>
+    10 =>
     [
     'id' => 11,
     'menu_id' => 1,
@@ -331,7 +347,7 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    10 =>
+    11 =>
     [
     'id' => 12,
     'menu_id' => 1,
@@ -347,28 +363,12 @@ class MenuLinksFixture
     'activation' => null,
     'status' => true,
     ],
-    11 =>
-    [
-    'id' => 13,
-    'menu_id' => 1,
-    'lft' => 45,
-    'rght' => 50,
-    'parent_id' => 0,
-    'url' => '/admin/locale/',
-    'description' => '',
-    'title' => 'Languages',
-    'target' => '_self',
-    'expanded' => 1,
-    'active' => '/admin/locale/*',
-    'activation' => 'any',
-    'status' => true,
-    ],
     12 =>
     [
-    'id' => 14,
+    'id' => 13,
     'menu_id' => 2,
-    'lft' => 3,
-    'rght' => 4,
+    'lft' => 5,
+    'rght' => 6,
     'parent_id' => 0,
     'url' => '/page/about.html',
     'description' => '',
@@ -381,7 +381,7 @@ class MenuLinksFixture
     ],
     13 =>
     [
-    'id' => 16,
+    'id' => 14,
     'menu_id' => 2,
     'lft' => 1,
     'rght' => 2,
@@ -397,10 +397,10 @@ class MenuLinksFixture
     ],
     14 =>
     [
-    'id' => 17,
+    'id' => 15,
     'menu_id' => 2,
-    'lft' => 5,
-    'rght' => 6,
+    'lft' => 3,
+    'rght' => 4,
     'parent_id' => 0,
     'url' => '/find/type:article',
     'description' => '',
@@ -414,7 +414,7 @@ class MenuLinksFixture
     ],
     15 =>
     [
-    'id' => 18,
+    'id' => 16,
     'menu_id' => 1,
     'lft' => 12,
     'rght' => 13,
@@ -430,7 +430,7 @@ class MenuLinksFixture
     ],
     16 =>
     [
-    'id' => 19,
+    'id' => 17,
     'menu_id' => 1,
     'lft' => 14,
     'rght' => 15,
@@ -446,7 +446,7 @@ class MenuLinksFixture
     ],
     17 =>
     [
-    'id' => 20,
+    'id' => 18,
     'menu_id' => 1,
     'lft' => 16,
     'rght' => 17,
@@ -463,7 +463,7 @@ class MenuLinksFixture
     ],
     18 =>
     [
-    'id' => 21,
+    'id' => 19,
     'menu_id' => 1,
     'lft' => 18,
     'rght' => 19,
@@ -479,11 +479,11 @@ class MenuLinksFixture
     ],
     19 =>
     [
-    'id' => 22,
+    'id' => 20,
     'menu_id' => 1,
     'lft' => 24,
     'rght' => 25,
-    'parent_id' => 4,
+    'parent_id' => 5,
     'url' => '/admin/system/themes/index',
     'description' => '',
     'title' => 'Themes',
@@ -496,11 +496,11 @@ class MenuLinksFixture
     ],
     20 =>
     [
-    'id' => 23,
+    'id' => 21,
     'menu_id' => 1,
     'lft' => 26,
     'rght' => 27,
-    'parent_id' => 4,
+    'parent_id' => 5,
     'url' => '/admin/system/themes/install',
     'description' => '',
     'title' => 'Install New Theme',
@@ -512,11 +512,11 @@ class MenuLinksFixture
     ],
     21 =>
     [
-    'id' => 24,
+    'id' => 22,
     'menu_id' => 1,
     'lft' => 30,
     'rght' => 31,
-    'parent_id' => 5,
+    'parent_id' => 6,
     'url' => '/admin/system/plugins/index',
     'description' => '',
     'title' => 'Plugins',
@@ -528,11 +528,11 @@ class MenuLinksFixture
     ],
     22 =>
     [
-    'id' => 25,
+    'id' => 23,
     'menu_id' => 1,
     'lft' => 32,
     'rght' => 33,
-    'parent_id' => 5,
+    'parent_id' => 6,
     'url' => '/admin/system/plugins/install',
     'description' => '',
     'title' => 'Install New Plugin',
@@ -544,11 +544,11 @@ class MenuLinksFixture
     ],
     23 =>
     [
-    'id' => 26,
+    'id' => 24,
     'menu_id' => 1,
     'lft' => 36,
     'rght' => 37,
-    'parent_id' => 6,
+    'parent_id' => 7,
     'url' => '/admin/user/manage/',
     'description' => '',
     'title' => 'Users List',
@@ -560,11 +560,11 @@ class MenuLinksFixture
     ],
     24 =>
     [
-    'id' => 27,
+    'id' => 25,
     'menu_id' => 1,
     'lft' => 38,
     'rght' => 39,
-    'parent_id' => 6,
+    'parent_id' => 7,
     'url' => '/admin/user/roles',
     'description' => '',
     'title' => 'User Roles',
@@ -576,11 +576,11 @@ class MenuLinksFixture
     ],
     25 =>
     [
-    'id' => 28,
+    'id' => 26,
     'menu_id' => 1,
     'lft' => 40,
     'rght' => 41,
-    'parent_id' => 6,
+    'parent_id' => 7,
     'url' => '/admin/user/permissions',
     'description' => '',
     'title' => 'Permissions',
@@ -592,11 +592,11 @@ class MenuLinksFixture
     ],
     26 =>
     [
-    'id' => 29,
+    'id' => 27,
     'menu_id' => 1,
     'lft' => 46,
     'rght' => 47,
-    'parent_id' => 13,
+    'parent_id' => 8,
     'url' => '/admin/locale/manage/index',
     'description' => '',
     'title' => 'Installed Languages',
@@ -608,11 +608,11 @@ class MenuLinksFixture
     ],
     27 =>
     [
-    'id' => 30,
+    'id' => 28,
     'menu_id' => 1,
     'lft' => 48,
     'rght' => 49,
-    'parent_id' => 13,
+    'parent_id' => 8,
     'url' => '/admin/locale/manage/add',
     'description' => '',
     'title' => 'Add New Language',
@@ -624,11 +624,11 @@ class MenuLinksFixture
     ],
     28 =>
     [
-    'id' => 31,
+    'id' => 29,
     'menu_id' => 1,
     'lft' => 42,
     'rght' => 43,
-    'parent_id' => 6,
+    'parent_id' => 7,
     'url' => '/admin/user/fields',
     'description' => '',
     'title' => 'Virtual Fields',
@@ -640,17 +640,17 @@ class MenuLinksFixture
     ],
     29 =>
     [
-    'id' => 32,
+    'id' => 30,
     'menu_id' => 1,
-    'lft' => 21,
-    'rght' => 22,
-    'parent_id' => 0,
-    'url' => '/admin/media_manager/explorer',
-    'description' => '',
-    'title' => 'Media',
-    'target' => '',
-    'expanded' => 1,
-    'active' => '/admin/media_manager/explorer*',
+    'lft' => 4,
+    'rght' => 5,
+    'parent_id' => 2,
+    'url' => '/admin/block/manage',
+    'description' => 'Configure what block content appears in your site\'s sidebars and other regions.',
+    'title' => 'Blocks',
+    'target' => '_self',
+    'expanded' => 0,
+    'active' => '/admin/block/*',
     'activation' => 'any',
     'status' => true,
     ],
