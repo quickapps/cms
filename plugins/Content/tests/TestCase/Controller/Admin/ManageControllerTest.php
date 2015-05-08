@@ -132,7 +132,7 @@ class ManageControllerTest extends IntegrationTestCase
         $this->assertNotEmpty($content);
     }
 
-   /**
+    /**
      * test translate action.
      *
      * @return void
