@@ -55,8 +55,8 @@ class MenusTable extends Table
     {
         $validator
             ->add('title', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('menu', 'You need to provide a title.'),
                 ],
                 'length' => [
@@ -66,7 +66,7 @@ class MenusTable extends Table
             ])
             ->requirePresence('handler', 'create')
             ->add('handler', 'validHandler', [
-                'rule' => 'notEmpty',
+                'rule' => 'notBlank',
                 'on' => 'create',
                 'message' => __d('menu', 'Invalid menu handler'),
             ]);

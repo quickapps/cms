@@ -82,8 +82,8 @@ class ContentTypesTable extends Table
         $validator
             ->requirePresence('name')
             ->add('name', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('content', 'You need to provide a content type name.'),
                 ],
                 'length' => [
@@ -101,8 +101,8 @@ class ContentTypesTable extends Table
             ])
             ->requirePresence('title_label')
             ->add('title_label', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('content', 'You need to provide a "Title Label".'),
                 ],
                 'length' => [

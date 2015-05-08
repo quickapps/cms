@@ -69,8 +69,8 @@ class MenuLinksTable extends Table
             ])
             ->requirePresence('title')
             ->add('title', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('menu', 'You need to provide a title.'),
                 ],
                 'length' => [

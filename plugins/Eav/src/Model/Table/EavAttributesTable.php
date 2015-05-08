@@ -62,8 +62,8 @@ class EavAttributesTable extends Table
     {
         $validator
             ->add('name', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('eav', 'You need to provide a machine name.'),
                 ],
                 'length' => [

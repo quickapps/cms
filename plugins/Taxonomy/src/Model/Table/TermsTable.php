@@ -53,8 +53,8 @@ class TermsTable extends Table
         $validator
             ->requirePresence('name')
             ->add('name', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('taxonomy', 'You need to provide a name.'),
                 ],
                 'length' => [

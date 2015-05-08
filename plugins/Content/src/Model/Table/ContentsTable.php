@@ -174,8 +174,8 @@ class ContentsTable extends Table
     {
         $validator
             ->add('title', [
-                'notEmpty' => [
-                    'rule' => 'notEmpty',
+                'notBlank' => [
+                    'rule' => 'notBlank',
                     'message' => __d('content', 'You need to provide a title.'),
                 ],
                 'length' => [
