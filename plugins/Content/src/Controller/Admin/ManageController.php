@@ -288,17 +288,16 @@ class ManageController extends AppController
             !empty($this->request->data['title']) &&
             $this->request->data['language'] !== $content->language
         ) {
-            $newContent = $this->Contents->newEntity($content->toArray(), [
-                'fieldList' => [
-                    'content_type_id',
-                    'content_type_slug',
-                    'title',
-                ]
+            $this->Contents->unbindFieldable(); // fix, wont trigger fields validation
+            $newContent = $this->Contents->newEntity([
+                'content_type_id' => $content->get('content_type_id'),
+                'content_type_slug' => $content->get('content_type_slug'),
+                'title' => $content->get('title'),
+                'status' => false,
+                'title' => $this->request->data['title'],
+                'translation_for' => $content->id,
+                'language' => $this->request->data['language'],
             ]);
-            $newContent->set('status', false);
-            $newContent->set('title', $this->request->data['title']);
-            $newContent->set('translation_for', $content->id);
-            $newContent->set('language', $this->request->data['language']);
 
             if ($this->Contents->save($newContent)) {
                 $this->Flash->success(__d('content', 'Translation successfully created and was marked as unpublished. Complete the translation before publishing.'));
