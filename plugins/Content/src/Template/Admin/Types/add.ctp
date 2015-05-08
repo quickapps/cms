@@ -19,7 +19,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php debug($type); echo $this->Form->create($type); ?>
+        <?php echo $this->Form->create($type); ?>
             <fieldset>
                 <legend><?php echo __d('content', 'Content Type Information'); ?></legend>
                 <?php echo $this->Form->input('name', ['label' => __d('content', 'Name *')]); ?>
@@ -29,7 +29,6 @@
                 <em class="help-block">
                     <?php echo __d('content', 'A unique name for this content type, accepted characters are lowercase letters, numbers and "-" symbol (a-z, 0-9, -). Leave empty to automatically generate one from content name. This value can not be changed after content type is created.'); ?>
                 </em>
-
 
                 <?php echo $this->Form->input('title_label', ['label' => __d('content', 'Title field label *')]); ?>
                 <em class="help-block"><?php echo __d('content', 'Label name for the "Title" field. e.g. "Product name", "Author name", etc.'); ?></em>
