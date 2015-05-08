@@ -427,14 +427,7 @@ class MenuHelper extends Helper
             $linkAttrs['class'][] = $this->config('activeClass');
         }
 
-        if ($item->has('id')) {
-            $id = $item->id;
-        } elseif (is_array($item->url)) {
-            $id = Inflector::slug(strtolower(implode(' ', array_values($item->url))));
-        } else {
-            $id = Inflector::slug(strtolower($item->url));
-        }
-
+        $id = $this->_calculateItemId($item);
         if (!empty($id)) {
             $childAttrs['class'][] = "menu-link-{$id}";
         }
@@ -446,6 +439,25 @@ class MenuHelper extends Helper
             'link' => $linkAttrs,
             'child' => $childAttrs,
         ];
+    }
+
+    /**
+     * Calculates an item's ID
+     *
+     * @param \Cake\Datasource\EntityInterface $item The item
+     * @return string The ID, it may be an empty
+     */
+    protected function _calculateItemId(EntityInterface $item)
+    {
+        if ($item->has('id')) {
+            return $item->id;
+        }
+
+        if (is_array($item->url)) {
+            return Inflector::slug(strtolower(implode(' ', array_values($item->url))));
+        }
+
+        return Inflector::slug(strtolower($item->url));
     }
 
     /**
