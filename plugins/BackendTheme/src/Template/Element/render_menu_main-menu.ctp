@@ -13,13 +13,28 @@
 /**
  * Renders menus assigned to `main-menu` region.
  */
+$linkIcons = [
+    '1' => 'fa-dashboard',
+    '2' => 'fa-sitemap',
+    '3' => 'fa-edit',
+    '4' => 'fa-image',
+    '5' => 'fa-paint-brush',
+    '6' => 'fa-cubes',
+    '7' => 'fa-users',
+    '8' => 'fa-language',
+    '9' => 'fa-gear',
+    '10' => 'fa-question',
+];
 echo $this->Menu->render($menu->links, [
     'class' => 'sidebar-menu',
     'hasChildrenClass' => 'treeview',
-    'formatter' => function ($item, $info) {
+    'formatter' => function ($item, $info) use($linkIcons) {
         $options = [];
         if ($info['depth'] > 0) {
             $item->title = '<i class="fa fa-circle-o"></i>&nbsp;&nbsp;&nbsp;' . $item->title;
+        }
+        if ($info['depth'] === 0 && $item->has('id') && isset($linkIcons[$item->id])) {
+            $item->title = '<i class="fa ' . $linkIcons[$item->id] . '"></i>&nbsp;&nbsp;&nbsp;' . $item->title;
         }
         if (!empty($info['children'])) {
             $info['children'] = str_replace('<ul class=""', '<ul class="treeview-menu"', $info['children']);
