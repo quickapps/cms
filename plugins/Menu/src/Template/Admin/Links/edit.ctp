@@ -60,6 +60,7 @@
                         ]
                     ]);
                 ?>
+                <em class="help-block"><?php echo __d('menu', 'Indicate whether children links should be rendered or not.'); ?></em>
             </fieldset>
 
             <fieldset>
