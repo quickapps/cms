@@ -124,22 +124,16 @@ class ServeController extends AppController
         }
 
         if (!empty($content->language) && $content->language != I18n::locale()) {
-            $translation = $content->hasTranslation();
+            $translation = $content->translation();
             if ($translation) {
-                $url = "/{$translation->content_type_slug}/{$translation->slug}" . CONTENT_EXTENSION;
-                if (option('url_locale_prefix')) {
-                    $url = "/{$translation->language}{$url}";
-                }
+                $url = option('url_locale_prefix') ? '/' . $translation->language . stripLanguagePrefix($translation->url) : $translation->url;
                 $this->redirect($url);
                 return $this->response;
             }
 
-            $parentLocale = $content->parentLocale();
-            if ($parentLocale) {
-                $url = "/{$translation->content_type_slug}/{$parentLocale->slug}" . CONTENT_EXTENSION;
-                if (option('url_locale_prefix')) {
-                    $url = "/{$parentLocale->language}{$url}";
-                }
+            $parent = $content->parent();
+            if ($parent) {
+                $url = option('url_locale_prefix') ? '/' . $parent->language . stripLanguagePrefix($parent->url) : $parent->url;
                 $this->redirect($url);
                 return $this->response;
             }

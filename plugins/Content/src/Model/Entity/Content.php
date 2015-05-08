@@ -124,7 +124,7 @@ class Content extends Entity
      *
      * @return mixed The parent content if exists, null otherwise
      */
-    public function parentLocale()
+    public function parent()
     {
         if (!$this->has('slug')) {
             throw new FatalErrorException(__d('content', "Missing property 'slug', make sure to include it using Query::select()."));
@@ -134,9 +134,8 @@ class Content extends Entity
             ->find()
             ->select(['id', 'slug', 'content_type_slug', 'language'])
             ->where([
-                'slug' => $this->slug,
+                'id' => $this->translation_for,
                 'status' => 1,
-                'translation_for NOT IN' => ['', null]
             ])
             ->first();
     }
@@ -150,7 +149,7 @@ class Content extends Entity
      * @throws Cake\Error\FatalErrorException When if any of the required
      *  properties is not present in this entity
      */
-    public function hasTranslation($locale = null)
+    public function translation($locale = null)
     {
         if (!$this->has('id') || !$this->has('content_type_slug')) {
             throw new FatalErrorException(__d('content', "Missing properties 'id' or 'content_type_slug', make sure to include them using Query::select()."));
@@ -165,7 +164,6 @@ class Content extends Entity
             ->select(['id', 'slug', 'content_type_slug', 'language'])
             ->where([
                 'translation_for' => $this->id,
-                'content_type_slug' => $this->content_type_slug,
                 'language' => $locale,
                 'status' => 1,
             ])
