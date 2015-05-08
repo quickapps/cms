@@ -78,7 +78,7 @@ class ContentTypesFixture extends TestFixture
     [
     'type' => 'string',
     'length' => 255,
-    'null' => false,
+    'null' => true,
     'default' => null,
     'comment' => '',
     'precision' => null,

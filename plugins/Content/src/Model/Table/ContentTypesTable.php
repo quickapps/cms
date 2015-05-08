@@ -91,8 +91,8 @@ class ContentTypesTable extends Table
                     'message' => __d('content', 'Name need to be at least 3 characters long.'),
                 ],
             ])
-            ->requirePresence('slug')
-            ->notEmpty('slug', __d('content', 'Machine-name cannot be left empty.'))
+            ->requirePresence('slug', 'create')
+            ->notEmpty('slug', __d('content', 'Machine-name cannot be left empty.'), 'create')
             ->add('slug', 'checkSlug', [
                 'rule' => function ($value, $context) {
                     return (preg_match('/^[a-z0-9\-]{3,}$/', $value) === 1);
