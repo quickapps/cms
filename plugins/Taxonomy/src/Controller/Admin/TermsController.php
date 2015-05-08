@@ -155,8 +155,9 @@ class TermsController extends AppController
 
         if ($this->request->data()) {
             $term = $this->Terms->patchEntity($term, $this->request->data(), ['fieldList' => ['name']]);
+            $errors = $term->errors();
 
-            if (empty($term->errors())) {
+            if (empty($errors)) {
                 $this->Terms->save($term, ['associated' => false]);
                 $this->Flash->success(__d('taxonomy', 'Term has been updated'));
                 $this->redirect($this->referer());

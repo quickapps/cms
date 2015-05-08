@@ -227,7 +227,8 @@ class CommentComponent extends Component
         $data = $this->_getRequestData($entity);
         $this->_controller->Comments->validator('commentValidation', $this->_createValidator());
         $comment = $this->_controller->Comments->newEntity($data, ['validate' => 'commentValidation']);
-        $errors = !empty($comment->errors());
+        $errors = $comment->errors();
+        $errors = !empty($errors);
 
         if (!$errors) {
             $persist = true;

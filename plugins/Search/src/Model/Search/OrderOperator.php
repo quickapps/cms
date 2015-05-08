@@ -50,7 +50,8 @@ class OrderOperator extends Operator
      */
     public function scope(Query $query, Token $token)
     {
-        if ($token->negated() || empty($this->config('fields'))) {
+        $fields = $this->config('fields');
+        if ($token->negated() || empty($fields)) {
             return $query;
         }
 

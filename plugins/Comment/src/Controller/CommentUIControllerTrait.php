@@ -246,8 +246,9 @@ trait CommentUIControllerTrait
             $comment->accessible(['subject', 'body', 'author_name', 'author_email', 'author_web', 'status'], true);
             $validator = $comment->user_id ? 'default' : 'anonymous';
             $this->Comments->patchEntity($comment, $this->request->data(), ['validate' => $validator]);
+            $errors = $comment->errors();
 
-            if (empty($comment->errors())) {
+            if (empty($errors)) {
                 $this->Comments->save($comment, ['associated' => false]);
                 $this->Flash->success(__d('comment', 'Comment saved!.'));
                 $this->redirect($this->referer());

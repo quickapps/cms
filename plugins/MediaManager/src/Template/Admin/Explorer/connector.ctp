@@ -24,8 +24,8 @@ require $pluginPath . 'Lib/ElFinder/elFinderVolumeLocalFileSystem.class.php';
  * callback. This method will disable accessing files/folders starting from  '.'
  * (dot)
  *
- * @param string $attr attribute name (read|write|locked|hidden)
- * @param string $path  file path relative to volume root directory started with
+ * @param string $attr Attribute name (read|write|locked|hidden)
+ * @param string $path File path relative to volume root directory started with
  *  directory separator
  * @return bool|null
  **/
@@ -65,6 +65,19 @@ $opts = [
         'tmbSize' => 200,
         'acceptedName'    => '/^[^\.].*$/',
         'accessControl' => 'access',
+        'dateFormat' => __d('media_manager', 'j M Y H:i'),
+        'defaults' => ['read' => true, 'write' => true],
+        'icon' => $this->Url->build('/media_manager/img/volume_icon_local.png'),
+    ], [
+        'alias' => __d('media_manager', 'Site Templates'),
+        'driver' => 'LocalFileSystem',
+        'path' => SITE_ROOT . '/templates/',
+        'mimeDetect' => 'internal',
+        'tmbPath' => '.tmb',
+        'utf8fix' => true,
+        'tmbCrop' => false,
+        'tmbSize' => 200,
+        'acceptedName'    => '/^[^\.].*$/',
         'dateFormat' => __d('media_manager', 'j M Y H:i'),
         'defaults' => ['read' => true, 'write' => true],
         'icon' => $this->Url->build('/media_manager/img/volume_icon_local.png'),

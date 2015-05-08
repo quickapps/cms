@@ -272,7 +272,9 @@ trait FieldUIControllerTrait
 
             $fieldInstance = $this->FieldInstances->newEntity($data, ['associated' => ['EavAttribute']]);
             $this->_validateSlug($fieldInstance);
-            $success = empty($fieldInstance->errors()) && empty($fieldInstance->get('eav_attribute')->errors());
+            $instanceErrors = $fieldInstance->errors();
+            $attributeErrors = $fieldInstance->get('eav_attribute')->errors();
+            $success = empty($instanceErrors) && empty($attributeErrors);
 
             if ($success) {
                 $success = $this->FieldInstances->save($fieldInstance, ['associated' => ['EavAttribute']]);

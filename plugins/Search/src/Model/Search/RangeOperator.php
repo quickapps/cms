@@ -50,7 +50,8 @@ class RangeOperator extends Operator
     public function scope(Query $query, Token $token)
     {
         $column = $this->config('field');
-        if (!$column || empty($token->value())) {
+        $value = $token->value();
+        if (!$column || empty($value)) {
             return $query;
         }
 

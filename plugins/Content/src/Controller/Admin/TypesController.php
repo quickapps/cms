@@ -55,7 +55,8 @@ class TypesController extends AppController
 
         if ($this->request->data()) {
             $type = $this->ContentTypes->patchEntity($type, $this->request->data());
-            $success = empty($type->errors());
+            $errors = $type->errors();
+            $success = empty($errors);
 
             if ($success) {
                 $success = $this->ContentTypes->save($type);
