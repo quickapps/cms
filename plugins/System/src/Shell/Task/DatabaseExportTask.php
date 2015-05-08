@@ -62,6 +62,11 @@ class DatabaseExportTask extends Shell
                 'help' => __d('system', 'What to export, "full" exports schema and records, or "schema" for schema only.'),
                 'default' => 'full',
                 'choices' => ['full', 'schema'],
+            ])
+            ->addOption('no-data', [
+                'short' => 'n',
+                'help' => __d('system', 'List of table for which do not export data (only schema).'),
+                'default' => [],
             ]);
         return $parser;
     }
@@ -81,6 +86,10 @@ class DatabaseExportTask extends Shell
 
         if (is_string($options['tables'])) {
             $options['tables'] = explode(',', $options['tables']);
+        }
+
+        if (is_string($options['no-data'])) {
+            $options['no-data'] = explode(',', $options['no-data']);
         }
 
         if (file_exists($destination)) {
@@ -163,7 +172,7 @@ class DatabaseExportTask extends Shell
             }
 
             $fields = $this->_arrayToString($fields);
-            $records = $this->_arrayToString($records);
+            $records = in_array($table, $options['no-data']) ? '[]' : $this->_arrayToString($records);
 
             $fixture = $this->_classFileHeader($className);
             $fixture .= "{\n";
