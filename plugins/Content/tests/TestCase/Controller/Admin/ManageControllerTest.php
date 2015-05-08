@@ -169,7 +169,7 @@ class ManageControllerTest extends IntegrationTestCase
                 ->find()
                 ->where(['title' => $newTitle])
                 ->limit(1)
-                ->count();
+                ->first();
             $this->assertNotEmpty($translation);
         }
     }
