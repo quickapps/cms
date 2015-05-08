@@ -25,7 +25,6 @@
                 <?php echo $this->Form->input('regenerate_slug', ['type' => 'checkbox', 'label' => __d('content', 'Regenerate Slug (actual: {0})', $content->slug)]); ?>
                 <em class="help-block"><?php echo __d('content', 'Check this to generate a new slug from title.'); ?></em>
 
-
                 <?php if ($content->translation_of): ?>
                     <em class="help-block">
                         <strong><?php echo __d('content', 'This content is a translation of'); ?>: </strong>

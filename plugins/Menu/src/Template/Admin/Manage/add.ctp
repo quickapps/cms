@@ -15,17 +15,16 @@
     <div class="col-md-12">
         <?php echo $this->Form->create($menu); ?>
             <fieldset>
-                <legend><?php echo __d('menu', 'Creating Menu'); ?></legend>
+                <legend><?php echo __d('menu', 'Menu Information'); ?></legend>
 
                 <?php echo $this->Form->input('title', ['label' => __d('menu', 'Title *')]); ?>
                 <?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
+                <em class="help-block"><?php echo __d('menu', 'Briefly describe your menu, e.g. "Sitemap Links".'); ?></em>
 
                 <?php if ($menu->handler !== 'Menu'): ?>
                     <?php $result = $this->trigger("Menu.{$menu->handler}.settings", $menu)->result; ?>
                     <?php if (!empty($result)): ?>
-                    <hr />
                         <?php echo $result; ?>
-                    <hr />
                     <?php endif; ?>
                 <?php endif; ?>
 
