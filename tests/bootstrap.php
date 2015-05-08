@@ -72,6 +72,14 @@ function snapshot()
                 'country' => 'US',
                 'direction' => 'ltr',
                 'icon' => 'us.gif',
+            ],
+            'es_ES' => [
+                'name' => 'Spanish',
+                'locale' => 'es_ES',
+                'code' => 'es',
+                'country' => 'ES',
+                'direction' => 'ltr',
+                'icon' => 'es.gif',
             ]
         ]
     ];

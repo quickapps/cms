@@ -30,6 +30,11 @@ class ManageControllerTest extends IntegrationTestCase
         'app.blocks',
         'app.blocks_roles',
         'app.comments',
+        'app.content_revisions',
+        'app.contents',
+        'app.contents_roles',
+        'app.content_type_permissions',
+        'app.content_types',
         'app.eav_attributes',
         'app.eav_values',
         'app.entities_terms',
@@ -37,10 +42,6 @@ class ManageControllerTest extends IntegrationTestCase
         'app.languages',
         'app.menu_links',
         'app.menus',
-        'app.content_revisions',
-        'app.contents',
-        'app.contents_roles',
-        'app.content_types',
         'app.options',
         'app.permissions',
         'app.plugins',
@@ -131,26 +132,7 @@ class ManageControllerTest extends IntegrationTestCase
         $this->assertNotEmpty($content);
     }
 
-    /**
-     * test delete action.
-     *
-     * @return void
-     */
-    public function testDelete()
-    {
-        foreach ([1, 2] as $id) {
-            $this->get("/admin/content/manage/delete/{$id}");
-            $exists = $this->_controller
-                ->Contents
-                ->find()
-                ->where(['id' => $id])
-                ->limit(1)
-                ->count();
-            $this->assertEquals(0, $exists);
-        }
-    }
-
-    /**
+   /**
      * test translate action.
      *
      * @return void
@@ -171,6 +153,25 @@ class ManageControllerTest extends IntegrationTestCase
                 ->limit(1)
                 ->first();
             $this->assertNotEmpty($translation);
+        }
+    }
+
+    /**
+     * test delete action.
+     *
+     * @return void
+     */
+    public function testDelete()
+    {
+        foreach ([1, 2] as $id) {
+            $this->get("/admin/content/manage/delete/{$id}");
+            $exists = $this->_controller
+                ->Contents
+                ->find()
+                ->where(['id' => $id])
+                ->limit(1)
+                ->count();
+            $this->assertEquals(0, $exists);
         }
     }
 }
