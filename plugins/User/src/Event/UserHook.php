@@ -35,25 +35,7 @@ class UserHook implements EventListenerInterface
         return [
             'Plugin.User.settingsValidate' => 'settingsValidate',
             'Plugin.User.settingsDefaults' => 'settingsDefaults',
-            'Block.User.display' => 'renderBlock',
         ];
-    }
-
-    /**
-     * Renders all blocks registered by User plugin.
-     *
-     * User plugin has one built-in block that comes with every QuickAppsCMS
-     * installation: "User Sub-menu" which allow users to access their profile page
-     * among other things.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Block\Model\Entity\Block $block The block being rendered
-     * @param array $options Additional options as an array
-     * @return string
-     */
-    public function renderBlock(Event $event, $block, $options = [])
-    {
-        return $event->subject()->element("User.{$block->delta}_render", compact('block', 'options'));
     }
 
     /**

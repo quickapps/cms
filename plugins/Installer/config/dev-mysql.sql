@@ -82,7 +82,6 @@ DROP TABLE IF EXISTS `blocks`;
 CREATE TABLE `blocks` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key - Unique block ID.',
   `copy_id` int(11) DEFAULT NULL COMMENT 'id of the block this block is a copy of',
-  `delta` varchar(30) COLLATE utf8_unicode_ci NOT NULL COMMENT 'unique ID within a handler',
   `handler` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Block' COMMENT 'Name of the plugin that created this block. Used to generate event name, e.g. "Menu" triggers "Block.Menu.display" when rendering the block',
   `title` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -92,8 +91,7 @@ CREATE TABLE `blocks` (
   `locale` text COLLATE utf8_unicode_ci,
   `settings` longtext COLLATE utf8_unicode_ci COMMENT 'additional information used by this block, used by blocks handlers <> `Block`',
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `delta` (`delta`,`handler`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -103,7 +101,7 @@ CREATE TABLE `blocks` (
 
 LOCK TABLES `blocks` WRITE;
 /*!40000 ALTER TABLE `blocks` DISABLE KEYS */;
-INSERT INTO `blocks` VALUES (1,NULL,'1','System','Management [menu:1]','Associated block for \"Management\" menu.',NULL,'except',NULL,NULL,NULL,1),(2,NULL,'2','System','Site Main Menu [menu:2]','Associated block for \"Site Main Menu\" menu.',NULL,'except',NULL,NULL,NULL,1),(3,NULL,'dashboard_recent_content','Content','Recent Content','Shows a list of latest created contents.',NULL,'except',NULL,NULL,NULL,1),(4,NULL,'dashboard_search','Content','Search','Quick Search Form',NULL,'except',NULL,NULL,NULL,1),(5,NULL,'language_switcher','Locale','Change Language','Language switcher block',NULL,'except','','','a:2:{s:4:\"type\";s:4:\"html\";s:5:\"flags\";s:1:\"1\";}',1),(6,NULL,'categories','Taxonomy','Categories','List of terms block',NULL,'except','','','a:4:{s:12:\"vocabularies\";a:1:{i:0;s:1:\"1\";}s:13:\"show_counters\";s:1:\"1\";s:15:\"show_vocabulary\";s:1:\"0\";s:13:\"link_template\";s:0:\"\";}',1),(7,NULL,'sub-menu','User','User sub-menu','Provides links to user\'s account, login, logout, etc',NULL,'except','','',NULL,1);
+INSERT INTO `blocks` VALUES (1,NULL,'Menu\\Widget\\MenuWidget','Management [menu:1]','Associated block for \"Management\" menu.',NULL,'except',NULL,NULL,'a:1:{s:7:\"menu_id\";i:1;}',1),(2,NULL,'Menu\\Widget\\MenuWidget','Site Main Menu [menu:2]','Associated block for \"Site Main Menu\" menu.',NULL,'except',NULL,NULL,'a:1:{s:7:\"menu_id\";i:2;}',1),(3,NULL,'Content\\Widget\\DashboardLatestContentWidget','Recent Content','Shows a list of latest created contents.',NULL,'except',NULL,NULL,NULL,1),(4,NULL,'Content\\Widget\\DashboardSearchWidget','Search','Quick Search Form',NULL,'except',NULL,NULL,NULL,1),(5,NULL,'Locale\\Widget\\LanguageSwitcherWidget','Change Language','Language switcher block',NULL,'except','','','a:2:{s:4:\"type\";s:4:\"html\";s:5:\"flags\";s:1:\"1\";}',1),(6,NULL,'Taxonomy\\Widget\\CategoriesWidget','Categories','List of terms block',NULL,'except','','','a:4:{s:12:\"vocabularies\";a:1:{i:0;s:1:\"1\";}s:13:\"show_counters\";s:1:\"1\";s:15:\"show_vocabulary\";s:1:\"0\";s:13:\"link_template\";s:0:\"\";}',1),(7,NULL,'User\\Widget\\UserMenuWidget','User sub-menu','Provides links to user\'s account, login, logout, etc',NULL,'except','','',NULL,1);
 /*!40000 ALTER TABLE `blocks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -207,7 +205,7 @@ CREATE TABLE `content_type_permissions` (
   `role_id` int(11) NOT NULL,
   `action` varchar(15) COLLATE utf8_unicode_ci NOT NULL COMMENT 'create, edit, delete, publish',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -484,7 +482,7 @@ CREATE TABLE `menu_links` (
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `router_path` (`url`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -791,4 +789,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-08 23:54:41
+-- Dump completed on 2015-05-09  5:15:15

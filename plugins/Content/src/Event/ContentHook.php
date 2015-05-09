@@ -34,7 +34,6 @@ class ContentHook implements EventListenerInterface
     {
         return [
             'Render.Content\Model\Entity\Content' => 'renderContent',
-            'Block.Content.display' => 'renderBlock',
         ];
     }
 
@@ -127,22 +126,5 @@ class ContentHook implements EventListenerInterface
         }
 
         return $html;
-    }
-
-    /**
-     * Renders all blocks registered by Content plugin.
-     *
-     * Content plugin has two built-in blocks that comes with every QuickApps CMS
-     * installation: "Recent Content" and "Search", both aimed to be placed on
-     * backend's dashboard regions.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Block\Model\Entity\Block $block The block being rendered
-     * @param array $options Additional options as an array
-     * @return string
-     */
-    public function renderBlock(Event $event, $block, $options = [])
-    {
-        return $event->subject()->element("Content.{$block->delta}", compact('block', 'options'));
     }
 }

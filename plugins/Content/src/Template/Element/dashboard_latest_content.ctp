@@ -9,14 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
-use Cake\ORM\TableRegistry;
-
-$contents = TableRegistry::get('Content.Contents')
-    ->find('all', ['fieldable' => false])
-    ->order(['created' => 'DESC'])
-    ->limit(10)
-    ->all();
 ?>
 
 <div class="panel panel-default">

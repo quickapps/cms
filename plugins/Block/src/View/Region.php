@@ -244,7 +244,7 @@ class Region
             if ($this->_blockLimit !== null && $i === $this->_blockLimit) {
                 break;
             }
-            $html .= $this->_View->render($block, []);
+            $html .= $block->render($this->_View);
             $i++;
         }
         return $html;
@@ -394,7 +394,9 @@ class Region
     /**
      * Magic method for rendering this region.
      *
-     *     echo $this->region('left-sidebar');
+     * ```php
+     * echo $this->region('left-sidebar');
+     * ```
      *
      * @return string
      */

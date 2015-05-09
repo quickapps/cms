@@ -76,10 +76,6 @@ class ManageController extends AppController
     /**
      * Edits the given menu by ID.
      *
-     * The event `Block.<handler>.validate` will be automatically triggered,
-     * so custom menu's (those handled by plugins <> "Menu") can be validated
-     * before persisted.
-     *
      * @param int $id Menu's ID
      * @return void
      */

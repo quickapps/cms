@@ -9,45 +9,27 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Menu\Event;
+namespace Menu\Widget;
 
 use Block\Model\Entity\Block;
-use Cake\Event\Event;
-use Cake\Event\EventListenerInterface;
+use Block\Widget;
 use Cake\ORM\TableRegistry;
+use Cake\View\View;
 use QuickApps\Core\StaticCacheTrait;
 
 /**
- * Menu rendering dispatcher.
+ * Menu block rendering widget.
  *
  */
-class MenuHook implements EventListenerInterface
+class MenuWidget extends Widget
 {
 
     use StaticCacheTrait;
 
     /**
-     * Returns a list of hooks this Hook Listener is implementing. When the class
-     * is registered in an event manager, each individual method will be associated with
-     * the respective event.
+     * {@inheritDoc}
      *
-     * @return void
-     */
-    public function implementedEvents()
-    {
-        return [
-            'Block.Menu.display' => 'displayBlock',
-        ];
-    }
-
-    /**
      * Renders menu's associated block.
-     *
-     * If the event name `Menu.<handler>.display` exists the rendering task will be
-     * delegated to this listener by triggering a new event, where `<handler>` is
-     * the Menu Entity's handler property ($menu->handler). If no event is defined
-     * this method will render the menu using a series of possible view elements as
-     * described below.
      *
      * This method will look for certain view elements when rendering each menu, if
      * one of this elements is not present it'll look the next one, and so on. These
@@ -94,17 +76,12 @@ class MenuHook implements EventListenerInterface
      * ---
      *
      * NOTE: Please note the difference between "_" and "-"
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Block\Model\Entity\Block $block The block being rendered
-     * @param array $options Array of options
-     * @return string
      */
-    public function displayBlock(Event $event, Block $block, $options = [])
+    public function render(Block $block, View $view)
     {
         $menu = TableRegistry::get('Menu.Menus')
             ->find()
-            ->where(['Menus.id' => intval($block->delta)])
+            ->where(['Menus.id' => intval($block->settings['menu_id'])])
             ->first();
         $links = TableRegistry::get('Menu.MenuLinks')
             ->find('threaded')
@@ -112,15 +89,9 @@ class MenuHook implements EventListenerInterface
             ->order(['lft' => 'ASC']);
         $menu->set('links', $links);
 
-        // plugin should take care of rendering
-        if (in_array("Menu.{$menu->handler}.display", listeners())) {
-            return $this->trigger(["Menu.{$menu->handler}.display", $event->subject()], $menu, $options)->result;
-        }
-
-        $view = $event->subject();
         $viewMode = $view->viewMode();
         $blockRegion = isset($block->region->region) ? $block->region->region : 'none';
-        $cacheKey = "displayBlock_{$blockRegion}_{$viewMode}";
+        $cacheKey = "render_{$blockRegion}_{$viewMode}";
         $cache = static::cache($cacheKey);
         $element = 'Menu.render_menu';
 
@@ -141,6 +112,6 @@ class MenuHook implements EventListenerInterface
             }
         }
 
-        return $view->element($element, compact('menu', 'options'));
+        return $view->element($element, compact('menu'));
     }
 }

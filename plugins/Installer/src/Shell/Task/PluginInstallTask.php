@@ -222,7 +222,7 @@ class PluginInstallTask extends Shell
         // hold these values as _finish() erases them
         $pluginName = $this->_plugin['name'];
         $pluginType = $this->_plugin['type'];
-        $this->_finish();
+        $this->_finish(); // plugin namespace is available at this point
 
         if ($this->params['activate']) {
             $this->dispatchShell("Installer.plugins toggle -p {$pluginName} -s enable");

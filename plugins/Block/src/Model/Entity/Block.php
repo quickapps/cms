@@ -11,8 +11,8 @@
  */
 namespace Block\Model\Entity;
 
+use Block\Model\Entity\WidgetTrait;
 use Cake\ORM\Entity;
-use Cake\ORM\TableRegistry;
 use User\Model\Entity\AccessibleEntityTrait;
 
 /**
@@ -23,7 +23,6 @@ use User\Model\Entity\AccessibleEntityTrait;
  * @property array $roles
  * @property array $region
  * @property array $_matchingData
- * @property string $delta
  * @property string $pages
  * @property string $visibility
  * @property string $handler
@@ -33,60 +32,16 @@ use User\Model\Entity\AccessibleEntityTrait;
 class Block extends Entity
 {
     use AccessibleEntityTrait;
+    use WidgetTrait;
 
     /**
-     * Gets block's associated block.
+     * Whether this blocks is a custom block or a widget block.
      *
-     * @return \Cake\Datasource\EntityInterface|null
+     * @return bool
      */
-    protected function _getMenu()
+    public function isCustom()
     {
-        if (!$this->has('handler') || !$this->has('delta')) {
-            $block = TableRegistry::get('Block.Blocks')->get($this->get('id'));
-            $this->set('delta', $block->get('delta'));
-            $this->set('handler', $block->get('handler'));
-        }
-
-        return TableRegistry::get('Menu.Menus')
-            ->find()
-            ->where([
-                'Menus.id' => $this->get('delta'),
-                'Menus.handler' => $this->get('handler'),
-            ])
-            ->limit(1)
-            ->first();
-    }
-
-    /**
-     * Automatically calculates "delta" for entity's handler.
-     *
-     * Delta values must be unique within a handler name. That is, there may exists
-     * two rows with delta = 1, but with different handler values.
-     *
-     * @return void
-     */
-    public function calculateDelta()
-    {
-        if ($this->isNew() && $this->has('handler') && !$this->get('delta')) {
-            $latest = TableRegistry::get('Block.Blocks')
-                ->find()
-                ->select('id')
-                ->where(['handler' => $this->handler])
-                ->order(['id' => 'DESC'])
-                ->first();
-            $delta = $latest ? $latest->id : 0;
-            $count = 1;
-            while ($count > 0) {
-                $delta++;
-                $count = TableRegistry::get('Block.Blocks')
-                    ->find()
-                    ->select('id')
-                    ->where(['handler' => $this->handler, 'delta' => $delta])
-                    ->limit(1)
-                    ->count();
-            }
-            $this->set('delta', $delta);
-        }
+        return $this->get('handler') === 'Block\Widget\CustomBlockWidget';
     }
 
     /**
@@ -97,15 +52,7 @@ class Block extends Entity
      */
     public function renderable()
     {
-        if ($this->get('handler') === 'Block') {
-            return true;
-        }
-        foreach (listeners() as $listener) {
-            if (str_starts_with($listener, 'Block.' . $this->get('handler'))) {
-                return true;
-            }
-        }
-        return false;
+        return $this->has('handler') && class_exists($this->get('handler'));
     }
 
     /**
@@ -125,7 +72,6 @@ class Block extends Entity
      * This method is used when finding blocks matching a particular region.
      *
      * @return \Block\Model\Entity\BlockRegion
-     * @see \Block\View\Helper\BlockHelper
      */
     protected function _getRegion()
     {

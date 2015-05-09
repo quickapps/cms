@@ -177,19 +177,6 @@ class BlocksTable extends Table
     }
 
     /**
-     * Application rules.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rule checker
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        // unique delta
-        $rules->add($rules->isUnique(['delta', 'handler'], __d('block', 'Invalid delta, there is already a block with the same [delta, handler] combination.')));
-        return $rules;
-    }
-
-    /**
      * Default validation rules.
      *
      * @param \Cake\Validation\Validator $validator The validator object
@@ -284,15 +271,9 @@ class BlocksTable extends Table
         if (!empty($options['entity']) && $options['entity']->has('handler')) {
             $block = $options['entity'];
 
-            if ($block->handler !== 'Block') {
+            if (!$block->isCustom()) {
                 $validator = new Validator();
-                $eventName = Inflector::variable('settingsValidate_' . $block->get('delta'));
-                if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-                    $this->trigger("Block.{$block->handler}.{$eventName}", $data, $validator);
-                } else {
-                    $this->trigger("Block.{$block->handler}.settingsValidate", $data, $validator);
-                }
-
+                $block->validateSettings($data, $validator);
                 $errors = $validator->errors((array)$data);
                 foreach ($errors as $k => $v) {
                     $block->errors("settings:{$k}", $v);
@@ -314,22 +295,15 @@ class BlocksTable extends Table
      */
     public function settingsDefaultValues(Event $event, Entity $block)
     {
-        if ($block->has('handler')) {
-            $eventName = Inflector::variable('settingsDefaults_' . $block->get('delta'));
-            if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-                return (array)$this->trigger("Block.{$block->handler}.{$eventName}", $block)->result;
-            } else {
-                return (array)$this->trigger("Block.{$block->handler}.settingsDefaults", $block)->result;
-            }
+        if (!$block->isCustom()) {
+            return (array)$block->defaultSettings();
         }
 
         return [];
     }
 
     /**
-     * Triggers the following events:
-     *
-     * - `Block.<handler>.beforeSave`
+     * Triggered before block is persisted in DB.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block entity being saved
@@ -338,26 +312,15 @@ class BlocksTable extends Table
      */
     public function beforeSave(Event $event, Block $block, ArrayObject $options = null)
     {
-        if ($block->isNew() && $block->get('handler') !== 'Block' && empty($block->delta)) {
-            $block->calculateDelta();
-        }
-
-        $eventName = Inflector::variable('beforeSave_' . $block->get('delta'));
-        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-            $blockEvent = $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
-        } else {
-            $blockEvent = $this->trigger(["Block.{$block->handler}.beforeSave", $event->subject()], $block, $options);
-        }
-
-        if ($blockEvent->isStopped() || $blockEvent->result === false) {
+        $result = $block->beforeSave();
+        if ($result === false) {
             return false;
         }
         return true;
     }
 
     /**
-     * Triggers the "Block.<handler>.afterSave" hook, so plugins may do
-     * any logic their require.
+     * Triggered after block was persisted in DB.
      *
      * All cached blocks are automatically removed.
      *
@@ -368,19 +331,12 @@ class BlocksTable extends Table
      */
     public function afterSave(Event $event, Block $block, ArrayObject $options = null)
     {
-        $eventName = Inflector::variable('afterSave_' . $block->get('delta'));
-        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-            $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
-        } else {
-            $this->trigger(["Block.{$block->handler}.afterSave", $event->subject()], $block, $options);
-        }
-
+        $block->afterSave();
         $this->clearCache();
     }
 
     /**
-     * Triggers the "Block.<handler>.beforeDelete" hook, so plugins may do
-     * any logic their require.
+     * Triggered before block is removed from DB.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Block\Model\Entity\Block $block The block entity being deleted
@@ -389,22 +345,15 @@ class BlocksTable extends Table
      */
     public function beforeDelete(Event $event, Block $block, ArrayObject $options = null)
     {
-        $eventName = Inflector::variable('beforeDelete_' . $block->get('delta'));
-        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-            $blockEvent = $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
-        } else {
-            $blockEvent = $this->trigger(["Block.{$block->handler}.beforeDelete", $event->subject()], $block, $options);
-        }
-
-        if ($blockEvent->isStopped() || $blockEvent->result === false) {
+        $result = $block->beforeDelete();
+        if ($result === false) {
             return false;
         }
         return true;
     }
 
     /**
-     * Triggers the "Block.<handler>.afterDelete" hook, so plugins may do
-     * any logic their require.
+     * Triggered after block was removed from DB.
      *
      * All cached blocks are automatically removed.
      *
@@ -415,12 +364,7 @@ class BlocksTable extends Table
      */
     public function afterDelete(Event $event, Block $block, ArrayObject $options = null)
     {
-        $eventName = Inflector::variable('afterDelete_' . $block->get('delta'));
-        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-            $this->trigger(["Block.{$block->handler}.{$eventName}", $event->subject()], $block, $options);
-        } else {
-            $this->trigger(["Block.{$block->handler}.afterDelete", $event->subject()], $block, $options);
-        }
+        $block->afterDelete();
         $this->clearCache();
     }
 

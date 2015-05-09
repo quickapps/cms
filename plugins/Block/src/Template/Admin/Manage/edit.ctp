@@ -28,19 +28,12 @@ use Cake\Utility\Inflector;
                 <?php echo $this->Form->input('status', ['type' => 'checkbox', 'label' => __d('block', 'Published')]); ?>
                 <em class="help-block"><?php echo __d('block', 'Check this to enable this block.'); ?></em>
 
-                <?php if ($block->handler === 'Block'): ?>
+                <?php if ($block->isCustom()): ?>
                     <?php echo $this->Form->input('body', ['label' => __d('block', 'Body *'), 'class' => 'ckeditor']); ?>
                     <em class="help-block"><?php echo __d('block', 'The content of the block as shown to the user.'); ?></em>
                 <?php else: ?>
                     <?php $this->Form->prefix('settings:'); ?>
-                    <?php
-                        $eventName = Inflector::variable('settings_' . $block->get('delta'));
-                        if (in_array("Block.{$block->handler}.{$eventName}", listeners())) {
-                            $settings = $this->trigger("Block.{$block->handler}.{$eventName}", $block)->result;
-                        } else {
-                            $settings = $this->trigger("Block.{$block->handler}.settings", $block)->result;
-                        }
-                        ?>
+                        <?php echo $block->settings($this); ?>
                     <?php $this->Form->prefix(''); ?>
 
                     <?php if (!empty($settings)): ?>

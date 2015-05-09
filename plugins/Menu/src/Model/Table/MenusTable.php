@@ -75,26 +75,7 @@ class MenusTable extends Table
     }
 
     /**
-     * Triggers the "Menu.<handler>.beforeSave" hook, so plugins may do
-     * any logic their require.
-     *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Menu\Model\Entity\Menu $menu The menu entity being saved
-     * @param \ArrayObject $options Options given as an array
-     * @return bool False if save operation should not continue, true otherwise
-     */
-    public function beforeSave(Event $event, Menu $menu, ArrayObject $options = null)
-    {
-        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeSave", $event->subject()], $menu, $options);
-        if ($menuEvent->isStopped() || $menuEvent->result === false) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Triggers the "Menu.<handler>.afterSave" hook, so plugins may do
-     * any logic their require.
+     * Triggered after menu was persisted in DB.
      *
      * It will also create menu's associated block if not exists.
      *
@@ -108,42 +89,23 @@ class MenusTable extends Table
         if ($menu->isNew()) {
             $block = TableRegistry::get('Block.Blocks')->newEntity([
                 'title' => $menu->title . ' ' . __d('menu', '[menu: {0}]', $menu->id),
-                'delta' => $menu->id,
-                'handler' => $menu->handler,
+                'handler' => 'Menu\Widget\MenuWidget',
                 'description' => (!empty($menu->description) ? $menu->description : __d('menu', 'Associated block for "{0}" menu.', $menu->title)),
                 'visibility' => 'except',
                 'pages' => null,
                 'locale' => null,
                 'status' => 0,
+                'settings' => ['menu_id' => $menu->id]
             ], ['validate' => false]);
             TableRegistry::get('Block.Blocks')->save($block);
         }
-
-        $this->trigger(["Menu.{$menu->handler}.afterSave", $event->subject()], $menu, $options);
     }
 
     /**
-     * Triggers the "Menu.<handler>.beforeDelete" hook, so plugins may do
-     * any logic their require.
+     * Triggered after menu was removed from DB.
      *
-     * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Menu\Model\Entity\Menu $menu The menu entity being deleted
-     * @param \ArrayObject $options Options given as an array
-     * @return bool False if delete operation should not continue, true otherwise
-     */
-    public function beforeDelete(Event $event, Menu $menu, ArrayObject $options = null)
-    {
-        TableRegistry::get('Block.Blocks')->deleteAll(['Blocks.handler' => $menu->get('handler')]);
-        $menuEvent = $this->trigger(["Menu.{$menu->handler}.beforeDelete", $event->subject()], $menu, $options);
-        if ($menuEvent->isStopped() || $menuEvent->result === false) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Triggers the "Menu.<handler>.afterDelete" hook, so plugins may do
-     * any logic their require.
+     * This method will delete any associated block the removed menu could have.
+     * This operation may take a while if there are too many menus created.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Menu\Model\Entity\Menu $menu The menu entity that was deleted
@@ -152,7 +114,15 @@ class MenusTable extends Table
      */
     public function afterDelete(Event $event, Menu $menu, ArrayObject $options = null)
     {
-        $this->_setHasOne();
-        $this->trigger(["Menu.{$menu->handler}.afterDelete", $event->subject()], $menu, $options);
+        $blocks = TableRegistry::get('Block.Blocks')
+            ->find('all')
+            ->select(['id', 'handler', 'settings'])
+            ->where(['handler' => 'Menu\Widget\MenuWidget']);
+        foreach ($blocks as $block) {
+            if (!empty($menu->settings['menu_id']) && $menu->settings['menu_id'] == $menu->id) {
+                TableRegistry::get('Block.Blocks')->delete($block);
+                return;
+            }
+        }
     }
 }

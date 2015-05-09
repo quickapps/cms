@@ -21,13 +21,6 @@
                 <?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
                 <em class="help-block"><?php echo __d('menu', 'Briefly describe your menu, e.g. "Sitemap Links".'); ?></em>
 
-                <?php if ($menu->handler !== 'Menu'): ?>
-                    <?php $result = $this->trigger("Menu.{$menu->handler}.settings", $menu)->result; ?>
-                    <?php if (!empty($result)): ?>
-                        <?php echo $result; ?>
-                    <?php endif; ?>
-                <?php endif; ?>
-
                 <?php echo $this->Form->submit(__d('menu', 'Save Changes')); ?>
             </fieldset>
         <?php echo $this->Form->end(); ?>

@@ -29,18 +29,6 @@ class BlocksFixture
       [
       ],
     ],
-    'blocks_delta' =>
-    [
-      'type' => 'unique',
-      'columns' =>
-      [
-        0 => 'delta',
-        1 => 'handler',
-      ],
-      'length' =>
-      [
-      ],
-    ],
     ],
     'id' =>
     [
@@ -62,16 +50,6 @@ class BlocksFixture
     'comment' => 'id of the block this block is a copy of',
     'precision' => null,
     'autoIncrement' => null,
-    ],
-    'delta' =>
-    [
-    'type' => 'string',
-    'length' => 30,
-    'null' => false,
-    'default' => null,
-    'comment' => 'unique ID within a handler',
-    'precision' => null,
-    'fixed' => null,
     ],
     'handler' =>
     [
@@ -165,38 +143,35 @@ class BlocksFixture
     [
     'id' => 1,
     'copy_id' => null,
-    'delta' => '1',
-    'handler' => 'System',
+    'handler' => 'Menu\\Widget\\MenuWidget',
     'title' => 'Management [menu:1]',
     'description' => 'Associated block for "Management" menu.',
     'body' => null,
     'visibility' => 'except',
     'pages' => null,
     'locale' => null,
-    'settings' => null,
+    'settings' => 'a:1:{s:7:"menu_id";i:1;}',
     'status' => true,
     ],
     1 =>
     [
     'id' => 2,
     'copy_id' => null,
-    'delta' => '2',
-    'handler' => 'System',
+    'handler' => 'Menu\\Widget\\MenuWidget',
     'title' => 'Site Main Menu [menu:2]',
     'description' => 'Associated block for "Site Main Menu" menu.',
     'body' => null,
     'visibility' => 'except',
     'pages' => null,
     'locale' => null,
-    'settings' => null,
+    'settings' => 'a:1:{s:7:"menu_id";i:2;}',
     'status' => true,
     ],
     2 =>
     [
     'id' => 3,
     'copy_id' => null,
-    'delta' => 'dashboard_recent_content',
-    'handler' => 'Content',
+    'handler' => 'Content\\Widget\\DashboardLatestContentWidget',
     'title' => 'Recent Content',
     'description' => 'Shows a list of latest created contents.',
     'body' => null,
@@ -210,8 +185,7 @@ class BlocksFixture
     [
     'id' => 4,
     'copy_id' => null,
-    'delta' => 'dashboard_search',
-    'handler' => 'Content',
+    'handler' => 'Content\\Widget\\DashboardSearchWidget',
     'title' => 'Search',
     'description' => 'Quick Search Form',
     'body' => null,
@@ -225,8 +199,7 @@ class BlocksFixture
     [
     'id' => 5,
     'copy_id' => null,
-    'delta' => 'language_switcher',
-    'handler' => 'Locale',
+    'handler' => 'Locale\\Widget\\LanguageSwitcherWidget',
     'title' => 'Change Language',
     'description' => 'Language switcher block',
     'body' => null,
@@ -240,8 +213,7 @@ class BlocksFixture
     [
     'id' => 6,
     'copy_id' => null,
-    'delta' => 'categories',
-    'handler' => 'Taxonomy',
+    'handler' => 'Taxonomy\\Widget\\CategoriesWidget',
     'title' => 'Categories',
     'description' => 'List of terms block',
     'body' => null,
@@ -255,8 +227,7 @@ class BlocksFixture
     [
     'id' => 7,
     'copy_id' => null,
-    'delta' => 'sub-menu',
-    'handler' => 'User',
+    'handler' => 'User\\Widget\\UserMenuWidget',
     'title' => 'User sub-menu',
     'description' => 'Provides links to user\'s account, login, logout, etc',
     'body' => null,

@@ -67,7 +67,6 @@ class ManageController extends AppController
             $block = $this->_patchEntity($block);
 
             if (!$block->errors()) {
-                $block->calculateDelta();
                 if ($this->Blocks->save($block)) {
                     $this->Flash->success(__d('block', 'Block created.'));
                     $this->redirect(['plugin' => 'Block', 'controller' => 'manage', 'action' => 'edit', $block->id]);
@@ -181,10 +180,9 @@ class ManageController extends AppController
         $this->loadModel('Block.Blocks');
         $original = $this->Blocks->get((int)$id);
         $new = $this->Blocks->newEntity($original->toArray());
-        $new->set(['copy_id' => $original->id, 'delta' => null]);
+        $new->set('copy_id', $original->id);
         $new->unsetProperty('id');
         $new->isNew(true);
-        $new->calculateDelta();
 
         if ($this->Blocks->save($new)) {
             $this->Flash->success(__d('block', 'Block has been duplicated, it can be found under the "Unused or Unassigned" section.'));
@@ -319,11 +317,11 @@ class ManageController extends AppController
         }
 
         if ($block->isNew()) {
-            $data['handler'] = 'Block';
-            $block->set('handler', 'Block');
+            $data['handler'] = 'Block\Widget\CustomBlockWidget';
+            $block->set('handler', 'Block\Widget\CustomBlockWidget');
         }
 
-        $validator = $block->handler !== 'Block' ? 'widget' : 'custom';
+        $validator = $block->isCustom() ? 'custom' : 'widget';
         return $this->Blocks->patchEntity($block, $data, ['validate' => $validator, 'entity' => $block]);
     }
 }
