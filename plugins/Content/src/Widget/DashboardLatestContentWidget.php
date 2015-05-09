@@ -14,7 +14,7 @@ namespace Content\Widget;
 use Block\Model\Entity\Block;
 use Block\Widget;
 use Cake\ORM\TableRegistry;
-use Cake\View\View;
+use QuickApps\View\View;
 
 /**
  * Shows latest articles.

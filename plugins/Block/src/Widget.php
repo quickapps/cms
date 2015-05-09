@@ -13,7 +13,7 @@ namespace Block;
 
 use Block\Model\Entity\Block;
 use Cake\Validation\Validator;
-use Cake\View\View;
+use QuickApps\View\View;
 
 /**
  * Base class for widget blocks.

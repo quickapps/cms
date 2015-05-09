@@ -14,7 +14,7 @@ namespace Taxonomy\Widget;
 use Block\Model\Entity\Block;
 use Block\Widget;
 use Cake\Cache\Cache;
-use Cake\View\View;
+use QuickApps\View\View;
 
 /**
  * Renders a simple language menu for switching site language.

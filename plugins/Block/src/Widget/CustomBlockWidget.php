@@ -13,8 +13,8 @@ namespace Block\Widget;
 
 use Block\Model\Entity\Block;
 use Block\Widget;
-use Cake\View\View;
 use QuickApps\Core\StaticCacheTrait;
+use QuickApps\View\View;
 
 /**
  * Shows latest articles.

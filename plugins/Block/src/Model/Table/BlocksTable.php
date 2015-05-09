@@ -14,10 +14,7 @@ namespace Block\Model\Table;
 use Block\Model\Entity\Block;
 use Cake\Cache\Cache;
 use Cake\Event\Event;
-use Cake\ORM\Entity;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
@@ -290,10 +287,10 @@ class BlocksTable extends Table
      * values.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $block The block where to put those values
+     * @param \Block\Model\Entity\Block $block The block where to put those values
      * @return array
      */
-    public function settingsDefaultValues(Event $event, Entity $block)
+    public function settingsDefaultValues(Event $event, Block $block)
     {
         if (!$block->isCustom()) {
             return (array)$block->defaultSettings();
