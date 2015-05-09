@@ -16,13 +16,44 @@ if (!function_exists('registerWidget')) {
     /**
      * Shortcut for registering widget blocks in the system.
      *
+     * ### Usage:
+     *
+     * ```php
+     * if (registerWidget($data)) {
+     *     // successfully registered
+     * } else {
+     *     // something went wrong
+     * }
+     * ```
+     *
+     * Returning error messages:
+     *
+     * ```php
+     * $errors = registerWidget($data, true);
+     * if (empty($errors)) {
+     *     // successfully registered
+     * } else {
+     *     // something went wrong
+     *     debug($errors);
+     * }
+     * ```
+     *
      * @param array $data Widget information (title, description, etc)
-     * @return bool True on success
+     * @param bool $returnErrors Whether to return an array of errors (empty on
+     *  success) or a boolean response
+     * @return bool|array True or empty array on success; false or array of errors
+     *  on failure. Type of return depending on $returnErrors
      */
-    function registerWidget(array $data)
+    function registerWidget(array $data, $returnErrors = false)
     {
         $widget = TableRegistry::get('Block.Blocks')->newEntity($data, ['validate' => 'widget']);
-        return TableRegistry::get('Block.Blocks')->save($widget);
+        $success = TableRegistry::get('Block.Blocks')->save($widget);
+
+        if (!$returnErrors) {
+            return $success;
+        }
+
+        return $widget->errors();
     }
 }
 
