@@ -16,6 +16,7 @@ if (!function_exists('registerWidget')) {
     /**
      * Shortcut for registering widget blocks in the system.
      *
+     * @param array $data Widget information (title, description, etc)
      * @return bool True on success
      */
     function registerWidget(array $data)
