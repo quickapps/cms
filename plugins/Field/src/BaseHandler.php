@@ -36,15 +36,14 @@ class BaseHandler implements EventListenerInterface
      *
      * Events names must be named as follow:
      *
-     *     Field.<FieldHandlerName>.<Entity|Instance>.<eventName>
+     *     <handler>.<Entity|Instance>.<eventName>
      *
      * Example:
      *
-     *     Field.TextField.Entity.edit
+     *     TextField.Entity.edit
      *
      * Where:
      *
-     * - `Field`: Prefix, the event subspace.
      * - `TextField`: Name of the class for Text Handler in this example.
      * - `Entity` or `Instance`: "Entity" for events related to entities
      *    (an User, a Content, etc), or "Instance" for field instances events.
@@ -111,7 +110,8 @@ class BaseHandler implements EventListenerInterface
     }
 
     /**
-     * Triggered when custom field is attached to entity under the "_fields" property.
+     * Triggered when custom field is attached to entity under the "_fields"
+     * property.
      *
      * This method is commonly used to alter custom field values before it gets
      * attached to entity. For instance, set default values.
@@ -145,7 +145,6 @@ class BaseHandler implements EventListenerInterface
     public function entityBeforeFind(Event $event, Field $field, $options, $primary)
     {
     }
-
 
     /**
      * After an entity is validated as part of save process.

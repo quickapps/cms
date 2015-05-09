@@ -51,7 +51,7 @@ class Widget
     /**
      * This method should alter the provided Validator object and add custom
      * validation rules, these rules will be applied when saving the values provided
-     * by all the Form input elements rendered by the "settings()" method.
+     * by the Form input elements rendered by the "settings()" method.
      *
      * @param \Block\Model\Entity\Block $block Widget information
      * @param array $settings The information to be validated
