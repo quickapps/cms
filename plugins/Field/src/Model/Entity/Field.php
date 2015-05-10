@@ -13,6 +13,7 @@ namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
 use Field\Model\Entity\FieldTrait;
+use QuickApps\View\ViewModeAwareTrait;
 
 /**
  * Mock Field.
@@ -47,6 +48,7 @@ class Field extends Entity
 {
 
     use FieldTrait;
+    use ViewModeAwareTrait;
 
     /**
      * Gets field's View Mode's settings for the in-use View Mode.
