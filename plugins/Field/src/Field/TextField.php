@@ -16,6 +16,7 @@ use Field\Handler;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldInstance;
 use Field\Utility\TextToolbox;
+use QuickApps\Shortcode\ShortcodeTrait;
 use QuickApps\View\View;
 
 /**
@@ -25,6 +26,8 @@ use QuickApps\View\View;
  */
 class TextField extends Handler
 {
+
+    use ShortcodeTrait;
 
     /**
      * {@inheritDoc}
