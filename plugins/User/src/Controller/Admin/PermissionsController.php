@@ -68,8 +68,9 @@ class PermissionsController extends AppController
             }
         }
 
-        $roles = $this->Acos->Roles->find('list');
-
+        $roles = $this->Acos->Roles
+            ->find('list')
+            ->where(['Roles.id <>' => ROLE_ID_ADMINISTRATOR]);
         $this->title(__d('user', 'Permissions'));
         $this->set(compact('aco', 'roles', 'path'));
     }
