@@ -26,15 +26,32 @@ class ManageControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.blocks',
+        //'app.acos',
         'app.block_regions',
+        'app.blocks',
         'app.blocks_roles',
-        'app.permissions',
-        'app.acos',
-        'app.roles',
-        'app.plugins',
-        'app.menus',
+        'app.comments',
+        'app.content_revisions',
+        'app.contents',
+        'app.contents_roles',
+        'app.content_type_permissions',
+        'app.content_types',
+        'app.eav_attributes',
+        'app.eav_values',
+        'app.entities_terms',
+        'app.field_instances',
+        'app.languages',
         'app.menu_links',
+        'app.menus',
+        'app.options',
+        'app.permissions',
+        'app.plugins',
+        'app.roles',
+        'app.search_datasets',
+        'app.terms',
+        'app.users',
+        'app.users_roles',
+        'app.vocabularies',
     ];
 
     /**
