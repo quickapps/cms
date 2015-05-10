@@ -9,14 +9,15 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Event;
+namespace Field\Field;
 
-use Cake\Event\Event;
 use Cake\Routing\Router;
 use Cake\Validation\Validator;
-use Field\BaseHandler;
+use Field\Handler;
 use Field\Model\Entity\Field;
+use Field\Model\Entity\FieldInstance;
 use Field\Utility\DateToolbox;
+use QuickApps\View\View;
 
 /**
  * Publish Date Field Handler.
@@ -24,36 +25,49 @@ use Field\Utility\DateToolbox;
  * Allows scheduling of contents by making them available only between
  * certain dates.
  */
-class PublishDateField extends BaseHandler
+class PublishDateField extends Handler
 {
 
     /**
      * {@inheritDoc}
      */
-    public function entityDisplay(Event $event, Field $field, $options = [])
+    public function info()
     {
-        $View = $event->subject();
+        return [
+            'type' => 'text',
+            'name' => __d('field', 'Publishing Date'),
+            'description' => __d('field', 'Allows scheduling of contents by making them available only between certain dates.'),
+            'hidden' => false,
+            'maxInstances' => 1,
+            'searchable' => false,
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function render(Field $field, View $view)
+    {
         $extra = array_merge([
             'from' => ['string' => null, 'timestamp' => null],
             'to' => ['string' => null, 'timestamp' => null],
         ], (array)$field->extra);
         $field->set('extra', $extra);
-        return $View->element('Field.PublishDateField/display', compact('field', 'options'));
+        return $view->element('Field.PublishDateField/display', compact('field'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityEdit(Event $event, Field $field, $options = [])
+    public function edit(Field $field, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.PublishDateField/edit', compact('field', 'options'));
+        return $view->element('Field.PublishDateField/edit', compact('field'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityBeforeFind(Event $event, Field $field, $options, $primary)
+    public function beforeFind(Field $field, array $options, $primary)
     {
         if ($primary &&
             !Router::getRequest()->isAdmin() &&
@@ -72,40 +86,7 @@ class PublishDateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function entityBeforeSave(Event $event, Field $field, $options)
-    {
-        $values = [];
-        $extra = [
-            'from' => ['string' => null, 'timestamp' => null],
-            'to' => ['string' => null, 'timestamp' => null],
-        ];
-        foreach (['from', 'to'] as $type) {
-            if (!empty($options['_post'][$type]['string']) &&
-                !empty($options['_post'][$type]['format'])
-            ) {
-                $date = $options['_post'][$type]['string'];
-                $format = $options['_post'][$type]['format'];
-                if ($date = DateToolbox::createFromFormat($format, $date)) {
-                    $extra[$type]['string'] = $options['_post'][$type]['string'];
-                    $extra[$type]['timestamp'] = date_timestamp_get($date);
-                    $values[] = $extra[$type]['timestamp'] . ' ' . $options['_post'][$type]['string'];
-                } else {
-                    $typeLabel = $type == 'from' ? __d('field', 'Start') : __d('field', 'Finish');
-                    $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
-                    return false;
-                }
-            }
-        }
-
-        $field->set('value', implode(' ', $values));
-        $field->set('extra', $extra);
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityValidate(Event $event, Field $field, Validator $validator)
+    public function validate(Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
             $validator->notEmpty($field->name, __d('field', 'You must select a date/time range.'));
@@ -137,31 +118,48 @@ class PublishDateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceInfo(Event $event)
+    public function beforeSave(Field $field, $post)
     {
-        return [
-            'type' => 'text',
-            'name' => __d('field', 'Publishing Date'),
-            'description' => __d('field', 'Allows scheduling of contents by making them available only between certain dates.'),
-            'hidden' => false,
-            'maxInstances' => 1,
-            'searchable' => false,
+        $values = [];
+        $extra = [
+            'from' => ['string' => null, 'timestamp' => null],
+            'to' => ['string' => null, 'timestamp' => null],
         ];
+        foreach (['from', 'to'] as $type) {
+            if (!empty($post[$type]['string']) &&
+                !empty($post[$type]['format'])
+            ) {
+                $date = $post[$type]['string'];
+                $format = $post[$type]['format'];
+                if ($date = DateToolbox::createFromFormat($format, $date)) {
+                    $extra[$type]['string'] = $post[$type]['string'];
+                    $extra[$type]['timestamp'] = date_timestamp_get($date);
+                    $values[] = $extra[$type]['timestamp'] . ' ' . $post[$type]['string'];
+                } else {
+                    $typeLabel = $type == 'from' ? __d('field', 'Start') : __d('field', 'Finish');
+                    $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
+                    return false;
+                }
+            }
+        }
+
+        $field->set('value', implode(' ', $values));
+        $field->set('extra', $extra);
+        return true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsForm(Event $event, $instance, $options = [])
+    public function settings(FieldInstance $instance, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.PublishDateField/settings_form', compact('instance', 'options'));
+        return $view->element('Field.PublishDateField/settings_form', compact('instance'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsValidate(Event $event, array $settings, Validator $validator)
+    public function validateSettings(FieldInstance $instance, array $settings, Validator $validator)
     {
         $validator
             ->allowEmpty('time_format')
@@ -186,16 +184,15 @@ class PublishDateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeForm(Event $event, $instance, $options = [])
+    public function viewModeSettings(FieldInstance $instance, View $view, $viewMode)
     {
-        $View = $event->subject();
-        return $View->element('Field.PublishDateField/view_mode_form', compact('instance', 'options'));
+        return $view->element('Field.PublishDateField/view_mode_form', compact('instance', 'viewMode'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeDefaults(Event $event, $instance, $options = [])
+    public function defaultViewModeSettings(FieldInstance $instance, $viewMode)
     {
         return [
             'label_visibility' => 'above',

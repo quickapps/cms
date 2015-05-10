@@ -37,12 +37,7 @@
             <hr />
 
             <?php echo $this->fetch('beforeFormContent'); ?>
-            <?php if ($advanced = $this->trigger(["Field::{$instance->handler}.Instance.settingsForm", $this], $instance)): ?>
-            <fieldset>
-                <legend><?php echo __d('field', 'Advanced'); ?></legend>
-                <?php echo $advanced->result; ?>
-            </fieldset>
-            <?php endif; ?>
+            <?php echo $instance->settings($this); ?>
             <?php echo $this->fetch('afterFormContent'); ?>
 
             <?php echo $this->Form->submit(__d('field', 'Save All')); ?>

@@ -93,17 +93,11 @@ class FieldHook implements EventListenerInterface
     public function renderField(Event $event, $field, $options = [])
     {
         $viewMode = $this->viewMode();
-
         if (isset($field->metadata->view_modes[$viewMode]) &&
             !$field->metadata->view_modes[$viewMode]['hidden']
         ) {
-            $renderFieldHook = $this->trigger(
-                ["Field::{$field->metadata['handler']}.Entity.display", $event->subject()],
-                $field,
-                $options
-            );
             $event->stopPropagation(); // We don't want other plugins to catch this
-            $result = (string)$renderFieldHook->result;
+            $result = (string)$field->render($event->subject());
 
             if (!$field->metadata->view_modes[$viewMode]['shortcodes']) {
                 $result = $event->subject()->stripShortcodes($result);

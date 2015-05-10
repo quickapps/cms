@@ -15,7 +15,7 @@ use Cake\Validation\Validator;
 use Cake\View\View;
 
 /**
- * Provides method for dealing with Widget API.
+ * Provides methods for dealing with Widget API.
  */
 trait WidgetTrait
 {
@@ -53,7 +53,7 @@ trait WidgetTrait
     /**
      * Validates block/widget's settings.
      *
-     * @return bool|null
+     * @return void
      */
     public function validateSettings(array $settings, Validator $validator)
     {

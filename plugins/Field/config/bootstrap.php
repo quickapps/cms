@@ -36,20 +36,25 @@ if (!function_exists('fieldsInfo')) {
     function fieldsInfo($field = null)
     {
         $fields = [];
-        $eventManager = EventDispatcher::instance('Field')->eventManager();
-        foreach (listeners($eventManager) as $listener) {
-            if (str_ends_with($listener, '.Instance.info')) {
-                $handler = explode('.', $listener)[0];
-                $response = array_merge([
-                    'type' => 'varchar',
-                    'name' => null,
-                    'description' => null,
-                    'hidden' => false,
-                    'handler' => $handler,
-                    'maxInstances' => 0,
-                    'searchable' => true,
-                ], (array)EventDispatcher::instance('Field')->trigger($listener)->result);
-                $fields[$handler] = $response;
+        $plugins = plugin()->filter(function ($plugin) {
+            return $plugin->status;
+        });
+
+        foreach ($plugins as $plugin) {
+            foreach ($plugin->fields as $className) {
+                if (class_exists($className)) {
+                    $handler = new $className();
+                    $result = array_merge([
+                        'type' => 'varchar',
+                        'name' => null,
+                        'description' => null,
+                        'hidden' => false,
+                        'handler' => $handler,
+                        'maxInstances' => 0,
+                        'searchable' => true,
+                    ], (array)$handler->info());
+                    $fields[$handler] = $result;
+                }
             }
         }
 

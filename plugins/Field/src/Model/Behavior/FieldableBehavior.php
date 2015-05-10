@@ -23,7 +23,6 @@ use Cake\Validation\Validator;
 use Eav\Model\Behavior\EavBehavior;
 use Field\Collection\FieldCollection;
 use Field\Model\Entity\Field;
-use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**
@@ -41,24 +40,10 @@ use \ArrayObject;
  *
  * **This behavior allows you to add _virtual columns_ to your table schema.**
  *
- * ***
- *
- * ### Events triggered by this behavior:
- *
- * - Field.<handler>.Entity.beforeFind
- * - Field.<handler>.Entity.fieldAttached
- * - Field.<handler>.Entity.validate
- * - Field.<handler>.Entity.beforeSave
- * - Field.<handler>.Entity.afterSave
- * - Field.<handler>.Entity.beforeDelete
- * - Field.<handler>.Entity.afterDelete
- *
  * @link https://github.com/quickapps/docs/blob/2.x/en/developers/field-api.rst
  */
 class FieldableBehavior extends EavBehavior
 {
-
-    use EventDispatcherTrait;
 
     /**
      * Used for reduce BD queries and allow inter-method communication.
@@ -211,15 +196,10 @@ class FieldableBehavior extends EavBehavior
 
         $entity = $this->attachEntityFields($entity);
         foreach ($entity->get('_fields') as $field) {
-            $fieldEvent = $this->trigger(
-                ["Field::{$field->get('metadata')->get('handler')}.Entity.beforeFind", $options['event']->subject()],
-                $field,
-                $options['options'],
-                $options['primary']
-            );
-            if ($fieldEvent->result === false) {
+            $result = $field->beforeFind((array)$options['options'], $options['primary']);
+            if ($result === null) {
                 return false; // remove entity from collection
-            } elseif ($fieldEvent->isStopped()) {
+            } elseif ($result === false) {
                 return null; // abort find() operation
             }
         }
@@ -314,16 +294,11 @@ class FieldableBehavior extends EavBehavior
             }
 
             $field = $this->_prepareMockField($entity, $attr);
-            $options['_post'] = $this->_fetchPost($field);
-            $fieldEvent = $this->trigger(["Field::{$attr->get('instance')->get('handler')}.Entity.beforeSave", $event->subject()], $field, $options);
+            $result = $field->beforeSave((array)$this->_fetchPost($field));
 
-            if ($fieldEvent->result === false) {
+            if ($result === false) {
                 $this->attachEntityFields($entity);
                 return false;
-            } elseif ($fieldEvent->isStopped()) {
-                $this->attachEntityFields($entity);
-                $event->stopPropagation();
-                return $fieldEvent->result;
             }
 
             $data = [
@@ -388,7 +363,7 @@ class FieldableBehavior extends EavBehavior
 
         foreach ($this->_attributesForEntity($entity) as $attr) {
             $field = $this->_prepareMockField($entity, $attr);
-            $this->trigger(["Field::{$attr->get('instance')->get('handler')}.Entity.afterSave", $event->subject()], $field, $options);
+            $field->afterSave();
         }
 
         return true;
@@ -421,11 +396,11 @@ class FieldableBehavior extends EavBehavior
 
         foreach ($this->_attributesForEntity($entity) as $attr) {
             $field = $this->_prepareMockField($entity, $attr);
-            $fieldEvent = $this->trigger(["Field::{$attr->get('instance')->get('handler')}.Entity.beforeDelete", $event->subject()], $field, $options);
+            $result = $field->beforeDelete();
 
-            if ($fieldEvent->isStopped()) {
+            if ($result === false) {
                 $event->stopPropagation();
-                return $fieldEvent->result;
+                return false;
             }
 
             // holds in cache field mocks, so we can catch them on afterDelete
@@ -464,7 +439,7 @@ class FieldableBehavior extends EavBehavior
 
         if (!empty($this->_cache['afterDelete'])) {
             foreach ((array)$this->_cache['afterDelete'] as $field) {
-                $this->trigger(["Field::{$field->handler}.Entity.afterDelete", $event->subject()], $field, $options);
+                $field->afterDelete();
             }
             $this->_cache['afterDelete'] = [];
         }
@@ -515,13 +490,13 @@ class FieldableBehavior extends EavBehavior
     {
         $_fields = [];
         foreach ($this->_attributesForEntity($entity) as $attr) {
-            $mock = $this->_prepareMockField($entity, $attr);
-            if ($entity->has($mock->get('name'))) {
-                $this->_fetchPost($mock);
+            $field = $this->_prepareMockField($entity, $attr);
+            if ($entity->has($field->get('name'))) {
+                $this->_fetchPost($field);
             }
 
-            $this->trigger(["Field::{$attr->get('instance')->get('handler')}.Entity.fieldAttached", $this->_table], $mock);
-            $_fields[] = $mock;
+            $field->fieldAttached();
+            $_fields[] = $field;
         }
 
         $entity->set('_fields', new FieldCollection($_fields));
@@ -541,10 +516,11 @@ class FieldableBehavior extends EavBehavior
 
         foreach ($this->_attributesForEntity($entity) as $attr) {
             $field = $this->_prepareMockField($entity, $attr);
-            $fieldEvent = $this->trigger(["Field::{$attr->get('instance')->get('handler')}.Entity.validate", $this->_table], $field, $validator);
-            if ($fieldEvent->isStopped()) {
+            $result = $field->validate($validator);
+
+            if ($result === false) {
                 $this->attachEntityFields($entity);
-                return $fieldEvent->result;
+                return false;
             }
 
             $errors = $validator->errors($entity->toArray(), $entity->isNew());

@@ -13,7 +13,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->Form->create($content, ['id' => 'content-form']); ?>
+        <?php debug($content->source()); echo $this->Form->create($content, ['id' => 'content-form']); ?>
             <fieldset>
                 <legend><?php echo __d('content', 'Basic Information'); ?></legend>
 

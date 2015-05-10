@@ -22,13 +22,6 @@ use \ArrayObject;
 /**
  * Represents "blocks" database table.
  *
- * The following events related to block life cycle are triggered by this class:
- *
- * - Block.<handler>.beforeSave
- * - Block.<handler>.afterSave
- * - Block.<handler>.beforeDelete
- * - Block.<handler>.afterDelete
- *
  * @property \User\Model\Table\RolesTable $Roles
  * @property \Block\Model\Table\BlocksTable $Blocks
  * @property \Block\Model\Table\BlockRegionsTable $BlockRegions

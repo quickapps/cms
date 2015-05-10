@@ -19,30 +19,15 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 use Field\Model\Entity\FieldInstance;
-use QuickApps\Event\EventDispatcherTrait;
 use QuickApps\View\ViewModeAwareTrait;
 use \ArrayObject;
 
 /**
  * Represents "field_instances" database table.
- *
- * This table holds information about all fields attached to tables.
- * It also triggers Field Instances's events:
- *
- * - `Field.<FieldHandler>.Instance.info`: When QuickAppsCMS asks for information about each registered Field
- * - `Field.<FieldHandler>.Instance.settingsForm`: Additional settings for this field. Should define the way the values will be stored in the database.
- * - `Field.<FieldHandler>.Instance.settingsDefaults`: Default values for field settings form's inputs
- * - `Field.<FieldHandler>.Instance.viewModeForm`: Additional formatter options. Show define the way the values will be rendered for a particular view mode.
- * - `Field.<FieldHandler>.Instance.viewModeDefaults`: Default values for view mode settings form's inputs
- * - `Field.<FieldHandler>.Instance.beforeAttach`: Before field is attached to Tables
- * - `Field.<FieldHandler>.Instance.afterAttach`: After field is attached to Tables
- * - `Field.<FieldHandler>.Instance.beforeDetach`: Before field is detached from Tables
- * - `Field.<FieldHandler>.Instance.afterDetach`: After field is detached from Tables
  */
 class FieldInstancesTable extends Table
 {
 
-    use EventDispatcherTrait;
     use ViewModeAwareTrait;
 
     /**
@@ -82,7 +67,7 @@ class FieldInstancesTable extends Table
     {
         // check max instances limit
         $rules->addCreate(function ($instance, $options) {
-            $info = (array)$this->trigger(["Field::{$instance->handler}.Instance.info", $this])->result;
+            $info = (array)$instance->info();
             if (isset($info['maxInstances']) && $info['maxInstances'] > 0) {
                 if (!$instance->get('eav_attribute')) {
                     return false;
@@ -177,7 +162,7 @@ class FieldInstancesTable extends Table
                         'shortcodes' => false,
                         'hidden' => false,
                         'ordering' => 0,
-                    ], (array)$this->trigger(["Field::{$instance->handler}.Instance.viewModeDefaults", $this], $instance, ['viewMode' => $viewMode])->result);
+                    ], (array)$instance->defaultViewModeSettings($viewMode));
 
                     if (!isset($instanceViewModes[$viewMode])) {
                         $instanceViewModes[$viewMode] = [];
@@ -187,7 +172,7 @@ class FieldInstancesTable extends Table
                     $instance->set('view_modes', $instanceViewModes);
                 }
 
-                $settingsDefaults = (array)$this->trigger(["Field::{$instance->handler}.Instance.settingsDefaults", $this], $instance, [])->result;
+                $settingsDefaults = (array)$instance->defaultSettings();
                 if (!empty($settingsDefaults)) {
                     $instanceSettings = $instance->get('settings');
                     foreach ($settingsDefaults as $k => $v) {
@@ -204,7 +189,7 @@ class FieldInstancesTable extends Table
     }
 
     /**
-     * Triggers the "Field.<FieldHandler>.Instance.beforeAttach" event.
+     * Triggers the callback "beforeAttach" if a new instance is being created.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be saved
@@ -213,15 +198,15 @@ class FieldInstancesTable extends Table
      */
     public function beforeSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $instanceEvent = $this->trigger(["Field::{$instance->handler}.Instance.beforeAttach", $event->subject()], $instance, $options);
-        if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
+        $result = $instance->beforeAttach();
+        if ($result === false) {
             return false;
         }
         return true;
     }
 
     /**
-     * Triggers the "Field.<FieldHandler>.Instance.afterAttach" event.
+     * Triggers the callback "afterAttach" if a new instance was created.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that was saved
@@ -230,11 +215,13 @@ class FieldInstancesTable extends Table
      */
     public function afterSave(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $this->trigger(["Field::{$instance->handler}.Instance.afterAttach", $event->subject()], $instance, $options);
+        if ($instance->isNew()) {
+            $instance->afterAttach();
+        }
     }
 
     /**
-     * Triggers the "Field.<FieldHandler>.Instance.beforeDetach" event.
+     * Triggers the callback "beforeDetach".
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that is going to be deleted
@@ -243,8 +230,8 @@ class FieldInstancesTable extends Table
      */
     public function beforeDelete(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
-        $instanceEvent = $this->trigger(["Field::{$instance->handler}.Instance.beforeDetach", $event->subject()], $instance, $options);
-        if ($instanceEvent->isStopped() || $instanceEvent->result === false) {
+        $result = $instance->beforeDetach();
+        if ($result === false) {
             return false;
         }
 
@@ -253,8 +240,8 @@ class FieldInstancesTable extends Table
     }
 
     /**
-     * Triggers the "Field.<FieldHandler>.Instance.afterDetach" event.
-     * it also deletes all associated records in the `field_values` table.
+     * Triggers the callback "afterDetach", it also deletes all associated records
+     * in the "field_values" table.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Field\Model\Entity\FieldInstance $instance The Field Instance that was deleted
@@ -265,7 +252,7 @@ class FieldInstancesTable extends Table
     {
         if (!empty($this->_deleted)) {
             TableRegistry::get('Eav.EavAttribute')->delete($this->_deleted->get('eav_attribute'));
-            $this->trigger(["Field::{$instance->handler}.Instance.afterDetach", $event->subject()], $instance, $options);
+            $instance->afterDetach();
             $this->_deleted = null;
         }
     }

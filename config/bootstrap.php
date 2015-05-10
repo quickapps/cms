@@ -221,9 +221,7 @@ plugin()
 
         foreach ($plugin->eventListeners as $fullClassName) {
             if (class_exists($fullClassName)) {
-                if (str_ends_with($fullClassName, 'Field')) {
-                    EventDispatcher::instance('Field')->eventManager()->on(new $fullClassName);
-                } elseif (str_ends_with($fullClassName, 'Shortcode')) {
+                if (str_ends_with($fullClassName, 'Shortcode')) {
                     EventDispatcher::instance('Shortcode')->eventManager()->on(new $fullClassName);
                 } else {
                     EventDispatcher::instance()

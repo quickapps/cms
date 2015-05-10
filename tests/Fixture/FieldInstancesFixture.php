@@ -147,7 +147,7 @@ class FieldInstancesFixture extends TestFixture
     0 =>
     [
     'eav_attribute_id' => 1,
-    'handler' => 'TextField',
+    'handler' => 'Field\\Field\\TextField',
     'label' => 'Introduction',
     'description' => 'Brief description',
     'required' => true,
@@ -160,7 +160,7 @@ class FieldInstancesFixture extends TestFixture
     1 =>
     [
     'eav_attribute_id' => 2,
-    'handler' => 'TextField',
+    'handler' => 'Field\\Field\\TextField',
     'label' => 'Body',
     'description' => '',
     'required' => true,
@@ -173,7 +173,7 @@ class FieldInstancesFixture extends TestFixture
     2 =>
     [
     'eav_attribute_id' => 4,
-    'handler' => 'TextField',
+    'handler' => 'Field\\Field\\TextField',
     'label' => 'Body',
     'description' => 'Page content',
     'required' => true,
@@ -186,7 +186,7 @@ class FieldInstancesFixture extends TestFixture
     3 =>
     [
     'eav_attribute_id' => 3,
-    'handler' => 'TaxonomyField',
+    'handler' => 'Taxonomy\\Field\\TermField',
     'label' => 'Category',
     'description' => '',
     'required' => false,

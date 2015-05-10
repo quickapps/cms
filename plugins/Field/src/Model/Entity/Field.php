@@ -12,8 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\Event\EventDispatcherTrait;
-use QuickApps\View\ViewModeAwareTrait;
+use Field\Model\Entity\FieldTrait;
 
 /**
  * Mock Field.
@@ -25,7 +24,7 @@ use QuickApps\View\ViewModeAwareTrait;
  * - value: Value for this [FieldInstance, Entity] tuple. (Schema equivalent: cell value).
  * - extra: Extra information.
  * - metadata: A mock entity which holds the following properties describing a column
- *   - value_id: ID of the value stored in `field_values` table (from where `value` comes from).
+ *   - value_id: ID of the value stored in `eav_values` table (from where `value` comes from).
  *   - instance_id: ID of the field instance (`field_instances` table) attached to Table.
  *   - table_alias: Name of the table this field is attached to. e.g: `users`.
  *   - entity_id: ID of the entity to which this field is attached to.
@@ -47,8 +46,7 @@ use QuickApps\View\ViewModeAwareTrait;
 class Field extends Entity
 {
 
-    use EventDispatcherTrait;
-    use ViewModeAwareTrait;
+    use FieldTrait;
 
     /**
      * Gets field's View Mode's settings for the in-use View Mode.

@@ -9,51 +9,65 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Event;
+namespace Field\Field;
 
-use Cake\Event\Event;
 use Cake\Filesystem\File;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
-use Field\BaseHandler;
+use Field\Handler;
 use Field\Model\Entity\Field;
+use Field\Model\Entity\FieldInstance;
+use QuickApps\View\View;
 
 /**
  * File Field Handler.
  *
  * This field allows attach files to entities.
  */
-class FileField extends BaseHandler
+class FileField extends Handler
 {
 
     /**
      * {@inheritDoc}
      */
-    public function entityDisplay(Event $event, Field $field, $options = [])
+    public function info()
     {
-        $View = $event->subject();
+        return [
+            'type' => 'text',
+            'name' => __d('field', 'Attachment'),
+            'description' => __d('field', 'Allows to upload and attach files to contents.'),
+            'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => false,
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function render(Field $field, View $view)
+    {
         if ($field->metadata->settings['multi'] === 'custom') {
             $settings = $field->metadata->settings;
             $settings['multi'] = $field->metadata->settings['multi_custom'];
             $field->metadata->set('settings', $settings);
         }
-        return $View->element('Field.FileField/display', compact('field', 'options'));
+        return $view->element('Field.FileField/display', compact('field'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityEdit(Event $event, Field $field, $options = [])
+    public function edit(Field $field, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.FileField/edit', compact('field', 'options'));
+        return $view->element('Field.FileField/edit', compact('field'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityFieldAttached(Event $event, Field $field)
+    public function fieldAttached(Field $field)
     {
         $extra = (array)$field->extra;
         if (!empty($extra)) {
@@ -72,72 +86,8 @@ class FileField extends BaseHandler
 
     /**
      * {@inheritDoc}
-     *
-     * - extra: Holds a list (array) of files and their in formation (mime-icon,
-     *   file name, etc).
-     *
-     * - value: Holds a text containing all file names separated by space.
      */
-    public function entityBeforeSave(Event $event, Field $field, $options)
-    {
-        // FIX Removes the "dummy" input from extra if exists, the "dummy" input is
-        // used to force Field Handler to work when empty POST information is sent
-        $extra = [];
-        foreach ((array)$field->extra as $k => $v) {
-            if (is_integer($k)) {
-                $extra[] = $v;
-            }
-        }
-        $field->set('extra', $extra);
-
-        $files = (array)$options['_post'];
-        if (!empty($files)) {
-            $value = [];
-            foreach ($files as $k => $file) {
-                if (!is_integer($k)) {
-                    unset($files[$k]);
-                    continue;
-                } else {
-                    $file = array_merge([
-                        'mime_icon' => '',
-                        'file_name' => '',
-                        'file_size' => '',
-                        'description' => '',
-                    ], (array)$file);
-                }
-                $value[] = trim("{$file['file_name']} {$file['description']}");
-            }
-            $field->set('value', implode(' ', $value));
-            $field->set('extra', $files);
-        }
-
-        if ($field->metadata->value_id) {
-            $newFileNames = Hash::extract($files, '{n}.file_name');
-
-            try {
-                $prevFiles = (array)TableRegistry::get('Field.FieldValues')
-                    ->get($field->metadata->value_id)
-                    ->extra;
-            } catch (\Exception $ex) {
-                $prevFiles = [];
-            }
-
-            foreach ($prevFiles as $f) {
-                if (!in_array($f['file_name'], $newFileNames)) {
-                    $file = normalizePath(WWW_ROOT . "/files/{$field->metadata->settings['upload_folder']}/{$f['file_name']}", DS);
-                    $file = new File($file);
-                    $file->delete();
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityValidate(Event $event, Field $field, Validator $validator)
+    public function validate(Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
             $validator
@@ -210,32 +160,80 @@ class FileField extends BaseHandler
 
     /**
      * {@inheritDoc}
+     *
+     * - extra: Holds a list (array) of files and their in formation (mime-icon,
+     *   file name, etc).
+     *
+     * - value: Holds a text containing all file names separated by space.
      */
-    public function instanceInfo(Event $event)
+    public function beforeSave(Field $field, $post)
     {
-        return [
-            'type' => 'text',
-            'name' => __d('field', 'Attachment'),
-            'description' => __d('field', 'Allows to upload and attach files to contents.'),
-            'hidden' => false,
-            'maxInstances' => 0,
-            'searchable' => false,
-        ];
+        // FIX Removes the "dummy" input from extra if exists, the "dummy" input is
+        // used to force Field Handler to work when empty POST information is sent
+        $extra = [];
+        foreach ((array)$field->extra as $k => $v) {
+            if (is_integer($k)) {
+                $extra[] = $v;
+            }
+        }
+        $field->set('extra', $extra);
+
+        $files = (array)$post;
+        if (!empty($files)) {
+            $value = [];
+            foreach ($files as $k => $file) {
+                if (!is_integer($k)) {
+                    unset($files[$k]);
+                    continue;
+                } else {
+                    $file = array_merge([
+                        'mime_icon' => '',
+                        'file_name' => '',
+                        'file_size' => '',
+                        'description' => '',
+                    ], (array)$file);
+                }
+                $value[] = trim("{$file['file_name']} {$file['description']}");
+            }
+            $field->set('value', implode(' ', $value));
+            $field->set('extra', $files);
+        }
+
+        if ($field->metadata->value_id) {
+            $newFileNames = Hash::extract($files, '{n}.file_name');
+
+            try {
+                $prevFiles = (array)TableRegistry::get('Eav.EavValues')
+                    ->get($field->metadata->value_id)
+                    ->extra;
+            } catch (\Exception $ex) {
+                $prevFiles = [];
+            }
+
+            foreach ($prevFiles as $f) {
+                if (!in_array($f['file_name'], $newFileNames)) {
+                    $file = normalizePath(WWW_ROOT . "/files/{$field->metadata->settings['upload_folder']}/{$f['file_name']}", DS);
+                    $file = new File($file);
+                    $file->delete();
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsForm(Event $event, $instance, $options = [])
+    public function settings(FieldInstance $instance, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.FileField/settings_form', compact('instance', 'options'));
+        return $view->element('Field.FileField/settings_form', compact('instance'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsDefaults(Event $event, $instance, $options = [])
+    public function defaultSettings(FieldInstance $instance)
     {
         return [
             'extensions' => '',
@@ -249,16 +247,15 @@ class FileField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeForm(Event $event, $instance, $options = [])
+    public function viewModeSettings(FieldInstance $instance, View $view, $viewMode)
     {
-        $View = $event->subject();
-        return $View->element('Field.FileField/view_mode_form', compact('instance', 'options'));
+        return $view->element('Field.FileField/view_mode_form', compact('instance', 'viewMode'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeDefaults(Event $event, $instance, $options = [])
+    public function defaultViewModeSettings(FieldInstance $instance, $viewMode)
     {
         return [
             'label_visibility' => 'above',

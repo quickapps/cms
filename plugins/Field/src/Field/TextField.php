@@ -9,55 +9,60 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Event;
+namespace Field\Field;
 
-use Cake\Event\Event;
 use Cake\Validation\Validator;
-use Field\BaseHandler;
+use Field\Handler;
 use Field\Model\Entity\Field;
+use Field\Model\Entity\FieldInstance;
 use Field\Utility\TextToolbox;
+use QuickApps\View\View;
 
 /**
  * Text Field Handler.
  *
  * This field allows to store text information, such as textboxes, textareas, etc.
  */
-class TextField extends BaseHandler
+class TextField extends Handler
 {
 
     /**
      * {@inheritDoc}
      */
-    public function entityDisplay(Event $event, Field $field, $options = [])
+    public function info()
     {
-        $View = $event->subject();
+        return [
+            'type' => 'text',
+            'name' => __d('field', 'Text'),
+            'description' => __d('field', 'Allow to store text data in database.'),
+            'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => true,
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function render(Field $field, View $view)
+    {
         $value = TextToolbox::process($field->value, $field->metadata->settings['text_processing']);
         $field->set('value', $value);
-        return $View->element('Field.TextField/display', compact('field', 'options'));
+        return $view->element('Field.TextField/display', compact('field'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityEdit(Event $event, Field $field, $options = [])
+    public function edit(Field $field, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.TextField/edit', compact('field', 'options'));
+        return $view->element('Field.TextField/edit', compact('field'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityBeforeSave(Event $event, Field $field, $options)
-    {
-        $field->set('extra', null);
-        $field->set('value', $options['_post']);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function entityValidate(Event $event, Field $field, Validator $validator)
+    public function validate(Field $field, Validator $validator)
     {
         if ($field->metadata->required) {
             $validator
@@ -112,31 +117,24 @@ class TextField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceInfo(Event $event)
+    public function beforeSave(Field $field, $post)
     {
-        return [
-            'type' => 'text',
-            'name' => __d('field', 'Text'),
-            'description' => __d('field', 'Allow to store text data in database.'),
-            'hidden' => false,
-            'maxInstances' => 0,
-            'searchable' => true,
-        ];
+        $field->set('extra', null);
+        $field->set('value', $post);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsForm(Event $event, $instance, $options = [])
+    public function settings(FieldInstance $instance, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.TextField/settings_form', compact('instance', 'options'));
+        return $view->element('Field.TextField/settings_form', compact('instance'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsDefaults(Event $event, $instance, $options = [])
+    public function defaultSettings(FieldInstance $instance)
     {
         return [
             'type' => 'textarea',
@@ -150,16 +148,15 @@ class TextField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeForm(Event $event, $instance, $options = [])
+    public function viewModeSettings(FieldInstance $instance, View $view, $viewMode)
     {
-        $View = $event->subject();
-        return $View->element('Field.TextField/view_mode_form', compact('instance', 'options'));
+        return $view->element('Field.TextField/view_mode_form', compact('instance', 'viewMode'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeDefaults(Event $event, $instance, $options = [])
+    public function defaultViewModeSettings(FieldInstance $instance, $viewMode)
     {
         return [
             'label_visibility' => 'above',
@@ -173,7 +170,7 @@ class TextField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeValidate(Event $event, array $settings, Validator $validator)
+    public function validateViewModeSettings(FieldInstance $instance, array $settings, Validator $validator, $viewMode)
     {
         if (!empty($settings['formatter']) && $settings['formatter'] == 'trimmed') {
             $validator

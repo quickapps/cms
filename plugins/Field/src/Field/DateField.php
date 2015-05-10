@@ -9,69 +9,58 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Field\Event;
+namespace Field\Field;
 
-use Cake\Event\Event;
 use Cake\Validation\Validator;
-use Field\BaseHandler;
+use Field\Handler;
 use Field\Model\Entity\Field;
+use Field\Model\Entity\FieldInstance;
 use Field\Utility\DateToolbox;
+use QuickApps\View\View;
 
 /**
  * Date Field Handler.
  *
  * This field allows attach date pickers to entities.
  */
-class DateField extends BaseHandler
+class DateField extends Handler
 {
 
     /**
      * {@inheritDoc}
      */
-    public function entityDisplay(Event $event, Field $field, $options = [])
+    public function info()
     {
-        $View = $event->subject();
-        return $View->element('Field.DateField/display', compact('field', 'options'));
+        return [
+            'type' => 'datetime',
+            'name' => __d('field', 'Date'),
+            'description' => __d('field', 'Allows to attach date picker to contents.'),
+            'hidden' => false,
+            'maxInstances' => 0,
+            'searchable' => false,
+        ];
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityEdit(Event $event, Field $field, $options = [])
+    public function render(Field $field, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.DateField/edit', compact('field', 'options'));
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * - extra: Holds string date incoming from POST
-     * - value: Holds datetime information
-     */
-    public function entityBeforeSave(Event $event, Field $field, $options)
-    {
-        if (!empty($options['_post']['date']) && !empty($options['_post']['format'])) {
-            $date = $options['_post']['date'];
-            $format = $options['_post']['format'];
-            if ($date = DateToolbox::createFromFormat($format, $date)) {
-                $field->set('extra', $options['_post']['date']);
-            } else {
-                $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
-                return false;
-            }
-            $field->set('value', date_timestamp_get($date));
-        } else {
-            $field->set('value', null);
-        }
-
-        return true;
+        return $view->element('Field.DateField/display', compact('field'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function entityValidate(Event $event, Field $field, Validator $validator)
+    public function edit(Field $field, View $view)
+    {
+        return $view->element('Field.DateField/edit', compact('field'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function validate(Field $field, Validator $validator)
     {
         if (!$field->metadata->required) {
             return true;
@@ -91,32 +80,41 @@ class DateField extends BaseHandler
 
     /**
      * {@inheritDoc}
+     *
+     * - extra: Holds string date incoming from POST
+     * - value: Holds datetime information
      */
-    public function instanceInfo(Event $event)
+    public function beforeSave(Field $field, $post)
     {
-        return [
-            'type' => 'datetime',
-            'name' => __d('field', 'Date'),
-            'description' => __d('field', 'Allows to attach date picker to contents.'),
-            'hidden' => false,
-            'maxInstances' => 0,
-            'searchable' => false,
-        ];
+        if (!empty($post['date']) && !empty($post['format'])) {
+            $date = $post['date'];
+            $format = $post['format'];
+            if ($date = DateToolbox::createFromFormat($format, $date)) {
+                $field->set('extra', $post['date']);
+            } else {
+                $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
+                return false;
+            }
+            $field->set('value', date_timestamp_get($date));
+        } else {
+            $field->set('value', null);
+        }
+
+        return true;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsForm(Event $event, $instance, $options = [])
+    public function settings(FieldInstance $instance, View $view)
     {
-        $View = $event->subject();
-        return $View->element('Field.DateField/settings_form', compact('instance', 'options'));
+        return $view->element('Field.DateField/settings_form', compact('instance'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceSettingsValidate(Event $event, array $settings, Validator $validator)
+    public function validateSettings(FieldInstance $instance, array $settings, Validator $validator)
     {
         $validator
             ->allowEmpty('time_format')
@@ -141,16 +139,15 @@ class DateField extends BaseHandler
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeForm(Event $event, $instance, $options = [])
+    public function viewModeSettings(FieldInstance $instance, View $view, $viewMode)
     {
-        $View = $event->subject();
-        return $View->element('Field.DateField/view_mode_form', compact('instance', 'options'));
+        return $view->element('Field.DateField/view_mode_form', compact('instance', 'viewMode'));
     }
 
     /**
      * {@inheritDoc}
      */
-    public function instanceViewModeDefaults(Event $event, $instance, $options = [])
+    public function defaultViewModeSettings(FieldInstance $instance, $viewMode)
     {
         return [
             'label_visibility' => 'above',

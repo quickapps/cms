@@ -99,18 +99,30 @@ function snapshot()
                 $isCore = strpos($pluginPath, 'cms' . DS . 'plugins') !== false;
                 $eventsPath = "{$pluginPath}/src/Event/";
                 $aspectsPath = "{$pluginPath}/src/Aspect/";
+                $fieldsPath = "{$pluginPath}/src/Aspect/";
                 $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
                 $status = true; // all plugins enabled
                 $aspects = [];
                 $eventListeners = [];
+                $fields = [];
 
-                foreach ([$aspectsPath, $eventsPath] as $path) {
+                $subspaces = [
+                    $aspectsPath => 'Aspect',
+                    $eventsPath => 'Event',
+                    $fieldsPath => 'Field',
+                ];
+                $varnames = [
+                    $aspectsPath => 'aspects',
+                    $eventsPath => 'eventListeners',
+                    $fieldsPath => 'fields',
+                ];
+                foreach ([$aspectsPath, $eventsPath, $fieldsPath] as $path) {
                     if (is_dir($path)) {
                         $Folder = new Folder($path);
                         foreach ($Folder->read(false, false, true)[1] as $classFile) {
                             $className = basename(preg_replace('/\.php$/', '', $classFile));
-                            $subspace = $path == $aspectsPath ? 'Aspect' : 'Event';
-                            $varname = $path == $aspectsPath ? 'aspects' : 'eventListeners';
+                            $subspace =  $subspaces[$path];
+                            $varname = $varnames[$path];
                             $namespace = "{$name}\\{$subspace}\\";
                             ${$varname}[] = $namespace . $className;
                         }
@@ -125,8 +137,9 @@ function snapshot()
                     'isCore' => $isCore,
                     'hasHelp' => !empty($helpFiles),
                     'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
-                    'eventListeners' => $eventListeners,
                     'aspects' => $aspects,
+                    'eventListeners' => $eventListeners,
+                    'fields' => $fields,
                     'status' => $status,
                     'path' => $pluginPath,
                 ];

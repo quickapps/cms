@@ -180,8 +180,9 @@ if (!function_exists('snapshot')) {
                 continue;
             }
 
-            $eventsPath = "{$pluginPath}/src/Event/";
             $aspectsPath = "{$pluginPath}/src/Aspect/";
+            $eventsPath = "{$pluginPath}/src/Event/";
+            $fieldsPath = "{$pluginPath}/src/Field/";
             $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
             $isCore = strpos($pluginPath, $corePath) !== false;
             $isTheme = str_ends_with($plugin->name, 'Theme');
@@ -189,14 +190,25 @@ if (!function_exists('snapshot')) {
             $humanName = '';
             $aspects = [];
             $eventListeners = [];
+            $fields = [];
 
-            foreach ([$aspectsPath, $eventsPath] as $path) {
+            $subspaces = [
+                $aspectsPath => 'Aspect',
+                $eventsPath => 'Event',
+                $fieldsPath => 'Field',
+            ];
+            $varnames = [
+                $aspectsPath => 'aspects',
+                $eventsPath => 'eventListeners',
+                $fieldsPath => 'fields',
+            ];
+            foreach ([$aspectsPath, $eventsPath, $fieldsPath] as $path) {
                 if (is_dir($path)) {
                     $Folder = new Folder($path);
                     foreach ($Folder->read(false, false, true)[1] as $classFile) {
                         $className = basename(preg_replace('/\.php$/', '', $classFile));
-                        $subspace = $path == $aspectsPath ? 'Aspect' : 'Event';
-                        $varname = $path == $aspectsPath ? 'aspects' : 'eventListeners';
+                        $subspace =  $subspaces[$path];
+                        $varname = $varnames[$path];
                         $namespace = "{$plugin->name}\\{$subspace}\\";
                         ${$varname}[] = $namespace . $className;
                     }
@@ -225,8 +237,9 @@ if (!function_exists('snapshot')) {
                 'isCore' => $isCore,
                 'hasHelp' => !empty($helpFiles),
                 'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
-                'eventListeners' => $eventListeners,
                 'aspects' => $aspects,
+                'eventListeners' => $eventListeners,
+                'fields' => $fields,
                 'status' => $status,
                 'path' => $pluginPath,
             ];

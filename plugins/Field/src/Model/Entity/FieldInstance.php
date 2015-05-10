@@ -12,14 +12,15 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
-use QuickApps\Event\EventDispatcherTrait;
+use Field\Model\Entity\InstanceTrait;
 
 /**
- * Represents an "instance" from the "field_instances" database table.
+ * Represents a row within the "field_instances" table.
  *
  * @property int $id
  * @property string $slug
  * @property string $handler
+ * @property string $handler_name
  * @property string $table_alias
  * @property string $label
  * @property string $description
@@ -31,7 +32,7 @@ use QuickApps\Event\EventDispatcherTrait;
 class FieldInstance extends Entity
 {
 
-    use EventDispatcherTrait;
+    use InstanceTrait;
 
     /**
      * Gets a human-readable name of the field handler class.
@@ -40,12 +41,14 @@ class FieldInstance extends Entity
      */
     protected function _getHandlerName()
     {
-        $info = $this->trigger(["Field::{$this->handler}.Instance.info", $this]);
-
-        if (!empty($info->result['name'])) {
-            return $info->result['name'];
+        $handler = $this->get('handler');
+        if (class_exists($handler)) {
+            $handler = new $handler();
+            $info = $handler->info();
+            if (!empty($info['name'])) {
+                return $info['name'];
+            }
         }
-
-        return $this->handler;
+        return $this->get('handler');
     }
 }
