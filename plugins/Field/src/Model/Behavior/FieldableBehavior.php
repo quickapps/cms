@@ -198,9 +198,9 @@ class FieldableBehavior extends EavBehavior
         foreach ($entity->get('_fields') as $field) {
             $result = $field->beforeFind((array)$options['options'], $options['primary']);
             if ($result === null) {
-                return false; // remove entity from collection
+                return null; // remove entity from collection
             } elseif ($result === false) {
-                return null; // abort find() operation
+                return false; // abort find() operation
             }
         }
 
@@ -263,7 +263,7 @@ class FieldableBehavior extends EavBehavior
      * ```
      *
      * Field Handlers should **alter** `$field->value` and `$field->extra` according
-     * to its needs **using $options['_post']**.
+     * to its needs using the provided **$post** argument.
      *
      * **NOTE:** Returning boolean FALSE will halt the whole Entity's save operation.
      *
@@ -294,7 +294,7 @@ class FieldableBehavior extends EavBehavior
             }
 
             $field = $this->_prepareMockField($entity, $attr);
-            $result = $field->beforeSave((array)$this->_fetchPost($field));
+            $result = $field->beforeSave($this->_fetchPost($field));
 
             if ($result === false) {
                 $this->attachEntityFields($entity);

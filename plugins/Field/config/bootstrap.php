@@ -30,7 +30,8 @@ if (!function_exists('fieldsInfo')) {
      * ```
      *
      * @param string|null $field Field for which get its information as an array, or
-     *  null (default) to get all of them as a collection.
+     *  null (default) to get all of them as a collection. e.g.
+     *  `Field\Field\TextField`
      * @return \Cake\Collection\Collection|array A collection of fields information
      */
     function fieldsInfo($field = null)
@@ -49,11 +50,11 @@ if (!function_exists('fieldsInfo')) {
                         'name' => null,
                         'description' => null,
                         'hidden' => false,
-                        'handler' => $handler,
+                        'handler' => $className,
                         'maxInstances' => 0,
                         'searchable' => true,
                     ], (array)$handler->info());
-                    $fields[$handler] = $result;
+                    $fields[$className] = $result;
                 }
             }
         }

@@ -25,7 +25,7 @@ class Handler
 {
 
     /**
-     * Returns an array of information of this field.
+     * Returns an array of information of this field. Valid options are:
      *
      * - `type` (string): Type of data this field stores, possible values are:
      *   datetime, decimal, int, text, varchar.
@@ -143,7 +143,7 @@ class Handler
     }
 
     /**
-     * Before each entity is saved.
+     * Triggered before each entity is saved.
      *
      * Returning a FALSE will halt the save operation.
      *
@@ -158,7 +158,7 @@ class Handler
     }
 
     /**
-     * After each entity is saved.
+     * Triggered after each entity is saved.
      *
      * @param \Field\Model\Entity\Field $field Field information
      * @return void
@@ -169,6 +169,8 @@ class Handler
 
     /**
      * Before an entity is deleted from database.
+     *
+     * Returning FALSE will halt the delete operation.
      *
      * @param \Field\Model\Entity\Field $field Field information
      * @return bool False will halt the delete process
@@ -217,7 +219,8 @@ class Handler
     /**
      * Triggered before instance's settings are changed.
      *
-     * Here Field Handlers can apply custom validation rules to their settings.
+     * Here is where Field Handlers can apply custom validation rules to their
+     * settings.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
      * @param array $settings Settings values to be validated
@@ -229,16 +232,16 @@ class Handler
     }
 
     /**
-     * Renders all the form elements to be used on the field view mode form.
+     * Renders all the form elements to be used on the field view-mode form.
      *
      * Here is where you should render form elements to hold settings about how
      * Entities should be rendered for a particular View Mode. You can provide
-     * different input elements depending on the view mode, you can use
-     * `$viewMode` to distinct between view modes.
+     * different input elements depending on the view-mode, you can use
+     * `$viewMode` to distinct between each view-modes.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
      * @param \QuickApps\View\View $view View instance being used
-     * @param string $viewMode Name of the view mode being handled
+     * @param string $viewMode Name of the view-mode being handled
      * @return string HTML form elements for the settings page
      */
     public function viewModeSettings(FieldInstance $instance, View $view, $viewMode)
@@ -247,13 +250,13 @@ class Handler
     }
 
     /**
-     * Returns an array of defaults values for each input in the view modes form.
+     * Returns an array of defaults values for each input in the view-modes form.
      *
-     * You can provide different default values depending on the view mode, you
-     * can use `$viewMode` to distinct between view modes.
+     * You can provide different default values depending on the view-mode, you
+     * can use `$viewMode` to distinct between view-modes.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
-     * @param string $viewMode Name of the view mode being handled
+     * @param string $viewMode Name of the view-mode being handled
      * @return array
      */
     public function defaultViewModeSettings(FieldInstance $instance, $viewMode)
@@ -262,14 +265,15 @@ class Handler
     }
 
     /**
-     * Triggered before instance's view mode settings are changed.
+     * Triggered before instance's view-mode settings are changed.
      *
-     * Here Field Handlers can apply custom validation rules to view mode's settings.
+     * Here Field Handlers can apply custom validation rules to view-mode's
+     * settings.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
      * @param array $settings View mode's setting values to be validated
      * @param \Cake\Validation\Validator $validator The validator object
-     * @param string $viewMode Name of the view mode being handled
+     * @param string $viewMode Name of the view-mode being handled
      * @return void
      */
     public function validateViewModeSettings(FieldInstance $instance, array $settings, Validator $validator, $viewMode)
@@ -279,7 +283,7 @@ class Handler
     /**
      * Before an new instance of this field is attached to a database table.
      *
-     * Stopping this event or returning false will abort the attach operation.
+     * Returning FALSE will abort the attach operation.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
      * @return bool False will halt the attach process
@@ -290,7 +294,7 @@ class Handler
     }
 
     /**
-     * After an new instance of this field is attached to a database table.
+     * After an new instance of this field was attached to a database table.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
      * @return void
@@ -317,8 +321,8 @@ class Handler
      * DB. For example, if your field stores physical files for every entity, then
      * you should delete those files.
      *
-     * NOTE: By default QuickAppsCMS, automatically removes all related records
-     * from the `eav_values` table.
+     * NOTE: By default QuickAppsCMS automatically removes all related records from
+     * the `eav_values` table.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance entity that was
      *  detached (removed from "field_instances" table)

@@ -191,8 +191,8 @@ class EavBehavior extends Behavior
      * This method iterates over each retrieved entity and invokes the
      * `attachEntityAttributes()` method. This method should return the altered
      * entity object with its virtual properties, however if this method returns
-     * FALSE the entity will be removed from the resulting collection. And if this
-     * method returns NULL will stop the find() operation.
+     * NULL the entity will be removed from the resulting collection. And if this
+     * method returns FALSE will stop the find() operation.
      *
      * This method is also responsible of looking for virtual columns in WHERE
      * clause (if applicable) and properly scope the Query object. Query scoping is
@@ -221,10 +221,15 @@ class EavBehavior extends Behavior
                     $entity = $this->attachEntityAttributes($entity, compact('event', 'query', 'options', 'primary'));
                 }
 
-                if ($entity === null) {
+                if ($entity === false) {
                     $event->stopPropagation();
                     return;
                 }
+
+                if ($entity === null) {
+                    return false;
+                }
+
                 return $entity;
             });
         });
@@ -429,10 +434,10 @@ class EavBehavior extends Behavior
      * The method which actually fetches custom fields, invoked by `beforeFind()`
      * for each entity in the collection.
      *
-     * - Returning FALSE indicates the entity should be removed from the resulting
+     * - Returning NULL indicates the entity should be removed from the resulting
      *   collection.
      *
-     * - Returning NULL will stop the entire find() operation.
+     * - Returning FALSE will stop the entire find() operation.
      *
      * @param \Cake\Datasource\EntityInterface $entity The entity where to fetch fields
      * @param array $options Arguments given to `beforeFind()` method, possible keys

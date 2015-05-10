@@ -35,7 +35,7 @@
                 <?php echo $this->Form->input('handler', ['label' => __d('field', 'Field Type *'), 'type' => 'select', 'options' => $fieldsList, 'empty' => true, 'onchange' => 'showFieldInfo();', 'required']); ?>
                 <em class="help-block">
                     <?php foreach ($fieldsInfo as $info): ?>
-                        <span style="display:none;" class="field-info" data-handler="<?php echo $info['handler']; ?>">
+                        <span style="display:none;" class="field-info" data-handler="<?php echo str_replace('\\', '-', strtolower($info['handler'])); ?>">
                             <?php echo $info['description']; ?>
                         </span>
                     <?php endforeach; ?>
@@ -56,8 +56,10 @@
 
 <script language="javascript">
     function showFieldInfo() {
-        $select = $('select[name=handler]');
+        var $select = $('select[name=handler]');
+        var handler = $select.val().toLowerCase().replace(/\\/g, '-');
         $('span.field-info').hide();
-        $('span.field-info[data-handler=' + $select.val() + ']').show();
+        $('span.field-info[data-handler="' + handler + '"]').show();
+        console.log(handler);
     }
 </script>

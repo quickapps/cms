@@ -66,6 +66,10 @@ class PublishDateField extends Handler
 
     /**
      * {@inheritDoc}
+     *
+     * The entity to which this instance is attached to will be removed from
+     * resulting result set if its publishing date does not match current date, this
+     * constraint is not applied on the backend section of the site.
      */
     public function beforeFind(Field $field, array $options, $primary)
     {
@@ -78,9 +82,11 @@ class PublishDateField extends Handler
             if ($field->extra['from']['timestamp'] > $now ||
                 $now > $field->extra['to']['timestamp']
             ) {
-                return false;
+                return null; // remove entity from result set
             }
         }
+
+        return true;
     }
 
     /**

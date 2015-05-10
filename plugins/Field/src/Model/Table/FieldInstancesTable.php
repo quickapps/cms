@@ -73,10 +73,13 @@ class FieldInstancesTable extends Table
                     return false;
                 }
 
-                $count = $this->find()
+                $count = $this
+                    ->find()
+                    ->select(['FieldInstances.id', 'FieldInstances.handler', 'EavAttribute.id', 'EavAttribute.table_alias'])
+                    ->contain(['EavAttribute'])
                     ->where([
                         'EavAttribute.table_alias' => $instance->get('eav_attribute')->get('table_alias'),
-                        'FieldInstance.handler' => $instance->get('handler'),
+                        'FieldInstances.handler' => $instance->get('handler'),
                     ])
                     ->count();
                 return ($count <= (intval($info['maxInstances']) - 1));
@@ -251,7 +254,7 @@ class FieldInstancesTable extends Table
     public function afterDelete(Event $event, FieldInstance $instance, ArrayObject $options = null)
     {
         if (!empty($this->_deleted)) {
-            TableRegistry::get('Eav.EavAttribute')->delete($this->_deleted->get('eav_attribute'));
+            TableRegistry::get('Eav.EavAttributes')->delete($this->_deleted->get('eav_attribute'));
             $instance->afterDetach();
             $this->_deleted = null;
         }
