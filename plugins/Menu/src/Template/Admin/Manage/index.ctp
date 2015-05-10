@@ -42,7 +42,7 @@
                                 $menu->id
                             ], [
                                 'title' => __d('menu', 'Edit menu information'),
-                                'class' => 'btn btn-default glyphicon glyphicon-pencil',
+                                'class' => 'btn btn-sm btn-default glyphicon glyphicon-pencil',
                             ]);
                         ?>
                         <?php
@@ -53,7 +53,7 @@
                                 $menu->id
                             ], [
                                 'title' => __d('menu', 'Manage links'),
-                                'class' => 'btn btn-default glyphicon glyphicon-link',
+                                'class' => 'btn btn-sm btn-default glyphicon glyphicon-link',
                             ]);
                         ?>
                         <?php
@@ -64,7 +64,7 @@
                                 $menu->id
                             ], [
                                 'title' => __d('menu', 'Add link'),
-                                'class' => 'btn btn-default glyphicon glyphicon-plus',
+                                'class' => 'btn btn-sm btn-default glyphicon glyphicon-plus',
                             ]);
                         ?>
                         <?php if ($menu->handler === 'Menu'): ?>
@@ -77,13 +77,13 @@
                             ], [
                                 'title' => __d('menu', 'Delete this menu'),
                                 'confirm' => __d('menu', 'Delete this menu ? All links within this menu will be lost.'),
-                                'class' => 'btn btn-default glyphicon glyphicon-trash',
+                                'class' => 'btn btn-sm btn-default glyphicon glyphicon-trash',
                             ]);
                         ?>
                         <?php endif; ?>
                     </div>
                     <h4 class="list-group-item-heading"><?php echo $menu->title; ?></h4>
-                    <p class="list-group-item-text"><?php echo $menu->brief_description; ?></p>
+                    <p class="list-group-item-text"><?php echo $menu->description; ?></p>
                 </li>
             <?php endforeach; ?>
             </ul>

@@ -34,7 +34,7 @@
                 <tr>
                     <th><?php echo __d('locale', 'Name'); ?></th>
                     <th class="hidden-xs"><?php echo __d('locale', 'Path'); ?></th>
-                    <th width="200">&nbsp;</th>
+                    <th class="text-right"><?php echo __d('locale', 'Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -59,7 +59,7 @@
                         </td>
                         <td class="hidden-xs">/<?php echo $language->code; ?></td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group pull-right">
                                 <!-- move up -->
                                 <?php if ($k > 0): ?>
                                     <?php
@@ -71,7 +71,7 @@
                                             'up',
                                         ], [
                                             'title' => __d('locale', 'Move up'),
-                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-arrow-up',
+                                            'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-arrow-up',
                                         ]);
                                     ?>
                                 <?php endif; ?>
@@ -87,7 +87,7 @@
                                             'down',
                                         ], [
                                             'title' => __d('locale', 'Move down'),
-                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-arrow-down',
+                                            'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-arrow-down',
                                         ]);
                                     ?>
                                 <?php endif; ?>
@@ -102,7 +102,7 @@
                                             $language->id,
                                         ], [
                                             'title' => __d('locale', 'Set as default'),
-                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-star',
+                                            'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-star',
                                         ]);
                                     ?>
                                 <?php endif; ?>
@@ -116,7 +116,7 @@
                                         $language->id,
                                     ], [
                                         'title' => __d('locale', 'Edit'),
-                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
+                                        'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-pencil',
                                     ]);
                                 ?>
 

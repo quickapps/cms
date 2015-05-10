@@ -53,7 +53,7 @@
                     <th><?php echo __d('user', 'Name'); ?></th>
                     <th><?php echo __d('user', 'e-Mail'); ?></th>
                     <th class="hidden-xs"><?php echo __d('user', 'Roles'); ?></th>
-                    <th>&nbsp;</th>
+                    <th class="text-right"><?php echo __d('user', 'Actions'); ?></th>
                 </tr>
             </thead>
 
@@ -66,7 +66,7 @@
                             <?php echo implode(', ', $user->role_names); ?>
                         </td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group pull-right">
                                 <?php
                                     echo $this->Html->link('', [
                                         'plugin' => 'User',
@@ -75,7 +75,7 @@
                                         $user->id,
                                     ], [
                                         'title' => __d('user', 'Set as default'),
-                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
+                                        'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-pencil',
                                     ]);
                                 ?>
                                 <?php
@@ -86,7 +86,7 @@
                                         $user->id,
                                     ], [
                                         'title' => __d('user', 'Send password recovery instructions'),
-                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-qrcode',
+                                        'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-qrcode',
                                         'confirm' => __d('user', 'You are about to send password recovery instructions to "{0}". Are you sure ?', $user->name),
                                     ]);
                                 ?>
@@ -100,7 +100,7 @@
                                                 $user->id,
                                             ], [
                                                 'title' => __d('user', 'Block account'),
-                                                'class' => 'btn btn-default btn-sm glyphicon glyphicon-remove-circle',
+                                                'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-remove-circle',
                                                 'confirm' => __d('user', 'You are about to block: "{0}". Are you sure ?', $user->name),
                                             ]);
                                         ?>
@@ -113,7 +113,7 @@
                                                 $user->id,
                                             ], [
                                                 'title' => __d('user', 'Activate account'),
-                                                'class' => 'btn btn-default btn-sm glyphicon glyphicon-ok-circle',
+                                                'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-ok-circle',
                                                 'confirm' => __d('user', 'You are about to activate: "{0}". Are you sure ?', $user->name),
                                             ]);
                                         ?>
@@ -126,7 +126,7 @@
                                             $user->id,
                                         ], [
                                             'title' => __d('user', 'Delete'),
-                                            'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+                                            'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-trash',
                                             'confirm' => __d('user', 'You are about to delete: "{0}". Are you sure ?', $user->name),
                                         ]);
                                     ?>

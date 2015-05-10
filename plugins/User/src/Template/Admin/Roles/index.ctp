@@ -21,16 +21,14 @@
     <div class="col-md-12">
         <p>
             <?php
-                echo $this->Html->link(__d('user','{plus_icon} New Role', ['plus_icon' => '<span class="glyphicon glyphicon-plus"></span>']),
-                    [
-                        'plugin' => 'User',
-                        'controller' => 'roles',
-                        'action' => 'add'
-                    ], [
-                        'class' => 'btn btn-primary',
-                        'escape' => false,
-                    ]
-                );
+                echo $this->Html->link(__d('user','{plus_icon} New Role', ['plus_icon' => '<span class="glyphicon glyphicon-plus"></span>']), [
+                    'plugin' => 'User',
+                    'controller' => 'roles',
+                    'action' => 'add'
+                ], [
+                    'class' => 'btn btn-primary',
+                    'escape' => false,
+                ]);
             ?>
         </p>
     </div>
@@ -42,7 +40,7 @@
             <thead>
                 <tr>
                     <th><?php echo __d('user', 'Role name'); ?></th>
-                    <th>&nbsp;</th>
+                    <th class="text-right"><?php echo __d('user', 'Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +51,7 @@
                             <small>(<?php echo $role->slug; ?>)</small>
                         </td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group pull-right">
                                 <?php
                                     echo $this->Html->link('', [
                                         'plugin' => 'User',
@@ -62,7 +60,7 @@
                                         $role->id,
                                     ], [
                                         'title' => __d('user', 'Edit role'),
-                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
+                                        'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-pencil',
                                     ]);
                                 ?>
 
@@ -75,7 +73,7 @@
                                         $role->id,
                                     ], [
                                         'title' => __d('user', 'Delete'),
-                                        'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
+                                        'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-trash',
                                         'confirm' => __d('user', 'You are about to delete: "{0}". Are you sure ?', $role->name),
                                     ]);
                                 ?>

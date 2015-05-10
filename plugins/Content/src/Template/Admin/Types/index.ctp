@@ -39,7 +39,7 @@
                                 $type->slug
                             ],[
                                 'title' => __d('content', 'Edit information'),
-                                'class' => 'btn btn-default',
+                                'class' => 'btn btn-sm btn-default',
                                 'escape' => false
                             ]);
                         ?>
@@ -51,7 +51,7 @@
                                 'type' => $type->slug
                             ], [
                                     'title' => __d('content', 'Manage fields'),
-                                    'class' => 'btn btn-default',
+                                    'class' => 'btn btn-sm btn-default',
                                     'escape' => false
                             ]);
                         ?>
@@ -63,7 +63,7 @@
                                 $type->slug
                             ], [
                                 'title' => __d('content', 'Delete'),
-                                'class' => 'btn btn-default',
+                                'class' => 'btn btn-sm btn-default',
                                 'escape' => false,
                                 'confirm' => __d('content', 'Delete this content type? This operation can not be undone.')
                             ]);

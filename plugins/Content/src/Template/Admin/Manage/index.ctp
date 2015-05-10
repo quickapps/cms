@@ -42,7 +42,7 @@
                     <th class="hidden-xs hidden-sm"><?php echo __d('content', 'Language'); ?></th>
                     <th class="hidden-xs"><?php echo __d('content', 'Created on'); ?></th>
                     <th class="hidden-xs"><?php echo __d('content', 'Modified on'); ?></th>
-                    <th><?php echo __d('content', 'Actions'); ?></th>
+                    <th class="text-right"><?php echo __d('content', 'Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -91,7 +91,7 @@
                             ?>
                         </td>
                         <td>
-                            <div class="btn-group">
+                            <div class="btn-group pull-right">
                                 <!-- edit -->
                                 <?php if ($content->content_type->userAllowed('edit')): ?>
                                 <?php

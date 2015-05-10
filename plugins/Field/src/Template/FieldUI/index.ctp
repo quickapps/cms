@@ -46,7 +46,7 @@
                     <td class="hidden-xs"><?php echo $instance->get('eav_attribute')->get('name'); ?></td>
                     <td class="hidden-xs"><?php echo $instance->get('handlerName'); ?></td>
                     <td>
-                        <div class="btn-group">
+                        <div class="btn-group pull-right">
                             <?php if ($k > 0): ?>
                                 <?php
                                     echo $this->Html->link('', [
@@ -57,7 +57,7 @@
                                         'down'
                                     ], [
                                         'title' => __d('field', 'Move Up'),
-                                        'class' => 'btn btn-default glyphicon glyphicon-arrow-up',
+                                        'class' => 'btn btn-sm btn-default glyphicon glyphicon-arrow-up',
                                     ]);
                                 ?>
                             <?php endif; ?>
@@ -72,7 +72,7 @@
                                         'up'
                                     ], [
                                         'title' => __d('field', 'Move down'),
-                                        'class' => 'btn btn-default glyphicon glyphicon-arrow-down',
+                                        'class' => 'btn btn-sm btn-default glyphicon glyphicon-arrow-down',
                                     ]);
                                 ?>
                             <?php endif; ?>
@@ -86,7 +86,7 @@
                                         $instance->id
                                     ], [
                                         'title' => __d('field', 'Configure'),
-                                        'class' => 'btn btn-default glyphicon glyphicon-cog',
+                                        'class' => 'btn btn-sm btn-default glyphicon glyphicon-cog',
                                     ]);
                                 ?>
 
@@ -98,7 +98,7 @@
                                         $instance->id
                                     ], [
                                         'title' => __d('field', 'Delete'),
-                                        'class' => 'btn btn-default glyphicon glyphicon-trash',
+                                        'class' => 'btn btn-sm btn-default glyphicon glyphicon-trash',
                                         'confirm' => __d('field', 'Delete this field? This can not be undone, all information stored will be lost.'),
                                     ]);
                                 ?>
