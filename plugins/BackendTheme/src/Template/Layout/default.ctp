@@ -9,31 +9,8 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
-$layoutOptions = [];
-$skin = theme()->settings['skin'];
-$boxClass = 'success';
-
-if (strpos($skin, 'blue') !== false || strpos($skin, 'black') !== false) {
-    $boxClass = 'info';
-} elseif (strpos($skin, 'green') !== false) {
-    $boxClass = 'success';
-} elseif (strpos($skin, 'red') !== false || strpos($skin, 'purple') !== false) {
-    $boxClass = 'danger';
-} elseif (strpos($skin, 'yellow') !== false) {
-    $boxClass = 'warning';
-}
-
-if (theme()->settings['fixed_layout']) {
-    $layoutOptions[] = 'fixed';
-}
-if (theme()->settings['boxed_layout']) {
-    $layoutOptions[] = 'layout-boxed';
-}
-if (theme()->settings['collapsed_sidebar']) {
-    $layoutOptions[] = 'sidebar-collapse';
-}
 ?>
+<?php extract(backendLayoutVars()); ?>
 <!DOCTYPE html>
 <html lang="<?php echo language('code'); ?>">
     <head>
@@ -86,7 +63,7 @@ if (theme()->settings['collapsed_sidebar']) {
                             </li>
 
                             <li>
-                                <?php echo $this->Html->link('<i class="fa fa-comment"></i>', '/admin/content/comments/', ['title' => __d('backend_theme', 'Manage Comments'), 'escape' => false]); ?>
+                                <?php echo $this->Html->link('<i class="fa fa-comment"></i> <span class="label label-danger">' . $pendingComments . '</span>', '/admin/content/comments/', ['title' => __d('backend_theme', 'Manage Comments'), 'escape' => false]); ?>
                             </li>
 
                             <li>
