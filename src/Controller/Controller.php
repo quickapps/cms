@@ -98,6 +98,8 @@ class Controller extends CakeController
             $this->prepareTheme();
             $this->checkMaintenanceMode();
         }
+        $this->response->header('Content-Language', language('code'));
+        $this->response->header('X-Generator', sprintf('QuickAppsCMS %s (http://quickappscms.org)', quickapps('version')));
     }
 
     /**
