@@ -78,7 +78,19 @@ if (theme()->settings['collapsed_sidebar']) {
                         <ul class="nav navbar-nav">
                             <!-- Visit website -->
                             <li>
-                                <?php echo $this->Html->link('<i class="fa fa-globe"></i>', '/', ['title' => __d('backend_theme', 'Visit Website'), 'escape' => false]); ?>
+                                <?php echo $this->Html->link('<i class="fa fa-home"></i>', '/', ['title' => __d('backend_theme', 'Visit Website'), 'escape' => false, 'target' => '_blank']); ?>
+                            </li>
+
+                            <li>
+                                <?php echo $this->Html->link('<i class="fa fa-dashboard"></i>', '/admin/', ['title' => __d('backend_theme', 'Administration Dashboard'), 'escape' => false]); ?>
+                            </li>
+
+                            <li>
+                                <?php echo $this->Html->link('<i class="fa fa-comment"></i>', '/admin/content/comments/', ['title' => __d('backend_theme', 'Manage Comments'), 'escape' => false]); ?>
+                            </li>
+
+                            <li>
+                                <?php echo $this->Html->link('<i class="fa fa-plus"></i>', '/admin/content/manage/create/', ['title' => __d('backend_theme', 'Create New Content'), 'escape' => false]); ?>
                             </li>
 
                             <!-- User Profile -->
