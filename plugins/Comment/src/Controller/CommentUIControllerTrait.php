@@ -333,10 +333,10 @@ trait CommentUIControllerTrait
     protected function _setCounters()
     {
         $this->loadModel('Comment.Comments');
-        $pending = $this->Comments->find()->where(['status' => 'pending'])->count();
-        $approved = $this->Comments->find()->where(['status' => 'approved'])->count();
-        $spam = $this->Comments->find()->where(['status' => 'spam'])->count();
-        $trash = $this->Comments->find()->where(['status' => 'trash'])->count();
+        $pending = $this->Comments->find()->where(['Comments.status' => 'pending', 'Comments.table_alias' => $this->_manageTable])->count();
+        $approved = $this->Comments->find()->where(['Comments.status' => 'approved', 'Comments.table_alias' => $this->_manageTable])->count();
+        $spam = $this->Comments->find()->where(['Comments.status' => 'spam', 'Comments.table_alias' => $this->_manageTable])->count();
+        $trash = $this->Comments->find()->where(['Comments.status' => 'trash', 'Comments.table_alias' => $this->_manageTable])->count();
         $this->set('pendingCounter', $pending);
         $this->set('approvedCounter', $approved);
         $this->set('spamCounter', $spam);
