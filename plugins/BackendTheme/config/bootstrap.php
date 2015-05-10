@@ -18,6 +18,16 @@ use Cake\ORM\TableRegistry;
  */
 Configure::write('jQueryUI.defaultTheme', 'Jquery.flick');
 
+/**
+ * Used to count pending comments.
+ */
+Cache::config('pending_comments', [
+    'className' => 'File',
+    'prefix' => 'qa_',
+    'path' => CACHE,
+    'duration' => '+3 minutes',
+]);
+
 if (!function_exists('backendLayoutVars')) {
     /**
      * Prepares some variables used in "default.ctp" layout, such as skin color to use,
@@ -31,12 +41,12 @@ if (!function_exists('backendLayoutVars')) {
         $skin = theme()->settings['skin'];
         $boxClass = 'success';
 
-        $pendingComments = Cache::read('pending_comments');
+        $pendingComments = Cache::read('pending_comments', 'pending_comments');
         if ($pendingComments === false) {
             $pendingComments = TableRegistry::get('Comment.Comments')
                 ->find()->where(['Comments.status' => 'pending', 'Comments.table_alias' => 'contents'])
                 ->count();
-            Cache::write('pending_comments', $pendingComments);
+            Cache::write('pending_comments', $pendingComments, 'pending_comments');
         }
         $pendingComments = !$pendingComments ? '' : $pendingComments;
 
