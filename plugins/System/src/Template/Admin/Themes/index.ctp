@@ -14,31 +14,35 @@
 <div class="row">
     <div class="col-md-6">
         <div class="btn-group filters">
-            <?php
-                echo $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $frontCount . '</span>', '#show-front', [
-                    'class' => 'btn btn-primary btn-sm btn-front',
-                    'escape' => false,
-                ]);
-            ?>
-            <?php
-                echo $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $backCount . '</span>', '#show-back', [
-                    'class' => 'btn btn-info btn-sm btn-back',
-                    'escape' => false,
-                ]);
-            ?>
+            <p>
+                <?php
+                    echo $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $frontCount . '</span>', '#show-front', [
+                        'class' => 'btn btn-primary btn-sm btn-front',
+                        'escape' => false,
+                    ]);
+                ?>
+                <?php
+                    echo $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $backCount . '</span>', '#show-back', [
+                        'class' => 'btn btn-info btn-sm btn-back',
+                        'escape' => false,
+                    ]);
+                ?>
+            </p>
         </div>
     </div>
 
     <div class="col-md-6 text-right">
-        <?php
-            echo $this->Html->link(__d('system', 'Install theme'), [
-                'plugin' => 'System',
-                'controller' => 'themes',
-                'action' => 'install',
-            ], [
-                'class' => 'btn btn-primary'
-            ]);
-        ?>
+        <p>
+            <?php
+                echo $this->Html->link(__d('system', 'Install theme'), [
+                    'plugin' => 'System',
+                    'controller' => 'themes',
+                    'action' => 'install',
+                ], [
+                    'class' => 'btn btn-primary'
+                ]);
+            ?>
+        </p>
     </div>
 </div>
 
@@ -55,15 +59,19 @@
 
 <div class="row themes-container">
     <div class="col-md-12 front-themes themes-list">
-        <?php foreach ($frontThemes as $theme): ?>
-            <?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
-        <?php endforeach; ?>
+        <p>
+            <?php foreach ($frontThemes as $theme): ?>
+                <?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
+            <?php endforeach; ?>
+        </p>
     </div>
 
     <div class="col-md-12 back-themes themes-list">
-        <?php foreach ($backThemes as $theme): ?>
-            <?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
-        <?php endforeach; ?>
+        <p>
+            <?php foreach ($backThemes as $theme): ?>
+                <?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
+            <?php endforeach; ?>
+        </p>
     </div>
 </div>
 
