@@ -6,11 +6,13 @@
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
     "authors": [
-        {"name": "Christopher Castro", "email": "chris@quickapps.es"}
+        {
+            "name": "Christopher Castro",
+            "email": "chris@quickapps.es"
+        }
     ],
-    "minimum-stability": "dev",
     "require": {
-        "quickapps/cms": "2.*"
+        "quickapps/cms": "~2.0"
     },
     "version": "1.0",
     "extra": {

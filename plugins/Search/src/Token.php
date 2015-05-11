@@ -73,7 +73,7 @@ class Token
     }
 
     /**
-     * Indicates if this token represents an operator.
+     * Whether this token represents an operator or not.
      *
      * @return bool True if it's an operator
      */

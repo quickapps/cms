@@ -1,18 +1,20 @@
 {
-	"name": "quickapps-plugins/comment",
-	"description": "Allows users to comment on and discuss published content.",
-	"type": "cakephp-plugin",
-	"keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
-	"homepage": "http://quickappscms.org",
-	"license": "GPL-3.0",
-	"authors": [
-		{"name": "Christopher Castro", "email": "chris@quickapps.es"}
-	],
-	"minimum-stability": "dev",
-	"require": {
-		"quickapps/cms": "2.*"
-	},
-	"version": "1.0",
-	"extra": {
-	}
+    "name": "quickapps-plugins/comment",
+    "description": "Allows users to comment on and discuss published content.",
+    "type": "cakephp-plugin",
+    "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
+    "homepage": "http://quickappscms.org",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Christopher Castro",
+            "email": "chris@quickapps.es"
+        }
+    ],
+    "require": {
+        "quickapps/cms": "~2.0"
+    },
+    "version": "1.0",
+    "extra": {
+    }
 }
