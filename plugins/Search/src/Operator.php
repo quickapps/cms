@@ -17,8 +17,9 @@ use Cake\ORM\Table;
 use Search\Token;
 
 /**
- * Base operator class, every operator handler should extends this class.
+ * Base operator class.
  *
+ * Every operator handler must extends this class.
  */
 abstract class Operator
 {
