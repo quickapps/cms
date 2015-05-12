@@ -512,7 +512,7 @@ class EavBehavior extends Behavior
      */
     protected function _attributes($bundle = null)
     {
-        $key = empty($bundle) ? ':all:' : $bundle;
+        $key = empty($bundle) ? '@all' : $bundle;
         if (isset($this->_attributes[$key])) {
             return $this->_attributes[$key];
         }
@@ -523,8 +523,10 @@ class EavBehavior extends Behavior
             $conditions['EavAttributes.bundle'] = $bundle;
         }
 
+        $cacheKey = "{$this->_tableAlias}_{$key}";
         $attrs = $this->Attributes
             ->find()
+            ->cache($cacheKey, 'eav_table_attrs')
             ->where($conditions)
             ->all()
             ->toArray();
