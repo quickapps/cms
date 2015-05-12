@@ -460,7 +460,7 @@ class EavBehavior extends Behavior
                     ->select("value_{$type}")
                     ->where([
                         'EavAttribute.table_alias' => $this->_tableAlias,
-                        'EavAttribute.bundle' => $bundle,
+                        'EavAttribute.bundle IS' => $bundle,
                         'EavAttribute.name' => $name,
                         'EavValues.entity_id' => $this->_getEntityId($entity),
                     ])
