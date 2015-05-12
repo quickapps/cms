@@ -12,7 +12,6 @@
 namespace Block\View;
 
 use Block\Model\Entity\Block;
-use Cake\Cache\Cache;
 use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
@@ -113,8 +112,6 @@ class Region
                 }
             }
         }
-
-        $this->_prepareBlocks();
     }
 
     /**
@@ -159,6 +156,8 @@ class Region
         if ($blocks) {
             $this->_blocks = $blocks;
             $this->homogenize();
+        } elseif ($this->_blocks === null) {
+            $this->_prepareBlocks();
         }
         return $this->_blocks;
     }
@@ -258,29 +257,24 @@ class Region
     protected function _prepareBlocks()
     {
         $cacheKey = "{$this->_View->theme}_{$this->_machineName}";
-        $blocksCache = Cache::read($cacheKey, 'blocks');
+        $blocks = TableRegistry::get('Block.Blocks')
+            ->find('all')
+            ->cache($cacheKey, 'blocks')
+            ->contain(['Roles', 'BlockRegions'])
+            ->matching('BlockRegions', function ($q) {
+                return $q->where([
+                    'BlockRegions.theme' => $this->_View->theme,
+                    'BlockRegions.region' => $this->_machineName,
+                ]);
+            })
+            ->where(['Blocks.status' => 1])
+            ->order(['BlockRegions.ordering' => 'ASC']);
 
-        if (!$blocksCache) {
-            $Blocks = TableRegistry::get('Block.Blocks');
-            $blocks = $Blocks->find('all')
-                ->contain(['Roles', 'BlockRegions'])
-                ->matching('BlockRegions', function ($q) {
-                    return $q->where([
-                        'BlockRegions.theme' => $this->_View->theme,
-                        'BlockRegions.region' => $this->_machineName,
-                    ]);
-                })
-                ->where(['Blocks.status' => 1])
-                ->order(['BlockRegions.ordering' => 'ASC']);
+        $blocks->sortBy(function ($block) {
+            return $block->region->ordering;
+        }, SORT_ASC);
 
-            $blocks->sortBy(function ($block) {
-                return $block->region->ordering;
-            }, SORT_ASC);
 
-            Cache::write($cacheKey, $blocks->toArray(), 'blocks');
-        } else {
-            $blocks = new Collection($blocksCache);
-        }
 
         // remove blocks that cannot be rendered based on current request.
         $blocks = $blocks->filter(function ($block) {
