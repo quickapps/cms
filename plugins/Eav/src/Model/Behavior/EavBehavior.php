@@ -456,11 +456,12 @@ class EavBehavior extends Behavior
                 $type = $this->_getType($name);
                 $value = $this->Values
                     ->find()
+                    ->contain(['EavAttribute'])
                     ->select("value_{$type}")
                     ->where([
                         'EavAttribute.table_alias' => $this->_tableAlias,
                         'EavAttribute.bundle' => $bundle,
-                        'EavAttribute.attribute' => $name,
+                        'EavAttribute.name' => $name,
                         'EavValues.entity_id' => $this->_getEntityId($entity),
                     ])
                     ->limit(1)
