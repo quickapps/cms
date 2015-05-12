@@ -34,9 +34,7 @@ class SerializedType extends Type
     public function toPHP($value, Driver $driver)
     {
         if ($this->_isSerialized($value)) {
-            //@codingStandardsIgnoreStart
-            $value = @unserialize($value);
-            //@codingStandardsIgnoreEnd
+            $value = unserialize($value);
         }
 
         return $value;
@@ -65,47 +63,17 @@ class SerializedType extends Type
     /**
      * Check value to find if it was serialized.
      *
-     * If $data is not an string, then returned value will always be false.
+     * If $string is not an string, then returned value will always be false.
      * Serialized data is always a string.
      *
-     * @param mixed $data Value to check to see if was serialized
+     * @param mixed $string Value to check to see if was serialized
      * @return bool False if not serialized and true if it was
      * @author WordPress
      */
-    protected function _isSerialized($data)
+    protected function _isSerialized($string)
     {
-        if (!is_string($data)) {
-            return false;
-        }
-        $data = trim($data);
-        $lastc = substr($data, -1);
-
-        if ($data == 'N;') {
-            return true;
-        } elseif (strlen($data) < 4 || ($lastc !== ';' && $lastc !== '}') || $data[1] !== ':') {
-            return false;
-        }
-
-        switch ($data[0]) {
-            case 's':
-                if (substr($data, -2, 1) !== '"') {
-                    return false;
-                }
-                // no break
-            case 'a':
-                // no break
-            case 'O':
-                return (bool)preg_match("/^{$data[0]}:[0-9]+:/s", $data);
-                // no break
-            case 'b':
-                // no break
-            case 'i':
-                // no break
-            case 'd':
-                return (bool)preg_match("/^{$data[0]}:[0-9.E-]+;$/", $data);
-                // no break
-        }
-
-        return false;
+        //@codingStandardsIgnoreStart
+        return $string == serialize(false) || @unserialize($string) !== false;
+        //@codingStandardsIgnoreEnd
     }
 }
