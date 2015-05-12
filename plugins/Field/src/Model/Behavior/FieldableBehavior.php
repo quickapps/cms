@@ -554,7 +554,6 @@ class FieldableBehavior extends EavBehavior
     protected function _attributesForEntity(EntityInterface $entity)
     {
         $bundle = $this->_resolveBundle($entity);
-
         foreach ($this->_attributes($bundle) as $name => $attr) {
             if (!$attr->has('instance')) {
                 $instance = $this->Attributes->Instance
@@ -565,7 +564,6 @@ class FieldableBehavior extends EavBehavior
                 $attr->set('instance', $instance);
             }
         }
-
         return $this->_attributes($bundle);
     }
 
@@ -653,7 +651,7 @@ class FieldableBehavior extends EavBehavior
         ]);
 
         if ($storedValue) {
-            $mockField->set('value', $storedValue->get("value_{$type}"));
+            $mockField->set('value', $this->_castValue($storedValue->get("value_{$type}"), $type));
             $mockField->set('extra', $storedValue->get('extra'));
             $mockField->metadata->set('value_id', $storedValue->id);
         }

@@ -349,10 +349,16 @@ CREATE TABLE `eav_values` (
   `eav_attribute_id` int(11) NOT NULL,
   `entity_id` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'id of the entity in `table`',
   `value_datetime` datetime DEFAULT NULL,
-  `value_decimal` decimal(10,0) DEFAULT NULL,
-  `value_int` int(11) DEFAULT NULL,
+  `value_binary` blob,
+  `value_time` time DEFAULT NULL,
+  `value_date` date DEFAULT NULL,
+  `value_float` decimal(10,0) DEFAULT NULL,
+  `value_integer` int(11) DEFAULT NULL,
+  `value_biginteger` bigint(20) DEFAULT NULL,
   `value_text` text COLLATE utf8_unicode_ci,
-  `value_varchar` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `value_string` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `value_boolean` tinyint(1) DEFAULT NULL,
+  `value_uuid` varchar(36) COLLATE utf8_unicode_ci DEFAULT NULL,
   `extra` text COLLATE utf8_unicode_ci COMMENT 'serialized additional information',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -364,7 +370,7 @@ CREATE TABLE `eav_values` (
 
 LOCK TABLES `eav_values` WRITE;
 /*!40000 ALTER TABLE `eav_values` DISABLE KEYS */;
-INSERT INTO `eav_values` VALUES (1,1,'1',NULL,NULL,NULL,'Welcome to QuickAppsCMS. This is an example content.',NULL,''),(2,2,'1',NULL,NULL,NULL,'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\r\n\r\n<p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.</p>\r\n\r\n<p>Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc</p>\r\n',NULL,''),(3,4,'2',NULL,NULL,NULL,'<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.&nbsp;<span style=\"line-height:1.6\">Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.</span></p>\r\n\r\n<p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>\r\n\r\n<p>Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>\r\n',NULL,'a:0:{}'),(4,3,'1',NULL,NULL,NULL,'PHP QuickAppsCMS',NULL,'a:2:{i:0;s:1:\"1\";i:1;s:1:\"5\";}');
+INSERT INTO `eav_values` VALUES (1,1,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Welcome to QuickAppsCMS. This is an example content.',NULL,NULL,NULL,''),(2,2,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.</p>\r\n\r\n<p>Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.</p>\r\n\r\n<p>Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc</p>\r\n',NULL,NULL,NULL,''),(3,4,'2',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'<p>Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.&nbsp;<span style=\"line-height:1.6\">Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum.</span></p>\r\n\r\n<p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum.</p>\r\n\r\n<p>Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>\r\n',NULL,NULL,NULL,'a:0:{}'),(4,3,'1',NULL,NULL,NULL,NULL,NULL,NULL,NULL,'PHP QuickAppsCMS',NULL,NULL,NULL,'a:2:{i:0;s:1:\"1\";i:1;s:1:\"5\";}');
 /*!40000 ALTER TABLE `eav_values` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -789,4 +795,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-10  4:25:10
+-- Dump completed on 2015-05-12 22:51:22

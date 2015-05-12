@@ -12,6 +12,7 @@
 namespace Eav\Model\Behavior;
 
 use Cake\Database\Expression\Comparison;
+use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
@@ -47,6 +48,27 @@ use \ArrayObject;
  */
 class EavBehavior extends Behavior
 {
+
+    /**
+     * List of accepted value types.
+     *
+     * @var array
+     */
+    protected static $_types = [
+        'biginteger',
+        'binary',
+        'date',
+        'float',
+        'decimal',
+        'integer',
+        'time',
+        'datetime',
+        'timestamp',
+        'uuid',
+        'string',
+        'text',
+        'boolean',
+    ];
 
     /**
      * Table alias.
@@ -148,7 +170,7 @@ class EavBehavior extends Behavior
      * @param array $options Column configuration options
      * @return bool True on success
      * @throws \Cake\Error\FatalErrorException When provided column name collides
-     *  with existing column names
+     *  with existing column names. And when an invalid type is provided
      */
     public function addColumn($name, array $options = [])
     {
@@ -157,13 +179,17 @@ class EavBehavior extends Behavior
         }
 
         $data = $options + [
-            'type' => 'varchar',
+            'type' => 'string',
             'bundle' => null,
             'searchable' => true,
             'extra' => null,
         ];
 
         $data['type'] = $this->_mapType($data['type']);
+        if (!in_array($data['type'], static::$_types)) {
+            throw new FatalErrorException(__d('eav', 'The column {0}({1}) could not be created as "{2}" is not a valid type.', $name, $data['type'], $data['type']));
+        }
+
         $data['name'] = $name;
         $data['table_alias'] = $this->_tableAlias;
         $attr = $this->Attributes
@@ -259,6 +285,22 @@ class EavBehavior extends Behavior
                 return $entity;
             });
         });
+    }
+
+    /**
+     * Alters table schema (virtually) for a better integration with CakePHP
+     * automagic. For instance FormHelper.
+     *
+     * @return void
+     */
+    protected function _alterSchema()
+    {
+        $attrs = $this->_attributes();
+        foreach ($attrs as $name => $attr) {
+            $this->_table->schema()->addColumn($name, [
+                'type' => $attr->get('type'),
+            ]);
+        }
     }
 
     /**
@@ -494,13 +536,25 @@ class EavBehavior extends Behavior
                     ->first();
 
                 if ($value) {
-                    $entity->set($name, $value->get("value_{$type}"));
+                    $entity->set($name, $this->_castValue($value->get("value_{$type}"), $type));
                 } else {
                     $entity->set($name, null);
                 }
             }
         }
         return $entity;
+    }
+
+    /**
+     * Converts DB value to its PHP equivalent using the appropriate type converter.
+     *
+     * @param mixed $value RAW value coming from DB
+     * @param string $type The type of the given value, `integer`, `float`, etc
+     * @return mixed Casted value
+     */
+    protected function _castValue($value, $type)
+    {
+        return Type::build($type)->toPHP($value, $this->_table->connection()->driver());
     }
 
     /**
@@ -626,39 +680,21 @@ class EavBehavior extends Behavior
     /**
      * Maps schema data types to EAV's supported types.
      *
-     * - datetime: "date", "time", "datetime"
-     * - decimal: "dec", "float", "decimal"
-     * - int: "integer", "int", "bool", "boolean"
-     * - text: "text"
-     * - varchar: "string", "varchar", "char"
-     *
      * @param string $type A schema type. e.g. "string", "integer"
-     * @return string A EAV type. Possible values are `datetime`, `decimal`, `int`,
-     *  `text` or `varchar`
+     * @return string A EAV type. Possible values are `datetime`, `binary`, `time`,
+     *  `date`, `float`, `intreger`, `biginteger`, `text`, `string`, `boolean` or
+     *  `uuid`
      */
     protected function _mapType($type)
     {
         switch ($type) {
-            case 'date':
-            case 'time':
-            case 'datetime':
-                return 'datetime';
-            case 'dec':
-            case 'decimal':
             case 'float':
-                return 'decimal';
-            case 'int':
-            case 'integer':
-            case 'boolean':
-            case 'bool':
-                return 'int';
-            case 'text':
-                return 'text';
-            case 'string':
-            case 'varchar':
-            case 'char':
-            default:
-                return 'varchar';
+            case 'decimal':
+                return 'float';
+            case 'timestamp':
+                return 'datetime';
         }
+
+        return $type;
     }
 }
