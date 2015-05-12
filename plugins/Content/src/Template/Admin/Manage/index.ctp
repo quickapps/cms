@@ -142,7 +142,7 @@
                                     ], [
                                         'title' => __d('content', 'Delete'),
                                         'class' => 'btn btn-default btn-sm glyphicon glyphicon-trash',
-                                        'confirm' => __d('content', 'You are about to delete: "{0}". Are you sure ?', $content->title),
+                                        'confirm' => __d('content', 'You are about to delete: "{0}" ({1}). Are you sure ?', $content->title, $content->content_type->name),
                                     ]);
                                 ?>
                                 <?php endif; ?>
