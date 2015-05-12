@@ -171,7 +171,7 @@ class EavBehavior extends Behavior
             ->where([
                 'name' => $data['name'],
                 'table_alias' => $data['table_alias'],
-                'bundle' => $data['bundle'],
+                'bundle IS' => $data['bundle'],
             ])
             ->limit(1)
             ->first();
@@ -183,6 +183,32 @@ class EavBehavior extends Behavior
         }
 
         return (bool)$this->Attributes->save($attr);
+    }
+
+    /**
+     * Drops an existing column.
+     *
+     * @param string $name Name of the column to drop
+     * @param string|null $bundle Removes the column within a particular bundle
+     * @return bool True on success, false otherwise
+     */
+    public function dropColumn($name, $bundle = null)
+    {
+        $attr = $this->Attributes
+            ->find()
+            ->where([
+                'name' => $name,
+                'table_alias' => $this->_tableAlias,
+                'bundle IS' => $bundle,
+            ])
+            ->limit(1)
+            ->first();
+
+        if ($attr) {
+            return (bool)$this->Attributes->delete($attr);
+        }
+
+        return false;
     }
 
     /**
