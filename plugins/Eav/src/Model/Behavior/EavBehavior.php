@@ -522,7 +522,7 @@ class EavBehavior extends Behavior
                 if ($value) {
                     $entity->set($name, $this->_castValue($value->get("value_{$type}"), $type));
                 } else {
-                    $entity->set($name, null);
+                    $entity->set($name, $this->_castValue(null, $type));
                 }
             }
         }
