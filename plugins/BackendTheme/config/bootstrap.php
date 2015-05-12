@@ -23,7 +23,7 @@ Configure::write('jQueryUI.defaultTheme', 'Jquery.flick');
  */
 Cache::config('pending_comments', [
     'className' => 'File',
-    'prefix' => 'qa_',
+    'prefix' => 'backend_theme_',
     'path' => CACHE,
     'duration' => '+3 minutes',
 ]);

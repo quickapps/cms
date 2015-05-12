@@ -101,7 +101,7 @@ return [
         */
         '_cake_core_' => [
             'className' => 'File',
-            'prefix' => 'qa_core_',
+            'prefix' => 'core_',
             'path' => CACHE . 'persistent/',
             'serialize' => true,
             'duration' => '+2 minutes',
@@ -113,7 +113,7 @@ return [
         */
         '_cake_model_' => [
             'className' => 'File',
-            'prefix' => 'qa_model_',
+            'prefix' => 'model_',
             'path' => CACHE . 'models/',
             'serialize' => true,
             'duration' => '+2 minutes',

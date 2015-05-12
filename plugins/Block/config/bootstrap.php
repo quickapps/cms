@@ -62,7 +62,7 @@ if (!function_exists('registerWidget')) {
  */
 Cache::config('blocks', [
     'className' => 'File',
-    'prefix' => 'qa_blocks_in_',
+    'prefix' => 'blocks_in_',
     'path' => CACHE,
     'duration' => '+2 hours',
     'groups' => ['views']

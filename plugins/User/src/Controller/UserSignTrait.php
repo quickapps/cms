@@ -51,7 +51,7 @@ trait UserSignTrait
             if ($loginBlocking) {
                 Cache::config('users_login', [
                     'duration' => '+' . plugin('User')->settings('failed_login_attempts_block_seconds') . ' seconds',
-                    'path' => TMP,
+                    'path' => CACHE,
                     'engine' => 'File',
                     'prefix' => 'qa_',
                     'groups' => ['acl']

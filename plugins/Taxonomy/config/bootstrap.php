@@ -17,7 +17,7 @@ use Cake\Cache\Cache;
  */
 Cache::config('terms_count', [
     'className' => 'File',
-    'prefix' => 'qa_terms_count_',
-    'path' => TMP,
+    'prefix' => 'terms_count_',
+    'path' => CACHE,
     'duration' => '+1 hour',
 ]);

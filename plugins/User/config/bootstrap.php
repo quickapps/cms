@@ -59,7 +59,7 @@ if (!defined('USER_TOKEN_EXPIRATION')) {
 Cache::config('permissions', [
     'className' => 'File',
     'prefix' => 'qa_',
-    'path' => TMP,
+    'path' => CACHE,
     'duration' => '+1 hour',
     'groups' => ['acl']
 ]);
