@@ -288,22 +288,6 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Alters table schema (virtually) for a better integration with CakePHP
-     * automagic. For instance FormHelper.
-     *
-     * @return void
-     */
-    protected function _alterSchema()
-    {
-        $attrs = $this->_attributes();
-        foreach ($attrs as $name => $attr) {
-            $this->_table->schema()->addColumn($name, [
-                'type' => $attr->get('type'),
-            ]);
-        }
-    }
-
-    /**
      * Look for virtual columns in query's WHERE clause.
      *
      * @param \Cake\ORM\Query $query The query to scope
@@ -693,8 +677,8 @@ class EavBehavior extends Behavior
                 return 'float';
             case 'timestamp':
                 return 'datetime';
+            default:
+                return $type;
         }
-
-        return $type;
     }
 }
