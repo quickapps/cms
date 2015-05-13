@@ -13,13 +13,13 @@ namespace Search\Model\Behavior;
 
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Event\EventDispatcherTrait;
 use Search\Operator;
 use Search\Token;
 
@@ -293,8 +293,6 @@ use Search\Token;
 class SearchableBehavior extends Behavior
 {
 
-    use EventDispatcherTrait;
-
     /**
      * The table this behavior is attached to.
      *
@@ -475,17 +473,39 @@ class SearchableBehavior extends Behavior
                 throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
             }
         } else {
-            $result = $this->trigger([
-                'SearchableBehavior.' . (string)Inflector::variable('operator_' . $token->name()),
-                $this->_table,
-            ], $query, $token)->result;
-
+            $result = $this->_triggerScope($query, $token);
             if ($result instanceof Query) {
                 $query = $result;
             }
         }
 
         return $query;
+    }
+
+    /**
+     * Triggers an event for handling undefined operators. Event listeners may
+     * capture this event and provide operator handling logic, such listeners should
+     * alter the provided Query object and then return it back.
+     *
+     * The triggered event follows the pattern:
+     *
+     * ```
+     * SearchableBehavior.operator<CamelCaseOperatorName>
+     * ```
+     *
+     * For example, `SearchableBehavior.operatorAuthorName` will be triggered for
+     * handling an operator named either `author-name` or `author_name`.
+     *
+     * @param \Cake\ORM\Query $query The query that is expected to be scoped
+     * @param \Search\Token $token Token describing an operator. e.g `-op_name:op_value`
+     * @return mixed Scoped query object expected or null if event was not captured
+     *  by any listener
+     */
+    protected function _triggerScope(Query $query, Token $token)
+    {
+        $eventName = 'SearchableBehavior.' . (string)Inflector::variable('operator_' . $token->name());
+        $event = new Event($eventName, $this, compact('query', 'token'));
+        return EventManager::instance()->dispatch($event)->result;
     }
 
     /**
