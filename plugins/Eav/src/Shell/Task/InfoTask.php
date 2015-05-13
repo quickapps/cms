@@ -60,7 +60,7 @@ class InfoTask extends Shell
         if (!$table) {
             $this->err(__d('eav', 'The specified table does not exists.'));
             return false;
-        } elseif (!$table->behaviors()->hasMethod('eavColumns')) {
+        } elseif (!$table->behaviors()->has('Eav')) {
             $this->err(__d('eav', 'The specified table is not using EAV behavior.'));
             return false;
         }
