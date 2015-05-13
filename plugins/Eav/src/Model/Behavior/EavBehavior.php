@@ -444,7 +444,9 @@ class EavBehavior extends Behavior
                 ]);
             }
 
-            $value->set("value_{$type}", $this->_marshal($entity->get($name), $type));
+            $marshaledValue = $this->_marshal($entity->get($name), $type);
+            $value->set("value_{$type}", $marshaledValue);
+            $entity->set($name, $marshaledValue);
             $this->Values->save($value);
         }
     }
