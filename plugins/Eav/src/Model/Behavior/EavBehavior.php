@@ -423,34 +423,29 @@ class EavBehavior extends Behavior
     public function afterSave(Event $event, EntityInterface $entity, $options)
     {
         foreach ($this->_attributes() as $name => $attr) {
-            if ($entity->has($name)) {
-                $type = $this->_getType($name);
-                $value = $this->Values
-                    ->find()
-                    ->where([
-                        'eav_attribute_id' => $attr->get('id'),
-                        'entity_id' => $this->_getEntityId($entity),
-                    ])
-                    ->limit(1)
-                    ->first();
-
-                if (!$value) {
-                    $value = $this->Values->newEntity([
-                        'eav_attribute_id' => $attr->get('id'),
-                        'entity_id' => $this->_getEntityId($entity),
-                    ]);
-                }
-
-                // set the rest to NULL
-                foreach (['datetime', 'decimal', 'int', 'text', 'varchar'] as $suffix) {
-                    if ($type != $suffix) {
-                        $value->set("value_{$suffix}", null);
-                    } else {
-                        $value->set("value_{$suffix}", $entity->get($name));
-                    }
-                }
-                $this->Values->save($value);
+            if (!$entity->has($name)) {
+                continue;
             }
+
+            $type = $this->_getType($name);
+            $value = $this->Values
+                ->find()
+                ->where([
+                    'eav_attribute_id' => $attr->get('id'),
+                    'entity_id' => $this->_getEntityId($entity),
+                ])
+                ->limit(1)
+                ->first();
+
+            if (!$value) {
+                $value = $this->Values->newEntity([
+                    'eav_attribute_id' => $attr->get('id'),
+                    'entity_id' => $this->_getEntityId($entity),
+                ]);
+            }
+
+            $value->set("value_{$type}", $this->_marshal($entity->get($name), $type));
+            $this->Values->save($value);
         }
     }
 
@@ -521,26 +516,23 @@ class EavBehavior extends Behavior
                     ->limit(1)
                     ->first();
 
-                if ($value) {
-                    $entity->set($name, $this->_castValue($value->get("value_{$type}"), $type));
-                } else {
-                    $entity->set($name, $this->_castValue(null, $type));
-                }
+                $value = !$value ? null : $value->get("value_{$type}");
+                $entity->set($name, $this->_marshal($value, $type));
             }
         }
         return $entity;
     }
 
     /**
-     * Converts DB value to its PHP equivalent using the appropriate type converter.
+     * Marshalls flat data into PHP objects.
      *
-     * @param mixed $value RAW value coming from DB
-     * @param string $type The type of the given value, `integer`, `float`, etc
-     * @return mixed Casted value
+     * @param mixed $value The value to convert
+     * @param string $type Type identifier, `integer`, `float`, etc
+     * @return mixed Converted value
      */
-    protected function _castValue($value, $type)
+    protected function _marshal($value, $type)
     {
-        return Type::build($type)->toPHP($value, $this->_table->connection()->driver());
+        return Type::build($type)->marshal($value);
     }
 
     /**

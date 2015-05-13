@@ -651,7 +651,7 @@ class FieldableBehavior extends EavBehavior
         ]);
 
         if ($storedValue) {
-            $mockField->set('value', $this->_castValue($storedValue->get("value_{$type}"), $type));
+            $mockField->set('value', $this->_marshal($storedValue->get("value_{$type}"), $type));
             $mockField->set('extra', $storedValue->get('extra'));
             $mockField->metadata->set('value_id', $storedValue->id);
         }
