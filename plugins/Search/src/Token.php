@@ -41,8 +41,9 @@ class Token
      */
     public function __construct($token, $where = null)
     {
-        $this->_data['string'] = str_starts_with($token, '-') ? str_replace_once('-', '', $token) : $token;
-        $this->_data['negated'] = str_starts_with($token, '-');
+        $position = strpos($token, '-');
+        $this->_data['string'] = $position === 0 ? substr($token, $position + 1) : $token;
+        $this->_data['negated'] = $position === 0;
         $this->_data['where'] = $where !== null ? strtolower($where) : null;
         $this->_data['isOperator'] = mb_strpos($token, ':') !== false;
 
@@ -52,7 +53,8 @@ class Token
             $this->_data['operatorArguments'] = !empty($parts[1]) ? $parts[1] : '';
 
             if ($this->_data['negated']) {
-                $this->_data['operatorName'] = str_replace_once('-', '', $this->_data['operatorName']);
+                $position = strpos($this->_data['operatorName'], '-');
+                $this->_data['operatorName'] = substr($this->_data['operatorName'], $position + 1);
             }
         }
     }
