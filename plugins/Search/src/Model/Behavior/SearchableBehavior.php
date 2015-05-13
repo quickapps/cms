@@ -11,14 +11,15 @@
  */
 namespace Search\Model\Behavior;
 
+use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Search\Operator;
 use Search\Token;
@@ -305,9 +306,11 @@ class SearchableBehavior extends Behavior
      *
      * - operators: A list of registered operators methods as `name` => `methodName`.
      *
-     * - fields: List of entity fields where to look for words. Or a callable method,
-     *   it receives and entity as first argument, and it must return a list of words
-     *   for that entity (as an array list, or a string space-separated words).
+     * - fields: List of entity fields where to look for words. Or a callable
+     *   method, it receives and entity as first argument and it must return a list
+     *   of words for that entity (as an array list, or a string of space-separated
+     *   words). Or NULL to let this behavior to automatically extract words from
+     *   every entity's property if possible. Defaults to NULL.
      *
      * - bannedWords: List of banned words.
      *
@@ -318,7 +321,7 @@ class SearchableBehavior extends Behavior
      */
     protected $_defaultConfig = [
         'operators' => [],
-        'fields' => [],
+        'fields' => null,
         'bannedWords' => [],
         'on' => 'both',
         'implementedMethods' => [
@@ -346,16 +349,36 @@ class SearchableBehavior extends Behavior
         $config['pk'] = $this->_table->primaryKey();
         $config['table_alias'] = (string)Inflector::underscore($this->_table->alias());
         parent::__construct($table, $config);
+
+        if ($this->config('fields') === null) {
+            $fields = function ($entity) {
+                $words = [];
+                foreach ($entity->visibleProperties() as $property) {
+                    $value = $entity->get($property);
+                    if (is_string($value) ||
+                        (is_object($value) && method_exists($value, '__toString'))
+                    ) {
+                        $words[] = (string)$value;
+                    } elseif (is_array($value)) {
+                        foreach (array_values(Hash::flatten($value)) as $value) {
+                            $words[] = $value;
+                        }
+                    }
+                }
+                return $words;
+            };
+            $this->config('fields', $fields);
+        }
     }
 
     /**
      * Generates a list of words after each entity is saved.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity that was saved
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
      * @return void
      */
-    public function afterSave(Event $event, Entity $entity)
+    public function afterSave(Event $event, EntityInterface $entity)
     {
         $isNew = $entity->isNew();
         if (($this->config('on') === 'update' && $isNew) ||
@@ -389,10 +412,10 @@ class SearchableBehavior extends Behavior
      * Prepares entity to delete its words-index.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Cake\ORM\Entity $entity The entity that was removed
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was removed
      * @return bool
      */
-    public function beforeDelete(Event $event, Entity $entity)
+    public function beforeDelete(Event $event, EntityInterface $entity)
     {
         $this->_table->hasMany('SearchDatasets', [
             'className' => 'Search.SearchDatasets',
@@ -667,18 +690,19 @@ class SearchableBehavior extends Behavior
      *  the list of words
      * @return string Space-separated list of words. e.g. `cat dog this that`
      */
-    protected function _extractEntityWords($entity)
+    protected function _extractEntityWords(EntityInterface $entity)
     {
         $text = '';
-        if (is_callable($this->config('fields'))) {
+        $fields = $this->config('fields');
+        if (is_callable($fields)) {
             $callable = $this->config('fields');
             $text = $callable($entity);
 
             if (is_array($text)) {
                 $text = implode(' ', (array)$text);
             }
-        } else {
-            foreach ((array)$this->config('fields') as $f) {
+        } elseif (is_array($fields)) {
+            foreach ($fields as $f) {
                 if ($entity->has($f)) {
                     $text .= ' ' . trim($entity->get($f));
                 }
