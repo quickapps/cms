@@ -54,7 +54,7 @@ class EavBehavior extends Behavior
      *
      * @var array
      */
-    protected static $_types = [
+    public static $types = [
         'biginteger',
         'binary',
         'date',
@@ -134,6 +134,8 @@ class EavBehavior extends Behavior
     protected $_defaultConfig = [
         'implementedMethods' => [
             'addColumn' => 'addColumn',
+            'dropColumn' => 'dropColumn',
+            'eavColumns' => 'eavColumns',
         ],
     ];
 
@@ -186,7 +188,7 @@ class EavBehavior extends Behavior
         ];
 
         $data['type'] = $this->_mapType($data['type']);
-        if (!in_array($data['type'], static::$_types)) {
+        if (!in_array($data['type'], static::$types)) {
             throw new FatalErrorException(__d('eav', 'The column {0}({1}) could not be created as "{2}" is not a valid type.', $name, $data['type'], $data['type']));
         }
 
@@ -542,10 +544,31 @@ class EavBehavior extends Behavior
     }
 
     /**
+     * Gets a list of virtual columns attached to this table.
+     *
+     * @param string|null $bundle Get attributes within given bundle, or all of them
+     *  regardless of the bundle if not provided
+     * @return array Columns information indexed by column name
+     */
+    public function eavColumns($bundle = null)
+    {
+        $columns = [];
+        foreach ($this->_attributes($bundle) as $name => $attr) {
+            $columns[$name] = [
+                'type' => $attr->get('type'),
+                'bundle' => $attr->get('bundle'),
+                'searchable ' => $attr->get('searchable'),
+                'extra ' => $attr->get('extra'),
+            ];
+        }
+        return $columns;
+    }
+
+    /**
      * Gets all attributes added to this table.
      *
-     * @param string|null $bundle Get attributes within given bundle, or all of
-     *  them regardless of the bundle if not provided
+     * @param string|null $bundle Get attributes within given bundle, or all of them
+     *  regardless of the bundle if not provided
      * @return array
      */
     protected function _attributes($bundle = null)

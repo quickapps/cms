@@ -29,9 +29,11 @@ class EavAttributesTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->addBehavior('Serializable', [
-            'columns' => ['extra']
-        ]);
+        if (class_exists('QuickApps\\Model\\Behavior\\SerializableBehavior')) {
+            $this->addBehavior('Serializable', [
+                'columns' => ['extra']
+            ]);
+        }
 
         $this->hasMany('EavValues', [
             'className' => 'Eav.EavValues',
