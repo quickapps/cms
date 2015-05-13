@@ -295,16 +295,13 @@ class SearchableBehavior extends Behavior
 {
 
     /**
-     * The table this behavior is attached to.
-     *
-     * @var Table
-     */
-    protected $_table;
-
-    /**
      * Behavior configuration array.
      *
-     * - operators: A list of registered operators methods as `name` => `methodName`.
+     * - operators: A list of registered operators methods as `name` =>
+     *   `methodName`.
+     *
+     * - strict: Set to TRUE to filter any invalid word, if so any invalid character
+     *   will be removed. Defaults to FALSE.
      *
      * - fields: List of entity fields where to look for words. Or a callable
      *   method, it receives and entity as first argument and it must return a list
@@ -312,7 +309,9 @@ class SearchableBehavior extends Behavior
      *   words). Or NULL to let this behavior to automatically extract words from
      *   every entity's property if possible. Defaults to NULL.
      *
-     * - bannedWords: List of banned words.
+     * - bannedWords: Array list of banned words, or a callable that should decide
+     *   if the given word is banned or not. Defaults to empty array (allow
+     *   everything).
      *
      * - on: Indicates when to extract words, `update` when entity is being updated,
      * `insert` when a new entity is inserted into table. Or `both` (by default).
@@ -321,6 +320,7 @@ class SearchableBehavior extends Behavior
      */
     protected $_defaultConfig = [
         'operators' => [],
+        'strict' => false,
         'fields' => null,
         'bannedWords' => [],
         'on' => 'both',
@@ -351,24 +351,22 @@ class SearchableBehavior extends Behavior
         parent::__construct($table, $config);
 
         if ($this->config('fields') === null) {
-            $fields = function ($entity) {
-                $words = [];
-                foreach ($entity->visibleProperties() as $property) {
-                    $value = $entity->get($property);
-                    if (is_string($value) ||
-                        (is_object($value) && method_exists($value, '__toString'))
-                    ) {
-                        $words[] = (string)$value;
-                    } elseif (is_array($value)) {
-                        foreach (array_values(Hash::flatten($value)) as $value) {
-                            $words[] = $value;
-                        }
-                    }
-                }
-                return $words;
-            };
-            $this->config('fields', $fields);
+            $this->config('fields', $this->_defaultFieldsCallable());
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function implementedEvents()
+    {
+        $events = parent::implementedEvents();
+        $events['afterSave'] = [
+            'callable' => 'afterSave',
+            'priority' => 500,
+            'passParams' => true
+        ];
+        return $events;
     }
 
     /**
@@ -503,6 +501,31 @@ class SearchableBehavior extends Behavior
         }
 
         return $query;
+    }
+
+    /**
+     * Generates default callable object for extracting entity's words.
+     *
+     * @return callable
+     */
+    protected function _defaultFieldsCallable()
+    {
+        return function ($entity) {
+            $words = [];
+            foreach ($entity->visibleProperties() as $property) {
+                $value = $entity->get($property);
+                if (is_string($value) ||
+                    (is_object($value) && method_exists($value, '__toString'))
+                ) {
+                    $words[] = (string)$value;
+                } elseif (is_array($value)) {
+                    foreach (array_values(Hash::flatten($value)) as $value) {
+                        $words[] = $value;
+                    }
+                }
+            }
+            return $words;
+        };
     }
 
     /**
@@ -697,7 +720,6 @@ class SearchableBehavior extends Behavior
         if (is_callable($fields)) {
             $callable = $this->config('fields');
             $text = $callable($entity);
-
             if (is_array($text)) {
                 $text = implode(' ', (array)$text);
             }
@@ -711,7 +733,11 @@ class SearchableBehavior extends Behavior
 
         $text = str_replace(["\n", "\r"], '', (string)$text); // remove new lines
         $text = strip_tags($text); // remove HTML tags, but keep their content
-        $text = preg_replace('/[^\p{L}\s]/i', ' ', $text); // letters (any language) ands white spaces only
+
+        if ($this->config('strict')) {
+            $text = preg_replace('/[^\p{L}\s]/i', ' ', $text); // letters (any language) ands white spaces only
+        }
+
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
         $text = strtolower($text); // all to lowercase
         $text = $this->_filterText($text); // filter
