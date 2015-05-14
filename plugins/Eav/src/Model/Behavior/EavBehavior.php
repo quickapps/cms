@@ -302,9 +302,9 @@ class EavBehavior extends Behavior
      * NULL the entity will be removed from the resulting collection. And if this
      * method returns FALSE will stop the find() operation.
      *
-     * This method is also responsible of looking for virtual columns in WHERE
-     * clause (if applicable) and properly scope the Query object. Query scoping is
-     * performed by the `_scopeQuery()` method.
+     * This method is also responsible of looking for virtual columns in SELECT and
+     * WHERE clauses (if applicable) and properly scope the Query object. Query
+     * scoping is performed by the `_scopeQuery()` method.
      *
      * @param \Cake\Event\Event $event The beforeFind event that was triggered
      * @param \Cake\ORM\Query $query The original query to modify
@@ -344,13 +344,40 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Look for virtual columns in query's WHERE clause.
+     * Look for virtual columns in some query's clauses.
      *
      * @param \Cake\ORM\Query $query The query to scope
      * @param  string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query The modified query object
      */
     protected function _scopeQuery(Query $query, $bundle = null)
+    {
+        $query = $this->_scopeSelect($query, $bundle);
+        $query = $this->_scopeWhere($query, $bundle);
+        return $query;
+    }
+
+    /**
+     * Look for virtual columns in query's SELECT clause. If "SELECT *" is performed
+     * this behavior will fetch all virtual columns its values.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @return \Cake\ORM\Query The modified query object
+     */
+    protected function _scopeSelect(Query $query)
+    {
+        $this->_selectedVirtual($query);
+        return $query;
+    }
+
+    /**
+     * Look for virtual columns in query's WHERE clause.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param  string|null $bundle Consider attributes only for a specific bundle
+     * @return \Cake\ORM\Query The modified query object
+     */
+    protected function _scopeWhere(Query $query, $bundle = null)
     {
         $whereClause = $query->clause('where');
         if (!$whereClause) {
@@ -393,6 +420,47 @@ class EavBehavior extends Behavior
         });
 
         return $query;
+    }
+
+    /**
+     * Gets a list of all virtual columns present in given $query's SELECT clause.
+     *
+     * This method will alter the given Query object removing any virtual column
+     * present in its SELECT clause in order to avoid incorrect SQL statements.
+     * Selected virtual columns should be fetched after query is executed using
+     * mapReduce or similar.
+     *
+     * @param  string|null $bundle Consider attributes only for a specific bundle
+     * @return array List of virtual columns names
+     */
+    protected function _selectedVirtual(Query $query, $bundle = null)
+    {
+        static $selectedVirtual = [];
+        $cacheKey = spl_object_hash($query);
+        if (isset($selectedVirtual[$cacheKey])) {
+            return $selectedVirtual[$cacheKey];
+        }
+
+        $selectClause = array_values((array)$query->clause('select'));
+        if (empty($selectClause)) {
+            $selectedVirtual[$cacheKey] = array_keys($this->_attributes($bundle));
+            return $selectedVirtual[$cacheKey];
+        }
+
+        $selectedVirtual[$cacheKey] = [];
+        $virtualColumns = array_keys($this->_attributes($bundle));
+        foreach ($selectClause as $index => $column) {
+            list($table, $column) = pluginSplit($column);
+            if ((empty($table) || $table == $this->_table->alias()) &&
+                in_array($column, $virtualColumns)
+            ) {
+                $selectedVirtual[$cacheKey][] = $column;
+                unset($selectClause[$index]);
+            }
+        }
+
+        $query->select($selectClause, true);
+        return $selectedVirtual[$cacheKey];
     }
 
     /**
@@ -524,14 +592,12 @@ class EavBehavior extends Behavior
      */
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
-        $selectedAttributes = $this->_selectedAttributes($options['query']);
+        $selectedVirtual = $this->_selectedVirtual($options['query']);
         foreach ($this->_attributes() as $name => $attr) {
-            if (!in_array($name, $selectedAttributes)) {
-                continue;
-            }
-
             $bundle = $this->_getBundle($name);
-            if (!empty($options['bundle']) && $bundle != $options['bundle']) {
+            if ((!empty($options['bundle']) && $bundle != $options['bundle']) ||
+                !in_array($name, $selectedVirtual)
+            ) {
                 continue;
             }
 
@@ -555,44 +621,6 @@ class EavBehavior extends Behavior
             }
         }
         return $entity;
-    }
-
-    /**
-     * Returns a list of virtual columns present in "Query::select()".
-     *
-     * @param \Cake\ORM\Query $query There query object to inspect
-     * @return array List of virtual column names, it may be empty
-     */
-    protected function _selectedAttributes(Query $query)
-    {
-        static $columns = null;
-        $cacheKey = spl_object_hash($query);
-        $selectedColumns = array_values((array)$query->clause('select'));
-        $selectedColumns = array_map(function ($column) {
-            list($tableAlias, $column) = pluginSplit($column);
-            return $column;
-        }, $selectedColumns);
-
-        if ($columns !== null && !empty($columns[$cacheKey])) {
-            return $columns[$cacheKey];
-        }
-
-        $virtualAttributes = array_keys($this->_attributes());
-
-        // "SELECT * ..." will also select all virtual columns
-        if ($selectedColumns == $this->_schemaColumns) {
-            return $virtualAttributes;
-        }
-
-        $columns[$cacheKey] = [];
-        foreach ($selectedColumns as $column) {
-            list($tableAlias, $column) = pluginSplit($column);
-            if ($tableAlias == $this->_table->alias() && in_array($column, $virtualAttributes)) {
-                $columns[$cacheKey] = $column;
-            }
-        }
-
-        return $columns[$cacheKey];
     }
 
     /**
