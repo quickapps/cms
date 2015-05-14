@@ -240,6 +240,27 @@ class EavBehavior extends Behavior
     }
 
     /**
+     * Gets a list of virtual columns attached to this table.
+     *
+     * @param string|null $bundle Get attributes within given bundle, or all of them
+     *  regardless of the bundle if not provided
+     * @return array Columns information indexed by column name
+     */
+    public function eavColumns($bundle = null)
+    {
+        $columns = [];
+        foreach ($this->_attributes($bundle) as $name => $attr) {
+            $columns[$name] = [
+                'type' => $attr->get('type'),
+                'bundle' => $attr->get('bundle'),
+                'searchable ' => $attr->get('searchable'),
+                'extra ' => $attr->get('extra'),
+            ];
+        }
+        return $columns;
+    }
+
+    /**
      * Attaches virtual properties to entities.
      *
      * This method iterates over each retrieved entity and invokes the
@@ -386,41 +407,14 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Gets a clean column name from query expression.
-     *
-     * ### Example:
-     *
-     * ```php
-     * $this->_columnName('Tablename.some_column');
-     * // returns "some_column"
-     *
-     * $this->_columnName('my_column');
-     * // returns "my_column"
-     * ```
-     *
-     * @param string $column Column name from query
-     * @return string
-     */
-    protected function _columnName($column)
-    {
-        list($tableName, $fieldName) = pluginSplit((string)$column);
-        if (!$fieldName) {
-            $fieldName = $tableName;
-        }
-        $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
-        list($fieldName, ) = explode(' ', trim($fieldName));
-        return $fieldName;
-    }
-
-    /**
      * After an entity is saved.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
-     * @param array $options Additional options given as an array
+     * @param \ArrayObject $options Additional options given as an array
      * @return void
      */
-    public function afterSave(Event $event, EntityInterface $entity, $options)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         foreach ($this->_attributes() as $name => $attr) {
             if (!$entity->has($name)) {
@@ -457,11 +451,11 @@ class EavBehavior extends Behavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was deleted
-     * @param array $options Additional options given as an array
+     * @param \ArrayObject $options Additional options given as an array
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      * @return void
      */
-    public function afterDelete(Event $event, EntityInterface $entity, $options)
+    public function afterDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$options['atomic']) {
             throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
@@ -526,6 +520,33 @@ class EavBehavior extends Behavior
     }
 
     /**
+     * Gets a clean column name from query expression.
+     *
+     * ### Example:
+     *
+     * ```php
+     * $this->_columnName('Tablename.some_column');
+     * // returns "some_column"
+     *
+     * $this->_columnName('my_column');
+     * // returns "my_column"
+     * ```
+     *
+     * @param string $column Column name from query
+     * @return string
+     */
+    protected function _columnName($column)
+    {
+        list($tableName, $fieldName) = pluginSplit((string)$column);
+        if (!$fieldName) {
+            $fieldName = $tableName;
+        }
+        $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
+        list($fieldName, ) = explode(' ', trim($fieldName));
+        return $fieldName;
+    }
+
+    /**
      * Marshalls flat data into PHP objects.
      *
      * @param mixed $value The value to convert
@@ -535,27 +556,6 @@ class EavBehavior extends Behavior
     protected function _marshal($value, $type)
     {
         return Type::build($type)->marshal($value);
-    }
-
-    /**
-     * Gets a list of virtual columns attached to this table.
-     *
-     * @param string|null $bundle Get attributes within given bundle, or all of them
-     *  regardless of the bundle if not provided
-     * @return array Columns information indexed by column name
-     */
-    public function eavColumns($bundle = null)
-    {
-        $columns = [];
-        foreach ($this->_attributes($bundle) as $name => $attr) {
-            $columns[$name] = [
-                'type' => $attr->get('type'),
-                'bundle' => $attr->get('bundle'),
-                'searchable ' => $attr->get('searchable'),
-                'extra ' => $attr->get('extra'),
-            ];
-        }
-        return $columns;
     }
 
     /**
