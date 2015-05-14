@@ -14,6 +14,7 @@ namespace Eav\Model\Table;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Eav\Model\Behavior\EavBehavior;
 
 /**
  * Represents EAV "eav_attributes" database table.
@@ -43,18 +44,6 @@ class EavAttributesTable extends Table
     }
 
     /**
-     * Application rules.
-     *
-     * @param \Cake\ORM\RulesChecker $rules The rule checker
-     * @return \Cake\ORM\RulesChecker
-     */
-    public function buildRules(RulesChecker $rules)
-    {
-        $rules->add($rules->isUnique(['table_alias', 'bundle', 'name'], __d('eav', 'Machine-name already in use.')));
-        return $rules;
-    }
-
-    /**
      * Default validation rules set.
      *
      * @param \Cake\Validation\Validator $validator The validator object
@@ -66,11 +55,11 @@ class EavAttributesTable extends Table
             ->add('name', [
                 'notBlank' => [
                     'rule' => 'notBlank',
-                    'message' => __d('eav', 'You need to provide a machine name.'),
+                    'message' => __d('eav', 'You need to provide a machine-name.'),
                 ],
                 'length' => [
                     'rule' => ['minLength', 3],
-                    'message' => __d('eav', 'Machine name need to be at least 3 characters long.'),
+                    'message' => __d('eav', 'Machine-name need to be at least 3 characters long.'),
                 ],
                 'regExp' => [
                     'rule' => function ($value, $context) {
@@ -78,14 +67,19 @@ class EavAttributesTable extends Table
                     },
                     'message' => __d('eav', 'Only lowercase letters, numbers and "-" symbol are allowed.'),
                 ],
+                'unique' => [
+                    'rule' => ['validateUnique', ['scope' => 'table_alias']],
+                    'provider' => 'table',
+                    'message' => __d('eav', 'Machine-name already in use.'),
+                ],
             ])
             ->notEmpty('table_alias', __d('eav', 'Invalid table alias.'))
             ->requirePresence('type', 'create', __d('eav', 'Invalid data type.'))
             ->add('type', 'valid_type', [
                 'rule' => function ($value, $context) {
-                    return in_array($value, ['datetime', 'decimal', 'int', 'text', 'varchar']);
+                    return in_array($value, EavBehavior::$types);
                 },
-                'message' => __d('field', 'Invalid data type, valid options are: "datetime", "decimal", "int", "text" or "varchar"')
+                'message' => __d('field', 'Invalid data type, valid options are: {0}', implode(', ', EavBehavior::$types))
             ]);
 
         return $validator;

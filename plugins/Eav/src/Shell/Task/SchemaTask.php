@@ -105,7 +105,14 @@ class SchemaTask extends Shell
         }
 
         try {
-            return $table->addColumn($options['name'], $meta);
+            $errors = $table->addColumn($options['name'], $meta);
+            if (!empty($errors)) {
+                foreach ($errors as $message) {
+                    $this->err($message);
+                }
+                return false;
+            }
+            return true;
         } catch (FatalErrorException $ex) {
             $this->err($ex->getMessage());
             return false;
