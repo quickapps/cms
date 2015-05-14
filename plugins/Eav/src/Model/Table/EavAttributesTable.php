@@ -50,7 +50,7 @@ class EavAttributesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->isUnique(['name'], __d('eav', 'The machine name is already in use.')));
+        $rules->add($rules->isUnique(['table_alias', 'bundle', 'name'], __d('eav', 'Machine-name already in use.')));
         return $rules;
     }
 
