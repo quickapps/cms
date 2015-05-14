@@ -154,27 +154,55 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Registers a new EAV column or update if already exists.
+     * Defines a new virtual-column, or update if already defined.
      *
      * ### Usage:
      *
      * ```php
-     * $this->Users->addColumn('user-age', [
+     * $errors = $this->Users->addColumn('user-age', [
+     *     'type' => 'integer',
+     *     'bundle' => 'some-bundle-name',
+     *     'extra' => [
+     *         'option1' => 'value1'
+     *     ]
+     * ], true);
+     *
+     * if (empty($errors)) {
+     *     // OK
+     * } else {
+     *     // ERROR
+     *     debug($errors);
+     * }
+     * ```
+     *
+     * The third argument can be set to FALSE to get a boolean response:
+     *
+     * ```php
+     * $success = $this->Users->addColumn('user-age', [
      *     'type' => 'integer',
      *     'bundle' => 'some-bundle-name',
      *     'extra' => [
      *         'option1' => 'value1'
      *     ]
      * ]);
+     *
+     * if ($success) {
+     *     // OK
+     * } else {
+     *     // ERROR
+     * }
      * ```
      *
      * @param string $name Column name. e.g. `user-age`
      * @param array $options Column configuration options
-     * @return bool True on success
+     * @param bool $errors If set to true will return an array list of errors
+     *  instead of boolean response. Defaults to TRUE
+     * @return bool|array True on success or array of error messages, depending on
+     *  $error argument
      * @throws \Cake\Error\FatalErrorException When provided column name collides
      *  with existing column names. And when an invalid type is provided
      */
-    public function addColumn($name, array $options = [])
+    public function addColumn($name, array $options = [], $errors = true)
     {
         if (in_array($name, $this->_schemaColumns)) {
             throw new FatalErrorException(__d('eav', 'The column name "{0}" cannot be used as it is already defined in the table "{1}"', $name, $this->_table->alias()));
@@ -208,6 +236,11 @@ class EavBehavior extends Behavior
             $attr = $this->Attributes->patchEntity($attr, $data);
         } else {
             $attr = $this->Attributes->newEntity($data);
+        }
+
+        $hasErrors = $attr->errors();
+        if ($errors && !empty($hasErrors)) {
+            return $hasErrors;
         }
 
         return (bool)$this->Attributes->save($attr);
@@ -290,8 +323,8 @@ class EavBehavior extends Behavior
         }
 
         $query = $this->_scopeQuery($query, $options['bundle']);
-        return $query->formatResults(function ($results) use ($event, $options, $primary) {
-            return $results->map(function ($entity) use ($event, $options, $primary) {
+        return $query->formatResults(function ($results) use ($event, $query, $options, $primary) {
+            return $results->map(function ($entity) use ($event, $query, $options, $primary) {
                 if ($entity instanceof EntityInterface) {
                     $entity = $this->attachEntityAttributes($entity, compact('event', 'query', 'options', 'primary'));
                 }
@@ -491,7 +524,12 @@ class EavBehavior extends Behavior
      */
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
+        $selectedAttributes = $this->_selectedAttributes($options['query']);
         foreach ($this->_attributes() as $name => $attr) {
+            if (!in_array($name, $selectedAttributes)) {
+                continue;
+            }
+
             $bundle = $this->_getBundle($name);
             if (!empty($options['bundle']) && $bundle != $options['bundle']) {
                 continue;
@@ -517,6 +555,44 @@ class EavBehavior extends Behavior
             }
         }
         return $entity;
+    }
+
+    /**
+     * Returns a list of virtual columns present in "Query::select()".
+     *
+     * @param \Cake\ORM\Query $query There query object to inspect
+     * @return array List of virtual column names, it may be empty
+     */
+    protected function _selectedAttributes(Query $query)
+    {
+        static $columns = null;
+        $cacheKey = spl_object_hash($query);
+        $selectedColumns = array_values((array)$query->clause('select'));
+        $selectedColumns = array_map(function ($column) {
+            list($tableAlias, $column) = pluginSplit($column);
+            return $column;
+        }, $selectedColumns);
+
+        if ($columns !== null && !empty($columns[$cacheKey])) {
+            return $columns[$cacheKey];
+        }
+
+        $virtualAttributes = array_keys($this->_attributes());
+
+        // "SELECT * ..." will also select all virtual columns
+        if ($selectedColumns == $this->_schemaColumns) {
+            return $virtualAttributes;
+        }
+
+        $columns[$cacheKey] = [];
+        foreach ($selectedColumns as $column) {
+            list($tableAlias, $column) = pluginSplit($column);
+            if ($tableAlias == $this->_table->alias() && in_array($column, $virtualAttributes)) {
+                $columns[$cacheKey] = $column;
+            }
+        }
+
+        return $columns[$cacheKey];
     }
 
     /**
