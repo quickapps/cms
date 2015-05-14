@@ -269,11 +269,11 @@ class FieldableBehavior extends EavBehavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity being saved
-     * @param array $options Additional options given as an array
+     * @param \ArrayObject $options Additional options given as an array
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      * @return bool True if save operation should continue
      */
-    public function beforeSave(Event $event, EntityInterface $entity, $options)
+    public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -341,10 +341,10 @@ class FieldableBehavior extends EavBehavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
-     * @param array $options Additional options given as an array
+     * @param \ArrayObject $options Additional options given as an array
      * @return bool True always
      */
-    public function afterSave(Event $event, EntityInterface $entity, $options)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -380,11 +380,11 @@ class FieldableBehavior extends EavBehavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity being deleted
-     * @param array $options Additional options given as an array
+     * @param \ArrayObject $options Additional options given as an array
      * @return bool
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      */
-    public function beforeDelete(Event $event, EntityInterface $entity, $options)
+    public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$this->config('enabled')) {
             return true;
@@ -423,11 +423,11 @@ class FieldableBehavior extends EavBehavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was deleted
-     * @param array $options Additional options given as an array
+     * @param \ArrayObject $options Additional options given as an array
      * @throws \Cake\Error\FatalErrorException When using this behavior in non-atomic mode
      * @return void
      */
-    public function afterDelete(Event $event, EntityInterface $entity, $options)
+    public function afterDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$this->config('enabled')) {
             return;
