@@ -347,7 +347,7 @@ class EavBehavior extends Behavior
      * Look for virtual columns in some query's clauses.
      *
      * @param \Cake\ORM\Query $query The query to scope
-     * @param  string|null $bundle Consider attributes only for a specific bundle
+     * @param string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query The modified query object
      */
     protected function _scopeQuery(Query $query, $bundle = null)
@@ -362,11 +362,12 @@ class EavBehavior extends Behavior
      * this behavior will fetch all virtual columns its values.
      *
      * @param \Cake\ORM\Query $query The query to scope
+     * @param string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query The modified query object
      */
-    protected function _scopeSelect(Query $query)
+    protected function _scopeSelect(Query $query, $bundle = null)
     {
-        $this->_selectedVirtual($query);
+        $this->_selectedVirtual($query, $bundle);
         return $query;
     }
 
@@ -374,7 +375,7 @@ class EavBehavior extends Behavior
      * Look for virtual columns in query's WHERE clause.
      *
      * @param \Cake\ORM\Query $query The query to scope
-     * @param  string|null $bundle Consider attributes only for a specific bundle
+     * @param string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query The modified query object
      */
     protected function _scopeWhere(Query $query, $bundle = null)
@@ -430,7 +431,8 @@ class EavBehavior extends Behavior
      * Selected virtual columns should be fetched after query is executed using
      * mapReduce or similar.
      *
-     * @param  string|null $bundle Consider attributes only for a specific bundle
+     * @param string|null $bundle Consider attributes only for a specific bundle
+     * @param string|null $bundle Consider attributes only for a specific bundle
      * @return array List of virtual columns names
      */
     protected function _selectedVirtual(Query $query, $bundle = null)
@@ -467,7 +469,7 @@ class EavBehavior extends Behavior
      * Creates a sub-query for matching virtual fields.
      *
      * @param \Cake\Database\Expression\Comparison $expression Expression to scope
-     * @param  string|null $bundle Consider attributes only for a specific bundle
+     * @param string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query|bool False if not virtual field was found, or search
      *  feature was disabled for this field. The query object to use otherwise
      */
