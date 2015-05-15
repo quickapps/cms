@@ -12,10 +12,10 @@
 namespace Captcha\Adapter;
 
 use Cake\Core\Configure;
+use Cake\Core\Plugin;
 use Cake\Network\Request;
 use Cake\View\View;
 use Captcha\Adapter\BaseAdapter;
-use QuickApps\Core\Plugin;
 
 /**
  * Provides "Are You A Human" CAPTCHA.
