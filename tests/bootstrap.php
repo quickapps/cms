@@ -4,8 +4,7 @@
  */
 define('DS', DIRECTORY_SEPARATOR);
 define('SITE_ROOT', __DIR__ . DS . 'TestSite');
-define('QA_CORE', dirname(__DIR__));
-define('ROOT', dirname(__DIR__));
+define('QUICKAPPS_CORE', dirname(__DIR__) . '/plugins/QuickApps/');
 
 if (file_exists('../../../vendor/')) {
     define('VENDOR_INCLUDE_PATH', realpath('../../../vendor/') . DS);
@@ -13,19 +12,7 @@ if (file_exists('../../../vendor/')) {
     define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
 }
 
-define('APP_DIR', 'src');
-define('WEBROOT_DIR', 'webroot');
-define('APP', ROOT . DS . APP_DIR . DS);
-define('CONFIG', ROOT . DS . 'config' . DS);
-define('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
-define('TESTS', ROOT . DS . 'tests' . DS);
-define('TMP', SITE_ROOT . DS . 'tmp' . DS);
-define('LOGS', SITE_ROOT . DS . 'logs' . DS);
-define('CACHE', TMP . 'cache' . DS);
-define('CAKE_CORE_INCLUDE_PATH', VENDOR_INCLUDE_PATH . 'cakephp' . DS . 'cakephp');
-define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
-define('CAKE', CORE_PATH . 'src' . DS);
-
+define('WWW_ROOT', SITE_ROOT . DS . 'webroot' . DS);
 $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 
 use Cake\Cache\Cache;
@@ -92,6 +79,11 @@ function snapshot()
         foreach ($dir as $path) {
             if ($path->isDir() && !$path->isDot()) {
                 $name = $path->getBaseName();
+
+                if ($name == 'QuickApps') {
+                    continue;
+                }
+
                 $pluginPath = normalizePath($pluginsPath . $name);
                 $humanName = Inflector::humanize(Inflector::underscore($name));
                 $package = 'quickapps-cms/' . str_replace('_', '-', Inflector::underscore($name));
@@ -195,7 +187,7 @@ function mockUserSession()
  * Clear any previous information.
  */
 try {
-    $snapshot = new File(TMP . 'snapshot.php');
+    $snapshot = new File(__DIR__ . '/TestSite/tmp/snapshot.php');
     $snapshot->delete();
     Cache::clear(false, '_cake_model_');
     Cache::clear(false, '_cake_core_');
@@ -211,4 +203,4 @@ Carbon\Carbon::setTestNow(Carbon\Carbon::now());
 /**
  * Include QuickAppsCMS's bootstrap
  */
-require QA_CORE . '/config/bootstrap.php';
+require QUICKAPPS_CORE . '/config/bootstrap.php';

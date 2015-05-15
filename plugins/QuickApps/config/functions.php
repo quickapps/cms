@@ -207,7 +207,7 @@ if (!function_exists('snapshot')) {
                     $Folder = new Folder($path);
                     foreach ($Folder->read(false, false, true)[1] as $classFile) {
                         $className = basename(preg_replace('/\.php$/', '', $classFile));
-                        $subspace =  $subspaces[$path];
+                        $subspace = $subspaces[$path];
                         $varname = $varnames[$path];
                         $namespace = "{$plugin->name}\\{$subspace}\\";
                         ${$varname}[] = $namespace . $className;
@@ -397,7 +397,7 @@ if (!function_exists('theme')) {
         }
 
         $theme = Plugin::get()
-            ->filter(function ($plugin) use($name) {
+            ->filter(function ($plugin) use ($name) {
                 return $plugin->isTheme && $plugin->name == $name;
             })
             ->first();
@@ -536,7 +536,7 @@ if (!function_exists('array_move')) {
      * ```
      *
      * @param array $list Numeric indexed array list of elements
-     * @param integer $index The index position of the element you want to move
+     * @param int $index The index position of the element you want to move
      * @param string $direction Direction, 'up' or 'down'
      * @return array Reordered original list.
      */
@@ -695,8 +695,8 @@ if (!function_exists('str_starts_with')) {
      * str_starts_with('lorem ipsum', 'ipsum'); // false
      * ```
      *
-     * @param string $haystack
-     * @param string $needle
+     * @param string $haystack The string to search in
+     * @param string $needle The string to look for
      * @return bool
      */
     function str_starts_with($haystack, $needle)
@@ -718,8 +718,8 @@ if (!function_exists('str_ends_with')) {
      * str_ends_with('dolorem sit amet', 'at'); // false
      * ```
      *
-     * @param string $haystack
-     * @param string $needle
+     * @param string $haystack The string to search in
+     * @param string $needle The string to look for
      * @return bool
      */
     function str_ends_with($haystack, $needle)

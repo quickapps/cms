@@ -12,7 +12,7 @@
 namespace Jquery\View\Helper;
 
 use Cake\Core\Configure;
-use QuickApps\View\Helper;
+use Cake\View\Helper;
 
 /**
  * jQuery Helper.

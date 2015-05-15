@@ -1,6 +1,6 @@
 {
     "name": "quickapps-plugins/search",
-    "description": "Search API for QuickApps CMS.",
+    "description": "Search API for QuickAppsCMS.",
     "type": "cakephp-plugin",
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
     "homepage": "http://quickappscms.org",
@@ -11,9 +11,6 @@
             "email": "chris@quickapps.es"
         }
     ],
-    "require": {
-        "quickapps/cms": "~2.0"
-    },
     "version": "1.0",
     "extra": {
     }

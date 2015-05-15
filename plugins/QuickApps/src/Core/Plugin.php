@@ -103,6 +103,10 @@ class Plugin extends CakePlugin
             $Folder = new Folder();
             $Folder->sort = true;
             foreach ($paths as $path) {
+                // Ignore QuickAppsCMS core plugin
+                if (strpos($path, 'QuickApps')) {
+                    continue;
+                }
                 $Folder->cd($path);
                 foreach ($Folder->read(true, true, true)[0] as $dir) {
                     $name = basename($dir);

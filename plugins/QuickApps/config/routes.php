@@ -16,26 +16,26 @@ use Cake\Routing\Router;
 use QuickApps\Core\Plugin;
 
 if (!is_readable(SITE_ROOT . '/config/settings.php')) {
-/**
- * Redirect everything to installer plugin if we are on a new QuickAppsCMS package.
- */
+    /**
+     * Redirect everything to installer plugin if we are on a new QuickAppsCMS package.
+     */
     Router::redirect(
         '/:anything_but_installer',
         ['plugin' => 'Installer', 'controller' => 'startup'],
         ['anything_but_installer' => '(?!installer).*', 'status' => 302]
     );
 
-    Router::plugin('Installer', function($routes) {
+    Router::plugin('Installer', function ($routes) {
         $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
         $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
     });
 } else {
-/**
- * Generate basic routes.
- */
-    Router::prefix('admin', function($routes) {
+    /**
+     * Generate basic routes.
+     */
+    Router::prefix('admin', function ($routes) {
         foreach ((array)Plugin::loaded() as $plugin) {
-            $routes->plugin($plugin, function($routes) {
+            $routes->plugin($plugin, function ($routes) {
                 $routes->connect('', ['controller' => 'manage', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
                 $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
                 $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
@@ -44,28 +44,28 @@ if (!is_readable(SITE_ROOT . '/config/settings.php')) {
     });
 
     foreach ((array)Plugin::loaded() as $plugin) {
-        Router::plugin($plugin, function($routes) {
+        Router::plugin($plugin, function ($routes) {
             $routes->connect('', ['controller' => 'main', 'action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
             $routes->connect('/:controller', ['action' => 'index'], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
             $routes->connect('/:controller/:action/*', [], ['routeClass' => 'Cake\Routing\Route\DashedRoute']);
         });
     }
 
-/**
- * Load plugin routes.
- */
+    /**
+     * Load plugin routes.
+     */
     Plugin::routes();
 
-/**
- * Load site's routes.
- */
+    /**
+     * Load site's routes.
+     */
     if (is_readable(SITE_ROOT . '/config/routes.php')) {
         include_once SITE_ROOT . '/config/routes.php';
     }
 
-/**
- * Set language prefix (if enabled) on every route and link.
- */
+    /**
+     * Set language prefix (if enabled) on every route and link.
+     */
     if (option('url_locale_prefix')) {
         $locales = array_keys(quickapps('languages'));
         $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
@@ -87,8 +87,7 @@ if (!is_readable(SITE_ROOT . '/config/settings.php')) {
             function ($params, $request) use ($localesPattern) {
                 if (!empty($params['_name'])) {
                     $params['locale'] = I18n::locale();
-                } elseif (
-                    empty($params['_base']) ||
+                } elseif (empty($params['_base']) ||
                     !preg_match("/\/{$localesPattern}\//", $params['_base'])
                 ) {
                     $params['_base'] = $request->base . '/' . I18n::locale() . '/';

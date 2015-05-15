@@ -26,7 +26,9 @@ if (is_readable(SITE_ROOT . '/config/bootstrap.php')) {
 /**
  * Use composer to load the autoloader.
  */
-$classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
+if (!isset($clasLoader)) {
+    $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
+}
 
 /**
  * Load QuickApps basic functionality.
@@ -45,10 +47,10 @@ require_once __DIR__ . '/functions.php';
 require_once CORE_PATH . 'config' . DS . 'bootstrap.php';
 
 use Cake\Cache\Cache;
-use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Console\ConsoleErrorHandler;
 use Cake\Core\App;
 use Cake\Core\Configure;
+use Cake\Core\Configure\Engine\PhpConfig;
 use Cake\Database\Type;
 use Cake\Datasource\ConnectionManager;
 use Cake\Error\ErrorHandler;
@@ -58,9 +60,9 @@ use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Security;
 use Go\Aop\Features;
+use QuickApps\Aspect\AppAspect;
 use QuickApps\Core\Plugin;
 use QuickApps\Event\EventDispatcher;
-use QuickApps\Aspect\AppAspect;
 
 /**
  * Configure default event dispatcher to use global event manager.
@@ -164,11 +166,11 @@ Security::salt(Configure::consume('Security.salt'));
 /**
  * Setup detectors for mobile and tablet.
  */
-Request::addDetector('mobile', function($request) {
+Request::addDetector('mobile', function ($request) {
     $detector = new \Detection\MobileDetect();
     return $detector->isMobile();
 });
-Request::addDetector('tablet', function($request) {
+Request::addDetector('tablet', function ($request) {
     $detector = new \Detection\MobileDetect();
     return $detector->isTablet();
 });
@@ -192,7 +194,7 @@ if (!is_readable(TMP . 'snapshot.php')) {
  */
 $activePlugins = 0;
 plugin()
-    ->each(function ($plugin) use(&$activePlugins, $classLoader) {
+    ->each(function ($plugin) use (&$activePlugins, $classLoader) {
         $filter = $plugin->status;
         if ($plugin->isTheme) {
             $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);

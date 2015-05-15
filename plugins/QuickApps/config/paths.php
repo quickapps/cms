@@ -10,16 +10,19 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
-/**
- * Tries to define the given constant if not defined already.
- *
- * @param string $name Constant name
- * @param string $value Constant value
- * @return void
- */
-function tryDefine($name, $value) {
-    if (!defined($name)) {
-        define($name, $value);
+if (!function_exists('tryDefine')) {
+    /**
+     * Tries to define the given constant if not defined already.
+     *
+     * @param string $name Constant name
+     * @param string $value Constant value
+     * @return void
+     */
+    function tryDefine($name, $value)
+    {
+        if (!defined($name)) {
+            define($name, $value);
+        }
     }
 }
 
@@ -29,9 +32,10 @@ function tryDefine($name, $value) {
 tryDefine('DS', DIRECTORY_SEPARATOR);
 
 /**
- * The full path to the directory which holds QuickApps CMS core's "src", WITHOUT a trailing DS.
+ * The full path to the directory which holds "cms" directory, WITHOUT a trailing
+ * DS.
  */
-tryDefine('ROOT', dirname(__DIR__));
+tryDefine('ROOT', dirname(dirname(dirname(__DIR__))));
 
 /**
  * Path to composer's vendor directory.
@@ -41,7 +45,7 @@ tryDefine('ROOT', dirname(__DIR__));
 tryDefine('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . DS);
 
 /**
- * The actual directory name for quickapps core's "src".
+ * The actual directory name for QuickAppsCMS core's "src".
  */
 tryDefine('APP_DIR', 'src');
 
@@ -51,14 +55,14 @@ tryDefine('APP_DIR', 'src');
 tryDefine('WEBROOT_DIR', 'webroot');
 
 /**
- * Path to the quickapps application's directory.
+ * Path to QuickAppsCMS application's directory.
  */
-tryDefine('APP', ROOT . DS . APP_DIR . DS);
+tryDefine('APP', QUICKAPPS_CORE . APP_DIR . DS);
 
 /**
  * Path to the config directory.
  */
-tryDefine('CONFIG', ROOT . DS . 'config' . DS);
+tryDefine('CONFIG', QUICKAPPS_CORE . 'config' . DS);
 
 /**
  * File path to the webroot directory.
