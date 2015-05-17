@@ -12,6 +12,8 @@
         }
     ],
     "require": {
-        "quickapps/cms": "~2.0"
+        "quickapps-plugins/cms": "*",
+        "quickapps-plugins/locale": "*",
+        "quickapps-plugins/user": "*"
     }
 }
