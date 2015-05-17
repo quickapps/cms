@@ -10,5 +10,8 @@
             "name": "Christopher Castro",
             "email": "chris@quickapps.es"
         }
-    ]
+    ],
+    "require": {
+        "lisachenko/go-aop-php": "0.6.0"
+    }
 }
