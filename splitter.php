@@ -69,13 +69,13 @@ foreach ($plugins as $plugin) {
     echo "Processing: {$plugin}\n";
     echo str_repeat('-', strlen("Processing: {$plugin}")) . "\n\n";
 
-    exec("git checkout {$mainBranch}");
-    exec("git remote add {$plg} git@github.com:{$org}/{$plg}.git -f");
-    exec("git branch -D {$plg}");
+    exec("git checkout {$mainBranch} > NUL");
+    exec("git remote add {$plg} git@github.com:{$org}/{$plg}.git -f 2> NUL");
+    exec("git branch -D {$plg} 2> NUL");
     exec("git checkout -b {$plg}");
-    exec("git filter-branch --prune-empty --subdirectory-filter ./plugins/{$plugin} -f {$plg}");
+    exec("git filter-branch --prune-empty --subdirectory-filter plugins/{$plugin} -f {$plg}");
     exec("git push {$plg} {$plg}:master --force");
-    exec("git checkout {$mainBranch}");
+    exec("git checkout {$mainBranch} > NUL");
     exec("git branch -D {$plg}");
     exec("git remote rm {$plg}");
 
