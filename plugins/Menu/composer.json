@@ -1,6 +1,6 @@
 {
     "name": "quickapps-plugins/menu",
-    "description": "Allows administrators to customize the site navigation menu.",
+    "description": "Allows administrators to customize the site navigation menu, it also provides helper classes for menu rendering.",
     "type": "cakephp-plugin",
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
     "homepage": "http://quickappscms.org",

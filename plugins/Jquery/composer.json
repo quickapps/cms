@@ -1,6 +1,6 @@
 {
     "name": "quickapps-plugins/jquery",
-    "description": "Provides jQuery JS assets.",
+    "description": "Provides jQuery assets and CakePHP helpers for working with jQuery.",
     "type": "cakephp-plugin",
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "jquery", "jquery ui"],
     "homepage": "http://quickappscms.org",

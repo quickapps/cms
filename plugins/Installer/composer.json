@@ -1,6 +1,6 @@
 {
     "name": "quickapps-plugins/installer",
-    "description": "Handles (un)installations of QuickAppsCMS, Plugins and Themes.",
+    "description": "Handles (un)installations of QuickAppsCMS Plugins and Themes.",
     "type": "cakephp-plugin",
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
     "homepage": "http://quickappscms.org",

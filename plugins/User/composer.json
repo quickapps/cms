@@ -1,6 +1,6 @@
 {
     "name": "quickapps-plugins/user",
-    "description": "Manages the user registration and login system.",
+    "description": "Used by QuickAppsCMS to manage user registration and login process.",
     "type": "cakephp-plugin",
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
     "homepage": "http://quickappscms.org",

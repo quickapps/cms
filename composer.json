@@ -24,11 +24,11 @@
         "phpunit/phpunit": "*",
         "cakephp/cakephp-codesniffer": "dev-master"
     },
-	"autoload": {
-		"psr-4": {
-			"QuickApps\\": "plugins/QuickApps/src"
-		}
-	},
+    "autoload": {
+        "psr-4": {
+            "QuickApps\\": "plugins/QuickApps/src"
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "QuickApps\\Test\\": "tests"

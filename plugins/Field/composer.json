@@ -1,6 +1,6 @@
 {
     "name": "quickapps-plugins/field",
-    "description": "Field API to add fields to entities like nodes and users.",
+    "description": "Field API to add fields to entities like contents and users based on EAV pattern.",
     "type": "cakephp-plugin",
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
     "homepage": "http://quickappscms.org",
