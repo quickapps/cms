@@ -10,11 +10,5 @@
             "name": "Christopher Castro",
             "email": "chris@quickapps.es"
         }
-    ],
-    "require": {
-        "quickapps/QuickApps": "~2.0"
-    },
-    "version": "1.0",
-    "extra": {
-    }
+    ]
 }

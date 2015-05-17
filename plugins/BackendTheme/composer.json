@@ -25,9 +25,8 @@
         }
     ],
     "require": {
-        "quickapps/QuickApps": "~2.0"
+        "quickapps/cms": "~2.0"
     },
-    "version": "1.0",
     "extra": {
         "admin": true,
         "regions": {
