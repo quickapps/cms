@@ -11,7 +11,7 @@
  */
 namespace Comment\Controller;
 
-use QuickApps\Controller\Controller;
+use CMS\Controller\Controller;
 
 /**
  * Main controller for Comment plugin.

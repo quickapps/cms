@@ -16,8 +16,8 @@ use Cake\Error\FatalErrorException;
 use Cake\Filesystem\Folder;
 use Cake\Routing\Router;
 use Cake\Utility\Inflector;
-use QuickApps\Core\Plugin;
-use QuickApps\Core\StaticCacheTrait;
+use CMS\Core\Plugin;
+use CMS\Core\StaticCacheTrait;
 use ReflectionException;
 use ReflectionMethod;
 

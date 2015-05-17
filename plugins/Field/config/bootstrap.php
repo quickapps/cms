@@ -10,7 +10,7 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
-use QuickApps\Event\EventDispatcher;
+use CMS\Event\EventDispatcher;
 
 if (!function_exists('fieldsInfo')) {
     /**

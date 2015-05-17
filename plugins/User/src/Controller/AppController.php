@@ -11,7 +11,7 @@
  */
 namespace User\Controller;
 
-use QuickApps\Controller\Controller;
+use CMS\Controller\Controller;
 
 /**
  * Main controller for User plugin.

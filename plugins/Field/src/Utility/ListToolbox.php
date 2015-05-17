@@ -11,8 +11,8 @@
  */
 namespace Field\Utility;
 
+use CMS\Shortcode\ShortcodeTrait;
 use Field\Model\Entity\Field;
-use QuickApps\Shortcode\ShortcodeTrait;
 
 /**
  * List utility class.

@@ -14,8 +14,8 @@ namespace Taxonomy\Utility;
 use Cake\Cache\Cache;
 use Cake\ORM\TableRegistry;
 use Cake\View\View;
+use CMS\Shortcode\ShortcodeTrait;
 use Field\Model\Entity\Field;
-use QuickApps\Shortcode\ShortcodeTrait;
 
 /**
  * Taxonomy utility class.

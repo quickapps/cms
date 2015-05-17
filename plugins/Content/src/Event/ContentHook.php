@@ -13,8 +13,8 @@ namespace Content\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
+use CMS\View\ViewModeRegistry;
 use Content\Model\Entity\Content;
-use QuickApps\View\ViewModeRegistry;
 
 /**
  * Main Hook Listener for Content plugin.

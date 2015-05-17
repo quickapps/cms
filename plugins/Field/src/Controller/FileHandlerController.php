@@ -14,8 +14,8 @@ namespace Field\Controller;
 use Cake\Filesystem\File;
 use Cake\Network\Exception\NotFoundException;
 use Cake\Routing\Router;
+use CMS\Core\Plugin;
 use Field\Utility\FileToolbox;
-use QuickApps\Core\Plugin;
 
 /**
  * Handles file uploading by "File Field Handler".

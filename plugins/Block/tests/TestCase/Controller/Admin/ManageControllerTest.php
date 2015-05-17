@@ -12,7 +12,7 @@
 namespace Block\Test\TestCase\Controller\Admin;
 
 use Cake\ORM\TableRegistry;
-use QuickApps\TestSuite\IntegrationTestCase;
+use CMS\TestSuite\IntegrationTestCase;
 
 /**
  * ManageControllerTest class.

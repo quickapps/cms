@@ -12,8 +12,8 @@
 namespace Field\Model\Entity;
 
 use Cake\ORM\Entity;
+use CMS\View\ViewModeAwareTrait;
 use Field\Model\Entity\FieldTrait;
-use QuickApps\View\ViewModeAwareTrait;
 
 /**
  * Mock Field.

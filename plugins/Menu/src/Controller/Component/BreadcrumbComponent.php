@@ -15,8 +15,8 @@ use Cake\Controller\Component;
 use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
+use CMS\Core\StaticCacheTrait;
 use Menu\View\BreadcrumbRegistry;
-use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Breadcrumb component.

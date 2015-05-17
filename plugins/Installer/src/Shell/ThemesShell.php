@@ -12,7 +12,7 @@
 namespace Installer\Shell;
 
 use Cake\Console\Shell;
-use QuickApps\Core\Plugin;
+use CMS\Core\Plugin;
 
 /**
  * Shell for themes management.

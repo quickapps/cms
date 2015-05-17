@@ -10,7 +10,7 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 
-use QuickApps\Core\Plugin;
+use CMS\Core\Plugin;
 ?>
 
 <div class="row">

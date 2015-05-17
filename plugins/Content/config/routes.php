@@ -11,7 +11,7 @@
  */
 
 use Cake\Routing\Router;
-use QuickApps\View\ViewModeRegistry;
+use CMS\View\ViewModeRegistry;
 
 /**
  * Register default view-modes

@@ -11,7 +11,7 @@
  */
 namespace Menu\Test\TestCase\Controller\Admin;
 
-use QuickApps\TestSuite\IntegrationTestCase;
+use CMS\TestSuite\IntegrationTestCase;
 
 /**
  * ManageControllerTest class.

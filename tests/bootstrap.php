@@ -4,7 +4,7 @@
  */
 define('DS', DIRECTORY_SEPARATOR);
 define('SITE_ROOT', __DIR__ . DS . 'TestSite');
-define('QUICKAPPS_CORE', dirname(__DIR__) . '/plugins/QuickApps/');
+define('QUICKAPPS_CORE', dirname(__DIR__) . '/plugins/CMS/');
 
 if (file_exists('../../../vendor/')) {
     define('VENDOR_INCLUDE_PATH', realpath('../../../vendor/') . DS);
@@ -24,7 +24,7 @@ use Cake\Filesystem\Folder;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
-use QuickApps\View\ViewModeRegistry;
+use CMS\View\ViewModeRegistry;
 
 /**
  * Overwrites core's snapshot() function and emulates its real behavior.
@@ -80,7 +80,7 @@ function snapshot()
             if ($path->isDir() && !$path->isDot()) {
                 $name = $path->getBaseName();
 
-                if ($name == 'QuickApps') {
+                if ($name == 'CMS') {
                     continue;
                 }
 
@@ -157,7 +157,7 @@ function mockUserSession()
         'Auth' => [
             'User' => [
                 'id' => 1,
-                'name' => 'QuickApps CMS',
+                'name' => 'QuickAppsCMS',
                 'username' => 'admin',
                 'email' => 'demo@example.com',
                 'web' => 'http://www.quickappscms.org',

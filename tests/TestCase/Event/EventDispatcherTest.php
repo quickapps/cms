@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Event;
+namespace CMS\Test\TestCase\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\TestSuite\TestCase;
-use QuickApps\Event\EventDispatcher;
+use CMS\Event\EventDispatcher;
 
 /**
  * EventDispatcherTest class.

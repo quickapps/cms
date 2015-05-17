@@ -13,9 +13,9 @@ namespace Wysiwyg\Aspect;
 
 use Cake\ORM\TableRegistry;
 use Cake\View\Helper\FormHelper;
+use CMS\Aspect\Aspect;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
-use QuickApps\Aspect\Aspect;
 
 /**
  * Main Hook Listener for Wysiwyg plugin.
@@ -42,7 +42,7 @@ class WysiwygAspect extends Aspect
      * Converts the given text area into a WYSIWYG editor.
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\FormHelper->textarea(*))")
+     * @Around("execution(public CMS\View\Helper\FormHelper->textarea(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function alterTextarea(MethodInvocation $invocation)

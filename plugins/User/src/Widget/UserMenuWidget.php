@@ -13,7 +13,7 @@ namespace User\Widget;
 
 use Block\Model\Entity\Block;
 use Block\Widget;
-use QuickApps\View\View;
+use CMS\View\View;
 
 /**
  * Renders a simple language menu for switching site language.

@@ -13,11 +13,11 @@ namespace Field\Field;
 
 use Cake\Routing\Router;
 use Cake\Validation\Validator;
+use CMS\View\View;
 use Field\Handler;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldInstance;
 use Field\Utility\DateToolbox;
-use QuickApps\View\View;
 
 /**
  * Publish Date Field Handler.

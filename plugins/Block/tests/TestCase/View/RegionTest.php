@@ -15,7 +15,7 @@ use Block\View\Helper\BlockHelper;
 use Block\View\Region;
 use Cake\ORM\Entity;
 use Cake\TestSuite\TestCase;
-use QuickApps\View\View;
+use CMS\View\View;
 
 /**
  * RegionTest class.

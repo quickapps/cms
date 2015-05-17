@@ -12,10 +12,10 @@
 namespace Bootstrap\Aspect;
 
 use Cake\View\Helper\FormHelper;
+use CMS\Aspect\Aspect;
+use CMS\Core\StaticCacheTrait;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
-use QuickApps\Aspect\Aspect;
-use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Applies some Twitter Bootstrap CSS styles to Form elements.
@@ -68,7 +68,7 @@ class FormHelperAspect extends Aspect
      * Adds custom templates on Form::create().
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\FormHelper->create(*))")
+     * @Around("execution(public CMS\View\Helper\FormHelper->create(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function alterCreate(MethodInvocation $invocation)
@@ -93,7 +93,7 @@ class FormHelperAspect extends Aspect
      * Appends some CSS classes to generic input (text, textarea, select) elements.
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\FormHelper->input(*))")
+     * @Around("execution(public CMS\View\Helper\FormHelper->input(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function alterInput(MethodInvocation $invocation)
@@ -116,7 +116,7 @@ class FormHelperAspect extends Aspect
      * Appends some CSS classes to textarea elements.
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\FormHelper->textarea(*))")
+     * @Around("execution(public CMS\View\Helper\FormHelper->textarea(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function alterTextarea(MethodInvocation $invocation)
@@ -134,7 +134,7 @@ class FormHelperAspect extends Aspect
      * Appends some CSS classes to select elements.
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\FormHelper->select(*))")
+     * @Around("execution(public CMS\View\Helper\FormHelper->select(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function alteSelectbox(MethodInvocation $invocation)
@@ -151,7 +151,7 @@ class FormHelperAspect extends Aspect
      * Appends some CSS classes to generic buttons.
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\FormHelper->button(*))")
+     * @Around("execution(public CMS\View\Helper\FormHelper->button(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function alterButton(MethodInvocation $invocation)
@@ -169,7 +169,7 @@ class FormHelperAspect extends Aspect
      * Appends some CSS classes to submit buttons.
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public QuickApps\View\Helper\FormHelper->submit(*))")
+     * @Around("execution(public CMS\View\Helper\FormHelper->submit(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function alterSubmit(MethodInvocation $invocation)

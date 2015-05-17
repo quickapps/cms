@@ -16,9 +16,9 @@ use Cake\Event\Event;
 use Cake\Filesystem\Folder;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
+use CMS\Core\Plugin;
 use Installer\Utility\DatabaseInstaller;
 use Installer\Utility\ServerTest;
-use QuickApps\Core\Plugin;
 
 /**
  * Controller for handling new QuickAppsCMS installations.
@@ -56,7 +56,7 @@ class StartupController extends Controller
      *
      * @var string
      */
-    public $viewClass = 'QuickApps\View\View';
+    public $viewClass = 'CMS\View\View';
 
     /**
      * {@inheritDoc}

@@ -17,8 +17,8 @@ use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Core\StaticCacheTrait;
-use QuickApps\View\View;
+use CMS\Core\StaticCacheTrait;
+use CMS\View\View;
 
 /**
  * Region class.
@@ -54,14 +54,14 @@ class Region
     /**
      * Information about the theme this region belongs to.
      *
-     * @var \QuickApps\Core\Package\PluginPackage
+     * @var \CMS\Core\Package\PluginPackage
      */
     protected $_theme;
 
     /**
      * View instance.
      *
-     * @var \QuickApps\View\View
+     * @var \CMS\View\View
      */
     protected $_View = null;
 
@@ -78,7 +78,7 @@ class Region
      *
      * - `theme`: Name of the theme this regions belongs to. Defaults to auto-detect.
      *
-     * @param \QuickApps\View\View $view Instance of View class to use
+     * @param \CMS\View\View $view Instance of View class to use
      * @param string $name Machine name of the region. e.g.: `left-sidebar`
      * @param array $options Options given as an array
      */
@@ -133,7 +133,7 @@ class Region
      * $theme = $this->region('left-sidebar')->theme();
      * ```
      *
-     * @return QuickApps\Core\Package\PluginPackage
+     * @return CMS\Core\Package\PluginPackage
      */
     public function theme()
     {
@@ -412,7 +412,7 @@ class Region
             '_blocks' => $this->blocks()->toArray(),
             '_blockLimit' => $this->_blockLimit,
             '_theme' => $this->_theme,
-            '_View' => '(object) \QuickApps\View\View',
+            '_View' => '(object) \CMS\View\View',
         ];
     }
 }

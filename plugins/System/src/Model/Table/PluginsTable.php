@@ -18,7 +18,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Validation\Validator;
-use QuickApps\Event\EventDispatcherTrait;
+use CMS\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**

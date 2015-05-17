@@ -9,10 +9,10 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Core\Package\Rule;
+namespace CMS\Test\TestCase\Core\Package\Rule;
 
 use Cake\TestSuite\TestCase;
-use QuickApps\Core\Package\Rule\Constraint;
+use CMS\Core\Package\Rule\Constraint;
 
 /**
  * ConstraintTest class.

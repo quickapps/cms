@@ -19,8 +19,8 @@ use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Cake\View\StringTemplateTrait;
 use Cake\View\View;
-use QuickApps\Core\Plugin;
-use QuickApps\View\Helper;
+use CMS\Core\Plugin;
+use CMS\View\Helper;
 
 /**
  * Menu helper.

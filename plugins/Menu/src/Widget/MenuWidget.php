@@ -14,8 +14,8 @@ namespace Menu\Widget;
 use Block\Model\Entity\Block;
 use Block\Widget;
 use Cake\ORM\TableRegistry;
-use QuickApps\Core\StaticCacheTrait;
-use QuickApps\View\View;
+use CMS\Core\StaticCacheTrait;
+use CMS\View\View;
 
 /**
  * Menu block rendering widget.

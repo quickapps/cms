@@ -12,12 +12,12 @@
 namespace Field\Field;
 
 use Cake\Validation\Validator;
+use CMS\Shortcode\ShortcodeTrait;
+use CMS\View\View;
 use Field\Handler;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldInstance;
 use Field\Utility\TextToolbox;
-use QuickApps\Shortcode\ShortcodeTrait;
-use QuickApps\View\View;
 
 /**
  * Text Field Handler.

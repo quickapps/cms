@@ -12,9 +12,9 @@
 namespace System\Controller\Admin;
 
 use Cake\Network\Exception\NotFoundException;
+use CMS\Console\WebShellDispatcher;
+use CMS\Core\Plugin;
 use Installer\Utility\PackageUploader;
-use QuickApps\Console\WebShellDispatcher;
-use QuickApps\Core\Plugin;
 use System\Controller\AppController;
 
 /**

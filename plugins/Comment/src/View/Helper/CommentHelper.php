@@ -14,8 +14,8 @@ namespace Comment\View\Helper;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
 use Captcha\CaptchaManager;
-use QuickApps\Event\EventDispatcherTrait;
-use QuickApps\View\Helper;
+use CMS\Event\EventDispatcherTrait;
+use CMS\View\Helper;
 
 /**
  * CommentForm helper library.

@@ -9,11 +9,11 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Core;
+namespace CMS\Test\TestCase\Core;
 
 use Cake\Filesystem\Folder;
 use Cake\TestSuite\TestCase;
-use QuickApps\Core\Plugin;
+use CMS\Core\Plugin;
 
 /**
  * PluginTest class.

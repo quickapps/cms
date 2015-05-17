@@ -11,7 +11,7 @@
  */
 
 use Cake\Core\Configure;
-use QuickApps\Core\Plugin;
+use CMS\Core\Plugin;
 
 $pluginPath = Plugin::classPath('MediaManager');
 require $pluginPath . 'Lib/ElFinder/elFinderConnector.class.php';

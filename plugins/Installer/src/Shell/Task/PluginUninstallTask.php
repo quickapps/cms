@@ -14,10 +14,10 @@ namespace Installer\Shell\Task;
 use Cake\Console\Shell;
 use Cake\Datasource\ConnectionManager;
 use Cake\Filesystem\Folder;
+use CMS\Core\Package\PluginPackage;
+use CMS\Core\Plugin;
+use CMS\Event\EventDispatcherTrait;
 use Installer\Shell\Task\ListenerHandlerTrait;
-use QuickApps\Core\Package\PluginPackage;
-use QuickApps\Core\Plugin;
-use QuickApps\Event\EventDispatcherTrait;
 use User\Utility\AcoManager;
 
 /**
@@ -34,7 +34,7 @@ class PluginUninstallTask extends Shell
     /**
      * The plugin being managed by this task.
      *
-     * @var \QuickApps\Core\Package\PluginPackage
+     * @var \CMS\Core\Package\PluginPackage
      */
     protected $_plugin = null;
 

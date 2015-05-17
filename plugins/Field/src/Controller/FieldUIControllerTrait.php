@@ -20,8 +20,8 @@ use Cake\ORM\Entity;
 use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
-use QuickApps\Event\EventDispatcherTrait;
-use QuickApps\View\ViewModeAwareTrait;
+use CMS\Event\EventDispatcherTrait;
+use CMS\View\ViewModeAwareTrait;
 
 /**
  * Field UI Trait.

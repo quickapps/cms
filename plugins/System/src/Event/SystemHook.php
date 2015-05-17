@@ -13,7 +13,7 @@ namespace System\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use QuickApps\Event\EventDispatcherTrait;
+use CMS\Event\EventDispatcherTrait;
 
 /**
  * Main Hook Listener for System plugin.

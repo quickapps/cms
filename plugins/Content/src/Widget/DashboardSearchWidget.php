@@ -13,7 +13,7 @@ namespace Content\Widget;
 
 use Block\Model\Entity\Block;
 use Block\Widget;
-use QuickApps\View\View;
+use CMS\View\View;
 
 /**
  * Search form for backend dashboard.

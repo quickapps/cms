@@ -16,7 +16,7 @@ use Cake\Error\FatalErrorException;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
-use QuickApps\Core\StaticCacheTrait;
+use CMS\Core\StaticCacheTrait;
 
 /**
  * Represents single "user" in "users" database table.

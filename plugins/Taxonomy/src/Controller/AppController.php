@@ -11,7 +11,7 @@
  */
 namespace Taxonomy\Controller;
 
-use QuickApps\Controller\Controller;
+use CMS\Controller\Controller;
 
 /**
  * Main controller for Locale plugin.

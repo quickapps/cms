@@ -12,10 +12,10 @@
 namespace Field\Field;
 
 use Cake\Validation\Validator;
+use CMS\View\View;
 use Field\Handler;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldInstance;
-use QuickApps\View\View;
 
 /**
  * List Field Handler.

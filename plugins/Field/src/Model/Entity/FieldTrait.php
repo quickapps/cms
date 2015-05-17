@@ -12,7 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\Validation\Validator;
-use QuickApps\View\View;
+use CMS\View\View;
 
 /**
  * Provides methods for dealing with Field API.

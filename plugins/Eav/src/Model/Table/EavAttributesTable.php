@@ -30,7 +30,7 @@ class EavAttributesTable extends Table
      */
     public function initialize(array $config)
     {
-        if (class_exists('QuickApps\\Model\\Behavior\\SerializableBehavior')) {
+        if (class_exists('CMS\\Model\\Behavior\\SerializableBehavior')) {
             $this->addBehavior('Serializable', [
                 'columns' => ['extra']
             ]);

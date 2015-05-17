@@ -19,9 +19,9 @@ use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use Cake\Validation\Validator;
 use Captcha\CaptchaManager;
+use CMS\Core\Plugin;
 use Comment\Model\Entity\Comment;
 use Field\Utility\TextToolbox;
-use QuickApps\Core\Plugin;
 use User\Model\Entity\User;
 
 /**

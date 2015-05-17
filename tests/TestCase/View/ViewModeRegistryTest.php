@@ -9,10 +9,10 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\View;
+namespace CMS\Test\TestCase\View;
 
 use Cake\TestSuite\TestCase;
-use QuickApps\View\ViewModeRegistry;
+use CMS\View\ViewModeRegistry;
 
 /**
  * ViewModeRegistryTest class.

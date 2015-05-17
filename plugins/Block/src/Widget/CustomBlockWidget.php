@@ -13,8 +13,8 @@ namespace Block\Widget;
 
 use Block\Model\Entity\Block;
 use Block\Widget;
-use QuickApps\Core\StaticCacheTrait;
-use QuickApps\View\View;
+use CMS\Core\StaticCacheTrait;
+use CMS\View\View;
 
 /**
  * Shows latest articles.

@@ -219,7 +219,7 @@ TEXT;
 
         if ($this->params['fixture']) {
             $header .= <<<TEXT
-namespace QuickApps\Test\Fixture;
+namespace CMS\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
 

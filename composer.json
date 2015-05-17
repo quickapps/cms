@@ -26,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "QuickApps\\": "plugins/QuickApps/src"
+            "CMS\\": "plugins/CMS/src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "QuickApps\\Test\\": "tests"
+            "CMS\\Test\\": "tests"
         }
     }
 }

@@ -15,10 +15,10 @@ use Cake\Cache\Cache;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
+use CMS\View\View;
 use Field\Handler;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldInstance;
-use QuickApps\View\View;
 
 /**
  * Term Field Handler.

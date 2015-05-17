@@ -12,10 +12,10 @@
 namespace BackendTheme\Aspect;
 
 use Cake\View\Helper\PaginatorHelper;
+use CMS\Aspect\Aspect;
+use CMS\Core\StaticCacheTrait;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Before;
-use QuickApps\Aspect\Aspect;
-use QuickApps\Core\StaticCacheTrait;
 
 /**
  * Applies some Twitter Bootstrap CSS styles to Paginator elements.

@@ -11,7 +11,7 @@
  */
 namespace Content\Test\TestCase\Controller\Admin;
 
-use QuickApps\TestSuite\IntegrationTestCase;
+use CMS\TestSuite\IntegrationTestCase;
 
 /**
  * TypesControllerTest class.

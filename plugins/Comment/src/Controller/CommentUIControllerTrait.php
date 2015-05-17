@@ -15,8 +15,8 @@ use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\ORM\Exception\RecordNotFoundException;
 use Cake\Utility\Inflector;
+use CMS\Core\Plugin;
 use Field\Utility\TextToolbox;
-use QuickApps\Core\Plugin;
 
 /**
  * Comment UI Trait.

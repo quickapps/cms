@@ -12,7 +12,7 @@
 namespace System\Test\TestCase\Controller\Admin;
 
 use Cake\Filesystem\Folder;
-use QuickApps\TestSuite\IntegrationTestCase;
+use CMS\TestSuite\IntegrationTestCase;
 
 /**
  * PluginsControllerTest class.

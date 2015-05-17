@@ -11,8 +11,8 @@
  */
 namespace Field\Utility;
 
+use Cake\Core\Plugin;
 use Field\Utility\FileIconMap;
-use QuickApps\Core\Plugin;
 
 /**
  * FileToolbox class for handling files related tasks.

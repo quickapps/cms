@@ -15,8 +15,8 @@ use Cake\Datasource\EntityInterface;
 use Cake\I18n\I18n;
 use Cake\Routing\Router;
 use Cake\View\View;
+use CMS\View\Helper;
 use Menu\View\BreadcrumbRegistry;
-use QuickApps\View\Helper;
 
 /**
  * Link helper.

@@ -15,8 +15,8 @@ use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use CMS\Event\EventDispatcherTrait;
 use Menu\Model\Entity\Menu;
-use QuickApps\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**

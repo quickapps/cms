@@ -13,8 +13,8 @@ namespace Menu\View\Helper;
 
 use Cake\Core\Exception\Exception;
 use Cake\Utility\Hash;
+use CMS\View\Helper;
 use Menu\View\BreadcrumbRegistry;
-use QuickApps\View\Helper;
 
 /**
  * BreadcrumbHelper.

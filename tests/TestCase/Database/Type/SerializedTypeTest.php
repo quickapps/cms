@@ -9,11 +9,11 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Database\Type;
+namespace CMS\Test\TestCase\Database\Type;
 
 use Cake\Database\Driver\Mysql;
 use Cake\TestSuite\TestCase;
-use QuickApps\Database\Type\SerializedType;
+use CMS\Database\Type\SerializedType;
 
 /**
  * SerializedTypeTest class.
@@ -24,7 +24,7 @@ class SerializedTypeTest extends TestCase
     /**
      * Instance of the class being tested.
      *
-     * @var \QuickApps\Database\Type\SerializedType
+     * @var \CMS\Database\Type\SerializedType
      */
     protected $_instance = null;
 

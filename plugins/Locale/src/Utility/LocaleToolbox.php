@@ -13,7 +13,7 @@ namespace Locale\Utility;
 
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
-use QuickApps\Core\Plugin;
+use CMS\Core\Plugin;
 
 /**
  * Locale Toolbox class.

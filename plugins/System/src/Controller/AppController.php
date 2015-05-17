@@ -11,8 +11,8 @@
  */
 namespace System\Controller;
 
-use QuickApps\Controller\Controller;
-use QuickApps\Core\Plugin;
+use CMS\Controller\Controller;
+use CMS\Core\Plugin;
 
 /**
  * Main controller for System plugin.

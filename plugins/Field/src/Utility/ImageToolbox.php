@@ -11,10 +11,10 @@
  */
 namespace Field\Utility;
 
+use Cake\Core\Plugin;
 use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Field\Utility\FileToolbox;
-use QuickApps\Core\Plugin;
 
 /**
  * ImageToolbox class for handling image related tasks.

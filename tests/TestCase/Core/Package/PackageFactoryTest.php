@@ -9,14 +9,14 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Core\Package;
+namespace CMS\Test\TestCase\Core\Package;
 
 use Cake\TestSuite\TestCase;
-use QuickApps\Core\Package\GenericPackage;
-use QuickApps\Core\Package\LibraryPackage;
-use QuickApps\Core\Package\PackageFactory;
-use QuickApps\Core\Package\PluginPackage;
-use QuickApps\Core\Package\ThirdPartyPackage;
+use CMS\Core\Package\GenericPackage;
+use CMS\Core\Package\LibraryPackage;
+use CMS\Core\Package\PackageFactory;
+use CMS\Core\Package\PluginPackage;
+use CMS\Core\Package\ThirdPartyPackage;
 
 /**
  * PackageFactory class.

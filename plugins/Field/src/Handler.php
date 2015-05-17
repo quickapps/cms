@@ -12,9 +12,9 @@
 namespace Field;
 
 use Cake\Validation\Validator;
+use CMS\View\View;
 use Field\Model\Entity\Field;
 use Field\Model\Entity\FieldInstance;
-use QuickApps\View\View;
 
 /**
  * Base field handler class.
@@ -68,7 +68,7 @@ class Handler
      * rendering the entity.
      *
      * @param \Field\Model\Entity\Field $field Field information
-     * @param \QuickApps\View\View $view The view instance being used
+     * @param \CMS\View\View $view The view instance being used
      * @return string HTML representation of this field
      */
     public function render(Field $field, View $view)
@@ -80,7 +80,7 @@ class Handler
      * Renders the field in edit mode.
      *
      * @param \Field\Model\Entity\Field $field Field information
-     * @param \QuickApps\View\View $view The view instance being used
+     * @param \CMS\View\View $view The view instance being used
      * @return string HTML containing from elements
      */
     public function edit(Field $field, View $view)
@@ -197,7 +197,7 @@ class Handler
      * and should define the way the value will be stored in the database.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
-     * @param \QuickApps\View\View $view View instance being used
+     * @param \CMS\View\View $view View instance being used
      * @return string HTML form elements for the settings page
      */
     public function settings(FieldInstance $instance, View $view)
@@ -240,7 +240,7 @@ class Handler
      * `$viewMode` to distinct between each view-modes.
      *
      * @param \Field\Model\Entity\FieldInstance $instance Instance information
-     * @param \QuickApps\View\View $view View instance being used
+     * @param \CMS\View\View $view View instance being used
      * @param string $viewMode Name of the view-mode being handled
      * @return string HTML form elements for the settings page
      */

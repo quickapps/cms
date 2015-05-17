@@ -12,8 +12,8 @@
 namespace Field\Controller;
 
 use Cake\Network\Exception\NotFoundException;
+use CMS\Core\Plugin;
 use Field\Utility\ImageToolbox;
-use QuickApps\Core\Plugin;
 
 /**
  * Handles file uploading by "Image Field Handler".

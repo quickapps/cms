@@ -16,7 +16,7 @@ use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use QuickApps\Event\EventDispatcherTrait;
+use CMS\Event\EventDispatcherTrait;
 use \ArrayObject;
 
 /**

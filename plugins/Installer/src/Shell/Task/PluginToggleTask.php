@@ -12,11 +12,11 @@
 namespace Installer\Shell\Task;
 
 use Cake\Console\Shell;
+use CMS\Core\Package\PluginPackage;
+use CMS\Core\Package\Rule\RuleChecker;
+use CMS\Core\Plugin;
+use CMS\Event\EventDispatcherTrait;
 use Installer\Shell\Task\ListenerHandlerTrait;
-use QuickApps\Core\Package\PluginPackage;
-use QuickApps\Core\Package\Rule\RuleChecker;
-use QuickApps\Core\Plugin;
-use QuickApps\Event\EventDispatcherTrait;
 
 /**
  * Plugin toggler, enables or disables a plugin.
@@ -105,7 +105,7 @@ class PluginToggleTask extends Shell
     /**
      * Activates the given plugin.
      *
-     * @param \QuickApps\Core\Package\PluginPackage $plugin The plugin to enable
+     * @param \CMS\Core\Package\PluginPackage $plugin The plugin to enable
      * @return bool True on success
      */
     protected function _enable(PluginPackage $plugin)
@@ -132,7 +132,7 @@ class PluginToggleTask extends Shell
     /**
      * Disables the given plugin.
      *
-     * @param \QuickApps\Core\Package\PluginPackage $plugin The plugin to disable
+     * @param \CMS\Core\Package\PluginPackage $plugin The plugin to disable
      * @return bool True on success
      */
     protected function _disable(PluginPackage $plugin)
@@ -156,7 +156,7 @@ class PluginToggleTask extends Shell
     /**
      * Finish this task.
      *
-     * @param \QuickApps\Core\Package\PluginPackage $plugin The plugin being managed
+     * @param \CMS\Core\Package\PluginPackage $plugin The plugin being managed
      *  by this task
      * @return bool True on success
      */
@@ -189,7 +189,7 @@ class PluginToggleTask extends Shell
     /**
      * Triggers plugin's "before<Enable|Disable>" events.
      *
-     * @param \QuickApps\Core\Package\PluginPackahe $plugin The plugin for which
+     * @param \CMS\Core\Package\PluginPackahe $plugin The plugin for which
      *  trigger the events
      * @return bool True on success
      */
@@ -213,7 +213,7 @@ class PluginToggleTask extends Shell
     /**
      * Triggers plugin's "after<Enable|Disable>" events.
      *
-     * @param \QuickApps\Core\Package\PluginPackahe $plugin The plugin for which
+     * @param \CMS\Core\Package\PluginPackahe $plugin The plugin for which
      *  trigger the events
      * @return void
      */

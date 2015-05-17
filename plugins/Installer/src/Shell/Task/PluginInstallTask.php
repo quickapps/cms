@@ -17,10 +17,10 @@ use Cake\Filesystem\File;
 use Cake\Filesystem\Folder;
 use Cake\Network\Http\Client;
 use Cake\Validation\Validation;
-use QuickApps\Core\Package\PluginPackage;
-use QuickApps\Core\Package\Rule\RuleChecker;
-use QuickApps\Core\Plugin;
-use QuickApps\Event\EventDispatcherTrait;
+use CMS\Core\Package\PluginPackage;
+use CMS\Core\Package\Rule\RuleChecker;
+use CMS\Core\Plugin;
+use CMS\Event\EventDispatcherTrait;
 use User\Utility\AcoManager;
 
 /**

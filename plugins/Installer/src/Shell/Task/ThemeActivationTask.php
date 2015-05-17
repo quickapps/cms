@@ -12,8 +12,8 @@
 namespace Installer\Shell\Task;
 
 use Cake\Console\Shell;
-use QuickApps\Core\Plugin;
-use QuickApps\Event\EventDispatcherTrait;
+use CMS\Core\Plugin;
+use CMS\Event\EventDispatcherTrait;
 
 /**
  * Task for switching site's theme.

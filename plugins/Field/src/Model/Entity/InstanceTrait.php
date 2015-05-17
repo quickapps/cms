@@ -12,7 +12,7 @@
 namespace Field\Model\Entity;
 
 use Cake\Validation\Validator;
-use QuickApps\View\View;
+use CMS\View\View;
 
 /**
  * Provides methods for dealing with Field API.
@@ -38,7 +38,7 @@ trait InstanceTrait
     /**
      * Renders settings form elements.
      *
-     * @param \QuickApps\View\View $view View instance being used
+     * @param \CMS\View\View $view View instance being used
      * @return string
      */
     public function settings(View $view)
@@ -87,7 +87,7 @@ trait InstanceTrait
     /**
      * Renders view-mode's settings form elements.
      *
-     * @param \QuickApps\View\View $view View instance being used
+     * @param \CMS\View\View $view View instance being used
      * @param string $viewMode View-mode name for which render its settings
      * @return void
      */

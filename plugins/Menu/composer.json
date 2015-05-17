@@ -12,6 +12,6 @@
         }
     ],
     "require": {
-        "quickapps-plugins/quickapps": "*"
+        "quickapps-plugins/cms": "*"
     }
 }

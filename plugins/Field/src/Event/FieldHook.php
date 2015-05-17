@@ -13,8 +13,8 @@ namespace Field\Event;
 
 use Cake\Event\Event;
 use Cake\Event\EventListenerInterface;
-use QuickApps\Event\EventDispatcherTrait;
-use QuickApps\View\ViewModeAwareTrait;
+use CMS\Event\EventDispatcherTrait;
+use CMS\View\ViewModeAwareTrait;
 
 /**
  * Field rendering dispatcher.
@@ -79,7 +79,7 @@ class FieldHook implements EventListenerInterface
     }
 
     /**
-     * We catch all field rendering request (from QuickApps\View\View) here, then we
+     * We catch all field rendering request (from CMS\View\View) here, then we
      * dispatch to their corresponding FieldHandler.
      *
      * If the field object being rendered has been set to "hidden" for the current

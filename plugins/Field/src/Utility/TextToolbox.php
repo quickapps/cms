@@ -11,9 +11,9 @@
  */
 namespace Field\Utility;
 
+use CMS\Shortcode\ShortcodeTrait;
 use Field\Lib\Parsedown;
 use Field\Model\Entity\Field;
-use QuickApps\Shortcode\ShortcodeTrait;
 
 /**
  * Text utility class.

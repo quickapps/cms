@@ -14,7 +14,7 @@ namespace Installer\Shell\Task;
 use Cake\Core\ClassLoader;
 use Cake\Event\EventManager;
 use Cake\Filesystem\Folder;
-use QuickApps\Core\Plugin;
+use CMS\Core\Plugin;
 
 /**
  * Provides methods for attach and detach listener objects of concrete plugins.

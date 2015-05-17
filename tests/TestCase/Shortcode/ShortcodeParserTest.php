@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace QuickApps\Test\TestCase\Shortcode;
+namespace CMS\Test\TestCase\Shortcode;
 
 use Cake\Event\EventManager;
 use Cake\TestSuite\TestCase;
-use QuickApps\Event\EventDispatcher;
-use QuickApps\Shortcode\ShortcodeParser;
+use CMS\Event\EventDispatcher;
+use CMS\Shortcode\ShortcodeParser;
 
 /**
  * ShortcodeParserTest class.
