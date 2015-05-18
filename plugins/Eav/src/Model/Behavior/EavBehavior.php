@@ -594,31 +594,22 @@ class EavBehavior extends Behavior
      */
     public function attachEntityAttributes(EntityInterface $entity, array $options = [])
     {
+        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
         $selectedVirtual = $this->_selectedVirtual($options['query']);
-        foreach ($this->_attributes() as $name => $attr) {
-            $bundle = $this->_getBundle($name);
-            if ((!empty($options['bundle']) && $bundle != $options['bundle']) ||
-                !in_array($name, $selectedVirtual)
-            ) {
-                continue;
-            }
-
+        $attrs = array_intersect(array_keys($this->_attributes($bundle)), $selectedVirtual);
+        $values = $this->Values
+            ->find('all')
+            ->contain(['EavAttribute'])
+            ->where([
+                'EavAttribute.table_alias' => $this->_tableAlias,
+                'EavAttribute.name IN' => $attrs,
+                'EavValues.entity_id' => $this->_getEntityId($entity),
+            ]);
+        foreach ($values as $value) {
+            $type = $value->get('eav_attribute')->get('type');
+            $name = $value->get('eav_attribute')->get('name');
+            $value = $value->get("value_{$type}");
             if (!$entity->has($name)) {
-                $type = $this->_getType($name);
-                $value = $this->Values
-                    ->find()
-                    ->contain(['EavAttribute'])
-                    ->select("value_{$type}")
-                    ->where([
-                        'EavAttribute.table_alias' => $this->_tableAlias,
-                        'EavAttribute.bundle IS' => $bundle,
-                        'EavAttribute.name' => $name,
-                        'EavValues.entity_id' => $this->_getEntityId($entity),
-                    ])
-                    ->limit(1)
-                    ->first();
-
-                $value = !$value ? null : $value->get("value_{$type}");
                 $entity->set($name, $this->_marshal($value, $type));
             }
         }
