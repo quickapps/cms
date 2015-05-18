@@ -80,7 +80,7 @@ function user()
 {
     $request = Router::getRequest();
     if ($request && $request->is('userLoggedIn')) {
-        $properties = Router::getRequest()->session()->read('Auth.User');
+        $properties = $request->session()->read('Auth.User');
         if (!empty($properties['roles'])) {
             foreach ($properties['roles'] as &$role) {
                 unset($role['_joinData']);
