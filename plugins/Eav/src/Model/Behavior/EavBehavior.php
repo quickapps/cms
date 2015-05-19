@@ -361,6 +361,19 @@ class EavBehavior extends Behavior
      * Look for virtual columns in query's SELECT clause. If "SELECT *" is performed
      * this behavior will fetch all virtual columns its values.
      *
+     * Column aliasing are fully supported, allowing to create alias for virtual
+     * columns. For instance:
+     *
+     * ```php
+     * $article = $this->Articles->find()
+     *     ->select(['aliased_virtual' => 'some_eav_column', 'body'])
+     *     ->where(['Articles.id' => $id])
+     *     ->limit(1)
+     *     ->first();
+     *
+     * echo $article->get('aliased_virtual');
+     * ```
+     *
      * @param \Cake\ORM\Query $query The query to scope
      * @param string|null $bundle Consider attributes only for a specific bundle
      * @return \Cake\ORM\Query The modified query object
@@ -443,7 +456,7 @@ class EavBehavior extends Behavior
             return $selectedVirtual[$cacheKey];
         }
 
-        $selectClause = array_values((array)$query->clause('select'));
+        $selectClause = (array)$query->clause('select');
         if (empty($selectClause)) {
             $selectedVirtual[$cacheKey] = array_keys($this->_attributes($bundle));
             return $selectedVirtual[$cacheKey];
@@ -456,7 +469,7 @@ class EavBehavior extends Behavior
             if ((empty($table) || $table == $this->_table->alias()) &&
                 in_array($column, $virtualColumns)
             ) {
-                $selectedVirtual[$cacheKey][] = $column;
+                $selectedVirtual[$cacheKey][$index] = $column;
                 unset($selectClause[$index]);
             }
         }
@@ -596,7 +609,8 @@ class EavBehavior extends Behavior
     {
         $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
         $selectedVirtual = $this->_selectedVirtual($options['query']);
-        $attrs = array_intersect(array_keys($this->_attributes($bundle)), $selectedVirtual);
+        $validColumns = array_values($selectedVirtual);
+        $attrs = array_intersect(array_keys($this->_attributes($bundle)), $validColumns);
         $values = $this->Values
             ->find('all')
             ->contain(['EavAttribute'])
@@ -609,8 +623,10 @@ class EavBehavior extends Behavior
             $type = $value->get('eav_attribute')->get('type');
             $name = $value->get('eav_attribute')->get('name');
             $value = $value->get("value_{$type}");
-            if (!$entity->has($name)) {
-                $entity->set($name, $this->_marshal($value, $type));
+            $alias = array_search($name, $selectedVirtual);
+            $propertyName = is_string($alias) ? $alias : $name;
+            if (!$entity->has($propertyName)) {
+                $entity->set($propertyName, $this->_marshal($value, $type));
             }
         }
         return $entity;
