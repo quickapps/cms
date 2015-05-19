@@ -106,10 +106,9 @@ class TaxonomyToolbox
     {
         foreach ($terms as $term) {
             $title = $term->name;
-
             if (!empty($block->settings['show_counters'])) {
                 $count = Cache::read("t{$term->id}", 'terms_count');
-                if (!$count) {
+                if ($count === null) {
                     $count = (int)TableRegistry::get('Taxonomy.EntitiesTerms')
                         ->find()
                         ->where(['EntitiesTerms.term_id' => $term->id])
