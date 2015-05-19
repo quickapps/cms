@@ -89,7 +89,7 @@ function user()
         } else {
             $properties['roles'] = [];
         }
-        $properties['roles'][] = TableRegistry::get('Roles')->get(ROLE_ID_AUTHENTICATED);
+        $properties['roles'][] = TableRegistry::get('User.Roles')->get(ROLE_ID_AUTHENTICATED, ['cache' => 'default']);
     } else {
         $properties = [
             'id' => null,
@@ -97,7 +97,7 @@ function user()
             'username' => __d('user', 'anonymous'),
             'email' => __d('user', '(no email)'),
             'locale' => I18n::locale(),
-            'roles' => [TableRegistry::get('Roles')->get(ROLE_ID_ANONYMOUS)],
+            'roles' => [TableRegistry::get('User.Roles')->get(ROLE_ID_ANONYMOUS, ['cache' => 'default'])],
         ];
     }
 
