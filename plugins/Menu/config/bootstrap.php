@@ -13,7 +13,7 @@
 use Cake\Cache\Cache;
 
 /**
- * Used to speed up blocks rendering.
+ * Used to speed up menu rendering.
  */
 Cache::config('menus', [
     'className' => 'File',

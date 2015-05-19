@@ -130,9 +130,8 @@ class MenusTable extends Table
         $this->clearCache();
     }
 
-
     /**
-     * Clear blocks cache for all themes and all regions.
+     * Clear menus cache.
      *
      * @return void
      */
