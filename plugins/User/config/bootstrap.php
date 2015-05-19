@@ -78,6 +78,11 @@ Cache::config('permissions', [
  */
 function user()
 {
+    static $user = null;
+    if ($user instanceof UserSession) {
+        return $user;
+    }
+
     $request = Router::getRequest();
     if ($request && $request->is('userLoggedIn')) {
         $properties = $request->session()->read('Auth.User');
@@ -101,9 +106,6 @@ function user()
         ];
     }
 
-    static $user = null;
-    if ($user === null) {
-        $user = new UserSession($properties);
-    }
+    $user = new UserSession($properties);
     return $user;
 }
