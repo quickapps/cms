@@ -172,18 +172,18 @@ class TermField extends Handler
             $tableAlias = Inflector::underscore($table->alias());
             $extra = !is_array($field->extra) ? [$field->extra] : $field->extra;
             $TermsCache->deleteAll([
-            'entity_id' => $entity->get($pk),
-            'table_alias' => $tableAlias,
-            'field_instance_id' => $field->metadata->instance_id,
+                'entity_id' => $entity->get($pk),
+                'table_alias' => $tableAlias,
+                'field_instance_id' => $field->metadata->instance_id,
             ]);
 
             foreach ($extra as $termId) {
                 Cache::delete("t{$termId}", 'terms_count');
                 $cacheEntity = $TermsCache->newEntity([
-                'entity_id' => $entity->get($pk),
-                'term_id' => $termId,
-                'table_alias' => $tableAlias,
-                'field_instance_id' => $field->metadata->instance_id,
+                    'entity_id' => $entity->get($pk),
+                    'term_id' => $termId,
+                    'table_alias' => $tableAlias,
+                    'field_instance_id' => $field->metadata->instance_id,
                 ]);
                 $TermsCache->save($cacheEntity);
             }
