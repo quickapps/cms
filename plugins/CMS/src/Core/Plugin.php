@@ -103,13 +103,12 @@ class Plugin extends CakePlugin
             $Folder = new Folder();
             $Folder->sort = true;
             foreach ($paths as $path) {
-                // Ignore QuickAppsCMS core plugin
-                if (strpos($path, 'CMS')) {
-                    continue;
-                }
                 $Folder->cd($path);
                 foreach ($Folder->read(true, true, true)[0] as $dir) {
                     $name = basename($dir);
+                    if ($name == 'CMS') {
+                        continue;
+                    }
                     if ($ignoreThemes && str_ends_with($name, 'Theme')) {
                         continue;
                     }
