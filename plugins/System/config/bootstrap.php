@@ -10,6 +10,18 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 use Cake\Network\Request;
+use Cake\Cache\Cache;
+
+/**
+ * Used to speed up plugin settings reading.
+ */
+Cache::config('plugins', [
+    'className' => 'File',
+    'prefix' => 'plugin_',
+    'path' => CACHE,
+    'duration' => '+2 hours',
+]);
+
 
 /**
  * Attaches a few request-detectors to Request object.

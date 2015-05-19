@@ -129,6 +129,7 @@ class PluginsTable extends Table
     public function afterSave(Event $event, Entity $plugin, ArrayObject $options = null)
     {
         snapshot();
+        $this->clearCache();
     }
 
     /**
@@ -142,5 +143,16 @@ class PluginsTable extends Table
     public function afterDelete(Event $event, Entity $plugin, ArrayObject $options = null)
     {
         snapshot();
+        $this->clearCache();
+    }
+
+    /**
+     * Clear menus cache.
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        Cache::clear(false, 'plugins');
     }
 }
