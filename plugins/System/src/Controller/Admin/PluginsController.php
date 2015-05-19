@@ -35,7 +35,7 @@ class PluginsController extends AppController
         $collection = plugin()->filter(function ($plugin) {
             return !$plugin->isTheme;
         });
-        $plugins = $collection->toArray();
+        $plugins = $collection;
         $enabled = count($collection->filter(function ($plugin) {
             return $plugin->status;
         })->toArray());
