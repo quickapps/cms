@@ -79,13 +79,16 @@ class MenuWidget extends Widget
      */
     public function render(Block $block, View $view)
     {
+        $menuId = intval($block->settings['menu_id']);
         $menu = TableRegistry::get('Menu.Menus')
             ->find()
-            ->where(['Menus.id' => intval($block->settings['menu_id'])])
+            ->cache("info_{$menuId}", 'menus')
+            ->where(['Menus.id' => $menuId])
             ->first();
         $links = TableRegistry::get('Menu.MenuLinks')
             ->find('threaded')
-            ->where(['menu_id' => $menu->id])
+            ->cache("links_{$menuId}", 'menus')
+            ->where(['menu_id' => $menuId])
             ->order(['lft' => 'ASC']);
         $menu->set('links', $links);
 

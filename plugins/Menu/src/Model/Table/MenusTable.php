@@ -11,6 +11,7 @@
  */
 namespace Menu\Model\Table;
 
+use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -99,6 +100,7 @@ class MenusTable extends Table
             ], ['validate' => false]);
             TableRegistry::get('Block.Blocks')->save($block);
         }
+        $this->clearCache();
     }
 
     /**
@@ -124,5 +126,18 @@ class MenusTable extends Table
                 return;
             }
         }
+
+        $this->clearCache();
+    }
+
+
+    /**
+     * Clear blocks cache for all themes and all regions.
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        Cache::clearGroup('views', 'menus');
     }
 }
