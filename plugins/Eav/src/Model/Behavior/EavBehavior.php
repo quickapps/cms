@@ -132,7 +132,10 @@ class EavBehavior extends Behavior
      * @var array
      */
     protected $_defaultConfig = [
+        'enabled' => true,
         'implementedMethods' => [
+            'enableEav' => 'enableEav',
+            'disableEav' => 'disableEav',
             'addColumn' => 'addColumn',
             'dropColumn' => 'dropColumn',
             'eavColumns' => 'eavColumns',
@@ -151,6 +154,26 @@ class EavBehavior extends Behavior
         $this->_schemaColumns = (array)$table->schema()->columns();
         $this->_initModels();
         parent::__construct($table, $config);
+    }
+
+    /**
+     * Enables EAV behavior so virtual columns WILL be fetched from database.
+     *
+     * @return void
+     */
+    public function enableEav()
+    {
+        $this->config('enabled', true);
+    }
+
+    /**
+     * Disables EAV behavior so virtual columns WLL NOT be fetched from database.
+     *
+     * @return void
+     */
+    public function disableEav()
+    {
+        $this->config('enabled', false);
     }
 
     /**
@@ -279,7 +302,7 @@ class EavBehavior extends Behavior
      *  regardless of the bundle if not provided
      * @return array Columns information indexed by column name
      */
-    public function eavColumns($bundle = null)
+    public function listColumns($bundle = null)
     {
         $columns = [];
         foreach ($this->_attributes($bundle) as $name => $attr) {
@@ -314,7 +337,9 @@ class EavBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if (isset($options['eav']) && $options['eav'] === false) {
+        if (!$this->config('enabled') ||
+            (isset($options['eav']) && $options['eav'] === false)
+        ) {
             return true;
         }
 
