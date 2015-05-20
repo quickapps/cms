@@ -386,7 +386,7 @@ class SearchableBehavior extends Behavior
         }
 
         $Datasets = TableRegistry::get('Search.SearchDatasets');
-        $dataset = $Datasets->find()
+        $set = $Datasets->find()
             ->where([
                 'entity_id' => $entity->get($this->config('pk')),
                 'table_alias' => $this->config('table_alias'),
@@ -394,16 +394,19 @@ class SearchableBehavior extends Behavior
             ->limit(1)
             ->first();
 
-        if (!$dataset) {
-            $dataset = $Datasets->newEntity([
+        if (!$set) {
+            $set = $Datasets->newEntity([
                 'entity_id' => $entity->get($this->config('pk')),
                 'table_alias' => $this->config('table_alias'),
+                'words' => '',
             ]);
         }
 
         // We add starting and trailing space to allow LIKE %something-to-match%
-        $dataset->set('words', ' ' . $this->_extractEntityWords($entity) . ' ');
-        $Datasets->save($dataset);
+        $set = $Datasets->patchEntity($set, [
+            'words' => ' ' . $this->_extractEntityWords($entity) . ' '
+        ]);
+        $Datasets->save($set);
     }
 
     /**
