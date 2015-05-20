@@ -514,13 +514,16 @@ class SearchableBehavior extends Behavior
             $words = [];
             foreach ($entity->visibleProperties() as $property) {
                 $value = $entity->get($property);
+
                 if (is_string($value) ||
+                    is_integer($value) ||
+                    is_bool($value) ||
                     (is_object($value) && method_exists($value, '__toString'))
                 ) {
                     $words[] = (string)$value;
                 } elseif (is_array($value)) {
                     foreach (array_values(Hash::flatten($value)) as $value) {
-                        $words[] = $value;
+                        $words[] = (string)$value;
                     }
                 }
             }
