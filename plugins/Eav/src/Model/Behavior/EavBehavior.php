@@ -11,6 +11,7 @@
  */
 namespace Eav\Model\Behavior;
 
+use Cake\Cache\Cache;
 use Cake\Database\Expression\Comparison;
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
@@ -138,7 +139,7 @@ class EavBehavior extends Behavior
             'disableEav' => 'disableEav',
             'addColumn' => 'addColumn',
             'dropColumn' => 'dropColumn',
-            'eavColumns' => 'eavColumns',
+            'listColumns' => 'listColumns',
         ],
     ];
 
@@ -235,7 +236,6 @@ class EavBehavior extends Behavior
             'type' => 'string',
             'bundle' => null,
             'searchable' => true,
-            'extra' => null,
         ];
 
         $data['type'] = $this->_mapType($data['type']);
@@ -261,12 +261,14 @@ class EavBehavior extends Behavior
             $attr = $this->Attributes->newEntity($data);
         }
 
-        $hasErrors = $attr->errors();
-        if ($errors && !empty($hasErrors)) {
-            return $hasErrors;
+        $success = (bool)$this->Attributes->save($attr);
+        Cache::clear(false, 'eav_table_attrs');
+
+        if ($errors) {
+            return (array)$attr->errors();
         }
 
-        return (bool)$this->Attributes->save($attr);
+        return (bool)$success;
     }
 
     /**
@@ -288,6 +290,7 @@ class EavBehavior extends Behavior
             ->limit(1)
             ->first();
 
+        Cache::clear(false, 'eav_table_attrs');
         if ($attr) {
             return (bool)$this->Attributes->delete($attr);
         }

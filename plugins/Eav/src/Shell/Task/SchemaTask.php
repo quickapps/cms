@@ -58,7 +58,7 @@ class SchemaTask extends Shell
                 'default' => null,
             ])
             ->addOption('searchable', [
-                'short' => 'n',
+                'short' => 's',
                 'help' => __d('system', 'Whether the column being created can be used in SQL WHERE clauses.'),
                 'boolean' => true,
                 'default' => true,
@@ -74,6 +74,11 @@ class SchemaTask extends Shell
     public function main()
     {
         $options = (array)$this->params;
+        if (empty($options['use'])) {
+            $this->err(__d('eav', 'You must indicate a table alias name using the "--use" option. Example: "Articles.Users"'));
+            return false;
+        }
+
         try {
             $table = TableRegistry::get($options['use']);
         } catch (\Exception $ex) {
@@ -96,7 +101,7 @@ class SchemaTask extends Shell
 
         $meta = [
             'type' => $options['type'],
-            'bundle' => $options['bundle'],
+            'bundle' => (empty($options['bundle']) ? null : (string)$options['bundle']),
             'searchable' => $options['searchable'],
         ];
 

@@ -51,6 +51,13 @@ class InfoTask extends Shell
     public function main()
     {
         $options = (array)$this->params;
+        $options['bundle'] = empty($options['bundle']) ? null : $options['bundle'];
+
+        if (empty($options['use'])) {
+            $this->err(__d('eav', 'You must indicate a table alias name using the "--use" option. Example: "Articles.Users"'));
+            return false;
+        }
+
         try {
             $table = TableRegistry::get($options['use']);
         } catch (\Exception $ex) {
@@ -65,13 +72,19 @@ class InfoTask extends Shell
             return false;
         }
 
-        foreach ($table->eavColumns($options['bundle']) as $name => $info) {
-             $this->out(__d('eav', '- Column Name: {0}', $name));
-             $this->out(__d('eav', '  - type: {0}', $info['type']));
-             $this->out(__d('eav', '  - bundle: {0}', $info['bundle']));
-             $this->out(__d('eav', '  - searchable: {searchable, select, yes{YES} other{NO}}', [
+        foreach ($table->listColumns($options['bundle']) as $name => $info) {
+            $info = $info + [
+                'type' => 'string',
+                'bundle' => '---',
+                'searchable' => true,
+            ];
+            $this->out(__d('eav', '- Column Name: {0}', $name));
+            $this->out(__d('eav', '  - type: {0}', $info['type']));
+            $this->out(__d('eav', '  - bundle: {0}', ($info['bundle'] ? $info['bundle'] : '---')));
+            $this->out(__d('eav', '  - searchable: {searchable, select, yes{YES} other{NO}}', [
                 'searchable' => ($info['searchable'] ? 'yes' : 'no')
-             ]));
+            ]));
+            $this->out();
         }
 
         return true;
