@@ -326,6 +326,7 @@ class SearchableBehavior extends Behavior
         'on' => 'both',
         'implementedMethods' => [
             'search' => 'search',
+            'indexEntity' => 'indexEntity',
             'addSearchOperator' => 'addSearchOperator',
             'enableSearchOperator' => 'enableSearchOperator',
             'disableSearchOperator' => 'disableSearchOperator',
@@ -384,7 +385,17 @@ class SearchableBehavior extends Behavior
         ) {
             return;
         }
+        $this->indexEntity($entity);
+    }
 
+    /**
+     * Indexes the given entity.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
+     * @return bool True success
+     */
+    public function indexEntity(EntityInterface $entity)
+    {
         $Datasets = TableRegistry::get('Search.SearchDatasets');
         $set = $Datasets->find()
             ->where([
@@ -406,7 +417,8 @@ class SearchableBehavior extends Behavior
         $set = $Datasets->patchEntity($set, [
             'words' => ' ' . $this->_extractEntityWords($entity) . ' '
         ]);
-        $Datasets->save($set);
+
+        return (bool)$Datasets->save($set);
     }
 
     /**
