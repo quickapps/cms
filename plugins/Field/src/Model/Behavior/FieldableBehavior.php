@@ -519,42 +519,6 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
-     * Gets all attributes that should be attached to the given entity, this entity
-     * will be used as context to calculate the proper bundle.
-     *
-     * @param \Cake\Datasource\EntityInterface $entity Entity context
-     * @return array
-     */
-    protected function _attributesForEntity(EntityInterface $entity)
-    {
-        $bundle = $this->_resolveBundle($entity);
-        $attrs = $this->_toolbox->attributes($bundle);
-        $attrIds = [];
-
-        foreach ($attrs as $name => $attr) {
-            $attrIds[$attr->get('id')] = $attr;
-        }
-
-        if (!empty($attrIds)) {
-            $instances = $this->Attributes->Instance
-                ->find()
-                ->where(['eav_attribute_id IN' => array_keys($attrIds)])
-                ->all();
-
-            foreach ($instances as $instance) {
-                if (!empty($attrIds[$instance->get('eav_attribute_id')])) {
-                    $attr = $attrIds[$instance->get('eav_attribute_id')];
-                    if (!$attr->has('instance')) {
-                        $attr->set('instance', $instance);
-                    }
-                }
-            }
-
-        }
-        return $this->_toolbox->attributes($bundle);
-    }
-
-    /**
      * Alters the given $field and fetches incoming POST data, both "value" and
      * "extra" property will be automatically filled for the given $field entity.
      *
@@ -582,6 +546,85 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
+     * Gets all attributes that should be attached to the given entity, this entity
+     * will be used as context to calculate the proper bundle.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity Entity context
+     * @return array
+     */
+    protected function _attributesForEntity(EntityInterface $entity)
+    {
+        $bundle = $this->_resolveBundle($entity);
+        $attrs = $this->_toolbox->attributes($bundle);
+        $attrByIds = []; // attrs indexed by ids
+        $attrByNames = []; // attrs indexed by name
+
+        foreach ($attrs as $name => $attr) {
+            $attrByNames[$name] = $attr;
+            $attrByIds[$attr->get('id')] = $attr;
+            $attr->set(':value', null);
+        }
+
+        if (!empty($attrByIds)) {
+            $instances = $this->Attributes->Instance
+                ->find()
+                ->where(['eav_attribute_id IN' => array_keys($attrByIds)])
+                ->all();
+            foreach ($instances as $instance) {
+                if (!empty($attrByIds[$instance->get('eav_attribute_id')])) {
+                    $attr = $attrByIds[$instance->get('eav_attribute_id')];
+                    if (!$attr->has('instance')) {
+                        $attr->set('instance', $instance);
+                    }
+                }
+            }
+        }
+
+        $values = $this->_fetchValues($entity, array_keys($attrByNames));
+        foreach ($values as $value) {
+            if (!empty($attrByNames[$value->get('eav_attribute')->get('name')])) {
+                $attrByNames[$value->get('eav_attribute')->get('name')]->set(':value', $value);
+            }
+        }
+        return $this->_toolbox->attributes($bundle);
+    }
+
+    /**
+     * Retrives stored values for all virtual properties by name. This gets all
+     * values at once.
+     *
+     * This method is used to reduce the number of SQl queries, so we get all
+     * values at once in a single Select instead of creating a select for every
+     * field attached to the given entity.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entuity for which
+     *  get related values
+     * @param array $attrNames List of attribute names for which get their
+     *  values
+     * @return \Cake\Datasource\ResultSetInterface
+     */
+    protected function _fetchValues(EntityInterface $entity, $attrNames = [])
+    {
+        $bundle = $this->_resolveBundle($entity);
+        $conditions = [
+            'EavAttribute.table_alias' => $this->_table->table(),
+            'EavAttribute.name IN' => $attrNames,
+            'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
+        ];
+
+        if ($bundle) {
+            $conditions['EavAttribute.bundle'] = $bundle;
+        }
+
+        $storedValues = TableRegistry::get('Eav.EavValues')
+            ->find()
+            ->contain(['EavAttribute'])
+            ->where($conditions)
+            ->all();
+        return $storedValues;
+    }
+
+    /**
      * Creates a new Virtual "Field" to be attached to the given entity.
      *
      * This mock Field represents a new property (table column) of the entity.
@@ -595,24 +638,28 @@ class FieldableBehavior extends EavBehavior
     protected function _prepareMockField(EntityInterface $entity, EntityInterface $attribute)
     {
         $type = $this->_toolbox->mapType($attribute->get('type'));
-        $bundle = $this->_resolveBundle($entity);
-        $conditions = [
-            'EavAttribute.table_alias' => $this->_table->table(),
-            'EavAttribute.name' => $attribute->get('name'),
-            'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
-        ];
+        if (!$attribute->has(':value')) {
+            $bundle = $this->_resolveBundle($entity);
+            $conditions = [
+                'EavAttribute.table_alias' => $this->_table->table(),
+                'EavAttribute.name' => $attribute->get('name'),
+                'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
+            ];
 
-        if ($bundle) {
-            $conditions['EavAttribute.bundle'] = $bundle;
+            if ($bundle) {
+                $conditions['EavAttribute.bundle'] = $bundle;
+            }
+
+            $storedValue = TableRegistry::get('Eav.EavValues')
+                ->find()
+                ->contain(['EavAttribute'])
+                ->select(['id', "value_{$type}", 'extra'])
+                ->where($conditions)
+                ->limit(1)
+                ->first();
+        } else {
+            $storedValue = $attribute->get(':value');
         }
-
-        $storedValue = TableRegistry::get('Eav.EavValues')
-            ->find()
-            ->contain(['EavAttribute'])
-            ->select(['id', "value_{$type}", 'extra'])
-            ->where($conditions)
-            ->limit(1)
-            ->first();
 
         $mockField = new Field([
             'name' => $attribute->get('name'),
