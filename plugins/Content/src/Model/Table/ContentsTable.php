@@ -85,6 +85,7 @@ class ContentsTable extends Table
         $this->belongsToMany('Roles', [
             'className' => 'User.Roles',
             'propertyName' => 'roles',
+            'through' => 'Content.ContentsRoles',
         ]);
 
         $this->hasMany('ContentRevisions', [
