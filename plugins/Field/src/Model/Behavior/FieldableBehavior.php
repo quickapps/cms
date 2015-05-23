@@ -87,6 +87,13 @@ class FieldableBehavior extends EavBehavior
     ];
 
     /**
+     * Instance of EavAttributes table.
+     *
+     * @var \Eav\Model\Table\EavAttributesTable
+     */
+    public $Attributes = null;
+
+    /**
      * Constructor.
      *
      * @param \Cake\ORM\Table $table The table this behavior is attached to
@@ -521,15 +528,28 @@ class FieldableBehavior extends EavBehavior
     protected function _attributesForEntity(EntityInterface $entity)
     {
         $bundle = $this->_resolveBundle($entity);
-        foreach ($this->_toolbox->attributes($bundle) as $name => $attr) {
-            if (!$attr->has('instance')) {
-                $instance = TableRegistry::get('Eav.EavAttributes')->Instance
-                    ->find()
-                    ->where(['eav_attribute_id' => $attr->get('id')])
-                    ->limit(1)
-                    ->first();
-                $attr->set('instance', $instance);
+        $attrs = $this->_toolbox->attributes($bundle);
+        $attrIds = [];
+
+        foreach ($attrs as $name => $attr) {
+            $attrIds[$attr->get('id')] = $attr;
+        }
+
+        if (!empty($attrIds)) {
+            $instances = $this->Attributes->Instance
+                ->find()
+                ->where(['eav_attribute_id IN' => array_keys($attrIds)])
+                ->all();
+
+            foreach ($instances as $instance) {
+                if (!empty($attrIds[$instance->get('eav_attribute_id')])) {
+                    $attr = $attrIds[$instance->get('eav_attribute_id')];
+                    if (!$attr->has('instance')) {
+                        $attr->set('instance', $instance);
+                    }
+                }
             }
+
         }
         return $this->_toolbox->attributes($bundle);
     }
