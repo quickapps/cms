@@ -568,7 +568,7 @@ class SearchableBehavior extends Behavior
     protected function _triggerScope(Query $query, Token $token)
     {
         $eventName = 'SearchableBehavior.' . (string)Inflector::variable('operator_' . $token->name());
-        $event = new Event($eventName, $this, compact('query', 'token'));
+        $event = new Event($eventName, $this->_table, compact('query', 'token'));
         return EventManager::instance()->dispatch($event)->result;
     }
 
