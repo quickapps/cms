@@ -11,10 +11,8 @@
  */
 namespace Field\Test\TestCase\Model\Behavior;
 
-use Cake\Event\EventManager;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use CMS\Core\Plugin;
 
 /**
  * FieldableBehaviorTest class.
