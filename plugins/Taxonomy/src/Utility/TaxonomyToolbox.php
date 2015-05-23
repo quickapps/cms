@@ -107,13 +107,14 @@ class TaxonomyToolbox
         foreach ($terms as $term) {
             $title = $term->name;
             if (!empty($block->settings['show_counters'])) {
-                $count = Cache::read("t{$term->id}", 'terms_count');
-                if ($count === null) {
+                $countCacheKey = "t{$term->id}";
+                $count = (string)Cache::read($countCacheKey, 'terms_count');
+                if ($count == '') {
                     $count = (int)TableRegistry::get('Taxonomy.EntitiesTerms')
                         ->find()
                         ->where(['EntitiesTerms.term_id' => $term->id])
                         ->count();
-                    Cache::write("t{$term->id}", $count, 'terms_count');
+                    Cache::write($countCacheKey, $count, 'terms_count');
                 }
                 $title .= " ({$count})";
             }
