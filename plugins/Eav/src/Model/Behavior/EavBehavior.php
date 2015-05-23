@@ -180,7 +180,7 @@ class EavBehavior extends Behavior
         ];
 
         $data['type'] = $this->_toolbox->mapType($data['type']);
-        if (!in_array($data['type'], static::$types)) {
+        if (!in_array($data['type'], EavToolbox::$types)) {
             throw new FatalErrorException(__d('eav', 'The column {0}({1}) could not be created as "{2}" is not a valid type.', $name, $data['type'], $data['type']));
         }
 
