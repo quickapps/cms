@@ -14,7 +14,7 @@ namespace Eav\Shell\Task;
 use Cake\Console\Shell;
 use Cake\Error\FatalErrorException;
 use Cake\ORM\TableRegistry;
-use Eav\Model\Behavior\EavBehavior;
+use Eav\Model\Behavior\EavToolbox;
 
 /**
  * Table schema manipulator task.
@@ -50,7 +50,7 @@ class SchemaTask extends Shell
                 'short' => 't',
                 'help' => __d('system', 'Type of information for the column being added.'),
                 'default' => 'string',
-                'choices' => EavBehavior::$types,
+                'choices' => EavToolbox::$types,
             ])
             ->addOption('bundle', [
                 'short' => 'b',

@@ -76,9 +76,8 @@ class FieldableBehavior extends EavBehavior
      *
      * @var array
      */
-    protected $_defaultConfig = [
+    protected $_fieldableDefaultConfig = [
         'bundle' => null,
-        'enabled' => true,
         'implementedMethods' => [
             'configureFieldable' => 'configureFieldable',
             'attachFields' => 'attachEntityFields',
@@ -95,6 +94,7 @@ class FieldableBehavior extends EavBehavior
      */
     public function __construct(Table $table, array $config = [])
     {
+        $this->_defaultConfig = array_merge($this->_defaultConfig, $this->_fieldableDefaultConfig);
         $this->Attributes = TableRegistry::get('Eav.EavAttributes');
         $this->Attributes->hasOne('Instance', [
             'className' => 'Field.FieldInstances',
@@ -210,26 +210,6 @@ class FieldableBehavior extends EavBehavior
     /**
      * Before an entity is saved.
      *
-     * ### Events Triggered:
-     *
-     * - `Field.<FieldHandler>.Entity.validate`: It receives three arguments, the
-     *   field entity representing the field being saved, an options array and a
-     *   Validator object. The options array is passed as an ArrayObject, so any
-     *   changes in it will be reflected in every listener and remembered at the end
-     *   of the event so it can be used for the rest of the save operation. The
-     *   validator object should be altered by adding rules that will be used later
-     *   to validate the given field entity, this validator object is used
-     *   exclusively to validate the given field entity.
-     *
-     * - `Field.<FieldHandler>.Entity.beforeSave`: It receives two arguments, the
-     *   field entity representing the field being saved and options array. The
-     *   options array is passed as an ArrayObject, so any changes in it will be
-     *   reflected in every listener and remembered at the end of the event so it
-     *   can be used for the rest of the save operation. Returning false in any of
-     *   the Field Handler will abort the saving process. If the Field event is
-     *   stopped using the event API, the Field event object's `result` property
-     *   will be returned.
-     *
      * Here is where we dispatch each custom field's `$_POST` information to its
      * corresponding Field Handler, so they can operate over their values.
      *
@@ -237,29 +217,16 @@ class FieldableBehavior extends EavBehavior
      * over each attached field for this entity, so you should have a listener like:
      *
      * ```php
-     * class TextField implements EventListenerInterface
-     * {
-     *     public function implementedEvents()
-     *     {
-     *         return [
-     *             'Field.TextField.Entity.beforeSave' => 'entityBeforeSave',
-     *         ];
-     *     }
+     * use Field\Handler;
      *
-     *     public function entityBeforeSave(Event $event, $entity, $field, $options)
+     * class TextField extends Handler
+     * {
+     *     public function beforeSave(Field $field, $post)
      *     {
-     *          // alter $field, and do nifty things with $options['_post']
+     *          // alter $field, and do nifty things with $post
      *          // return FALSE; will halt the operation
      *     }
      * }
-     * ```
-     *
-     * You will see `$options` array contains the POST information user just sent
-     * when pressing form submit button:
-     *
-     * ```php
-     * // $_POST information for this [entity, field_instance] tuple.
-     * $options['_post']
      * ```
      *
      * Field Handlers should **alter** `$field->value` and `$field->extra` according
@@ -303,21 +270,21 @@ class FieldableBehavior extends EavBehavior
 
             $data = [
                 'eav_attribute_id' => $field->get('metadata')->get('attribute_id'),
-                'entity_id' => $this->_getEntityId($entity),
+                'entity_id' => $this->_toolbox->getEntityId($entity),
                 "value_{$field->metadata['type']}" => $field->get('value'),
                 'extra' => $field->get('extra'),
             ];
 
             if ($field->get('metadata')->get('value_id')) {
-                $valueEntity = $this->Values->get($field->get('metadata')->get('value_id'));
-                $valueEntity = $this->Values->patchEntity($valueEntity, $data, ['validate' => false]);
+                $valueEntity = TableRegistry::get('Eav.EavValues')->get($field->get('metadata')->get('value_id'));
+                $valueEntity = TableRegistry::get('Eav.EavValues')->patchEntity($valueEntity, $data, ['validate' => false]);
             } else {
-                $valueEntity = $this->Values->newEntity($data, ['validate' => false]);
+                $valueEntity = TableRegistry::get('Eav.EavValues')->newEntity($data, ['validate' => false]);
             }
 
             if ($entity->isNew() || $valueEntity->isNew()) {
                 $this->_cache['createValues'][] = $valueEntity;
-            } elseif (!$this->Values->save($valueEntity)) {
+            } elseif (!TableRegistry::get('Eav.EavValues')->save($valueEntity)) {
                 $this->attachEntityFields($entity);
                 $event->stopPropagation();
                 return false;
@@ -354,9 +321,9 @@ class FieldableBehavior extends EavBehavior
         // all this occurs inside a transaction so we are safe
         if (!empty($this->_cache['createValues'])) {
             foreach ($this->_cache['createValues'] as $valueEntity) {
-                $valueEntity->set('entity_id', $this->_getEntityId($entity));
+                $valueEntity->set('entity_id', $this->_toolbox->getEntityId($entity));
                 $valueEntity->unsetProperty('id');
-                $this->Values->save($valueEntity);
+                TableRegistry::get('Eav.EavValues')->save($valueEntity);
             }
             $this->_cache['createValues'] = [];
         }
@@ -554,9 +521,9 @@ class FieldableBehavior extends EavBehavior
     protected function _attributesForEntity(EntityInterface $entity)
     {
         $bundle = $this->_resolveBundle($entity);
-        foreach ($this->_attributes($bundle) as $name => $attr) {
+        foreach ($this->_toolbox->attributes($bundle) as $name => $attr) {
             if (!$attr->has('instance')) {
-                $instance = $this->Attributes->Instance
+                $instance = TableRegistry::get('Eav.EavAttributes')->Instance
                     ->find()
                     ->where(['eav_attribute_id' => $attr->get('id')])
                     ->limit(1)
@@ -564,7 +531,7 @@ class FieldableBehavior extends EavBehavior
                 $attr->set('instance', $instance);
             }
         }
-        return $this->_attributes($bundle);
+        return $this->_toolbox->attributes($bundle);
     }
 
     /**
@@ -607,10 +574,10 @@ class FieldableBehavior extends EavBehavior
      */
     protected function _prepareMockField(EntityInterface $entity, EntityInterface $attribute)
     {
-        $type = $this->_mapType($attribute->get('type'));
+        $type = $this->_toolbox->mapType($attribute->get('type'));
         $bundle = $this->_resolveBundle($entity);
         $conditions = [
-            'EavAttribute.table_alias' => $this->_tableAlias,
+            'EavAttribute.table_alias' => $this->_table->table(),
             'EavAttribute.name' => $attribute->get('name'),
             'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
         ];
@@ -619,7 +586,7 @@ class FieldableBehavior extends EavBehavior
             $conditions['EavAttribute.bundle'] = $bundle;
         }
 
-        $storedValue = $this->Values
+        $storedValue = TableRegistry::get('Eav.EavValues')
             ->find()
             ->contain(['EavAttribute'])
             ->select(['id', "value_{$type}", 'extra'])
@@ -636,7 +603,7 @@ class FieldableBehavior extends EavBehavior
                 'value_id' => null,
                 'instance_id' => $attribute->get('instance')->get('id'),
                 'attribute_id' => $attribute->get('id'),
-                'entity_id' => $this->_getEntityId($entity),
+                'entity_id' => $this->_toolbox->getEntityId($entity),
                 'table_alias' => $attribute->get('table_alias'),
                 'type' => $type,
                 'bundle' => $attribute->get('bundle'),
@@ -651,7 +618,7 @@ class FieldableBehavior extends EavBehavior
         ]);
 
         if ($storedValue) {
-            $mockField->set('value', $this->_marshal($storedValue->get("value_{$type}"), $type));
+            $mockField->set('value', $this->_toolbox->marshal($storedValue->get("value_{$type}"), $type));
             $mockField->set('extra', $storedValue->get('extra'));
             $mockField->metadata->set('value_id', $storedValue->id);
         }

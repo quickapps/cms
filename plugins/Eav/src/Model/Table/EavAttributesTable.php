@@ -14,7 +14,7 @@ namespace Eav\Model\Table;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Eav\Model\Behavior\EavBehavior;
+use Eav\Model\Behavior\EavToolbox;
 
 /**
  * Represents EAV "eav_attributes" database table.
@@ -77,9 +77,9 @@ class EavAttributesTable extends Table
             ->requirePresence('type', 'create', __d('eav', 'Invalid data type.'))
             ->add('type', 'valid_type', [
                 'rule' => function ($value, $context) {
-                    return in_array($value, EavBehavior::$types);
+                    return in_array($value, EavToolbox::$types);
                 },
-                'message' => __d('field', 'Invalid data type, valid options are: {0}', implode(', ', EavBehavior::$types))
+                'message' => __d('field', 'Invalid data type, valid options are: {0}', implode(', ', EavToolbox::$types))
             ]);
 
         return $validator;
