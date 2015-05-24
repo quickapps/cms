@@ -41,6 +41,14 @@ class OptionsFixture
       ],
     ],
     ],
+    '_indexes' =>
+    [
+    ],
+    '_options' =>
+    [
+    'engine' => 'InnoDB',
+    'collation' => 'utf8_unicode_ci',
+    ],
     'id' =>
     [
     'type' => 'integer',

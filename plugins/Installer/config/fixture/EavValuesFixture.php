@@ -30,6 +30,22 @@ class EavValuesFixture
       ],
     ],
     ],
+    '_indexes' =>
+    [
+    'type' => 'index',
+    'columns' =>
+    [
+      0 => 'entity_id',
+    ],
+    'length' =>
+    [
+    ],
+    ],
+    '_options' =>
+    [
+    'engine' => 'InnoDB',
+    'collation' => 'utf8_unicode_ci',
+    ],
     'id' =>
     [
     'type' => 'integer',

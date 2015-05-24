@@ -33,6 +33,14 @@ class PluginsFixture extends TestFixture
       ],
     ],
     ],
+    '_indexes' =>
+    [
+    ],
+    '_options' =>
+    [
+    'engine' => 'InnoDB',
+    'collation' => 'utf8_unicode_ci',
+    ],
     'name' =>
     [
     'type' => 'string',

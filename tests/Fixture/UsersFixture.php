@@ -45,6 +45,22 @@ class UsersFixture extends TestFixture
       ],
     ],
     ],
+    '_indexes' =>
+    [
+    'type' => 'index',
+    'columns' =>
+    [
+      0 => 'email',
+    ],
+    'length' =>
+    [
+    ],
+    ],
+    '_options' =>
+    [
+    'engine' => 'InnoDB',
+    'collation' => 'utf8_unicode_ci',
+    ],
     'id' =>
     [
     'type' => 'integer',

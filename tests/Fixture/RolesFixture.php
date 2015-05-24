@@ -33,6 +33,22 @@ class RolesFixture extends TestFixture
       ],
     ],
     ],
+    '_indexes' =>
+    [
+    'type' => 'index',
+    'columns' =>
+    [
+      0 => 'slug',
+    ],
+    'length' =>
+    [
+    ],
+    ],
+    '_options' =>
+    [
+    'engine' => 'InnoDB',
+    'collation' => 'utf8_unicode_ci',
+    ],
     'id' =>
     [
     'type' => 'integer',
