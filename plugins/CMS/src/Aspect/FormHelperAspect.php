@@ -11,8 +11,8 @@
  */
 namespace CMS\Aspect;
 
+use Cake\View\Helper\FormHelper;
 use CMS\Aspect\Aspect;
-use CMS\View\Helper\FormHelper;
 use Go\Aop\Intercept\MethodInvocation;
 use Go\Lang\Annotation\Around;
 
@@ -26,7 +26,7 @@ class FormHelperAspect extends Aspect
      * Adds prefix to every input element that may have a "name" attribute.
      *
      * @param \Go\Aop\Intercept\MethodInvocation $invocation Invocation
-     * @Around("execution(public CMS\View\Helper\FormHelper->label|input|checkbox|radio|textarea|hidden|file|select|multiCheckbox|day|year|month|hour|minute|meridian|dateTime|time|date(*))")
+     * @Around("execution(public Cake\View\Helper\FormHelper->label|input|checkbox|radio|textarea|hidden|file|select|multiCheckbox|day|year|month|hour|minute|meridian|dateTime|time|date(*))")
      * @return bool Whether object invocation should proceed or not
      */
     public function addInputPrefix(MethodInvocation $invocation)
@@ -46,7 +46,7 @@ class FormHelperAspect extends Aspect
     /**
      * Add prefix to field name if a prefix was set using FormHelper::prefix().
      *
-     * @param \CMS\View\Helper\FormHelper $helper Field helper instance
+     * @param \Cake\View\Helper\FormHelper $helper Field helper instance
      * @param string $name Field name
      * @return string Prefixed field name
      */
