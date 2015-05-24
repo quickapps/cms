@@ -323,8 +323,42 @@ class DatabaseInstaller
         }
 
         require $path;
-        $className = str_replace('.php', '', basename($path));
-        $fixture = new $className;
+        $fixtureClass = str_replace('.php', '', basename($path));
+        $schema = $this->_prepareSchema($fixtureClass);
+        $sql = $schema->createSql($connection);
+        $tableCreated = true;
+
+        foreach ($sql as $stmt) {
+            try {
+                if (!$connection->execute($stmt)) {
+                    $tableCreated = false;
+                }
+            } catch (\Exception $ex) {
+                $this->error(__d('installer', 'Unable to create table "{0}". Details: {1}', $tableName, $ex->getMessage()));
+                $tableCreated = false;
+            }
+        }
+
+        if (!$tableCreated) {
+            return false;
+        }
+
+        if (!$this->_importRecords($fixtureClass, $schema, $connection)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Gets an schema instance for the given fixture class.
+     *
+     * @param string $fixtureClassName The fixture to be "converted"
+     * @return \Cake\Database\Schema\Table Schema instance
+     */
+    protected function _prepareSchema($fixtureClassName)
+    {
+        $fixture = new $fixtureClassName;
         $fields = (array)$fixture->fields;
         $constraints = [];
         $indexes = [];
@@ -333,7 +367,7 @@ class DatabaseInstaller
         if (!empty($fixture->table)) {
             $tableName = $fixture->table;
         } else {
-            $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $className));
+            $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $fixtureClassName));
         }
 
         if (isset($fields['_constraints'])) {
@@ -352,10 +386,9 @@ class DatabaseInstaller
         }
 
         $schema = new TableSchema($tableName, $fields);
-
         if (!empty($constraints)) {
-            foreach ($constraints as $constraintName => $constraintAttrs) {
-                $schema->addConstraint($constraintName, $constraintAttrs);
+            foreach ($constraints as $name => $attrs) {
+                $schema->addConstraint($name, $attrs);
             }
         }
 
@@ -369,66 +402,48 @@ class DatabaseInstaller
             $schema->options($options);
         }
 
-        $sql = $schema->createSql($connection);
-        $tableCreated = true;
-        foreach ($sql as $stmt) {
-            try {
-                if (!$connection->execute($stmt)) {
-                    $tableCreated = false;
-                }
-            } catch (\Exception $ex) {
-                $this->error(__d('installer', 'Unable to create table "{0}". Details: {1}', $tableName, $ex->getMessage()));
-                $tableCreated = false;
-            }
-        }
-
-        if (!$tableCreated) {
-            return false;
-        }
-
-        if (!$this->_importRecords($fixture, $schema, $connection)) {
-            return false;
-        }
-
-        return true;
+        return $schema;
     }
 
     /**
      * Imports all records of the given fixture.
      *
-     * @param object $fixture Fixture object instance
+     * @param string $fixtureClassName Fixture class name
      * @param \Cake\Database\Schema\Table $schema Table schema for which records
      *  will be imported
      * @param \Cake\Database\Connection $connection Database connection to use
      * @return bool True on success
      */
-    protected function _importRecords($fixture, TableSchema $schema, Connection $connection)
+    protected function _importRecords($fixtureClassName, TableSchema $schema, Connection $connection)
     {
-        if (isset($fixture->records) && !empty($fixture->records)) {
-            $fixture->records = (array)$fixture->records;
-            if (count($fixture->records) > 100) {
-                $chunk = array_chunk($fixture->records, 100);
-            } else {
-                $chunk = [0 => $fixture->records];
+        $fixture = new $fixtureClassName;
+        if (!isset($fixture->records) || empty($fixture->records)) {
+            return true;
+        }
+
+        $fixture->records = (array)$fixture->records;
+        if (count($fixture->records) > 100) {
+            $chunk = array_chunk($fixture->records, 100);
+        } else {
+            $chunk = [0 => $fixture->records];
+        }
+
+        foreach ($chunk as $records) {
+            list($fields, $values, $types) = $this->_getRecords($records, $schema);
+            $query = $connection->newQuery()
+                ->insert($fields, $types)
+                ->into($schema->name());
+
+            foreach ($values as $row) {
+                $query->values($row);
             }
 
-            foreach ($chunk as $records) {
-                list($fields, $values, $types) = $this->_getRecords($records, $schema);
-                $query = $connection->newQuery()
-                    ->insert($fields, $types)
-                    ->into($schema->name());
-
-                foreach ($values as $row) {
-                    $query->values($row);
-                }
-
-                try {
-                    $statement = $query->execute();
-                    $statement->closeCursor();
-                } catch (\Exception $ex) {
-                    $this->error(__d('installer', 'Error while importing data for table "{0}". Details: {1}', $schema->name(), $ex->getMessage()));
-                    return false;
-                }
+            try {
+                $statement = $query->execute();
+                $statement->closeCursor();
+            } catch (\Exception $ex) {
+                $this->error(__d('installer', 'Error while importing data for table "{0}". Details: {1}', $schema->name(), $ex->getMessage()));
+                return false;
             }
         }
 
