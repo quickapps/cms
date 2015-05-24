@@ -35,13 +35,49 @@ class MenuLinksFixture extends TestFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'menu_links_menu_id_index' =>
     [
-      0 => 'parent_id',
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'menu_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
-    'length' =>
+    'menu_links_lft_index' =>
     [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'lft',
+      ],
+      'length' =>
+      [
+      ],
+    ],
+    'menu_links_rght_index' =>
+    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'rght',
+      ],
+      'length' =>
+      [
+      ],
+    ],
+    'menu_links_parent_id_index' =>
+    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'parent_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

@@ -327,6 +327,8 @@ class DatabaseInstaller
         $fixture = new $className;
         $fields = (array)$fixture->fields;
         $constraints = [];
+        $indexes = [];
+        $options = [];
 
         if (!empty($fixture->table)) {
             $tableName = $fixture->table;
@@ -339,11 +341,32 @@ class DatabaseInstaller
             unset($fields['_constraints']);
         }
 
+        if (isset($fields['_indexes'])) {
+            $indexes = $fields['_indexes'];
+            unset($fields['_indexes']);
+        }
+
+        if (isset($fields['_options'])) {
+            $options = $fields['_options'];
+            unset($fields['_options']);
+        }
+
         $schema = new TableSchema($tableName, $fields);
+
         if (!empty($constraints)) {
             foreach ($constraints as $constraintName => $constraintAttrs) {
                 $schema->addConstraint($constraintName, $constraintAttrs);
             }
+        }
+
+        if (!empty($indexes)) {
+            foreach ($indexes as $name => $attrs) {
+                $schema->addIndex($name, $attrs);
+            }
+        }
+
+        if (!empty($options)) {
+            $schema->options($options);
         }
 
         $sql = $schema->createSql($connection);

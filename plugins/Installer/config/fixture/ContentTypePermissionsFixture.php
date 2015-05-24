@@ -30,9 +30,6 @@ class ContentTypePermissionsFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

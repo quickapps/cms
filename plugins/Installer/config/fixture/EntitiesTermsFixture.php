@@ -30,9 +30,6 @@ class EntitiesTermsFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

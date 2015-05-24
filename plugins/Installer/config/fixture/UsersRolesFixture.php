@@ -30,9 +30,6 @@ class UsersRolesFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

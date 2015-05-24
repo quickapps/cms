@@ -30,9 +30,6 @@ class ContentRevisionsFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

@@ -30,9 +30,6 @@ class BlocksFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

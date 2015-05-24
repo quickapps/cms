@@ -35,13 +35,38 @@ class AcosFixture extends TestFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'acos_parent_id_index' =>
     [
-      0 => 'rght',
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'parent_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
-    'length' =>
+    'acos_lft_index' =>
     [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'lft',
+      ],
+      'length' =>
+      [
+      ],
+    ],
+    'acos_rght_index' =>
+    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'rght',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

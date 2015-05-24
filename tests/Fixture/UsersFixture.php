@@ -47,13 +47,16 @@ class UsersFixture extends TestFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'users_email_index' =>
     [
-      0 => 'email',
-    ],
-    'length' =>
-    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'email',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

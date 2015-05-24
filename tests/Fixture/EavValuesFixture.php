@@ -35,13 +35,27 @@ class EavValuesFixture extends TestFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'eav_values_eav_attribute_id_index' =>
     [
-      0 => 'entity_id',
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'eav_attribute_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
-    'length' =>
+    'eav_values_entity_id_index' =>
     [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'entity_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

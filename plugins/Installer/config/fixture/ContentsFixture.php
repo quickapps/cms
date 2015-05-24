@@ -32,13 +32,49 @@ class ContentsFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'contents_content_type_id_index' =>
     [
-      0 => 'slug',
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'content_type_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
-    'length' =>
+    'contents_content_type_slug_index' =>
     [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'content_type_slug',
+      ],
+      'length' =>
+      [
+      ],
+    ],
+    'contents_translation_for_index' =>
+    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'translation_for',
+      ],
+      'length' =>
+      [
+      ],
+    ],
+    'contents_slug_index' =>
+    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'slug',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

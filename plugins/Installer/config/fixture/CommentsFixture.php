@@ -32,13 +32,27 @@ class CommentsFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'comments_entity_id_index' =>
     [
-      0 => 'user_id',
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'entity_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
-    'length' =>
+    'comments_user_id_index' =>
     [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'user_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

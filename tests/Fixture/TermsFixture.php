@@ -44,9 +44,6 @@ class TermsFixture extends TestFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

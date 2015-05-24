@@ -123,8 +123,11 @@ class DatabaseExportTask extends Shell
             $records = [];
             $primaryKeys = [];
 
-            foreach ($Table->schema()->indexes() as $index) {
-                $fields['_indexes'] = $Table->schema()->index($index);
+            foreach ($Table->schema()->indexes() as $indexName) {
+                $index = $Table->schema()->index($indexName);
+                if (!empty($index['columns'])) {
+                    $fields['_indexes']["{$table}_{$indexName}_index"] = $index;
+                }
             }
 
             foreach ($columns as $column) {
@@ -177,6 +180,10 @@ class DatabaseExportTask extends Shell
             // undo changes made by "FIX"
             foreach ($originalTypes as $column => $type) {
                 $fields[$column]['type'] = $type;
+            }
+
+            if (empty($fields['_indexes'])) {
+                unset($fields['_indexes']);
             }
 
             $fields = $this->_arrayToString($fields);

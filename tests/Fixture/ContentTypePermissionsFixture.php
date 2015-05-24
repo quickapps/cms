@@ -33,9 +33,6 @@ class ContentTypePermissionsFixture extends TestFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

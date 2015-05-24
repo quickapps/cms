@@ -35,13 +35,16 @@ class MenusFixture extends TestFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'menus_slug_index' =>
     [
-      0 => 'slug',
-    ],
-    'length' =>
-    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'slug',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

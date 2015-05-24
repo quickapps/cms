@@ -35,13 +35,38 @@ class EavAttributesFixture extends TestFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'eav_attributes_table_alias_index' =>
     [
-      0 => 'name',
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'table_alias',
+      ],
+      'length' =>
+      [
+      ],
     ],
-    'length' =>
+    'eav_attributes_bundle_index' =>
     [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'bundle',
+      ],
+      'length' =>
+      [
+      ],
+    ],
+    'eav_attributes_name_index' =>
+    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'name',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

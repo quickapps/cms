@@ -32,13 +32,16 @@ class RolesFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'roles_slug_index' =>
     [
-      0 => 'slug',
-    ],
-    'length' =>
-    [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'slug',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>

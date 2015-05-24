@@ -33,9 +33,6 @@ class BlocksFixture extends TestFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

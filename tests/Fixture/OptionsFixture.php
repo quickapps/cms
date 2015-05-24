@@ -44,9 +44,6 @@ class OptionsFixture extends TestFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',

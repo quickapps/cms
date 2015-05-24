@@ -35,13 +35,27 @@ class FieldInstancesFixture extends TestFixture
     ],
     '_indexes' =>
     [
-    'type' => 'index',
-    'columns' =>
+    'field_instances_id_index' =>
     [
-      0 => 'eav_attribute_id',
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'id',
+      ],
+      'length' =>
+      [
+      ],
     ],
-    'length' =>
+    'field_instances_eav_attribute_id_index' =>
     [
+      'type' => 'index',
+      'columns' =>
+      [
+        0 => 'eav_attribute_id',
+      ],
+      'length' =>
+      [
+      ],
     ],
     ],
     '_options' =>
