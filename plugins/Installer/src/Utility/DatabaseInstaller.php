@@ -334,7 +334,7 @@ class DatabaseInstaller
                     $tableCreated = false;
                 }
             } catch (\Exception $ex) {
-                $this->error(__d('installer', 'Unable to create table "{0}". Details: {1}', $tableName, $ex->getMessage()));
+                $this->error(__d('installer', 'Unable to create table "{0}". Details: {1}', $schema->name(), $ex->getMessage()));
                 $tableCreated = false;
             }
         }
@@ -359,16 +359,45 @@ class DatabaseInstaller
     protected function _prepareSchema($fixtureClassName)
     {
         $fixture = new $fixtureClassName;
-        $fields = (array)$fixture->fields;
-        $constraints = [];
-        $indexes = [];
-        $options = [];
-
         if (!empty($fixture->table)) {
             $tableName = $fixture->table;
         } else {
             $tableName = (string)Inflector::underscore(str_replace_last('Fixture', '', $fixtureClassName));
         }
+
+        list($fields, $constraints, $indexes, $options) = $this->_prepareSchemaProperties($fixture);
+        $schema = new TableSchema($tableName, $fields);
+
+        foreach ($constraints as $name => $attrs) {
+            $schema->addConstraint($name, $attrs);
+        }
+
+        foreach ($indexes as $name => $attrs) {
+            $schema->addIndex($name, $attrs);
+        }
+
+        if (!empty($options)) {
+            $schema->options($options);
+        }
+
+        return $schema;
+    }
+
+    /**
+     * Extracts some properties from the given fixture instance to properly
+     * build a new table schema instance (constrains, indexes, etc).
+     *
+     * @param object $fixture Fixture instance from which extract schema
+     *  properties
+     * @return array Where with keys 0 => $fields, 1 => $constraints, 2 =>
+     *  $indexes and 3 => $options
+     */
+    protected function _prepareSchemaProperties($fixture)
+    {
+        $fields = (array)$fixture->fields;
+        $constraints = [];
+        $indexes = [];
+        $options = [];
 
         if (isset($fields['_constraints'])) {
             $constraints = $fields['_constraints'];
@@ -385,24 +414,12 @@ class DatabaseInstaller
             unset($fields['_options']);
         }
 
-        $schema = new TableSchema($tableName, $fields);
-        if (!empty($constraints)) {
-            foreach ($constraints as $name => $attrs) {
-                $schema->addConstraint($name, $attrs);
-            }
-        }
-
-        if (!empty($indexes)) {
-            foreach ($indexes as $name => $attrs) {
-                $schema->addIndex($name, $attrs);
-            }
-        }
-
-        if (!empty($options)) {
-            $schema->options($options);
-        }
-
-        return $schema;
+        return [
+            $fields,
+            $constraints,
+            $indexes,
+            $options,
+        ];
     }
 
     /**
