@@ -114,10 +114,18 @@ class DatabaseExportTask extends Shell
 
             $Table = TableRegistry::get($table);
             $Table->behaviors()->reset();
-            $fields = ['_constraints' => []];
+            $fields = [
+                '_constraints' => [],
+                '_indexes' => [],
+                '_options' => (array)$Table->schema()->options(),
+            ];
             $columns = $Table->schema()->columns();
             $records = [];
             $primaryKeys = [];
+
+            foreach ($Table->schema()->indexes() as $index) {
+                $fields['_indexes'] = $Table->schema()->index($index);
+            }
 
             foreach ($columns as $column) {
                 $fields[$column] = $Table->schema()->column($column);
