@@ -110,7 +110,6 @@ class ContentHook implements EventListenerInterface
     {
         $View = $event->subject();
         $viewMode = $View->viewMode();
-        $html = '';
         $try = [
             "Content.render_content_{$content->content_type_slug}_{$viewMode}",
             "Content.render_content_{$content->content_type_slug}",
@@ -120,11 +119,10 @@ class ContentHook implements EventListenerInterface
 
         foreach ($try as $element) {
             if ($View->elementExists($element)) {
-                $html = $View->element($element, compact('content', 'options'));
-                break;
+                return $View->element($element, compact('content', 'options'));
             }
         }
 
-        return $html;
+        return '';
     }
 }
