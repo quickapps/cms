@@ -32,17 +32,6 @@ class RolesFixture extends TestFixture
       [
       ],
     ],
-    'roles_name' =>
-    [
-      'type' => 'unique',
-      'columns' =>
-      [
-        0 => 'name',
-      ],
-      'length' =>
-      [
-      ],
-    ],
     ],
     'id' =>
     [

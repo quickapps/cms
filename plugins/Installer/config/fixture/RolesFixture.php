@@ -29,17 +29,6 @@ class RolesFixture
       [
       ],
     ],
-    'roles_name' =>
-    [
-      'type' => 'unique',
-      'columns' =>
-      [
-        0 => 'name',
-      ],
-      'length' =>
-      [
-      ],
-    ],
     ],
     'id' =>
     [
