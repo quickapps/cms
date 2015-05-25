@@ -106,7 +106,7 @@ class SchemaTask extends Shell
         ];
 
         if ($options['action'] == 'drop') {
-            return $table->dropColumn($options['name'], $option['bundle']);
+            return $table->dropColumn($options['name'], $meta['bundle']);
         }
 
         try {

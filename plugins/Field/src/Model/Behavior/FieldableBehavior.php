@@ -556,7 +556,7 @@ class FieldableBehavior extends EavBehavior
     {
         $bundle = $this->_resolveBundle($entity);
         $attrs = $this->_toolbox->attributes($bundle);
-        $attrByIds = []; // attrs indexed by ids
+        $attrByIds = []; // attrs indexed by id
         $attrByNames = []; // attrs indexed by name
 
         foreach ($attrs as $name => $attr) {

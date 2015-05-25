@@ -157,8 +157,8 @@ class EventDispatcher
     }
 
     /**
-     * Retrieve the number of times an event was triggered, or the complete list
-     * of events that were triggered.
+     * Retrieves the number of times an event was triggered, or the complete
+     * list of events that were triggered.
      *
      * @param string|null $eventName The name of the event, if null returns the entire
      *  list of event that were fired
