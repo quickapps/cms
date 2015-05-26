@@ -11,6 +11,7 @@
  */
 namespace Content\Controller;
 
+use Cake\Datasource\EntityInterface;
 use Cake\I18n\I18n;
 use Cake\Network\Exception\ForbiddenException;
 use Content\Error\ContentNotFoundException;
@@ -124,20 +125,10 @@ class ServeController extends AppController
         }
 
         if (!empty($content->language) && $content->language != I18n::locale()) {
-            $translation = $content->translation();
-            if ($translation) {
-                $url = option('url_locale_prefix') ? '/' . $translation->language . stripLanguagePrefix($translation->url) : $translation->url;
-                $this->redirect($url);
+            if ($redirect = $this->_calculateRedirection($content)) {
+                $this->redirect($redirect);
                 return $this->response;
             }
-
-            $parent = $content->parent();
-            if ($parent) {
-                $url = option('url_locale_prefix') ? '/' . $parent->language . stripLanguagePrefix($parent->url) : $parent->url;
-                $this->redirect($url);
-                return $this->response;
-            }
-
             throw new ContentNotFoundException(__d('content', 'The requested page was not found.'));
         }
 
@@ -203,5 +194,22 @@ class ServeController extends AppController
         $this->viewMode('rss');
         $this->RequestHandler->renderAs($this, 'rss');
         $this->RequestHandler->respondAs('xml');
+    }
+
+    /**
+     * Calculates the URL to which visitor should be redirected according to
+     * content's & visitor's language.
+     *
+     * @param \Cake\Datasource\EntityInterface $content Content to inspect
+     * @return string Redirection URL, empty on error
+     */
+    protected function _calculateRedirection(EntityInterface $content)
+    {
+        foreach (['translation', 'parent'] as $method) {
+            if ($has = $content->{$method}()) {
+                return option('url_locale_prefix') ? '/' . $has->get('language') . stripLanguagePrefix($has->get('url')) : $has->get('url');
+            }
+        }
+        return '';
     }
 }
