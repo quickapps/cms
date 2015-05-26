@@ -28,6 +28,7 @@ use \ArrayObject;
  * @property \User\Model\Table\ContentRevisionsTable $ContentRevisions
  * @property \User\Model\Table\ContentsTable $Translations
  * @property \User\Model\Table\UsersTable $Author
+ * @property \User\Model\Table\UsersTable $ModifiedBy
  * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
  * @method void enableSearchOperator(string $name)
  * @method void disableSearchOperator(string $name)
