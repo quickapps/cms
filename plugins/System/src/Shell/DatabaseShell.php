@@ -61,21 +61,21 @@ class DatabaseShell extends Shell
     {
         $this->out('<info>Database Shell</info>');
         $this->hr();
-        $this->out('[E]xport database');
-        $this->out('[L]ist tables');
-        $this->out('[S]how connection');
-        $this->out('[H]elp');
-        $this->out('[Q]uit');
+        $this->out(__d('system', '[1] Export database'));
+        $this->out(__d('system', '[2] List tables'));
+        $this->out(__d('system', '[3] Show connection'));
+        $this->out(__d('system', '[H]elp'));
+        $this->out(__d('system', '[Q]uit'));
 
-        $choice = strtolower($this->in('What would you like to do?', ['E', 'L', 'S', 'H', 'Q']));
+        $choice = (string)strtolower($this->in(__d('system', 'What would you like to do?'), ['1', '2', '3', 'H', 'Q']));
         switch ($choice) {
-            case 'e':
+            case '1':
                 $this->dispatchShell('System.database export -m full');
                 break;
-            case 'l':
+            case '2':
                 $this->tables();
                 break;
-            case 's':
+            case '3':
                 $this->connection();
                 break;
             case 'h':
@@ -84,8 +84,9 @@ class DatabaseShell extends Shell
             case 'q':
                 return $this->_stop();
             default:
-                $this->out('You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, H, or Q.');
+                $this->out(__d('system', 'You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, H, or Q.'));
         }
+
         $this->hr();
         $this->main();
     }

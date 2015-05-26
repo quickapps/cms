@@ -50,17 +50,17 @@ class ThemesShell extends Shell
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description('Database maintenance commands.')
+            ->description(__d('installer', 'Theme maintenance commands.'))
             ->addSubcommand('install', [
-                'help' => 'Install a new theme.',
+                'help' => __d('installer', 'Install a new theme.'),
                 'parser' => $this->PluginInstall->getOptionParser(),
             ])
             ->addSubcommand('uninstall', [
-                'help' => 'Uninstalls an existing theme.',
+                'help' => __d('installer', 'Uninstalls an existing theme.'),
                 'parser' => $this->PluginUninstall->getOptionParser(),
             ])
             ->addSubcommand('change', [
-                'help' => 'Change theme in use.',
+                'help' => __d('installer', 'Change theme in use.'),
                 'parser' => $this->ThemeActivation->getOptionParser(),
             ]);
 
@@ -76,21 +76,21 @@ class ThemesShell extends Shell
     {
         $this->out(__d('installer', '<info>Themes Shell</info>'));
         $this->hr();
-        $this->out(__d('installer', '[I]nstall new theme'));
-        $this->out(__d('installer', '[R]emove an existing theme'));
-        $this->out(__d('installer', '[C]hange site theme'));
+        $this->out(__d('installer', '[1] Install new theme'));
+        $this->out(__d('installer', '[2] Remove an existing theme'));
+        $this->out(__d('installer', '[3] Change site theme'));
         $this->out(__d('installer', '[H]elp'));
         $this->out(__d('installer', '[Q]uit'));
 
-        $choice = strtolower($this->in(__d('installer', 'What would you like to do?'), ['I', 'R', 'C', 'H', 'Q']));
+        $choice = (string)strtolower($this->in(__d('installer', 'What would you like to do?'), ['1', '2', '3', 'H', 'Q']));
         switch ($choice) {
-            case 'i':
+            case '1':
                 $this->_install();
                 break;
-            case 'r':
+            case '2':
                 $this->_uninstall();
                 break;
-            case 'c':
+            case '3':
                 $this->_change();
                 break;
             case 'h':
@@ -99,7 +99,7 @@ class ThemesShell extends Shell
             case 'q':
                 return $this->_stop();
             default:
-                $this->out(__d('installer', 'You have made an invalid selection. Please choose a command to execute by entering I, R, C, H, or Q.'));
+                $this->out(__d('installer', 'You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, H, or Q.'));
         }
         $this->hr();
         $this->main();
@@ -143,7 +143,6 @@ class ThemesShell extends Shell
     protected function _install()
     {
         $message = __d('installer', "Please provide a theme source, it can be either an URL or a filesystem path to a ZIP/directory within your server?\n[Q]uit");
-
         while (true) {
             $source = $this->in($message);
             if (strtoupper($source) === 'Q') {

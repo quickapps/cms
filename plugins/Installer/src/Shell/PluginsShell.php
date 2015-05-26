@@ -50,17 +50,17 @@ class PluginsShell extends Shell
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description('Database maintenance commands.')
+            ->description(__d('installer', 'Plugins maintenance commands.'))
             ->addSubcommand('install', [
-                'help' => 'Install a new plugin.',
+                'help' => __d('installer', 'Install a new plugin.'),
                 'parser' => $this->PluginInstall->getOptionParser(),
             ])
             ->addSubcommand('uninstall', [
-                'help' => 'Uninstalls an existing plugin.',
+                'help' => __d('installer', 'Uninstalls an existing plugin.'),
                 'parser' => $this->PluginUninstall->getOptionParser(),
             ])
             ->addSubcommand('toggle', [
-                'help' => 'Enable or disable a plugin.',
+                'help' => __d('installer', 'Enable or disable a plugin.'),
                 'parser' => $this->PluginToggle->getOptionParser(),
             ]);
 
@@ -76,25 +76,25 @@ class PluginsShell extends Shell
     {
         $this->out(__d('installer', '<info>Plugins Shell</info>'));
         $this->hr();
-        $this->out(__d('installer', '[I]nstall new plugin'));
-        $this->out(__d('installer', '[R]emove an existing plugin'));
-        $this->out(__d('installer', '[E]nable plugin'));
-        $this->out(__d('installer', '[D]isable plugin'));
+        $this->out(__d('installer', '[1] Install new plugin'));
+        $this->out(__d('installer', '[2] Remove an existing plugin'));
+        $this->out(__d('installer', '[3] Enable plugin'));
+        $this->out(__d('installer', '[4] Disable plugin'));
         $this->out(__d('installer', '[H]elp'));
         $this->out(__d('installer', '[Q]uit'));
 
-        $choice = strtolower($this->in(__d('installer', 'What would you like to do?'), ['I', 'R', 'E', 'D', 'H', 'Q']));
+        $choice = (string)strtolower($this->in(__d('installer', 'What would you like to do?'), ['1', '2', '3', '4', 'H', 'Q']));
         switch ($choice) {
-            case 'i':
+            case '1':
                 $this->_install();
                 break;
-            case 'r':
+            case '2':
                 $this->_uninstall();
                 break;
-            case 'e':
+            case '3':
                 $this->_enable();
                 break;
-            case 'd':
+            case '4':
                 $this->_disable();
                 break;
             case 'h':
@@ -103,7 +103,7 @@ class PluginsShell extends Shell
             case 'q':
                 return $this->_stop();
             default:
-                $this->out(__d('installer', 'You have made an invalid selection. Please choose a command to execute by entering I, R, E, D, H, or Q.'));
+                $this->out(__d('installer', 'You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, 4, H, or Q.'));
         }
         $this->hr();
         $this->main();
