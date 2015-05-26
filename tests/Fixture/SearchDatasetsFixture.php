@@ -55,20 +55,6 @@ class SearchDatasetsFixture extends TestFixture
       ],
     ],
     ],
-    '_indexes' =>
-    [
-    'search_datasets_words_index' =>
-    [
-      'type' => 'fulltext',
-      'columns' =>
-      [
-        0 => 'words',
-      ],
-      'length' =>
-      [
-      ],
-    ],
-    ],
     '_options' =>
     [
     'engine' => 'InnoDB',
