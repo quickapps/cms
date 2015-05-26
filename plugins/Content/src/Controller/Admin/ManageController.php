@@ -48,6 +48,8 @@ class ManageController extends AppController
     public function index()
     {
         $this->loadModel('Content.Contents');
+        $this->Contents->Author->unbindFieldable();
+        $this->Contents->ModifiedBy->unbindFieldable();
         $contents = $this->Contents
             ->find('all', ['fieldable' => false])
             ->contain(['ContentTypes', 'Author', 'ModifiedBy']);

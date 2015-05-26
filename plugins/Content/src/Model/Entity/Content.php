@@ -101,13 +101,10 @@ class Content extends Entity
         if ($this->has('user')) {
             return $this->get('user');
         } elseif (!empty($this->created_by)) {
-            $user = TableRegistry::get('User.Users')
-                ->find()
-                ->where(['id' => $this->created_by])
-                ->first();
-
-            if ($user) {
-                return $user;
+            try {
+                return TableRegistry::get('User.Users')->get($this->created_by, ['fieldable' => false]);
+            } catch (\Exception $ex) {
+                // user not found
             }
         }
 
