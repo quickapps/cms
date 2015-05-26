@@ -13,8 +13,18 @@
 class EntitiesTermsFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'entities_terms';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -90,6 +100,11 @@ class EntitiesTermsFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

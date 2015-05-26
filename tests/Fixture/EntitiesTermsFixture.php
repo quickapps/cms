@@ -16,8 +16,18 @@ use Cake\TestSuite\Fixture\TestFixture;
 class EntitiesTermsFixture extends TestFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'entities_terms';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -93,6 +103,11 @@ class EntitiesTermsFixture extends TestFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

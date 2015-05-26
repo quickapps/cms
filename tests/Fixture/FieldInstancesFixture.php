@@ -16,8 +16,18 @@ use Cake\TestSuite\Fixture\TestFixture;
 class FieldInstancesFixture extends TestFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'field_instances';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -173,6 +183,11 @@ class FieldInstancesFixture extends TestFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

@@ -13,8 +13,18 @@
 class ContentTypesFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'content_types';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -107,6 +117,11 @@ class ContentTypesFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

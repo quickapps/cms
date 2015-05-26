@@ -16,8 +16,18 @@ use Cake\TestSuite\Fixture\TestFixture;
 class AcosFixture extends TestFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'acos';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -149,6 +159,11 @@ class AcosFixture extends TestFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

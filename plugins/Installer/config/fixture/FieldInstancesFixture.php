@@ -13,8 +13,18 @@
 class FieldInstancesFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'field_instances';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -170,6 +180,11 @@ class FieldInstancesFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

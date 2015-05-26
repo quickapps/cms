@@ -16,8 +16,18 @@ use Cake\TestSuite\Fixture\TestFixture;
 class ContentTypePermissionsFixture extends TestFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'content_type_permissions';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -82,6 +92,11 @@ class ContentTypePermissionsFixture extends TestFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

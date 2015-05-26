@@ -13,8 +13,18 @@
 class ContentRevisionsFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'content_revisions';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -96,6 +106,11 @@ class ContentRevisionsFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

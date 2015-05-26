@@ -13,8 +13,18 @@
 class BlockRegionsFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'block_regions';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -101,6 +111,11 @@ class BlockRegionsFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

@@ -16,8 +16,18 @@ use Cake\TestSuite\Fixture\TestFixture;
 class ContentRevisionsFixture extends TestFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'content_revisions';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -99,6 +109,11 @@ class ContentRevisionsFixture extends TestFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

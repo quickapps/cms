@@ -13,8 +13,18 @@
 class ContentsRolesFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'contents_roles';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -69,6 +79,11 @@ class ContentsRolesFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

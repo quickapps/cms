@@ -13,8 +13,18 @@
 class AcosFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'acos';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -146,6 +156,11 @@ class AcosFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

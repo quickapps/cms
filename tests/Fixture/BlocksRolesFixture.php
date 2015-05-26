@@ -16,8 +16,18 @@ use Cake\TestSuite\Fixture\TestFixture;
 class BlocksRolesFixture extends TestFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'blocks_roles';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -72,6 +82,11 @@ class BlocksRolesFixture extends TestFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

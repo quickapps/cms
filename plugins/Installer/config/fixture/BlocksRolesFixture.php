@@ -13,8 +13,18 @@
 class BlocksRolesFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'blocks_roles';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -69,6 +79,11 @@ class BlocksRolesFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

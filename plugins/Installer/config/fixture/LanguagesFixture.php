@@ -13,8 +13,18 @@
 class LanguagesFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'languages';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -120,6 +130,11 @@ class LanguagesFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

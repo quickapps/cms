@@ -13,8 +13,18 @@
 class ContentsFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'contents';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -244,6 +254,11 @@ class ContentsFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

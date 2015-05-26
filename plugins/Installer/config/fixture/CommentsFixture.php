@@ -13,8 +13,18 @@
 class CommentsFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'comments';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -214,6 +224,11 @@ class CommentsFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     ];
 }

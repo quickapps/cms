@@ -192,10 +192,25 @@ class DatabaseExportTask extends Shell
             $fixture = $this->_classFileHeader($className);
             $fixture .= "{\n";
             $fixture .= "\n";
+            $fixture .= "    /**\n";
+            $fixture .= "     * Table name.\n";
+            $fixture .= "     *\n";
+            $fixture .= "     * @var string\n";
+            $fixture .= "     */\n";
             $fixture .= "    public \$table = '{$table}';\n";
             $fixture .= "\n";
+            $fixture .= "    /**\n";
+            $fixture .= "     * Table columns.\n";
+            $fixture .= "     *\n";
+            $fixture .= "     * @var array\n";
+            $fixture .= "     */\n";
             $fixture .= "    public \$fields = {$fields};\n";
             $fixture .= "\n";
+            $fixture .= "    /**\n";
+            $fixture .= "     * Table records.\n";
+            $fixture .= "     *\n";
+            $fixture .= "     * @var array\n";
+            $fixture .= "     */\n";
             $fixture .= "    public \$records = {$records};\n";
             $fixture .= "}\n";
 

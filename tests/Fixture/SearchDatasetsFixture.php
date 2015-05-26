@@ -16,8 +16,18 @@ use Cake\TestSuite\Fixture\TestFixture;
 class SearchDatasetsFixture extends TestFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'search_datasets';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -39,6 +49,20 @@ class SearchDatasetsFixture extends TestFixture
       [
         0 => 'entity_id',
         1 => 'table_alias',
+      ],
+      'length' =>
+      [
+      ],
+    ],
+    ],
+    '_indexes' =>
+    [
+    'search_datasets_words_index' =>
+    [
+      'type' => 'fulltext',
+      'columns' =>
+      [
+        0 => 'words',
       ],
       'length' =>
       [
@@ -91,6 +115,11 @@ class SearchDatasetsFixture extends TestFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [
     0 =>
     [

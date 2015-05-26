@@ -13,8 +13,18 @@
 class UsersFixture
 {
 
+    /**
+     * Table name.
+     *
+     * @var string
+     */
     public $table = 'users';
 
+    /**
+     * Table columns.
+     *
+     * @var array
+     */
     public $fields = [
     '_constraints' =>
     [
@@ -197,5 +207,10 @@ class UsersFixture
     ],
     ];
 
+    /**
+     * Table records.
+     *
+     * @var array
+     */
     public $records = [];
 }
