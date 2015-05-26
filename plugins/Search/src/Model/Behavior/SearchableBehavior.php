@@ -300,8 +300,11 @@ class SearchableBehavior extends Behavior
      * - operators: A list of registered operators methods as `name` =>
      *   `methodName`.
      *
-     * - strict: Set to TRUE to filter any invalid word, if so any invalid character
-     *   will be removed. Defaults to FALSE.
+     * - strict: Used to filter any invalid word. Set to a string representing a
+     *   regular expression describing which charaters should be removed. Or set
+     *   to TRUE to used default discard criteria: only letters, digits and few
+     *   basic symbols (".", ",", "/", etc). Defaults to TRUE (custom filter
+     *   regex).
      *
      * - fields: List of entity fields where to look for words. Or a callable
      *   method, it receives and entity as first argument and it must return a list
@@ -320,7 +323,7 @@ class SearchableBehavior extends Behavior
      */
     protected $_defaultConfig = [
         'operators' => [],
-        'strict' => false,
+        'strict' => true,
         'fields' => null,
         'bannedWords' => [],
         'on' => 'both',
@@ -751,9 +754,12 @@ class SearchableBehavior extends Behavior
 
         $text = str_replace(["\n", "\r"], '', (string)$text); // remove new lines
         $text = strip_tags($text); // remove HTML tags, but keep their content
+        $strict = $this->config('strict');
 
-        if ($this->config('strict')) {
-            $text = preg_replace('/[^\p{L}\s]/i', ' ', $text); // letters (any language) ands white spaces only
+        if (!empty($strict)) {
+            // only: space, digits (0-9), letters (any language), ".", ",", "-", "_", "/", "\"
+            $pattern = is_string($strict) ? $strict : '[^\p{L}\s\.\,\-\_\/\\0-9]';
+            $text = preg_replace('/' . $pattern . '/i', ' ', $text);
         }
 
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
