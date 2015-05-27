@@ -27,6 +27,10 @@ class CommandListShell extends CakeCommandListShell
      */
     public function main()
     {
+        if (!defined('SITE_ROOT')) {
+            return parent::main();
+        }
+
         if (empty($this->params['xml'])) {
             $this->out(__('<info>Current Paths:</info>'), 2);
             $this->out(__('* QuickApps Core: {path}', ['path' => normalizePath(QUICKAPPS_CORE)]));
@@ -57,6 +61,10 @@ class CommandListShell extends CakeCommandListShell
      */
     protected function _asText($shellList)
     {
+        if (!defined('SITE_ROOT')) {
+            return parent::_asText($shellList);
+        }
+
         foreach ($shellList as $plugin => $commands) {
             sort($commands);
             if ($plugin == 'app') {
@@ -81,6 +89,10 @@ class CommandListShell extends CakeCommandListShell
      */
     public function getOptionParser()
     {
+        if (!defined('SITE_ROOT')) {
+            return parent::getOptionParser();
+        }
+
         $parser = parent::getOptionParser();
         $parser
             ->description(__('Get the list of available shells for this QuickAppsCMS installation.'))
@@ -99,6 +111,10 @@ class CommandListShell extends CakeCommandListShell
      */
     protected function _welcome()
     {
+        if (!defined('SITE_ROOT')) {
+            return parent::_welcome();
+        }
+
         $this->out();
         $this->out(__('<info>Welcome to QuickApps CMS v{0} Console</info>', quickapps('version')));
         $this->hr();
