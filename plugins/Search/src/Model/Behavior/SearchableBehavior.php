@@ -757,8 +757,8 @@ class SearchableBehavior extends Behavior
         $strict = $this->config('strict');
 
         if (!empty($strict)) {
-            // only: space, digits (0-9), letters (any language), ".", ",", "-", "_", "/", "\"
-            $pattern = is_string($strict) ? $strict : '[^\p{L}\s\.\,\-\_\/\\0-9]';
+            // only: space, digits (0-9), letters (any language), ".", ":", ",", "-", "_", "/", "\"
+            $pattern = is_string($strict) ? $strict : '[^\p{L}\:\s\.\,\-\_\/\\0-9]';
             $text = preg_replace('/' . $pattern . '/i', ' ', $text);
         }
 
