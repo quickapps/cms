@@ -55,7 +55,7 @@ class ViewModeRegistry
     public static function uses($slug)
     {
         if (empty(static::$_modes[$slug])) {
-            throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::uses(), view mode "{0}" was not found.', $slug));
+            throw new InternalErrorException(__d('cms', 'Illegal usage of ViewModeRegistry::uses(), view mode "{0}" was not found.', $slug));
         }
 
         static::$_current = $slug;
@@ -205,7 +205,7 @@ class ViewModeRegistry
     {
         if (is_string($mode)) {
             if (!isset(static::$_modes[$mode])) {
-                throw new InternalErrorException(__('Illegal usage of ViewModeRegistry::modes(), view mode "{0}" was not found.', $mode));
+                throw new InternalErrorException(__d('cms', 'Illegal usage of ViewModeRegistry::modes(), view mode "{0}" was not found.', $mode));
             }
 
             return static::$_modes[$mode];

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,103 +14,103 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:52;81
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:51;80
 msgid "Further instructions have been sent to your e-mail address."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:54;83
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:53;82
 msgid "Instructions could not been sent to your e-mail address, please try again later."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:57
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:56
 msgid "Sorry, \"{0}\" is not recognized as a user name or an e-mail address."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:61
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:60
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/settings.ctp:150
 msgid "Password Recovery"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:86;126
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:85;125
 msgid "Account Cancellation"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:111
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:110
 msgid "You are the last administrator in the system, your account cannot be canceled."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:118
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:117
 msgid "Account successfully canceled"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:120
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:119
 msgid "Account could not be canceled due to an internal error, please try again later."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:123
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:122
 msgid "Not user was found, invalid cancellation URL."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:150
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:149
 msgid "Account successfully created, further instructions have been sent to your e-mail address."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:153
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:152
 msgid "Account could not be created, please check your information."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:157
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:156
 msgid "Registration"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:186
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:185
 msgid "Instructions have been sent to your e-mail address."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:189
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:188
 msgid "No account was found matching the given username/email."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:193
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:192
 msgid "Activation Request"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:222
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:221
 msgid "Account successfully activated."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:224
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:223
 msgid "Account could not be activated, please try again later."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:227
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:226
 msgid "Account not found or is already active."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:230
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:229
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/settings.ctp:108
 msgid "Account Activation"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:249
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:248
 msgid "Username or password is incorrect"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:271
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:123
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:270
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:119
 msgid "User information successfully updated!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:274
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:126
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:273
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:122
 msgid "User information could not be saved, please check your information."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:278
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:277
 msgid "Account"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:302
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/GatewayController.php:301
 msgid "User’s Profile"
 msgstr ""
 
@@ -140,83 +140,83 @@ msgstr ""
 msgid "Virtual Fields"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:51
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:47
 msgid "Users List"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:90
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:86
 msgid "User successfully registered!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:93
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:89
 msgid "User could not be registered, please check your information."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:97
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:93
 msgid "Register New User"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:130
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:126
 msgid "Editing User"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:154
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:150
 msgid "User {0} was successfully blocked!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:158
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:154
 msgid "User could not be blocked, please try again."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:161
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:157
 msgid "Administrator users cannot be blocked."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:164
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:160
 msgid "Block User Account"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:181
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:177
 msgid "User {0} was successfully activated!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:183
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:179
 msgid "User could not be activated, please try again."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:186
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:182
 msgid "Unblock User Account"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:203
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:199
 msgid "Instructions we successfully sent to {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:205
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:201
 msgid "User was not found."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:208
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:204
 msgid "Recovery Instructions"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:226
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:222
 msgid "You cannot remove this user as it is the last administrator available."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:230
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:226
 msgid "User successfully removed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:233
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:229
 msgid "User could not be removed."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:237
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/ManageController.php:233
 msgid "Remove User Account"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:39;43;73
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:39;43;74
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/index_submenu.ctp:24
 msgid "Permissions"
 msgstr ""
@@ -229,43 +229,43 @@ msgstr ""
 msgid "Permissions could not be saved"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:87
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:88
 msgid "Permissions tree was successfully updated!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:89
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:90
 msgid "Some errors occur while updating permissions tree."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:92
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:93
 msgid "Update Permissions"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:123
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:124
 msgid "Export Permissions"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:147
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:148
 msgid "File could not be uploaded, please check write permissions on /tmp directory."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:158;195
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:159;196
 msgid "Given file seems to be corrupt."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:201
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:202
 msgid "Invalid file given."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:207
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:208
 msgid "The following entries were imported: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:209
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:210
 msgid "Success, but nothing was imported"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:215
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/PermissionsController.php:216
 msgid "Import Permissions"
 msgstr ""
 
@@ -310,7 +310,7 @@ msgid "Editing User Role"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Controller/Admin/RolesController.php:97
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:64
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:62
 msgid "Edit role"
 msgstr ""
 
@@ -330,15 +330,15 @@ msgstr ""
 msgid "Remove User Role"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Event/UserHook.php:217
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Event/UserHook.php:55
 msgid "Invalid password min-length."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Event/UserHook.php:223;226;229;232;237;243;249
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Event/UserHook.php:61;64;67;70;75;81;87
 msgid "This field cannot be empty."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Model/Entity/User.php:162
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Model/Entity/User.php:200
 msgid "Cannot generated cancel code for this user: unknown user ID."
 msgstr ""
 
@@ -561,6 +561,11 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Manage/index.ctp:56
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:43
+msgid "Actions"
+msgstr ""
+
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Manage/index.ctp:77
 msgid "Set as default"
 msgstr ""
@@ -590,20 +595,24 @@ msgid "You are about to activate: \"{0}\". Are you sure ?"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Manage/index.ctp:128
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:77
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:75
 msgid "Delete"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Manage/index.ctp:130
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:79
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:77
 msgid "You are about to delete: \"{0}\". Are you sure ?"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Permissions/aco.ctp:21
-msgid "Administrators have full access to the entire platform. No restrictions can be applied to them."
+msgid "Role Permissions"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Permissions/aco.ctp:24
+msgid "Hold <kbd>ctrl</kbd> key when clicking to select multiple roles. Administrators have full access to the entire platform. No restrictions can be applied to them."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Permissions/aco.ctp:29
 msgid "Save Permissions"
 msgstr ""
 
@@ -648,7 +657,7 @@ msgstr ""
 msgid "{plus_icon} New Role"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:44
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Admin/Roles/index.ctp:42
 msgid "Role name"
 msgstr ""
 
@@ -788,19 +797,19 @@ msgstr ""
 msgid "Notify user when account is canceled"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/sub-menu_render.ctp:15
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/user_menu_widget_render.ctp:15
 msgid "Administer Site"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/sub-menu_render.ctp:19
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/user_menu_widget_render.ctp:19
 msgid "Sign in"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/sub-menu_render.ctp:21
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/user_menu_widget_render.ctp:21
 msgid "My account"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/sub-menu_render.ctp:22
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/User/src/Template/Element/user_menu_widget_render.ctp:22
 msgid "Sign out"
 msgstr ""
 

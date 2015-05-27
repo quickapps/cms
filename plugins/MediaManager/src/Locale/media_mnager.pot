@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Search/src/Model/Behavior/SearchableBehavior.php:512
-msgid "Error while processing the \"{0}\" token in the search criteria."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/MediaManager/src/Controller/Admin/ExplorerController.php:30
+msgid "File Manager"
 msgstr ""
 

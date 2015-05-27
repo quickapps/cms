@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -26,11 +26,11 @@ msgstr ""
 msgid "Menu’s Links"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:92;224
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:92;223
 msgid "Editing menu"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:93;173;225
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:93;172;224
 msgid "Links"
 msgstr ""
 
@@ -46,47 +46,47 @@ msgstr ""
 msgid "{title} [{content_type}]"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:168
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:167
 msgid "Create New Link"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:172
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:171
 msgid "Editing menu \"{0}\""
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:174
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:173
 msgid "Add new link"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:204
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:203
 msgid "Link has been updated"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:207
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:206
 msgid "Link could not be updated, please check your information"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:217
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:216
 msgid "{0} [{1}]"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:220
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:219
 msgid "Editing Link"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:226
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:225
 msgid "Editing link"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:243
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:242
 msgid "Link successfully removed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:245
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:244
 msgid "Link could not be removed, please try again"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:248
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/LinksController.php:247
 msgid "Delete Link"
 msgstr ""
 
@@ -110,32 +110,31 @@ msgstr ""
 msgid "Creating new menu"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:102
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:98
 msgid "Menu has been saved!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:105
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:101
 msgid "Menu could not be saved, please check your information"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:109
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/edit.ctp:18
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:105
 msgid "Editing Menu"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:113
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:109
 msgid "Editing menu {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:130
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:126
 msgid "Menu has been successfully deleted!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:132
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:128
 msgid "Menu could not be deleted, please try again"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:135
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Controller/Admin/ManageController.php:131
 msgid "Delete Menu"
 msgstr ""
 
@@ -145,16 +144,16 @@ msgid "Method \"{0}\" was not found."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenuLinksTable.php:67
-msgid "Invalid URL. Internal links must start with \"/\", e.g. \"/article-my-first-article.html\""
+msgid "Invalid URL. Internal links must start with \"/\", e.g. \"/article-my-first-article{0}\""
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenuLinksTable.php:74
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:60
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:61
 msgid "You need to provide a title."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenuLinksTable.php:78
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:64
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:65
 msgid "Title need to be at least 3 characters long."
 msgstr ""
 
@@ -166,15 +165,15 @@ msgstr ""
 msgid "Invalid PHP code, make sure that tags \"&lt;?php\" & \"?&gt;\" are present."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:71
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:72
 msgid "Invalid menu handler"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:110
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:92
 msgid "[menu: {0}]"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:113
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Model/Table/MenusTable.php:94
 msgid "Associated block for \"{0}\" menu."
 msgstr ""
 
@@ -203,8 +202,7 @@ msgid "Link to content"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:24
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:25
-msgid "The path for this menu link. This can be an internal QuickApps CMS path such as \"/article/my-first-article.html\" or an external URL such as http://quickappscms.org. Enter \"/\" to link to the front page. You can easily link to an existing content using the \"Link to content\" option above."
+msgid "The path for this menu link. This can be an internal QuickApps CMS path such as \"/article/my-first-article{0}\" or an external URL such as http://quickappscms.org. Enter \"/\" to link to the front page. You can easily link to an existing content using the \"Link to content\" option above."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:28
@@ -287,66 +285,71 @@ msgstr ""
 msgid "Do not expand, hide children."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:70
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:66
-msgid "Link Activation"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:67
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:63
+msgid "Indicate whether children links should be rendered or not."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:71
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:67
-msgid "Choose a method to determinate when this link should be marked as \"active\"."
+msgid "Link Activation"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:75
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:71
-msgid "Automatic, let application decide."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:72
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:68
+msgid "Choose a method to determinate when this link should be marked as \"active\"."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:76
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:72
-msgid "When visitor's URL match ANY of those listed."
+msgid "Automatic, let application decide."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:77
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:73
-msgid "When visitor's URL match NONE of those listed."
+msgid "When visitor's URL match ANY of those listed."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:78
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:74
-msgid "When following PHP code returns TRUE (experts only)."
+msgid "When visitor's URL match NONE of those listed."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:83
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:79
-msgid "Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:79
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:75
+msgid "When following PHP code returns TRUE (experts only)."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:84
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:80
-msgid "If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:"
+msgid "Specify pages by using their paths, enter one path per line. The <code>*</code> character is a wildcard. <code>/</code> is the front page."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:85
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:81
-msgid "<code>/product/*.html</code> Matches any product page."
+msgid "If the PHP option is chosen, enter PHP code between <code>&lt;?php ... ?&gt;</code> tags. Examples:"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:86
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:82
-msgid "<code>/find/*type:article*</code> Matches any search result containing articles."
+msgid "<code>/product/*.html</code> Matches any product page."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:87
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:83
+msgid "<code>/find/*type:article*</code> Matches any search result containing articles."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:88
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:84
 msgid "<code>/</code> Matches site's front page (a.k.a. site's index)."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:90
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:91
 msgid "&laquo; Save & go back to links tree"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:91
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/add.ctp:92
 msgid "Save & add another &raquo;"
 msgstr ""
 
@@ -354,8 +357,12 @@ msgstr ""
 msgid "Editing Menu's Link"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:86
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/edit.ctp:32
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:25
+msgid "The path for this menu link. This can be an internal QuickAppsCMS path such as \"/article/my-first-article{0}\" or an external URL such as http://quickappscms.org. Enter \"/\" to link to the front page. You can easily link to an existing content using the \"Link to content\" option above."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Links/edit.ctp:87
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/edit.ctp:24
 msgid "Save Changes"
 msgstr ""
 
@@ -384,7 +391,8 @@ msgid "Changes will be lost, are you sure you want to exit this page ?"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/add.ctp:18
-msgid "Creating Menu"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/edit.ctp:18
+msgid "Menu Information"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/add.ctp:20
@@ -392,7 +400,12 @@ msgstr ""
 msgid "Title *"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/add.ctp:32
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/add.ctp:22
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/edit.ctp:22
+msgid "Briefly describe your menu, e.g. \"Sitemap Links\"."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/Template/Admin/Manage/add.ctp:24
 msgid "Save & add links &raquo;"
 msgstr ""
 
@@ -440,7 +453,7 @@ msgstr ""
 msgid "Remove this link? Children links will be re-assigned to the immediately superior parent link."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/View/Helper/MenuHelper.php:207
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Menu/src/View/Helper/MenuHelper.php:216
 msgid "Loop detected, MenuHelper already rendering."
 msgstr ""
 

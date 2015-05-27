@@ -406,7 +406,7 @@ if (!function_exists('theme')) {
             return $theme;
         }
 
-        throw new FatalErrorException(__('Theme "{0}" was not found', $name));
+        throw new FatalErrorException(__d('cms', 'Theme "{0}" was not found', $name));
     }
 }
 

@@ -24,9 +24,9 @@ use Cake\Core\Configure;
 
 <div class="alert alert-warning">
 	<h1>
-		<?php echo __('Error'); ?>
+		<?php echo __d('cms', 'Error'); ?>
 		<br />
-		<small><?php echo __('The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?></small>
+		<small><?php echo __d('cms', 'The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?></small>
 	</h1>
 	<p><?php echo $message; ?></p>
 	<?php if (Configure::read('debug')): ?>

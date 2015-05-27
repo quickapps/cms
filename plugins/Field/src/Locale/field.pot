@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "FieldUIControllerTrait: This trait must be used on backend-controllers only."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:175;342
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:175;340
 msgid "There are no field attached yet."
 msgstr ""
 
@@ -35,77 +35,77 @@ msgstr ""
 msgid "Fields List"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:231;405
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:227;399
 msgid "Field information was saved."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:234;408
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:230;402
 msgid "Your information could not be saved."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:237
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:233
 msgid "Field settings could not be saved."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:247
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:243
 msgid "Configure Field"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:280
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:278
 msgid "Field attached!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:286
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:284
 msgid "Field could not be attached"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:296
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:294
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Template/Element/FieldUI/field_ui_submenu.ctp:43
 msgid "Attach New Field"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:316
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:314
 msgid "Field detached successfully!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:318
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:316
 msgid "Field could not be detached"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:321
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:319
 msgid "Detach Field"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:353
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:351
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Template/Element/FieldUI/field_ui_submenu.ctp:52
 msgid "View Modes"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:411
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:405
 msgid "View mode settings could not be saved."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:421
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:415
 msgid "Configure View Mode"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:481
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:475
 msgid "Change Field Order"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:524
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:518
 msgid "Reorder Field"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:570
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:557
 msgid "The name \"{0}\" cannot be used as it collides with table column names."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:608
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:595
 msgid "The requested field does not exists."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:625
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Controller/FieldUIControllerTrait.php:612
 msgid "The requested view mode does not exists."
 msgstr ""
 
@@ -152,169 +152,169 @@ msgstr ""
 msgid "Thumbnail could not be found, check write permissions?"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:60
-msgid "Invalid date/time, it must match the the pattern: {0}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:81
-msgid "You must select a date/time."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:86
-msgid "Invalid date/time given."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:99
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/DateField.php:36
 msgid "Date"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:100
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/DateField.php:37
 msgid "Allows to attach date picker to contents."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:130
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:175
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/DateField.php:70
+msgid "You must select a date/time."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/DateField.php:75
+msgid "Invalid date/time given."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/DateField.php:95
+msgid "Invalid date/time, it must match the the pattern: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/DateField.php:128
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:179
 msgid "Invalid time format."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/DateField.php:137
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:182
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/DateField.php:135
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:186
 msgid "Invalid date format."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:157
-msgid "You must upload one file at least."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:182
-msgid "You can upload {0} files as maximum."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:204
-msgid "Invalid file extension. Allowed extension are: {0}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:218
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/FileField.php:38
 msgid "Attachment"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/FileField.php:219
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/FileField.php:39
 msgid "Allows to upload and attach files to contents."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:155
-msgid "You must upload one image at least."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/FileField.php:107
+msgid "You must upload one file at least."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:180
-msgid "You can upload {0} images as maximum."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/FileField.php:132
+msgid "You can upload {0} files as maximum."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:202
-msgid "Invalid image extension. Allowed extension are: {0}"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/FileField.php:154
+msgid "Invalid file extension. Allowed extension are: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:228
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ImageField.php:39
 msgid "Image"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ImageField.php:229
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ImageField.php:40
 msgid "Allows to attach image files to contents."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ListField.php:66
-msgid "Field required."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ImageField.php:109
+msgid "You must upload one image at least."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ListField.php:81
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ImageField.php:134
+msgid "You can upload {0} images as maximum."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ImageField.php:156
+msgid "Invalid image extension. Allowed extension are: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ListField.php:35
 msgid "List"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/ListField.php:82
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ListField.php:36
 msgid "Defines list field types, used to create selection lists."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:93
-msgid "Start"
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/ListField.php:67
+msgid "Field required."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:93
-msgid "Finish"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:94
-msgid "Invalid date/time range, \"{0}\" date must match the the pattern: {1}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:111
-msgid "You must select a date/time range."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:130
-msgid "Invalid date/time range, \"Start\" date must be before \"Finish\" date."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:144
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:38
 msgid "Publishing Date"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/PublishDateField.php:145
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:39
 msgid "Allows scheduling of contents by making them available only between certain dates."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:64
-msgid "This field required."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:98
+msgid "You must select a date/time range."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:74
-msgid "This field cannot be left empty."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:117
+msgid "Invalid date/time range, \"Start\" date must be before \"Finish\" date."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:89
-msgid "Max. {0,number} characters length."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:145
+msgid "Start"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:97
-msgid "Invalid field."
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:145
+msgid "Finish"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:119
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/PublishDateField.php:146
+msgid "Invalid date/time range, \"{0}\" date must match the the pattern: {1}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/TextField.php:39
 msgid "Text"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:120
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/TextField.php:40
 msgid "Allow to store text data in database."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Event/TextField.php:180;181
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/TextField.php:72
+msgid "This field required."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/TextField.php:82
+msgid "This field cannot be left empty."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/TextField.php:97
+msgid "Max. {0,number} characters length."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/TextField.php:105
+msgid "Invalid field."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Field/TextField.php:180;181
 msgid "Invalid trimmer string."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:303
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:257
 msgid "Entities in fieldable tables can only be saved using transaction. Set [atomic = true]"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:419
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:368
 msgid "Entities in fieldable tables can only be deleted using transaction. Set [atomic = true]"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:462
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Behavior/FieldableBehavior.php:411
 msgid "Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:102
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:90
 msgid "No more instances of this field can be attached, limit reached."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:116
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:104
 msgid "Invalid field type."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:120
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:108
 msgid "You need to provide a label."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:124
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Model/Table/FieldInstancesTable.php:112
 msgid "Label need to be at least 3 characters long"
 msgstr ""
 
@@ -1008,11 +1008,7 @@ msgstr ""
 msgid "Basic Information"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/configure.ctp:42
-msgid "Advanced"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/configure.ctp:48
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/configure.ctp:43
 msgid "Save All"
 msgstr ""
 
@@ -1026,7 +1022,7 @@ msgid "Machine name"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:30
-msgid "Handler"
+msgid "Type"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Field/src/Template/FieldUI/index.ctp:31

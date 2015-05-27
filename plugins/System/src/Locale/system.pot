@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/AppController.php:45
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Controller/AppController.php:47
 msgid "Some {type, select, plugin{plugins} other{themes}} are awaiting for installation"
 msgstr ""
 
@@ -227,6 +227,34 @@ msgstr ""
 msgid "Settings for {0} theme"
 msgstr ""
 
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/DatabaseShell.php:64
+msgid "[1] Export database"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/DatabaseShell.php:65
+msgid "[2] List tables"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/DatabaseShell.php:66
+msgid "[3] Show connection"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/DatabaseShell.php:67
+msgid "[H]elp"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/DatabaseShell.php:68
+msgid "[Q]uit"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/DatabaseShell.php:70
+msgid "What would you like to do?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/DatabaseShell.php:87
+msgid "You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, H, or Q."
+msgstr ""
+
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:37
 msgid "Export database"
 msgstr ""
@@ -251,23 +279,27 @@ msgstr ""
 msgid "What to export, \"full\" exports schema and records, or \"schema\" for schema only."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:89
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:68
+msgid "List of table for which do not export data (only schema)."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:98
 msgid "Removing existing directory: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:92
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:101
 msgid "Creating directory: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:102
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:111
 msgid "Table \"{0}\" skipped"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:180
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:219
 msgid "Table \"{0}\" exported!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:183
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Shell/Task/DatabaseExportTask.php:222
 msgid "Database exported to: {0}"
 msgstr ""
 
@@ -349,7 +381,7 @@ msgid "URL locale prefix"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:105
-msgid "URLs like http://www.example.com/en-us/about-me.html set language to English-US. <strong>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</strong>"
+msgid "URLs like http://www.example.com/en-us/about-me{0} set language to English-US. <strong>Warning: Changing this setting may break incoming URLs. Use with caution on a production site.</strong>"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Configuration/index.ctp:109
@@ -377,7 +409,7 @@ msgid "Install plugin"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Plugins/index.ctp:55
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:49
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:53
 msgid "Filter by"
 msgstr ""
 
@@ -443,15 +475,15 @@ msgstr ""
 msgid "Save all"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:18
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:19
 msgid "Front Themes"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:25
 msgid "Back Themes"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:34
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/System/src/Template/Admin/Themes/index.ctp:37
 msgid "Install theme"
 msgstr ""
 

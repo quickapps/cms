@@ -17,4 +17,4 @@
  */
 ?>
 <?php echo $this->fetch('content'); ?>
-<?php echo __('This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?>
+<?php echo __d('cms', 'This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?>

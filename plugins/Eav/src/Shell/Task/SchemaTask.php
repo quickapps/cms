@@ -31,7 +31,7 @@ class SchemaTask extends Shell
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description(__d('system', 'Select target table'))
+            ->description(__d('eav', 'Select target table'))
             ->addOption('use', [
                 'short' => 'u',
                 'help' => __d('eav', 'The table alias name. e.g. "User.Users".'),
@@ -48,7 +48,7 @@ class SchemaTask extends Shell
             ])
             ->addOption('type', [
                 'short' => 't',
-                'help' => __d('system', 'Type of information for the column being added.'),
+                'help' => __d('eav', 'Type of information for the column being added.'),
                 'default' => 'string',
                 'choices' => EavToolbox::$types,
             ])
@@ -59,7 +59,7 @@ class SchemaTask extends Shell
             ])
             ->addOption('searchable', [
                 'short' => 's',
-                'help' => __d('system', 'Whether the column being created can be used in SQL WHERE clauses.'),
+                'help' => __d('eav', 'Whether the column being created can be used in SQL WHERE clauses.'),
                 'boolean' => true,
                 'default' => true,
             ]);

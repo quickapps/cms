@@ -362,7 +362,7 @@ class EavBehavior extends Behavior
     public function afterDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         if (!$options['atomic']) {
-            throw new FatalErrorException(__d('field', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
+            throw new FatalErrorException(__d('eav', 'Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]'));
         }
 
         $valuesToDelete = TableRegistry::get('Eav.EavValues')

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -30,52 +30,52 @@ msgstr ""
 msgid "CommentUIControllerTrait: This trait needs you to implement the \"_inResponseTo()\" method."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:220
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:218
 msgid "Comments List"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:243
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:241
 msgid "Comment could not be found."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:254
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:253
 msgid "Comment saved!."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:257
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:256
 msgid "Comment could not be saved, please check your information."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:261
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:260
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/edit.ctp:18
 msgid "Editing Comment"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:282
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:281
 msgid "Change Comment Status"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:302
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:301
 msgid "Comment was successfully deleted!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:304
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:303
 msgid "Comment could not be deleted, please try again."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:307
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:306
 msgid "Invalid comment, comment was not found."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:310
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:309
 msgid "Delete Comment"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:323
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:322
 msgid "All comments in trash were successfully removed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:324
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/CommentUIControllerTrait.php:323
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/CommentUI/index.ctp:107
 msgid "Empty Trash"
 msgstr ""
@@ -92,15 +92,15 @@ msgstr ""
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:450
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:457
 msgid "Invalid user."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:463
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:470
 msgid "Invalid user, please try again."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:480
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Controller/Component/CommentComponent.php:487
 msgid "We were not able to verify you as human. Please try again."
 msgstr ""
 
@@ -268,19 +268,19 @@ msgstr ""
 msgid "Page {{page}} of {{pages}}, showing {{current}} comments out of {{count}} total."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:22
 msgid "By @{0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:29
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:27
 msgid "Published at <time pubdate=\"pubdate\">{0}</time>"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:31
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:29
 msgid "F jS, Y h:i A"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:51
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Comment/src/Template/Element/render_comment.ctp:53
 msgid "Reply"
 msgstr ""
 

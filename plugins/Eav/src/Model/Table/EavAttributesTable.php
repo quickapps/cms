@@ -79,7 +79,7 @@ class EavAttributesTable extends Table
                 'rule' => function ($value, $context) {
                     return in_array($value, EavToolbox::$types);
                 },
-                'message' => __d('field', 'Invalid data type, valid options are: {0}', implode(', ', EavToolbox::$types))
+                'message' => __d('eav', 'Invalid data type, valid options are: {0}', implode(', ', EavToolbox::$types))
             ]);
 
         return $validator;

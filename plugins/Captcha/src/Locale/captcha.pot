@@ -1,0 +1,40 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Captcha/src/CaptchaManager.php:96
+msgid "The captcha adapter \"{0}\" was not found."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Captcha/src/Template/Element/ayah_settings.ctp:14
+msgid "Publisher Key *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Captcha/src/Template/Element/ayah_settings.ctp:15
+msgid "e.g. 310203ef720d21451c2516f2633c645acadc225a"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Captcha/src/Template/Element/ayah_settings.ctp:17
+msgid "Scoring Key *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Captcha/src/Template/Element/ayah_settings.ctp:18
+msgid "e.g. 6233426d2e41a5c37d11c65202fa23c1fca50520"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Captcha/src/Template/Element/settings.ctp:29
+msgid "Select which CAPTCHA component to use by default. Additional configuration may be required depending on the selected component."
+msgstr ""
+

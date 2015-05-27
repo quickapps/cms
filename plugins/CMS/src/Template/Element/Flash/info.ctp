@@ -15,7 +15,7 @@
 	<?php if (!empty($dismiss) && $dismiss === true): ?>
 	<button type="button" class="close" data-dismiss="alert">
 		<span aria-hidden="true">&times;</span>
-		<span class="sr-only"><?php echo __('Close'); ?></span>
+		<span class="sr-only"><?php echo __d('cms', 'Close'); ?></span>
 	</button>
 	<?php endif; ?>
 	<?php echo $message; ?>

@@ -23,6 +23,6 @@
 	</head>
 	<body>
 		<?php echo $this->fetch('content'); ?>
-		<p><?php echo __('This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?></p>
+		<p><?php echo __d('cms', 'This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?></p>
 	</body>
 </html>

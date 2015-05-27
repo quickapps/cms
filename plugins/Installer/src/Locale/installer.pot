@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -90,24 +90,41 @@ msgstr ""
 msgid "Finish"
 msgstr ""
 
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:53
+msgid "Plugins maintenance commands."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:55
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginUpdateTask.php:39
+msgid "Install a new plugin."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:59
+msgid "Uninstalls an existing plugin."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:63
+msgid "Enable or disable a plugin."
+msgstr ""
+
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:77
 msgid "<info>Plugins Shell</info>"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:79
-msgid "[I]nstall new plugin"
+msgid "[1] Install new plugin"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:80
-msgid "[R]emove an existing plugin"
+msgid "[2] Remove an existing plugin"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:81
-msgid "[E]nable plugin"
+msgid "[3] Enable plugin"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:82
-msgid "[D]isable plugin"
+msgid "[4] Disable plugin"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:83
@@ -126,7 +143,7 @@ msgid "What would you like to do?"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:106
-msgid "You have made an invalid selection. Please choose a command to execute by entering I, R, E, D, H, or Q."
+msgid "You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, 4, H, or Q."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:149
@@ -134,27 +151,27 @@ msgid "Please provide a plugin source, it can be either an URL or a filesystem p
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:153
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:150
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:149
 msgid "Installation aborted"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:156
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:153
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:152
 msgid "Starting installation..."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:160
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:157
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:156
 msgid "Starting installation... successfully installed!"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:164
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:161
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:160
 msgid "Starting installation... failed!"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:189
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:186
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:185
 msgid "[{index, number}] {name}"
 msgstr ""
 
@@ -163,12 +180,12 @@ msgid "Which plugin would you like to uninstall?\n[Q]uit"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:198;267;320
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:195;263
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:194;268
 msgid "Operation aborted"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:201;270;323
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:198;266
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:197;271
 msgid "Invalid option"
 msgstr ""
 
@@ -177,12 +194,12 @@ msgid "<info>The following plugin will be UNINSTALLED</info>"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:207;329
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:204
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:203
 msgid "Name:        {0}"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:208;330
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:205
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:204
 msgid "Description: {0}"
 msgstr ""
 
@@ -191,27 +208,27 @@ msgid "Status:      {0, select, active{Active} other{Disabled}}"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:210;332
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:206
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:205
 msgid "Path:        {0}"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:214
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:210
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:209
 msgid "Please type in \"{0}\" to uninstall"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:219
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:215
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:214
 msgid "Plugin uninstalled!"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:222
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:218
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:217
 msgid "Plugin could not be uninstalled."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/PluginsShell.php:226
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:222
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:221
 msgid "Confirmation failure, operation aborted!"
 msgstr ""
 
@@ -259,39 +276,55 @@ msgstr ""
 msgid "Plugin could not be disabled."
 msgstr ""
 
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:53
+msgid "Theme maintenance commands."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:55
+msgid "Install a new theme."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:59
+msgid "Uninstalls an existing theme."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:63
+msgid "Change theme in use."
+msgstr ""
+
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:77
 msgid "<info>Themes Shell</info>"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:79
-msgid "[I]nstall new theme"
+msgid "[1] Install new theme"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:80
-msgid "[R]emove an existing theme"
+msgid "[2] Remove an existing theme"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:81
-msgid "[C]hange site theme"
+msgid "[3] Change site theme"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:102
-msgid "You have made an invalid selection. Please choose a command to execute by entering I, R, C, H, or Q."
+msgid "You have made an invalid selection. Please choose a command to execute by entering 1, 2, 3, H, or Q."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:145
 msgid "Please provide a theme source, it can be either an URL or a filesystem path to a ZIP/directory within your server?\n[Q]uit"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:191
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:190
 msgid "Which theme would you like to uninstall?\n[Q]uit"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:202
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:201
 msgid "<info>The following theme will be uninstalled</info>"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:245
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:244
 msgid "<info>There are no disabled themes!</info>"
 msgstr ""
 
@@ -299,15 +332,15 @@ msgstr ""
 msgid "[{index, number, integer}] {name} [{theme_type, select, front{frontend} other{backend}}]"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:259
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:264
 msgid "Which theme would you like to activate?\n[Q]uit"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:271
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:276
 msgid "Theme changed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:274
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/ThemesShell.php:279
 msgid "Theme could not be changed."
 msgstr ""
 
@@ -385,59 +418,63 @@ msgstr ""
 msgid "Unable to resolve the given source ({source})."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:439;476
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:439;478
 msgid "Unable to extract the package."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:480
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:459
+msgid "Could not download the package. Details: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:482
 msgid "Unable to download the file, check write permission on \"{path}\" directory."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:484
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:486
 msgid "Could not download the package, no .ZIP file was found at the given URL."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:522
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:524
 msgid "Unzip error: {error}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:539
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:541
 msgid "Invalid package, missing \"src\" directory."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:543
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:545
 msgid "Invalid package, missing \"composer.json\" file."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:547
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:549
 msgid "Invalid \"composer.json\"."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:555
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:557
 msgid "The given package is not a valid theme."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:558
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:560
 msgid "The given package is not a valid plugin."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:572
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:574
 msgid "{type, select, theme{The theme} other{The plugin}} \"{name}\" is already installed."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:574
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:576
 msgid "{type, select, theme{The theme} other{The plugin}} \"{name}\" is already installed but disabled, maybe you want try to enable it?."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:581
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:583
 msgid "Missing \"screenshot.png\" file."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:587
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:589
 msgid "{type, select, theme{The theme} other{The plugin}} \"{name}\" depends on other packages, plugins or libraries that were not found: {depends}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:597
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginInstallTask.php:599
 msgid "Write permissions required for directory: {path}."
 msgstr ""
 
@@ -544,10 +581,6 @@ msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginUninstallTask.php:268
 msgid "  - {path}"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginUpdateTask.php:39
-msgid "Install a new plugin."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Shell/Task/PluginUpdateTask.php:76
@@ -785,43 +818,43 @@ msgstr ""
 msgid "<strong>Uh oh.</strong> There's a server compatibility issue. See below."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:153
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:154
 msgid "Nothing installed"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:176
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:177
 msgid "Invalid database information in file \"{0}\""
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:191
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:192
 msgid "Invalid database type ({0})."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:208
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:209
 msgid "Database engine cannot be empty."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:219
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:220
 msgid "Unable to connect to database, please check your information. Details: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:240
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:241
 msgid "Error importing \"{0}\"."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:248
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:249
 msgid "Unable to import database information. Details: {0}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:269
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:270
 msgid "A previous installation of QuickAppsCMS already exists, please drop your database tables before continue."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:356
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:337
 msgid "Unable to create table \"{0}\". Details: {1}"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:405
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Installer/src/Utility/DatabaseInstaller.php:462
 msgid "Error while importing data for table \"{0}\". Details: {1}"
 msgstr ""
 

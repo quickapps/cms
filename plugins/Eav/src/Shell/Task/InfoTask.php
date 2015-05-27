@@ -30,7 +30,7 @@ class InfoTask extends Shell
     {
         $parser = parent::getOptionParser();
         $parser
-            ->description(__d('system', 'Select target table'))
+            ->description(__d('eav', 'Select target table'))
             ->addOption('use', [
                 'short' => 'u',
                 'help' => __d('eav', 'The table alias name. e.g. "User.Users".'),

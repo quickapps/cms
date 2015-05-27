@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -26,18 +26,18 @@ msgstr ""
 msgid "Vocabulary’s Terms"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:85;137;172
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:85;137;173
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/VocabulariesController.php:41;75;111
 msgid "Taxonomy"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:86;138;173
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:86;138;174
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/VocabulariesController.php:37;42;76;112
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:32
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:32
 msgid "Vocabularies"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:88;140;175
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:88;140;176
 msgid "Terms"
 msgstr ""
 
@@ -57,31 +57,31 @@ msgstr ""
 msgid "Add new term"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:161
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:162
 msgid "Term has been updated"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:164
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:165
 msgid "Term could not be updated, please check your information"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:168
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:169
 msgid "Editing Term"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:176
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:177
 msgid "Editing term"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:193
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:194
 msgid "Term successfully removed!"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:195
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:196
 msgid "Term could not be removed, please try again"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:198
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Controller/Admin/TermsController.php:199
 msgid "Delete Term"
 msgstr ""
 
@@ -129,20 +129,20 @@ msgstr ""
 msgid "Delete Vocabulary"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Event/TaxonomyField.php:166
-msgid "Field required."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Event/TaxonomyField.php:175
-msgid "You can select {0,number} values as maximum."
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Event/TaxonomyField.php:200
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Field/TermField.php:38
 msgid "Term Reference"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Event/TaxonomyField.php:201
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Field/TermField.php:39
 msgid "Defines terms list based on taxonomy vocabularies."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Field/TermField.php:73
+msgid "Field required."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Field/TermField.php:82
+msgid "You can select {0,number} values as maximum."
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Model/Table/EntitiesTermsTable.php:47
@@ -302,36 +302,36 @@ msgstr ""
 msgid "There are no vocabularies yet, click on \"Define new vocabulary\" button to add one."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:23
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:23
 msgid "There are no vocabularies yet, please <a href=\"{0}\">create at least one</a> to use this block."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:35
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:35
 msgid "Show terms within selected vocabularies."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:43;53
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:43;53
 msgid "No"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:44;54
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:44;54
 msgid "Yes"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:46
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:46
 msgid "Show content count"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:56
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:56
 msgid "Show vocabulary and its terms as tree"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:63
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:63
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/taxonomy_field_view_mode_form.ctp:33
 msgid "Link template"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_settings.ctp:66
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Taxonomy/src/Template/Element/categories_widget_settings.ctp:66
 msgid "Template to use when rendering each link of the list. Valid placeholders are <code>{{url}}</code>, <code>{{attrs}}</code> and <code>{{content}}</code>. If not provided defaults to: <code>&lt;a href=\"{{url}}\"{{attrs}}&gt;&lt;span&gt;{{content}}&lt;/span&gt;&lt;/a&gt;</code>"
 msgstr ""
 

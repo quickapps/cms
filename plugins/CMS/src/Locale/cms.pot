@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-03-31 23:05+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,40 +14,80 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Core/Plugin.php:68
+#: Core/Plugin.php:69
 msgid "Plugin \"{0}\" was not found"
 msgstr ""
 
-#: Core/Plugin.php:164
+#: Core/Plugin.php:179
 msgid "Corrupt JSON information."
 msgstr ""
 
-#: Core/Plugin.php:167;173;178
+#: Core/Plugin.php:182;186;191
 msgid "Missing field: \"{0}\""
 msgstr ""
 
-#: Core/Plugin.php:169;175
+#: Core/Plugin.php:188
 msgid "Invalid field: \"{0}\" ({1}). It should be: {2}"
+msgstr ""
+
+#: Model/Behavior/SluggableBehavior.php:91
+msgid "SluggableBehavior was not able to generate a slug reason: entity's property \"{0}\" not found"
 msgstr ""
 
 #: Routing/Filter/LanguageFilter.php:76
 msgid "No request object could be found."
 msgstr ""
 
-#: Shell/CommandListShell.php:31
+#: Shell/CommandListShell.php:35
 msgid "<info>Current Paths:</info>"
 msgstr ""
 
-#: Shell/CommandListShell.php:32
+#: Shell/CommandListShell.php:36
 msgid "* QuickApps Core: {path}"
 msgstr ""
 
-#: Shell/CommandListShell.php:33
+#: Shell/CommandListShell.php:37
 msgid "* CakePHP Core:   {path}"
 msgstr ""
 
-#: Shell/CommandListShell.php:34
+#: Shell/CommandListShell.php:38
 msgid "* Site Path:      {path}"
+msgstr ""
+
+#: Shell/CommandListShell.php:41
+msgid "<info>Available Shells:</info>"
+msgstr ""
+
+#: Shell/CommandListShell.php:76
+msgid "[<info>{0}</info>] {1}"
+msgstr ""
+
+#: Shell/CommandListShell.php:80
+msgid "To run an QuickAppsCMS or CakePHP command, type <info>\"qs shell_name [args]\"</info>"
+msgstr ""
+
+#: Shell/CommandListShell.php:81
+msgid "To run a Plugin command, type <info>\"qs PluginName.shell_name [args]\"</info>"
+msgstr ""
+
+#: Shell/CommandListShell.php:82
+msgid "To get help on a specific command, type <info>\"qs shell_name --help\"</info>"
+msgstr ""
+
+#: Shell/CommandListShell.php:98
+msgid "Get the list of available shells for this QuickAppsCMS installation."
+msgstr ""
+
+#: Shell/CommandListShell.php:100
+msgid "Get the listing as XML."
+msgstr ""
+
+#: Shell/CommandListShell.php:119
+msgid "<info>Welcome to QuickApps CMS v{0} Console</info>"
+msgstr ""
+
+#: Shell/CommandListShell.php:121
+msgid "Site Title: {0}"
 msgstr ""
 
 #: Template/Element/Flash/danger.ctp:18

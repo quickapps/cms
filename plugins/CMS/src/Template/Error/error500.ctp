@@ -24,9 +24,9 @@ use Cake\Core\Configure;
 
 <div class="alert alert-danger">
 	<h1>
-		<?php echo __('Error'); ?>
+		<?php echo __d('cms', 'Error'); ?>
 		<br />
-		<small><?php echo __('An Internal Error Has Occurred.'); ?></small>
+		<small><?php echo __d('cms', 'An Internal Error Has Occurred.'); ?></small>
 	</h1>
 	<p><?php echo $message; ?></p>
 	<?php if (Configure::read('debug')): ?>

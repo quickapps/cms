@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -34,31 +34,43 @@ msgstr ""
 msgid "Skins"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:70
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:47
 msgid "Toggle navigation"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:81
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:58
 msgid "Visit Website"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:87;93
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:62
+msgid "Administration Dashboard"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:66
+msgid "Manage Comments"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:70
+msgid "Create New Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:76;82
 msgid "User Avatar"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:103
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:92
 msgid "Profile"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:106
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:95
 msgid "Sign out"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:127
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:116
 msgid "Search Content..."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:166
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/BackendTheme/src/Template/Layout/default.ctp:155
 msgid "Powered by <a href=\"http://www.quickappscms.org/\">QuickAppsCMS</a> v{0}. Theme AdminLTE 2."
 msgstr ""
 

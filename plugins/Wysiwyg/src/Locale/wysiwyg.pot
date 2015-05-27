@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -16,18 +16,6 @@ msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Wysiwyg/src/Aspect/WysiwygAspect.php:103
 msgid "Link to content"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/connector.ctp:59
-msgid "Site Files"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/connector.ctp:70;84
-msgid "j M Y H:i"
-msgstr ""
-
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/connector.ctp:73
-msgid "Plugins"
 msgstr ""
 
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Wysiwyg/src/Template/Admin/Finder/index.ctp:14

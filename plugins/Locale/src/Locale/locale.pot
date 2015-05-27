@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-03 00:19+0000\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -178,6 +178,10 @@ msgstr ""
 msgid "Path"
 msgstr ""
 
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:37
+msgid "Actions"
+msgstr ""
+
 #: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Admin/Manage/index.ctp:53
 msgid "Disabled"
 msgstr ""
@@ -226,19 +230,19 @@ msgstr ""
 msgid "Language's order dictates the position in which languages are rendered, for example in \"Language Switcher\" block."
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:15
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_widget_settings.ctp:15
 msgid "Display Mode"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:18
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_widget_settings.ctp:18
 msgid "Selectbox"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:19
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_widget_settings.ctp:19
 msgid "HTML list"
 msgstr ""
 
-#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_settings.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Locale/src/Template/Element/language_switcher_widget_settings.ctp:24
 msgid "Show flags when possible."
 msgstr ""
 

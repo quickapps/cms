@@ -1,0 +1,126 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Behavior/EavBehavior.php:173
+msgid "The column name \"{0}\" cannot be used as it is already defined in the table \"{1}\""
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Behavior/EavBehavior.php:184
+msgid "The column {0}({1}) could not be created as \"{2}\" is not a valid type."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Behavior/EavBehavior.php:365
+msgid "Entities in fieldable tables can only be deleted using transactions. Set [atomic = true]"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Table/EavAttributesTable.php:58
+msgid "You need to provide a machine-name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Table/EavAttributesTable.php:62
+msgid "Machine-name need to be at least 3 characters long."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Table/EavAttributesTable.php:68
+msgid "Only lowercase letters, numbers and \"-\" symbol are allowed."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Table/EavAttributesTable.php:73
+msgid "Machine-name already in use."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Table/EavAttributesTable.php:76
+msgid "Invalid table alias."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Table/EavAttributesTable.php:77
+msgid "Invalid data type."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Model/Table/EavAttributesTable.php:82
+msgid "Invalid data type, valid options are: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:33
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:34
+msgid "Select target table"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:36
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:37
+msgid "The table alias name. e.g. \"User.Users\"."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:40
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:57
+msgid "Indicates the column belongs to a bundle name within the table."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:57
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:78
+msgid "You must indicate a table alias name using the \"--use\" option. Example: \"Articles.Users\""
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:68
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:89
+msgid "The specified table does not exists."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:71
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:92
+msgid "The specified table is not using EAV behavior."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:81
+msgid "- Column Name: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:82
+msgid "  - type: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:83
+msgid "  - bundle: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/InfoTask.php:84
+msgid "  - searchable: {searchable, select, yes{YES} other{NO}}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:41
+msgid "Indicates what you want to do, drop an existing column or add a new one."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:47
+msgid "Name of the column to be added or dropped"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:51
+msgid "Type of information for the column being added."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:62
+msgid "Whether the column being created can be used in SQL WHERE clauses."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:95
+msgid "You must indicate a table column."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Eav/src/Shell/Task/SchemaTask.php:98
+msgid "Invalid column name, please use lowercase letter, numbers or the \"-\" symbol, e.g.: \"user-age\"."
+msgstr ""
+

@@ -1,0 +1,781 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-05-27 21:25+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/ServeController.php:122;132
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:206;263;334
+msgid "The requested page was not found."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/ServeController.php:124
+msgid "You have not sufficient permissions to see this page."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/CommentsController.php:53;55
+msgid "<a href=\"{0}\" target=\"_blank\">{1}</a>"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/CommentsController.php:59
+msgid "-- Unknow --"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/CommentsController.php:75
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:45
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:65
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/index_submenu.ctp:24
+msgid "Comments"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/FieldsController.php:103;111;120;128;136
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:38;42;80;128
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/index_submenu.ctp:19
+msgid "Content Types"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/FieldsController.php:104;112;121;129;137
+msgid "Type \"{0}\""
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/FieldsController.php:105;113
+msgid "Fields"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/FieldsController.php:114
+msgid "Configure Field \"{0}\""
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/FieldsController.php:122
+msgid "Attach New Field"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/FieldsController.php:130;138
+msgid "View Mode \"{0}\""
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/FieldsController.php:139
+msgid "Field: {0}"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:63
+msgid "Contents List"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:82
+msgid "Create New Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:86;147
+msgid "Create new content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:110
+msgid "The specified content type ({0}) does not exists."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:114;210
+msgid "You are not allowed to create contents of this type ({0})."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:125
+msgid "Content created, but awaiting moderation before publishing it."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:127
+msgid "Content created!."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:131;233
+msgid "Something went wrong, please check your information."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:143
+msgid "Create New Content <small>({0})</small>"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:230
+msgid "Content updated!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:240
+msgid "Editing Content: {0} <small>({1})</small>"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:244
+msgid "Editing content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:267
+msgid "You are not allowed to translate contents of this type ({0})."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:271
+msgid "You cannot translate this content."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:305
+msgid "Translation successfully created and was marked as unpublished. Complete the translation before publishing."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:308
+msgid "Translation could not be created"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:315
+msgid "Translate Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:319
+msgid "Translating content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:338
+msgid "You are not allowed to delete contents of this type ({0})."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:342
+msgid "Content was successfully removed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:344
+msgid "Unable to remove this content, please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:347
+msgid "Delete Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:366
+msgid "Revision was successfully removed!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:368
+msgid "Unable to remove this revision, please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/ManageController.php:371
+msgid "Editing Content Revision"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:64
+msgid "Content type created, now attach some fields."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:70
+msgid "Content type could not be created, check your information."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:75
+msgid "Define New Content Type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:81
+msgid "Creating Content Type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:103;150
+msgid "Content type was not found!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:112
+msgid "Content type updated!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:115
+msgid "Content type could not be updated, check your information."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:123
+msgid "Configure Content Type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:129
+msgid "Editing \"{0}\" Content Type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:154
+msgid "Content was deleted!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:156
+msgid "Content type could not be deleted, please try again."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Controller/Admin/TypesController.php:159
+msgid "Delete Content Type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:63
+msgid "(unknown)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:112
+msgid "unknown"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:113;115
+msgid "Unknown"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:114
+msgid "(no website)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:127
+msgid "Missing property 'slug', make sure to include it using Query::select()."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:152
+msgid "Missing properties 'id' or 'content_type_slug', make sure to include them using Query::select()."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:187
+msgid "Unable to get Content-Type information."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Entity/Content.php:206
+msgid "Content::setDefaults() was unable to get Content Type defaults values."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentTypesTable.php:87
+msgid "You need to provide a content type name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentTypesTable.php:91
+msgid "Name need to be at least 3 characters long."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentTypesTable.php:95
+msgid "Machine-name cannot be left empty."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentTypesTable.php:100
+msgid "Invalid machine-name."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentTypesTable.php:106
+msgid "You need to provide a \"Title Label\"."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentTypesTable.php:110
+msgid "\"Title Label\" need to be at least 3 characters long."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentsTable.php:181
+msgid "You need to provide a title."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Model/Table/ContentsTable.php:185
+msgid "Title need to be at least 3 characters long."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:18
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:18
+msgid "Basic Information"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:21
+msgid "Will be used as content title."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:23
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:35
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:36
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:36
+msgid "Description"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:36
+msgid "A short description (200 chars. max.) about this content. Will be used as page meta-description when rendering this content."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:28
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:43
+msgid "Publishing"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:29
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:45;47
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/render_content.ctp:28
+msgid "Published"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:30
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:50
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:91
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:92
+msgid "Promoted to front page"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:31
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:51
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:68
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:92
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:93
+msgid "Sticky at top of lists"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:36
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:56
+msgid "Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:44
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:64
+msgid "Settings"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:45
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:65
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:108
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:109
+msgid "Open"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:45
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:65
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:107
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:108
+msgid "Closed"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:45
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:65
+msgid "Read Only"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:46
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:68;70;90
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:42
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:118
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:119
+msgid "Language"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:46
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:68
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:120
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:121
+msgid "-- ANY --"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:47
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:74
+msgid "Show content for specific roles"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:48
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:75
+msgid "Show this content only for the selected role(s). If you select no roles, the content will be visible to all users."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/add.ctp:51
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:50
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:50
+msgid "Create"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/create.ctp:33
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/index.ctp:73
+msgid "(no description)"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:22
+msgid "Permalink"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:25
+msgid "Regenerate Slug (actual: {0})"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:26
+msgid "Check this to generate a new slug from title."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:30
+msgid "This content is a translation of"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:38
+msgid "Edit Summary"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:39
+msgid "Briefly describe your changes."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:48
+msgid "This content must reviewed by an administrator before publishing it."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:71
+msgid "This content is the ({0}) translation of an existing content originally in ({1})."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:83
+msgid "Revisions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:88
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:40
+msgid "Title"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:89
+msgid "Summary"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:91
+msgid "Revision date"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:92
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:45
+msgid "Actions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:107
+msgid "--not provided--"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:108
+msgid "--any--"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:109
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:80;88
+msgid "Y-m-d H:i:s"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:119
+msgid "Load revision"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:131
+msgid "Delete revision"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:133
+msgid "You are about to delete: \"{0}\". Are you sure ?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:147
+msgid "Translations"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/edit.ctp:156
+msgid "Save All"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:27
+msgid "Search Contents"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:41
+msgid "Type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:43
+msgid "Created on"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:44
+msgid "Modified on"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:59;104
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:51
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:51
+msgid "Edit"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:64
+msgid "Promote to home page"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:72
+msgid "Comments open"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:76
+msgid "---"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:79;87
+msgid "{on} <br /> by <em>{author}</em>"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:89
+msgid "-- unknown --"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:113
+msgid "Visit published content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:128
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:52
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:52
+msgid "Translate"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:143
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:53
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:53
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/index.ctp:65
+msgid "Delete"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/index.ctp:145
+msgid "You are about to delete: \"{0}\" ({1}). Are you sure ?"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/translate.ctp:19
+msgid "Translating Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/translate.ctp:22
+msgid "New title for the translated version."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/translate.ctp:24
+msgid "Translate to"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/translate.ctp:25
+msgid "Select the language to which you desire translate this content."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/translate.ctp:27
+msgid "Continue"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/translate.ctp:30
+msgid "Available Translations"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Manage/translate.ctp:43
+msgid "This content cannot be translated because there are no more available languages into which this content could be translated to."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:24
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:24
+msgid "Content Type Information"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:25
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:25
+msgid "Name *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:26
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:26
+msgid "This text will be displayed as part of the list on the \"Add New Content\" page."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:28
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:28
+msgid "Machine name *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:30
+msgid "A unique name for this content type, accepted characters are lowercase letters, numbers and \"-\" symbol (a-z, 0-9, -). Leave empty to automatically generate one from content name. This value can not be changed after content type is created."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:33
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:33
+msgid "Title field label *"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:34
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:34
+msgid "Label name for the \"Title\" field. e.g. \"Product name\", \"Author name\", etc."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:37
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:37
+msgid "Describe this content type. The text will be displayed on the Add new content page."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:43
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:43
+msgid "Permissions"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:49
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:49
+msgid "Role"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:54
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:54
+msgid "Publish"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:65
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:65
+msgid "yes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:88
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:89
+msgid "Content Type Settings"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:90
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:91
+msgid "Mark as published"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:96
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:97
+msgid "Show author's name"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:97
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:98
+msgid "Author's username will be displayed."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:99
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:100
+msgid "Show date"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:100
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:101
+msgid "Publish date will be displayed"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:105
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:106
+msgid "Comments default status"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:109
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:110
+msgid "Read only"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:113
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:114
+msgid "Default comment setting for new content."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:123
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:124
+msgid "Default language for new contents."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/add.ctp:126
+msgid "Create and continue »"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:30
+msgid "A unique name for this content type. This value can not be changed after content type is created."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/edit.ctp:127
+msgid "Save changes"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/index.ctp:23
+msgid "Define new content type"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/index.ctp:41
+msgid "Edit information"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/index.ctp:53
+msgid "Manage fields"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Admin/Types/index.ctp:68
+msgid "Delete this content type? This operation can not be undone."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_latest_content.ctp:15
+msgid "Recent Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:15
+msgid "Search"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:21
+msgid "Go!"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:27
+msgid "Advanced Search Options"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:29
+msgid "to specify the type contents (content type's machine-name). e.g.: type:article"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:30
+msgid "filter contents matching a given author name. e.g.: author:admin"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:31
+msgid "filter contents matching the given languages. e.g.: language:es,en_US"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:32
+msgid "filter contents that were (or were not) promoted to front page. e.g.: promote:true, promote:false"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:33
+msgid "to specify when the contents were created. e.g.: created:2013..2014"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:34
+msgid "to specify when the contents were modified. e.g.: modified:2011..2012"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/dashboard_search.ctp:35
+msgid "limits the number of items of search result. e.g.: limit:10"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Element/index_submenu.ctp:14
+msgid "New Content"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Serve/search.ctp:16
+msgid "Search Results"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Serve/search.ctp:32
+msgid "Page {{page}} of {{pages}}, showing {{current}} results out of {{count}} total."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Serve/search.ctp:37
+msgid "Your search yielded no results"
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Serve/search.ctp:39
+msgid "Check if your spelling is correct."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Serve/search.ctp:40
+msgid "Remove quotes around phrases to search for each word individually, <code>white car</code> will often show more results than <code>\"white car\"</code>."
+msgstr ""
+
+#: C:/xampp/htdocs/quickapps/vendor/quickapps/cms/plugins/Content/src/Template/Serve/search.ctp:41
+msgid "Consider loosening your query using <code>AND</code> & <code>OR</code>, <code>white OR car</code> will often show more results than <code>white cat</code>."
+msgstr ""
+

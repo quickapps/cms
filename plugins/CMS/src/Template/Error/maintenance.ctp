@@ -23,7 +23,7 @@ use Cake\Core\Configure;
 ?>
 
 <div class="alert alert-warning">
-	<h1><?php echo __('Site Under Maintenance'); ?></h1>
+	<h1><?php echo __d('cms', 'Site Under Maintenance'); ?></h1>
 	<p><?php echo $this->shortcodes(html_entity_decode($message)); ?></p>
 	<?php if (Configure::read('debug')): ?>
 		<p>&nbsp;</p>

@@ -32,13 +32,13 @@ class CommandListShell extends CakeCommandListShell
         }
 
         if (empty($this->params['xml'])) {
-            $this->out(__('<info>Current Paths:</info>'), 2);
-            $this->out(__('* QuickApps Core: {path}', ['path' => normalizePath(QUICKAPPS_CORE)]));
-            $this->out(__('* CakePHP Core:   {path}', ['path' => normalizePath(CORE_PATH)]));
-            $this->out(__('* Site Path:      {path}', ['path' => normalizePath(SITE_ROOT)]));
+            $this->out(__d('cms', '<info>Current Paths:</info>'), 2);
+            $this->out(__d('cms', '* QuickApps Core: {path}', ['path' => normalizePath(QUICKAPPS_CORE)]));
+            $this->out(__d('cms', '* CakePHP Core:   {path}', ['path' => normalizePath(CORE_PATH)]));
+            $this->out(__d('cms', '* Site Path:      {path}', ['path' => normalizePath(SITE_ROOT)]));
             $this->out('');
 
-            $this->out(__('<info>Available Shells:</info>'), 2);
+            $this->out(__d('cms', '<info>Available Shells:</info>'), 2);
         }
 
         $shellList = $this->Command->getShellList();
@@ -73,13 +73,13 @@ class CommandListShell extends CakeCommandListShell
                 $plugin = 'CAKEPHP';
             }
 
-            $this->out(__('[<info>{0}</info>] {1}', $plugin, implode(', ', $commands)));
+            $this->out(__d('cms', '[<info>{0}</info>] {1}', $plugin, implode(', ', $commands)));
         }
 
         $this->out();
-        $this->out(__('To run an QuickAppsCMS or CakePHP command, type <info>"qs shell_name [args]"</info>'));
-        $this->out(__('To run a Plugin command, type <info>"qs PluginName.shell_name [args]"</info>'));
-        $this->out(__('To get help on a specific command, type <info>"qs shell_name --help"</info>'), 2);
+        $this->out(__d('cms', 'To run an QuickAppsCMS or CakePHP command, type <info>"qs shell_name [args]"</info>'));
+        $this->out(__d('cms', 'To run a Plugin command, type <info>"qs PluginName.shell_name [args]"</info>'));
+        $this->out(__d('cms', 'To get help on a specific command, type <info>"qs shell_name --help"</info>'), 2);
     }
 
     /**
@@ -95,9 +95,9 @@ class CommandListShell extends CakeCommandListShell
 
         $parser = parent::getOptionParser();
         $parser
-            ->description(__('Get the list of available shells for this QuickAppsCMS installation.'))
+            ->description(__d('cms', 'Get the list of available shells for this QuickAppsCMS installation.'))
             ->addOption('xml', [
-                'help' => __('Get the listing as XML.'),
+                'help' => __d('cms', 'Get the listing as XML.'),
                 'boolean' => true,
             ]);
 
@@ -116,9 +116,9 @@ class CommandListShell extends CakeCommandListShell
         }
 
         $this->out();
-        $this->out(__('<info>Welcome to QuickApps CMS v{0} Console</info>', quickapps('version')));
+        $this->out(__d('cms', '<info>Welcome to QuickApps CMS v{0} Console</info>', quickapps('version')));
         $this->hr();
-        $this->out(__('Site Title: {0}', option('site_title')));
+        $this->out(__d('cms', 'Site Title: {0}', option('site_title')));
         $this->hr();
         $this->out();
     }

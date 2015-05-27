@@ -73,7 +73,7 @@ class LanguageFilter extends RoutingFilter
         parent::beforeDispatch($event);
         $request = Router::getRequest();
         if (empty($request)) {
-            throw new InternalErrorException(__('No request object could be found.'));
+            throw new InternalErrorException(__d('cms', 'No request object could be found.'));
         }
 
         $locales = array_keys(quickapps('languages'));

@@ -88,7 +88,7 @@ class SluggableBehavior extends Behavior
 
             foreach ($config['label'] as $field) {
                 if (!$entity->has($field)) {
-                    throw new FatalErrorException(__d('system', 'SluggableBehavior was not able to generate a slug reason: entity\'s property "{0}" not found', $field));
+                    throw new FatalErrorException(__d('cms', 'SluggableBehavior was not able to generate a slug reason: entity\'s property "{0}" not found', $field));
                 }
             }
 

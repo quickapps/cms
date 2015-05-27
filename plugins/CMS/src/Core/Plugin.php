@@ -66,7 +66,7 @@ class Plugin extends CakePlugin
             return static::cache($cacheKey, $package);
         }
 
-        throw new FatalErrorException(__('Plugin "{0}" was not found', $plugin));
+        throw new FatalErrorException(__d('cms', 'Plugin "{0}" was not found', $plugin));
     }
 
     /**
@@ -176,19 +176,19 @@ class Plugin extends CakePlugin
 
         $errors = [];
         if (!is_array($json) || empty($json)) {
-            $errors[] = __('Corrupt JSON information.');
+            $errors[] = __d('cms', 'Corrupt JSON information.');
         } else {
             if (!isset($json['type'])) {
-                $errors[] = __('Missing field: "{0}"', 'type');
+                $errors[] = __d('cms', 'Missing field: "{0}"', 'type');
             }
 
             if (!isset($json['name'])) {
-                $errors[] = __('Missing field: "{0}"', 'name');
+                $errors[] = __d('cms', 'Missing field: "{0}"', 'name');
             } elseif (!preg_match('/^(.+)\/(.+)+$/', $json['name'])) {
-                $errors[] = __('Invalid field: "{0}" ({1}). It should be: {2}', 'name', $json['name'], '{author-name}/{package-name}');
+                $errors[] = __d('cms', 'Invalid field: "{0}" ({1}). It should be: {2}', 'name', $json['name'], '{author-name}/{package-name}');
             } elseif (str_ends_with(strtolower($json['name']), 'theme')) {
                 if (!isset($json['extra']['regions'])) {
-                    $errors[] = __('Missing field: "{0}"', 'extra.regions');
+                    $errors[] = __d('cms', 'Missing field: "{0}"', 'extra.regions');
                 }
             }
         }
