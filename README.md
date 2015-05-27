@@ -35,7 +35,16 @@ and powered by [CakePHP 3.0](http://cakephp.org) MVC framework.
 You must install QuickAppsCMS using [composer](http://getcomposer.org).
 QuickApps CMS is designed to run as a stand alone application, so you must
 use the [website skeleton](https://github.com/QuickAppsCMS/website) as
-starting point.
+starting point:
+
+1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
+2. Run `php composer.phar create-project -s dev quickapps/website [your_website_name]`.
+
+If Composer is installed globally, run:
+
+    composer create-project -s dev quickapps/website [website_name]
+
+After composer is done visit `http://example.com/` and start QuickApps CMS installation.
 
 ## Links of Interest
 
