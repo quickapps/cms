@@ -71,7 +71,6 @@ class MenusTable extends Table
                 'on' => 'create',
                 'message' => __d('menu', 'Invalid menu handler'),
             ]);
-
         return $validator;
     }
 

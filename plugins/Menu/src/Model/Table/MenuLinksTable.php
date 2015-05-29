@@ -11,9 +11,13 @@
  */
 namespace Menu\Model\Table;
 
+use Cake\Cache\Cache;
+use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validation;
 use Cake\Validation\Validator;
+use Menu\Model\Entity\MenuLink;
+use \ArrayObject;
 
 /**
  * Represents "menu_links" database table.
@@ -97,5 +101,42 @@ class MenuLinksTable extends Table
             ]);
 
         return $validator;
+    }
+
+    /**
+     * Triggered after menu link was persisted in DB.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Menu\Model\Entity\Menu $link The menu link entity that was saved
+     * @param \ArrayObject $options Options given as an array
+     * @return void
+     */
+    public function afterSave(Event $event, MenuLink $link, ArrayObject $options = null)
+    {
+        $this->clearCache();
+    }
+
+    /**
+     * Triggered after menu link was removed from DB.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Menu\Model\Entity\MenuLink $link The menu link entity that was
+     *  deleted
+     * @param \ArrayObject $options Options given as an array
+     * @return void
+     */
+    public function afterDelete(Event $event, MenuLink $link, ArrayObject $options = null)
+    {
+        $this->clearCache();
+    }
+
+    /**
+     * Clear menus cache.
+     *
+     * @return void
+     */
+    public function clearCache()
+    {
+        Cache::clearGroup('views', 'menus');
     }
 }
