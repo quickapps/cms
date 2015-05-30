@@ -108,7 +108,7 @@ class CommentsTable extends Table
      */
     public function validationAnonymous(Validator $validator)
     {
-        $settings = Plugin::settings('Comment');
+        $settings = Plugin::get('Comment')->settings;
         $validator = $this->validationDefault($validator);
 
         if ($settings['allow_anonymous']) {

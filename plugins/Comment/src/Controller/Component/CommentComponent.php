@@ -344,15 +344,18 @@ class CommentComponent extends Component
     protected function _getRequestData(EntityInterface $entity)
     {
         $pk = (string)TableRegistry::get($entity->source())->primaryKey();
-        $data = [];
+        $data = $this->_controller->request->data('comment');
         $return = [
             'parent_id' => null,
             'subject' => '',
             'body' => '',
             'status' => 'pending',
+            'author_name' => null,
+            'author_email' => null,
+            'author_web' => null,
             'author_ip' => $this->_controller->request->clientIp(),
-            'entity_id' => $entity->get($pk),
             'table_alias' => $this->_getTableAlias($entity),
+            'entity_id' => $entity->get($pk),
         ];
 
         if (!empty($this->_controller->request->data['comment'])) {
@@ -364,6 +367,10 @@ class CommentComponent extends Component
             $return['author_name'] = null;
             $return['author_email'] = null;
             $return['author_web'] = null;
+        } else {
+            $return['author_name'] = !empty($data['author_name']) ? h($data['author_name']) : null;
+            $return['author_email'] = !empty($data['author_email']) ? h($data['author_email']) : null;
+            $return['author_web'] = !empty($data['author_web']) ? h($data['author_web']) : null;
         }
 
         if (!empty($data['subject'])) {
@@ -472,7 +479,7 @@ class CommentComponent extends Component
                 ]);
         } elseif ($this->config('settings.allow_anonymous')) {
             // anonymous user posting
-            $validator = $this->_controller->Comments->validationUpdate(new Validator());
+            $validator = $this->_controller->Comments->validator('anonymous');
         } else {
             // other case
             $validator = new Validator();
