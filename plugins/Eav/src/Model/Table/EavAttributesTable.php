@@ -11,7 +11,6 @@
  */
 namespace Eav\Model\Table;
 
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Eav\Model\Behavior\EavToolbox;

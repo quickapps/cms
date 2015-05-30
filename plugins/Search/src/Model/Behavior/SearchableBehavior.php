@@ -524,7 +524,7 @@ class SearchableBehavior extends Behavior
     /**
      * Generates default callable object for extracting entity's words.
      *
-     * @return callable
+     * @return \Closure
      */
     protected function _defaultFieldsCallable()
     {

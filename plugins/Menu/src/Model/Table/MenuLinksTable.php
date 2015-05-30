@@ -107,7 +107,7 @@ class MenuLinksTable extends Table
      * Triggered after menu link was persisted in DB.
      *
      * @param \Cake\Event\Event $event The event that was triggered
-     * @param \Menu\Model\Entity\Menu $link The menu link entity that was saved
+     * @param \Menu\Model\Entity\MenuLink $link The menu link entity that was saved
      * @param \ArrayObject $options Options given as an array
      * @return void
      */

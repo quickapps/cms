@@ -19,7 +19,6 @@ use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
 use Eav\Model\Behavior\EavToolbox;
 use Eav\Model\Behavior\QueryScope\QueryScopeInterface;
 use Eav\Model\Behavior\QueryScope\SelectScope;
