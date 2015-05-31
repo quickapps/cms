@@ -46,7 +46,7 @@ if (is_array(quickapps('content_types'))) {
         'action' => 'details'
     ], [
         'content_type_slug' => implode('|', array_map('preg_quote', quickapps('content_types'))),
-        'content_slug' => '[a-z0-9\-]+',
+        'content_slug' => '.+',
         'pass' => ['content_type_slug', 'content_slug'],
         '_name' => 'content_details',
         'routeClass' => 'Cake\Routing\Route\InflectedRoute',

@@ -139,12 +139,13 @@ class SluggableBehavior extends Behavior
      */
     protected function _slug($string, $entity)
     {
+        $string = $this->_mbTrim(mb_strtolower($string));
         $config = $this->config();
-        $slug = Inflector::slug(strtolower($string), $config['separator']);
+        $slug = Inflector::slug($string, $config['separator']);
         $pk = $this->_table->primaryKey();
 
-        if (strlen($slug) > $config['length']) {
-            $slug = substr($slug, 0, $config['length']);
+        if (mb_strlen($slug) > $config['length']) {
+            $slug = mb_substr($slug, 0, $config['length']);
         }
 
         $conditions = ["{$config['slug']} LIKE" => "{$slug}%"];
@@ -174,5 +175,17 @@ class SluggableBehavior extends Behavior
         }
 
         return $slug;
+    }
+
+    /**
+     * Trim singlebyte and multibyte punctuation from the start and end of a string.
+     *
+     * @param string $string Input string in UTF-8
+     * @param string $trimChars Characters to trim off
+     * @return trimmed string
+     */
+    protected function _mbTrim($string, $trimChars = '\s')
+    {
+        return preg_replace('/^[' . $trimChars . ']*(?U)(.*)[' . $trimChars . ']*$/u', '\\1', $string);
     }
 }
