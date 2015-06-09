@@ -23,6 +23,7 @@ use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Search\Operator;
 use Search\Token;
+use \ArrayObject;
 
 /**
  * This behavior allows entities to be searchable through an auto-generated
@@ -378,16 +379,19 @@ class SearchableBehavior extends Behavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
+     * @param \ArrayObject $options Additional options
      * @return void
      */
-    public function afterSave(Event $event, EntityInterface $entity)
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         $isNew = $entity->isNew();
         if (($this->config('on') === 'update' && $isNew) ||
-            ($this->config('on') === 'insert' && !$isNew)
+            ($this->config('on') === 'insert' && !$isNew) ||
+            (isset($options['index']) && $options['index'] === false)
         ) {
             return;
         }
+
         $this->indexEntity($entity);
     }
 
@@ -429,9 +433,10 @@ class SearchableBehavior extends Behavior
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was removed
+     * @param \ArrayObject $options Additional options
      * @return bool
      */
-    public function beforeDelete(Event $event, EntityInterface $entity)
+    public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
         $this->_table->hasMany('SearchDatasets', [
             'className' => 'Search.SearchDatasets',
@@ -524,7 +529,7 @@ class SearchableBehavior extends Behavior
     /**
      * Generates default callable object for extracting entity's words.
      *
-     * @return \Closure
+     * @return callable
      */
     protected function _defaultFieldsCallable()
     {
@@ -765,7 +770,7 @@ class SearchableBehavior extends Behavior
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
         $text = strtolower($text); // all to lowercase
         $text = $this->_filterText($text); // filter
-        $text = iconv('UTF-8', 'UTF-8//IGNORE', mb_convert_encoding($text, 'UTF-8')); // remove any invalid character
+        $text = iconv("UTF-8", "UTF-8//IGNORE", $text); // remove any invalid character
         return trim($text);
     }
 
