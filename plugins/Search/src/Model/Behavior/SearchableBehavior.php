@@ -529,7 +529,7 @@ class SearchableBehavior extends Behavior
     /**
      * Generates default callable object for extracting entity's words.
      *
-     * @return callable
+     * @return \Closure
      */
     protected function _defaultFieldsCallable()
     {
@@ -770,7 +770,7 @@ class SearchableBehavior extends Behavior
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
         $text = strtolower($text); // all to lowercase
         $text = $this->_filterText($text); // filter
-        $text = iconv("UTF-8", "UTF-8//IGNORE", $text); // remove any invalid character
+        $text = iconv('UTF-8', 'UTF-8//IGNORE', mb_convert_encoding($text, 'UTF-8')); // remove any invalid character
         return trim($text);
     }
 
