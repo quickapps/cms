@@ -11,9 +11,13 @@
  */
 namespace Eav\Model\Table;
 
+use Cake\Cache\Cache;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Eav\Model\Behavior\EavToolbox;
+use \ArrayObject;
 
 /**
  * Represents EAV "eav_attributes" database table.
@@ -82,5 +86,41 @@ class EavAttributesTable extends Table
             ]);
 
         return $validator;
+    }
+
+    /**
+     * Clears any relevant stored cache after an EAV attribute has changed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
+     * @param \ArrayObject $options Additional options given as an array
+     * @return void
+     */
+    public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options = null)
+    {
+        $this->_clearCache();
+    }
+
+    /**
+     * Clears any relevant stored cache after an EAV attribute is removed.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
+     * @param \ArrayObject $options Additional options given as an array
+     * @return void
+     */
+    public function afterDelete(Event $event, EntityInterface $entity, ArrayObject $options = null)
+    {
+        $this->_clearCache();
+    }
+
+    /**
+     * Clears every EAV cache.
+     *
+     * @return void
+     */
+    protected function _clearCache()
+    {
+        Cache::clear(false, 'eav_table_attrs');
     }
 }
