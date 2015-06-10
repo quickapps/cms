@@ -422,7 +422,7 @@ class SearchableBehavior extends Behavior
 
         // We add starting and trailing space to allow LIKE %something-to-match%
         $set = $Datasets->patchEntity($set, [
-            'words' => ' ' . $this->_extractEntityWords($entity) . ' '
+            'words' => ' ' . $this->extractEntityWords($entity) . ' '
         ]);
 
         return (bool)$Datasets->save($set);
@@ -739,7 +739,7 @@ class SearchableBehavior extends Behavior
      *  the list of words
      * @return string Space-separated list of words. e.g. `cat dog this that`
      */
-    protected function _extractEntityWords(EntityInterface $entity)
+    public function extractEntityWords(EntityInterface $entity)
     {
         $text = '';
         $fields = $this->config('fields');
@@ -763,12 +763,12 @@ class SearchableBehavior extends Behavior
 
         if (!empty($strict)) {
             // only: space, digits (0-9), letters (any language), ".", ",", "-", "_", "/", "\"
-            $pattern = is_string($strict) ? $strict : '[^\p{L}\s\@\.\,\-\_\/\\0-9]';
-            $text = preg_replace('/' . $pattern . '/i', ' ', $text);
+            $pattern = is_string($strict) ? $strict : '[^\p{L}\p{N}\s\@\.\,\-\_\/\\0-9]';
+            $text = preg_replace('/' . $pattern . '/ui', ' ', $text);
         }
 
         $text = trim(preg_replace('/\s{2,}/i', ' ', $text)); // remove double spaces
-        $text = strtolower($text); // all to lowercase
+        $text = mb_strtolower($text); // all to lowercase
         $text = $this->_filterText($text); // filter
         $text = iconv('UTF-8', 'UTF-8//IGNORE', mb_convert_encoding($text, 'UTF-8')); // remove any invalid character
         return trim($text);
