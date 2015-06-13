@@ -34,17 +34,15 @@ class SluggableBehavior extends Behavior
     /**
      * Default configuration.
      *
-     * - `label`: Set to the field name that contains the string from where to
-     *   generate the slug, or a set of field names to concatenate for generating
-     *   the slug. `title` by default.
-     *
-     * - `slug`: Name of the field name that holds generated slugs. `slug` by default.
-     *
-     * - `separator`: Separator char. `-` by default. e.g.: `one-two-three`.
-     *
-     * - `on`: When to generate new slugs. `create`, `update` or `both` (by default).
-     *
-     * - `length`: Maximum length the generated slug can have. default to 200.
+     * - label: Set to the field name that contains the string from where to
+     *   generate the slug, or a set of field names to concatenate for
+     *   generating the slug. Defaults to `title`.
+     * - slug: Name of the field name that holds generated slugs. Defaults to
+     *   `slug`.
+     * - separator: Separator char. `-` by default. e.g.: `one-two-three`.
+     * - on: When to generate new slugs. `create`, `update` or `both`. Defaults
+     *   to `both`.
+     * - length: Maximum length the generated slug can have. default to 200.
      *
      * @var array
      */
@@ -93,7 +91,6 @@ class SluggableBehavior extends Behavior
             }
 
             $label = '';
-
             foreach ($config['label'] as $field) {
                 $val = $entity->get($field);
                 $label .= !empty($val) ? " {$val}" : '';
@@ -129,11 +126,10 @@ class SluggableBehavior extends Behavior
     }
 
     /**
-     * Generate a slug for the given string and entity.
+     * Generate a slug for the given string and entity. The generated slug is
+     * unique across the entire table.
      *
-     * The generated slug is unique on the whole table.
-     *
-     * @param string $string string from where to generate slug
+     * @param string $string String from where to generate slug
      * @param \Cake\ORM\Entity $entity The entity for which generate the slug
      * @return string Slug for given string
      */
@@ -162,7 +158,6 @@ class SluggableBehavior extends Behavior
         if (!empty($same)) {
             $initialSlug = $slug;
             $index = 1;
-
             while ($index > 0) {
                 $nextSlug = "{$initialSlug}{$config['separator']}{$index}";
                 if (!in_array($nextSlug, $same)) {
@@ -178,7 +173,8 @@ class SluggableBehavior extends Behavior
     }
 
     /**
-     * Trim singlebyte and multibyte punctuation from the start and end of a string.
+     * Trim singlebyte and multibyte punctuation from the start and end of a
+     * string.
      *
      * @param string $string Input string in UTF-8
      * @param string $trimChars Characters to trim off

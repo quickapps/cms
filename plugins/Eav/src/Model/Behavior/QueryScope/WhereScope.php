@@ -130,7 +130,7 @@ class WhereScope implements QueryScopeInterface
         $conjunction = $expression->getOperator();
         $conditions = [
             'EavAttribute.table_alias' => $this->_table->table(),
-            "EavAttribute.name" => $column,
+            'EavAttribute.name' => $column,
             "EavValues.value_{$type} {$conjunction}" => $value,
         ];
 
