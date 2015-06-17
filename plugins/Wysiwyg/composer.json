@@ -1,6 +1,6 @@
 {
     "name": "quickapps-plugins/wysiwyg",
-    "description": "Wysiwyg editor for textareas.",
+    "description": "Wysiwyg editor for textareas powered by CKEditor.",
     "type": "cakephp-plugin",
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
     "homepage": "http://quickappscms.org",
@@ -13,5 +13,10 @@
     ],
     "require": {
         "quickapps/cms": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wysiwyg\\": "src"
+        }
     }
 }

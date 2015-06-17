@@ -13,5 +13,10 @@
     ],
     "require": {
         "quickapps/cms": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Comment\\": "src"
+        }
     }
 }

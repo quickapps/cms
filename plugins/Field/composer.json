@@ -14,5 +14,10 @@
     "require": {
         "quickapps/cms": "~2.0",
         "quickapps-plugins/eav": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Field\\": "src"
+        }
     }
 }

@@ -15,5 +15,10 @@
         "quickapps-plugins/cms": "*",
         "quickapps-plugins/locale": "*",
         "quickapps-plugins/user": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Block\\": "src"
+        }
     }
 }

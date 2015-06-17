@@ -34,5 +34,10 @@
             "dashboard-main": "Dashboard Main",
             "dashboard-sidebar": "Dashboard Sidebar"
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "BackendTheme\\": "src"
+        }
     }
 }

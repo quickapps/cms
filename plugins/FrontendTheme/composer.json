@@ -31,5 +31,10 @@
             "sub-menu": "Sub-menu",
             "right-sidebar": "Right Sidebar"
         }
+    },
+    "autoload": {
+        "psr-4": {
+            "FrontendTheme\\": "src"
+        }
     }
 }
