@@ -28,7 +28,7 @@ class EavValuesTable extends Table
     public function initialize(array $config)
     {
         if (class_exists('CMS\\Model\\Behavior\\SerializableBehavior')) {
-            $this->addBehavior('Serializable', [
+            $this->addBehavior('CMS.Serializable', [
                 'columns' => ['extra']
             ]);
         }
