@@ -253,15 +253,15 @@ class TextToolbox
     public static function urlToLink($text)
     {
         $pattern = [
-            '/[^\\\](?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
-            '/[^\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
-            '/[\\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/i',
+            '/[^\\\](?<!http:\/\/|https:\/\/|\"|=|\'|\'>|\">)(www\..*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/iu',
+            '/[^\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/iu',
+            '/[\\\\](?<!\"|=|\'|\'>|\">|site:)(https?:\/\/(www){0,1}.*?)(\s|\Z|\.\Z|\.\s|\<|\>|,)/iu',
         ];
 
         $replacement = [
-            "<a href=\"http://$1\">$1</a>$2",
-            "<a href=\"$1\" target=\"_blank\">$1</a>$3",
-            "$1$3"
+            '<a href="http://$1">$1</a>$2',
+            '<a href="$1" target="_blank">$1</a>$3',
+            '$1$3'
         ];
 
         return preg_replace($pattern, $replacement, $text);
@@ -278,13 +278,13 @@ class TextToolbox
      */
     public static function emailToLink($text)
     {
-        preg_match_all("/([\\\a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/i", $text, $emails);
+        preg_match_all("/([\\\a-z0-9_\-\.]+)@([a-z0-9-]{1,64})\.([a-z]{2,10})/iu", $text, $emails);
 
         foreach ($emails[0] as $email) {
             $email = trim($email);
 
             if ($email[0] == '\\') {
-                $text = str_replace($email, substr($email, 1), $text);
+                $text = str_replace($email, mb_substr($email, 1), $text);
             } else {
                 $text = str_replace($email, static::emailObfuscator($email), $text);
             }
@@ -305,13 +305,12 @@ class TextToolbox
     public static function emailObfuscator($email)
     {
         $link = str_rot13('<a href="mailto:' . $email . '" rel="nofollow">' . $email . '</a>');
-        $out = '
-            <script type="text/javascript">
-                document.write(\'' . $link . '\'.replace(/[a-zA-Z]/g,
-                function(c){return String.fromCharCode((c<="Z"?90:122)>=(c=c.charCodeAt(0)+13)?c:c-26);}));
-            </script>
-        ';
-        $out .= "<noscript>[" . __d('field', 'Turn on JavaScript to see the email address.') . "]</noscript>";
+        $out = '<script type="text/javascript">' . "\n";
+        $out .= '    document.write(\'' . $link . '\'.replace(/[a-zA-Z]/g, function(c) {' . "\n";
+        $out .= '        return String.fromCharCode((c <= "Z" ? 90 : 122) >= (c = c.charCodeAt(0) + 13) ? c : c - 26);' . "\n";
+        $out .= '    }));' . "\n";
+        $out .= '</script>' . "\n";
+        $out .= '<noscript>[' . __d('field', 'Turn on JavaScript to see the email address.') . ']</noscript>' . "\n";
 
         return $out;
     }
@@ -369,10 +368,10 @@ class TextToolbox
 
         $len = $len === false || !is_numeric($len) || $len <= 0 ? 600 : $len;
         $text = static::filterText($text);
-        $textLen = strlen($text);
+        $textLen = mb_strlen($text);
 
         if ($textLen > $len) {
-            return substr($text, 0, $len) . $ellipsis;
+            return mb_substr($text, 0, $len) . $ellipsis;
         }
 
         return $text;
