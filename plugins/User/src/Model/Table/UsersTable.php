@@ -218,7 +218,7 @@ class UsersTable extends Table
         if (plugin('User')->settings('password_uppercase')) {
             $rules['uppercase'] = [
                 'rule' => function ($value, $context) {
-                    return (bool)preg_match('/[A-Z]/', $this->_getRawPassword($context));
+                    return (bool)preg_match('/[\p{Lu}]/u', $this->_getRawPassword($context));
                 },
                 'message' => __d('user', 'Password must contain at least one uppercase character (A-Z).'),
             ];
@@ -227,7 +227,7 @@ class UsersTable extends Table
         if (plugin('User')->settings('password_lowercase')) {
             $rules['lowercase'] = [
                 'rule' => function ($value, $context) {
-                    return (bool)preg_match('/[\p{Ll}]/', $this->_getRawPassword($context));
+                    return (bool)preg_match('/[\p{Ll}]/u', $this->_getRawPassword($context));
                 },
                 'message' => __d('user', 'Password must contain at least one lowercase character (a-z).'),
             ];
@@ -236,7 +236,7 @@ class UsersTable extends Table
         if (plugin('User')->settings('password_number')) {
             $rules['number'] = [
                 'rule' => function ($value, $context) {
-                    return (bool)preg_match('/[0-9]/', $this->_getRawPassword($context));
+                    return (bool)preg_match('/[\p{N}]/u', $this->_getRawPassword($context));
                 },
                 'message' => __d('user', 'Password must contain at least one numeric character (1-9).'),
             ];
@@ -245,7 +245,7 @@ class UsersTable extends Table
         if (plugin('User')->settings('password_non_alphanumeric')) {
             $rules['non_alphanumeric'] = [
                 'rule' => function ($value, $context) {
-                    return (bool)preg_match('/[^0-9a-z]/i', $this->_getRawPassword($context));
+                    return (bool)preg_match('/[^\p{L}\p{N}]/u', $this->_getRawPassword($context));
                 },
                 'message' => __d('user', 'Password must contain at least one non-alphanumeric character (e.g. #%?).'),
             ];
