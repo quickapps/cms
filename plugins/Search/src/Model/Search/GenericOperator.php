@@ -80,7 +80,12 @@ class GenericOperator extends Operator
 
         list($conjunction, $value) = $this->_prepareConjunction($token);
         $tableAlias = $this->_table->alias();
-        $conditions = ["{$tableAlias}.{$column} {$conjunction}" => $value];
+        $conditions = [
+            'AND' => [
+                'SearchDatasets.entity_id >' => 0,
+                "{$tableAlias}.{$column} {$conjunction}" => $value,
+            ]
+        ];
 
         if ($token->where() === 'or') {
             $query->orWhere($conditions);
