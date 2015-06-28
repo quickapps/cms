@@ -524,8 +524,7 @@ class VersionParser
     public function expandStability($stability)
     {
         $stability = strtolower($stability);
-        switch ($stability)
-        {
+        switch ($stability) {
             case 'a':
                 return 'alpha';
             case 'b':
