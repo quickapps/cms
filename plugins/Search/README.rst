@@ -9,93 +9,158 @@ Searchable Behavior
 ===================
 
 This `behavior <http://book.cakephp.org/3.0/en/orm/behaviors.html>`__ is provided by
-the Search plugin and it's responsible of index each entity under your tables, it
-also allows you to search any of those entities by using human-friendly search
-criteria.
+the Search plugin and allows entities to be "searchable" by using interchangeable
+search engines, such engines are responsible of index each entity under your tables,
+they also allows you to locate any of those entities using engine-specific query
+language.
 
 Using this Behavior
 -------------------
 
-You must indicate which fields can be indexed when attaching this behavior to your
-tables. For example, when attaching this behavior to ``Users`` table:
+You must indicate attach the Searchable behavior and tell which search engine should
+be used, by default ``Generic Engine`` will be used which should cover most cases,
+however new Engine Interfaces can be created to cover your needs:
 
 .. code:: php
 
     $this->addBehavior('Search.Searchable', [
-        'fields' => ['username', 'email']
+        'engine' => [
+            'className' => 'Search\Engine\Generic\GenericEngine',
+            'config' => [
+                'bannedWords' => []
+            ]
+        ]
     ]);
 
-In the example above, this behavior will look for words to index in user’s
-"username" and user’s "email" properties.
+This particular engine (GenericEngine) will apply a series of filters (converts to
+lowercase, remove line breaks, etc) to words list extracted from each entity being
+indexed. For more details check "Generic Engine" documentation.
 
-If you need a really special selection of words for each entity is being indexed,
-then you can set the ``fields`` option as a callable which should return a list of
-words for the given entity. For example:
+Searching Entities
+------------------
+
+When attaching this behavior, every entity under your table gets indexed ``depending
+on the Search Engine being used``. The idea is you can use this index to locate any
+entity indexed in that way. To search entities you should use the `search()` method:
+
+.. code:: php
+
+    $query = $this->Articles->search($criteria);
+
+This method interacts with the engine being used. The ``$criteria`` must be a valid
+search-query compatible with the engine being used.
+
+
+Interacting With The Engine
+---------------------------
+
+You can get an instance of the Search Engine being used by invoking the ``engine()``
+method, this allows you, for instance, manually index an entity, get index
+information for an specific entity, etc.
+
+.. code:: php
+
+    $engine = $this->Articles->engine();
+    $engine->search( ... );
+    $engine->get( ... );
+    $engine->index( ... );
+    $engine->delete( ... );
+
+
+You can also use the ``engine()`` method to change the engine on the fly:
+
+.. code:: php
+
+    $config = [ ... ];
+    $engine = $this->Articles->engine(new CustomSearchEngine($this->Articles, $config));
+
+
+
+---
+
+
+
+Generic Engine
+##############
+
+Search plugins comes with one built-in Engine which should cover most use cases.
+This Search Engine allows entities to be searchable through an auto-generated list
+of words using ``LIKE`` SQL expressions. If you need to hold a very large amount of
+index information you should create your own Engine Interface adapter to work with
+third-party solutions such as "Elasticsearch", "Sphinx", etc.
+
+
+Using Generic Engine
+--------------------
+
+You must indicate Searchable behavior to use this engine when attaching Search
+Behavior to your table. For example when attaching Searchable behavior to `Articles`
+table:
 
 .. code:: php
 
     $this->addBehavior('Search.Searchable', [
-        'fields' => function ($user) {
-            return "{$user->name} {$user->email}";
-        }
+        'engine' => [
+            'className' => 'Search\Engine\Generic\GenericEngine',
+            'config' => [
+                'bannedWords' => []
+            ]
+        ]
     ]);
 
-You can return either, a plain text of space-separated words, or an array list of
-words:
+This engine will apply a series of filters (converts to lowercase, remove line
+breaks, etc) to words list extracted from each entity being indexed.
 
-.. code:: php
-
-    $this->addBehavior('Search.Searchable', [
-        'fields' => function ($user) {
-            return [
-                'word 1',
-                'word 2',
-                'word 3',
-            ];
-        }
-    ]);
-
-This behaviors will apply a series of filters (converts to lowercase, remove line
-breaks, etc) to the resulting word list, so you should simply return a RAW string of
-words and let this behavior do the rest of the job.
 
 Banned Words
-~~~~~~~~~~~~
+------------
 
-You can use the ``bannedWords`` option to tell which words should not be indexed by
-this behavior. For example:
+You can use the `bannedWords` option to tell which words should not be indexed by
+this engine. For example:
 
-.. code:: php
-
-    $this->addBehavior('Search.Searchable', [
-        'bannedWords' => ['of', 'the', 'and']
-    ]);
-
-If you need to ban a really specific list of words you can set ``bannedWords``
-option as a callable method that should return true or false to tell if a words is
-banned or not. For example:
 
 .. code:: php
 
     $this->addBehavior('Search.Searchable', [
-        'bannedWords' => function ($word) {
-            return strlen($word) <= 3;
-        }
+        'engine' => [
+            'className' => 'Search\Engine\Generic\GenericEngine',
+            'config' => [
+                'bannedWords' => ['of', 'the', 'and']
+            ]
+        ]
     ]);
 
--  Returning TRUE indicates that the word is banned (will not be index).
--  Returning FALSE indicates that the word is NOT banned (will be index).
+If you need to ban a really specific list of words you can set `bannedWords` option
+as a callable method that should return true or false to tell if a words should be
+indexed or not. For example:
+
+.. code:: php
+
+    $this->addBehavior('Search.Searchable', [
+        'engine' => [
+            'className' => 'Search\Engine\Generic\GenericEngine',
+            'config' => [
+                'bannedWords' => function ($word) {
+                    return strlen($word) > 3;
+                }
+            ]
+        ]
+    ]);
+
+- Returning TRUE indicates that the word is safe for indexing (not banned).
+- Returning FALSE indicates that the word should NOT be indexed (banned).
 
 In the example, above any word of 4 or more characters will be indexed (e.g. "home",
 "name", "quickapps", etc). Any word of 3 or less characters will be banned (e.g.
 "and", "or", "the").
 
+
 Searching Entities
 ------------------
 
-When attaching this behavior, every entity under your table gets a list of indexed
-words. The idea is you can use this list of words to locate any entity based on a
-customized search-criteria. A search-criteria looks as follow:
+When using this engine, every entity under your table gets a list of indexed words.
+The idea behind this is that you can use this list of words to locate any entity
+based on a customized search-criteria. A search-criteria looks as follow:
 
 ::
 
@@ -133,24 +198,24 @@ way. Allows you, for example, create user-friendly search-forms, or create some 
 feed just by creating a friendly URL using a search-criteria. e.g.:
 ``http://example.com/rss/category:music created:2014``
 
-You must use the ``search()`` method to scope any query using a search-criteria. For
-example, in one controller using ``Users`` model:
+You must use the Searchable Behavior's ``search()`` method to scope any query using
+a search-criteria. For example, in some controller using ``Articles`` model:
 
 .. code:: php
 
     $criteria = '"this phrase" OR -"not this one" AND this';
-    $query = $this->Users->find();
-    $query = $this->Users->search($criteria, $query);
+    $query = $this->Articles->find();
+    $query = $this->Articles->search($criteria, $query);
 
-The above will alter the given $query object according to the given criteria. The
-second argument (query object) is optional, if not provided this Behavior
-automatically generates a find-query for you. Previous example and the one below are
-equivalent:
+The above will alter the given ``$query`` object according to the given criteria.
+The second argument (query object) is optional, if not provided this Searchable
+Behavior automatically generates a find-query for you. Previous example and the one
+below are equivalent:
 
 .. code:: php
 
     $criteria = '"this phrase" OR -"not this one" AND this';
-    $query = $this->Users->search($criteria);
+    $query = $this->Articles->search($criteria);
 
 Search Operators
 ----------------
@@ -170,7 +235,7 @@ and its ``arguments``, both parts must be separated using the ``:`` symbol e.g.:
     Operators names are treated as **lowercase_and_underscored**, so ``AuthorName``,
     ``AUTHOR_NAME`` or ``AuThoR_naMe`` are all treated as: ``author_name``.
 
-You can define custom operators for your table by using the ``addSearchOperator()``
+You can define custom operators for your table by using the ``addOperator()``
 method. For example, you might need create a custom operator ``author`` which would
 allow you to search an ``Article`` entity by its author name. A search-criteria
 using this operator may looks as follow:
@@ -192,7 +257,7 @@ under the `author` name, a full working example may look as follow:
             $this->addBehavior('Search.Searchable');
 
             // register a new operator for handling `author:<author_name>` expressions
-            $this->addSearchOperator('author', 'operatorAuthor');
+            $this->addOperator('author', 'operatorAuthor');
         }
 
         public function operatorAuthor(Query $query, Token $token)
@@ -214,13 +279,12 @@ You can also define operator as a callable function:
         {
             $this->addBehavior('Search.Searchable');
 
-            $this->addSearchOperator('author', function(Query $query, Token $token) {
+            $this->addOperator('author', function(Query $query, Token $token) {
                 // Scope query and return.
                 return $query;
             });
         }
     }
-
 
 Built-in Operator
 ~~~~~~~~~~~~~~~~~
@@ -238,7 +302,7 @@ To use this operator you should indicate the column you wish to scope as follow:
 
 .. code:: php
 
-    $this->addSearchOperator('created', 'Search.Date', ['field' => 'created_on']);
+    $this->addOperator('created', 'Search.Date', ['field' => 'created_on']);
 
 Once operator is attached you should be able to filter using the ``created``
 operator in you search criteria:, for example:
@@ -255,7 +319,7 @@ Provides generic scoping for any column type. Usage:
 
 .. code:: php
 
-    $this->addSearchOperator('name', 'Search.Date', ['field' => 'name']);
+    $this->addOperator('name', 'Search.Date', ['field' => 'name']);
 
 Supported options:
 
@@ -285,7 +349,7 @@ Allows to limit the number of results. Usage:
 
 .. code:: php
 
-    $this->addSearchOperator('num_articles', 'Search.Limit');
+    $this->addOperator('num_articles', 'Search.Limit');
 
 Once operator is attached you should be able to filter using the ``num_articles``
 operator in you search criteria:, for example:
@@ -304,7 +368,7 @@ indicate which columns are allowed to be ordered by, for example:
 
 .. code:: php
 
-    $this->addSearchOperator('order_articles_by', 'Search.Order', [
+    $this->addOperator('order_articles_by', 'Search.Order', [
         'fields' => ['title', 'created_on']
     ]);
 
@@ -336,7 +400,7 @@ Example:
 
 .. code:: php
 
-    $this->addSearchOperator('comments_count', 'Search.Range', [
+    $this->addOperator('comments_count', 'Search.Range', [
         'field' => 'num_comments'
     ]);
 
@@ -376,18 +440,18 @@ those operators into re-usable classes:
     // In any table class:
 
     // Add the custom operator,
-    $this->addSearchOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
+    $this->addOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
 
     // OR passing a constructed operator
     use MyPlugin\Model\Search\CustomOperator;
-    $this->addSearchOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
+    $this->addOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
 
 
 Fallback Operators
 ~~~~~~~~~~~~~~~~~~
 
 When an operator is detected in the given search criteria but no operator callable
-was defined using ``addSearchOperator()``, then
+was defined using ``addOperator()``, then
 ``SearchableBehavior.operator<OperatorName>`` event will be triggered, so other
 plugins may respond and handle any undefined operator. For example, given the search
 criteria below, lets suppose ``date`` operator **was not defined** early:

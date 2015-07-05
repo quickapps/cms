@@ -29,9 +29,7 @@ use \ArrayObject;
  * @property \User\Model\Table\ContentsTable $Translations
  * @property \User\Model\Table\UsersTable $Author
  * @property \User\Model\Table\UsersTable $ModifiedBy
- * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
- * @method void enableSearchOperator(string $name)
- * @method void disableSearchOperator(string $name)
+ * @method \Search\Engine\EngineInterface engine(\Search\Engine\EngineInterface $engine = null)
  * @method void bindComments()
  * @method void unbindComments()
  * @method void configureFieldable(array $config)
@@ -156,14 +154,14 @@ class ContentsTable extends Table
             }
         ]);
 
-        $this->addSearchOperator('promote', 'operatorPromote');
-        $this->addSearchOperator('author', 'operatorAuthor');
-        $this->addSearchOperator('limit', 'Search.Limit');
-        $this->addSearchOperator('modified', 'Search.Date', ['field' => 'modified']);
-        $this->addSearchOperator('created', 'Search.Date', ['field' => 'created']);
-        $this->addSearchOperator('type', 'Search.Generic', ['field' => 'content_type_slug', 'conjunction' => 'auto']);
-        $this->addSearchOperator('language', 'Search.Generic', ['field' => 'language', 'conjunction' => 'auto']);
-        $this->addSearchOperator('order', 'Search.Order', ['fields' => ['slug', 'title', 'description', 'sticky', 'created', 'modified']]);
+        $this->engine()->addOperator('promote', 'operatorPromote');
+        $this->engine()->addOperator('author', 'operatorAuthor');
+        $this->engine()->addOperator('limit', 'Search.Limit');
+        $this->engine()->addOperator('modified', 'Search.Date', ['field' => 'modified']);
+        $this->engine()->addOperator('created', 'Search.Date', ['field' => 'created']);
+        $this->engine()->addOperator('type', 'Search.Generic', ['field' => 'content_type_slug', 'conjunction' => 'auto']);
+        $this->engine()->addOperator('language', 'Search.Generic', ['field' => 'language', 'conjunction' => 'auto']);
+        $this->engine()->addOperator('order', 'Search.Order', ['fields' => ['slug', 'title', 'description', 'sticky', 'created', 'modified']]);
     }
 
     /**

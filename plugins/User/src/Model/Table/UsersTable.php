@@ -22,7 +22,7 @@ use User\Model\Entity\User;
 /**
  * Represents "users" database table.
  *
- * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
+ * @method \Search\Engine\EngineInterface engine(\Search\Engine\EngineInterface $engine = null)
  * @method bool touch(\Cake\Datasource\EntityInterface $entity, string $eventName = 'Model.beforeSave')
  * @method void unbindFieldable()
  */
@@ -68,10 +68,10 @@ class UsersTable extends Table
         ]);
         $this->addBehavior('Field.Fieldable');
 
-        $this->addSearchOperator('created', 'Search.Date', ['field' => 'created']);
-        $this->addSearchOperator('limit', 'Search.Limit');
-        $this->addSearchOperator('email', 'Search.Generic', ['field' => 'email', 'conjunction' => 'auto']);
-        $this->addSearchOperator('order', 'Search.Order', ['fields' => ['name', 'username', 'email', 'web']]);
+        $this->engine()->addOperator('created', 'Search.Date', ['field' => 'created']);
+        $this->engine()->addOperator('limit', 'Search.Limit');
+        $this->engine()->addOperator('email', 'Search.Generic', ['field' => 'email', 'conjunction' => 'auto']);
+        $this->engine()->addOperator('order', 'Search.Order', ['fields' => ['name', 'username', 'email', 'web']]);
     }
 
     /**

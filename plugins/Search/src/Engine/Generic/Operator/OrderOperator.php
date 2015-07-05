@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Model\Search;
+namespace Search\Engine\Generic\Operator;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Search\Operator;
-use Search\Token;
+use Search\Engine\Generic\Operator\BaseOperator;
+use Search\Engine\Generic\Token;
 
 /**
  * Handles "order by" operators.
@@ -27,7 +27,7 @@ use Search\Token;
  *
  * Orders the resulting entities.
  */
-class OrderOperator extends Operator
+class OrderOperator extends BaseOperator
 {
 
     /**

@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Model\Search;
+namespace Search\Engine\Generic\Operator;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Search\Operator;
-use Search\Token;
+use Search\Engine\Generic\Operator\BaseOperator;
+use Search\Engine\Generic\Token;
 
 /**
  * Handles "limits" search operator.
@@ -27,7 +27,7 @@ use Search\Token;
  *
  * Limits the number of results.
  */
-class LimitOperator extends Operator
+class LimitOperator extends BaseOperator
 {
 
     /**

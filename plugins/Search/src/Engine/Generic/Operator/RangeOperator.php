@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Model\Search;
+namespace Search\Engine\Generic\Operator;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Search\Operator;
-use Search\Token;
+use Search\Engine\Generic\Operator\BaseOperator;
+use Search\Engine\Generic\Token;
 
 /**
  * Handles range-based operators. Values must be separated using ".." characters and
@@ -28,7 +28,7 @@ use Search\Token;
  * instance: `age:21..15`. In these cases this class will treat values as numeric
  * values for determinate the correct order.
  */
-class RangeOperator extends Operator
+class RangeOperator extends BaseOperator
 {
 
     /**

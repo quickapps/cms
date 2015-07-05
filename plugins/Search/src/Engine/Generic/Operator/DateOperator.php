@@ -9,13 +9,13 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Model\Search;
+namespace Search\Engine\Generic\Operator;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Search\Engine\Generic\Operator\BaseOperator;
+use Search\Engine\Generic\Token;
 use Search\Model\Search\RangeOperator;
-use Search\Operator;
-use Search\Token;
 
 /**
  * Handles date ranges operators.
