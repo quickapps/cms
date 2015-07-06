@@ -11,15 +11,33 @@
  */
 namespace Search\Engine;
 
+use Cake\Core\InstanceConfigTrait;
 use Cake\Datasource\EntityInterface;
+use Cake\Error\FatalErrorException;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 
 /**
  * Every search engine must satisfy this interface.
  */
-interface EngineInterface
+abstract class BaseEngine
 {
+
+    use InstanceConfigTrait;
+
+    /**
+     * The table being managed by this engine instance.
+     *
+     * @var \Cake\ORM\Table
+     */
+    protected $_table;
+
+    /**
+     * Default configuration array for this engine.
+     *
+     * @var array
+     */
+    protected $_defaultConfig = [];
 
     /**
      * Constructor
@@ -27,7 +45,11 @@ interface EngineInterface
      * @param \Cake\ORM\Table $table The table this engine is handling
      * @param array $config Configuration parameter for this engine
      */
-    public function __construct(Table $table, array $config = []);
+    public function __construct(Table $table, array $config = [])
+    {
+        $this->_table = $table;
+        $this->config($config);
+    }
 
     /**
      * Indexes the given entity.
@@ -35,7 +57,10 @@ interface EngineInterface
      * @param \Cake\Datasource\EntityInterface $entity The entity to be indexed
      * @return bool Success
      */
-    public function index(EntityInterface $entity);
+    public function index(EntityInterface $entity)
+    {
+        return false;
+    }
 
     /**
      * Gets the index information of the given entity.
@@ -44,7 +69,10 @@ interface EngineInterface
      *  its index
      * @return mixed Depending on the engine
      */
-    public function get(EntityInterface $entity);
+    public function get(EntityInterface $entity)
+    {
+        throw new FatalErrorException(__d('search', 'Method "get()" has not been overridden.'));
+    }
 
     /**
      * Removes index for the given entity.
@@ -53,7 +81,10 @@ interface EngineInterface
      *  be deleted
      * @return bool Success
      */
-    public function delete(EntityInterface $entity);
+    public function delete(EntityInterface $entity)
+    {
+        return false;
+    }
 
     /**
      * Scopes the given query object.
@@ -63,5 +94,19 @@ interface EngineInterface
      * @param \Cake\ORM\Query $query The query to be scope
      * @return \Cake\ORM\Query Scoped query
      */
-    public function search($criteria, Query $query);
+    public function search($criteria, Query $query)
+    {
+        return $query;
+    }
+
+    /**
+     * Capture any invalid method invocation.
+     *
+     * @param string $method name of the method to be invoked
+     * @param array $args List of arguments passed to the function
+     * @return void
+     */
+    public function __call($method, $args)
+    {
+    }
 }

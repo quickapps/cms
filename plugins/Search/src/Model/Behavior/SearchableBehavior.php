@@ -24,8 +24,9 @@ use \ArrayObject;
  * This behavior allows entities to be searchable using interchangeable search
  * engines.
  *
- * By default `GenericEngine` will be used if not provided. New engines can be
- * created and attached, such as `elasticsearch`, etc.
+ * By default `GenericEngine` will be used if not provided. New engine interface
+ * adapters can be created and attached to this behavior, such as `elasticsearch`,
+ * `Apache SOLR`, `Sphinx`, etc.
  */
 class SearchableBehavior extends Behavior
 {

@@ -14,14 +14,14 @@ namespace Search\Engine\Generic\Operator;
 use Cake\Core\InstanceConfigTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Search\Token;
+use Search\Engine\Generic\Token;
 
 /**
  * Base operator class.
  *
  * Every operator handler must extends this class.
  */
-abstract class Operator
+abstract class BaseOperator
 {
 
     use InstanceConfigTrait;

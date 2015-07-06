@@ -21,7 +21,7 @@ use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
-use Search\Engine\EngineInterface;
+use Search\Engine\BaseEngine;
 use Search\Engine\Generic\Token;
 use \ArrayObject;
 
@@ -285,20 +285,11 @@ use \ArrayObject;
  * - The event's context, that is `$event->subject()`, is the table instance that
  *   fired the event.
  */
-class GenericEngine implements EngineInterface
+class GenericEngine extends BaseEngine
 {
 
-    use InstanceConfigTrait;
-
     /**
-     * The table being managed by this engine instance.
-     *
-     * @var \Cake\ORM\Table
-     */
-    protected $_table;
-
-    /**
-     * Behavior configuration array.
+     * {@inheritDoc}
      *
      * - operators: A list of registered operators methods as `name` =>
      *   `methodName`.
@@ -312,8 +303,6 @@ class GenericEngine implements EngineInterface
      * - bannedWords: Array list of banned words, or a callable that should decide
      *   if the given word is banned or not. Defaults to empty array (allow
      *   everything).
-     *
-     * @var array
      */
     protected $_defaultConfig = [
         'operators' => [],
@@ -322,22 +311,18 @@ class GenericEngine implements EngineInterface
     ];
 
     /**
-     * Constructor.
-     *
-     * @param \Cake\ORM\Table $table The table this behavior is attached to.
-     * @param array $config The config for this behavior.
+     * {@inheritDoc}
      */
     public function __construct(Table $table, array $config = [])
     {
-        $this->_table = $table;
-        $config['pk'] = $this->_table->primaryKey();
-        $config['tableAlias'] = (string)Inflector::underscore($this->_table->alias());
-        $this->_table->hasOne('Search.SearchDatasets', [
+        $config['pk'] = $table->primaryKey();
+        $config['tableAlias'] = (string)Inflector::underscore($table->alias());
+        $table->hasOne('Search.SearchDatasets', [
             'foreignKey' => 'entity_id',
             'conditions' => ['table_alias' => $config['tableAlias']],
             'dependent' => true
         ]);
-        $this->config($config);
+        parent::__construct($table, $config);
     }
 
     /**
@@ -595,7 +580,7 @@ class GenericEngine implements EngineInterface
                 list($plugin, $class) = pluginSplit($handler);
 
                 if ($plugin) {
-                    $className = "{$plugin}\\Model\\Search\\{$class}Operator";
+                    $className = $plugin === 'Search' ? "Search\\Engine\\Generic\\Operator\\{$class}Operator" : "{$plugin}\\Model\\Search\\{$class}Operator";
                     $className = str_replace('OperatorOperator', 'Operator', $className);
                 } else {
                     $className = $class;
@@ -747,7 +732,7 @@ class GenericEngine implements EngineInterface
                 return function ($query, $token) use ($handler) {
                     return $handler($query, $token);
                 };
-            } elseif ($handler instanceof Operator) {
+            } elseif ($handler instanceof BaseOperator) {
                 return function ($query, $token) use ($handler) {
                     return $handler->scope($query, $token);
                 };

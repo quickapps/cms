@@ -19,7 +19,7 @@ Using this Behavior
 
 You must indicate attach the Searchable behavior and tell which search engine should
 be used, by default ``Generic Engine`` will be used which should cover most cases,
-however new Engine Interfaces can be created to cover your needs:
+however new Engine adapters can be created to cover your needs:
 
 .. code:: php
 
@@ -75,6 +75,19 @@ You can also use the ``engine()`` method to change the engine on the fly:
     $engine = $this->Articles->engine(new CustomSearchEngine($this->Articles, $config));
 
 
+Engines Adapters
+################
+
+New search engine adapters can be created, such adapters must simply extend the
+class ``Search\Engine\BaseEngine``. These adapters must provide methods for
+indexing, retrieving and removing indexes. This allows for instance use different
+search engines for indexing different tables.
+
+This plugin comes with one built-in Search Engine adapter: ``Generic Engine`` which
+should be enough in most cases. However, when working with big-sized tables a more
+efficiency approach is recommended, such as ``Elasticsearch``, ``Apache SOLR``,
+``Sphinx``, etc.
+
 
 ---
 
@@ -86,8 +99,8 @@ Generic Engine
 Search plugins comes with one built-in Engine which should cover most use cases.
 This Search Engine allows entities to be searchable through an auto-generated list
 of words using ``LIKE`` SQL expressions. If you need to hold a very large amount of
-index information you should create your own Engine Interface adapter to work with
-third-party solutions such as "Elasticsearch", "Sphinx", etc.
+index information you should create your own Engine adapter to work with third-party
+solutions such as "Elasticsearch", "Sphinx", etc.
 
 
 Using Generic Engine

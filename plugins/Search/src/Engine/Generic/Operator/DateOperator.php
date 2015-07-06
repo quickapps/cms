@@ -14,8 +14,8 @@ namespace Search\Engine\Generic\Operator;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Search\Engine\Generic\Operator\BaseOperator;
+use Search\Engine\Generic\Operator\RangeOperator;
 use Search\Engine\Generic\Token;
-use Search\Model\Search\RangeOperator;
 
 /**
  * Handles date ranges operators.
