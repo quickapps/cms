@@ -320,32 +320,53 @@ class EavBehavior extends Behavior
      */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
+        $attrsById = [];
+        $updatedAttrs = [];
+        $valuesTable = TableRegistry::get('Eav.EavValues');
+
         foreach ($this->_toolbox->attributes() as $name => $attr) {
             if (!$entity->has($name)) {
                 continue;
             }
 
-            $type = $this->_toolbox->getType($name);
-            $value = TableRegistry::get('Eav.EavValues')
-                ->find()
-                ->where([
-                    'eav_attribute_id' => $attr->get('id'),
-                    'entity_id' => $this->_toolbox->getEntityId($entity),
-                ])
-                ->limit(1)
-                ->first();
+            $attrsById[$attr->get('id')] = $attr;
+        }
 
-            if (!$value) {
-                $value = TableRegistry::get('Eav.EavValues')->newEntity([
+        $values = $valuesTable
+            ->find()
+            ->where([
+                'eav_attribute_id IN' => array_keys($attrsById),
+                'entity_id' => $this->_toolbox->getEntityId($entity),
+            ]);
+
+        foreach ($values as $value) {
+            $updatedAttrs[] = $value->get('eav_attribute_id');
+            $info = $attrsById[$value->get('eav_attribute_id')];
+            $type = $this->_toolbox->getType($info->get('name'));
+
+            $marshaledValue = $this->_toolbox->marshal($entity->get($info->get('name')), $type);
+            $value->set("value_{$type}", $marshaledValue);
+            $entity->set($info->get('name'), $marshaledValue);
+            $valuesTable->save($value);
+        }
+
+        foreach ($this->_toolbox->attributes() as $name => $attr) {
+            if (!$entity->has($name)) {
+                continue;
+            }
+
+            if (!in_array($attr->get('id'), $updatedAttrs)) {
+                $type = $this->_toolbox->getType($name);
+                $value = $valuesTable->newEntity([
                     'eav_attribute_id' => $attr->get('id'),
                     'entity_id' => $this->_toolbox->getEntityId($entity),
                 ]);
-            }
 
-            $marshaledValue = $this->_toolbox->marshal($entity->get($name), $type);
-            $value->set("value_{$type}", $marshaledValue);
-            $entity->set($name, $marshaledValue);
-            TableRegistry::get('Eav.EavValues')->save($value);
+                $marshaledValue = $this->_toolbox->marshal($entity->get($name), $type);
+                $value->set("value_{$type}", $marshaledValue);
+                $entity->set($name, $marshaledValue);
+                $valuesTable->save($value);
+            }
         }
     }
 
