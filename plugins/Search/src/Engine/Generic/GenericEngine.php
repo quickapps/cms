@@ -319,7 +319,11 @@ class GenericEngine extends BaseEngine
         $config['tableAlias'] = (string)Inflector::underscore($table->alias());
         $table->hasOne('Search.SearchDatasets', [
             'foreignKey' => 'entity_id',
-            'conditions' => ['table_alias' => $config['tableAlias']],
+            'conditions' => [
+                'SearchDatasets.table_alias' => $config['tableAlias'],
+                'SearchDatasets.id >' => 0,
+
+            ],
             'dependent' => true
         ]);
         parent::__construct($table, $config);

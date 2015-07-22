@@ -41,9 +41,9 @@ class Token
      */
     public function __construct($token, $where = null)
     {
-        $position = strpos($token, '-');
-        $this->_data['string'] = $position === 0 ? substr($token, $position + 1) : $token;
-        $this->_data['negated'] = $position === 0;
+        $minusPosition = strpos($token, '-');
+        $this->_data['string'] = $minusPosition === 0 ? substr($token, $minusPosition + 1) : $token;
+        $this->_data['negated'] = $minusPosition === 0;
         $this->_data['where'] = $where !== null ? strtolower($where) : null;
         $this->_data['isOperator'] = mb_strpos($token, ':') !== false;
 
