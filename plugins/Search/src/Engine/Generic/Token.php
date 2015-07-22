@@ -51,11 +51,6 @@ class Token
             $parts = explode(':', $token);
             $this->_data['operatorName'] = (string)Inflector::underscore(preg_replace('/\PL/u', '', $parts[0]));
             $this->_data['operatorArguments'] = !empty($parts[1]) ? $parts[1] : '';
-
-            if ($this->_data['negated']) {
-                $position = strpos($this->_data['operatorName'], '-');
-                $this->_data['operatorName'] = substr($this->_data['operatorName'], $position + 1);
-            }
         }
     }
 
