@@ -18,11 +18,12 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Search\Engine\BaseEngine;
 use Search\Engine\Generic\Token;
+use Search\Parser\MiniLanguage\MiniLanguageParser;
+use Search\Parser\TokenInterface;
 use \ArrayObject;
 
 /**
@@ -143,147 +144,6 @@ use \ArrayObject;
  * $criteria = '"this phrase" OR -"not this one" AND this';
  * $query = $this->Users->search($criteria);
  * ```
- *
- * ### Creating Operators
- *
- * An `Operator` is a search-criteria command valid for this particular engine, and
- * which allows you to perform very specific filter conditions over your queries. An
- * operator **has two parts**, a `name` and its `arguments`, both parts must be
- * separated using the `:` symbol e.g.:
- *
- *     // operator name is: "author"
- *     // operator arguments are: ">2014-03-01"
- *     date:>2014-03-01
- *
- * NOTE: Operators names are treated as **lowercase_and_underscored**, so
- * `AuthorName`, `AUTHOR_NAME` or `AuThoR_naMe` are all treated as: `author_name`.
- *
- * You can define custom operators for your table by using the `addOperator()`
- * method. For example, you might need create a custom operator `author` which
- * allows you to search a `Content` entity by `author name`. A search-criteria using
- * this operator may looks as follow:
- *
- *     // get all contents containing `this phrase` and created by `JohnLocke`
- *     "this phrase" author:JohnLocke
- *
- * You can define in your table an operator method and register it into this
- * behavior under the `author` name, a full working example may look as follow:
- *
- * ```php
- * class MyTable extends Table
- * {
- *     public function initialize(array $config)
- *     {
- *         // attach the Searchable behavior and use Generic Engine
- *         $this->addBehavior('Search.Searchable', [
- *            'engine' => [
- *                'className' => 'Search\Engine\Generic\genericEngine'
- *            ]
- *         ]);
- *
- *         // register a new operator for handling `author:<author_name>` expressions
- *         $this->engine()->addOperator('author', 'operatorAuthor');
- *     }
- *
- *     public function operatorAuthor(Query $query, Token $token)
- *     {
- *         // $query: The query object to alter
- *         // $token: Token representing the operator to apply.
- *         // Scope query using $token information and return.
- *         return $query;
- *     }
- * }
- * ```
- *
- * You can also define operator as a callable function:
- *
- * ```php
- * class MyTable extends Table
- * {
- *     public function initialize(array $config)
- *     {
- *         // attach the Searchable behavior and use Generic Engine
- *         $this->addBehavior('Search.Searchable', [
- *            'engine' => [
- *                'className' => 'Search\Engine\Generic\genericEngine'
- *            ]
- *         ]);
- *
- *         $this->engine()->addOperator('author', function(Query $query, Token $token) {
- *             // Scope query and return.
- *             return $query;
- *         });
- *     }
- * }
- * ```
- *
- * ### Creating Reusable Operators
- *
- * If your application has operators that are commonly reused, it is helpful to
- * package those operators into re-usable classes:
- *
- * ```php
- * // in MyPlugin/Model/Search/CustomOperator.php
- * namespace MyPlugin\Model\Search;
- *
- * use Search\Engine\Generic\Operator\BaseOperator;
- *
- * class CustomOperator extends Operator
- * {
- *     public function scope($query, $token)
- *     {
- *         // Scope $query
- *         return $query;
- *     }
- * }
- *
- * // In any table class using Searchable:
- *
- * // Add the custom operator,
- * $this->engine()->addOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
- *
- * // OR passing a constructed operator
- * use MyPlugin\Model\Search\CustomOperator;
- * $this->engine()->addOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
- * ```
- *
- * ### Fallback Operators
- *
- * When an operator is detected in the given search criteria but no operator
- * callable was defined using `addOperator()`, then
- * `GenericEngine.operator<OperatorName>` will be triggered, so other plugins may
- * respond to any undefined operator. For example, given the search criteria below,
- * lets suppose `date` operator **was not defined** early:
- *
- *     "this phrase" author:JohnLocke date:[2013-06-06..2014-06-06]
- *
- * The `GenericEngine.operatorDate` event will be fired. A plugin may respond to
- * this call by implementing this event:
- *
- * ```php
- * // ...
- *
- * public function implementedEvents() {
- *     return [
- *         'GenericEngine.operatorDate' => 'operatorDate',
- *     ];
- * }
- *
- * // ...
- *
- * public function operatorDate($event, $query, $token) {
- *     // Scope $query object and return it
- *     return $query;
- * }
- *
- * // ...
- * ```
- *
- * IMPORTANT:
- *
- * - Event handler method should always return the modified $query object.
- * - The event's context, that is `$event->subject()`, is the table instance that
- *   fired the event.
  */
 class GenericEngine extends BaseEngine
 {
@@ -321,8 +181,6 @@ class GenericEngine extends BaseEngine
             'foreignKey' => 'entity_id',
             'conditions' => [
                 'SearchDatasets.table_alias' => $config['tableAlias'],
-                'SearchDatasets.id >' => 0,
-
             ],
             'dependent' => true
         ]);
@@ -334,8 +192,7 @@ class GenericEngine extends BaseEngine
      */
     public function index(EntityInterface $entity)
     {
-        $Datasets = TableRegistry::get('Search.SearchDatasets');
-        $set = $Datasets->find()
+        $set = $this->_table->SearchDatasets->find()
             ->where([
                 'entity_id' => $this->_entityId($entity),
                 'table_alias' => $this->config('tableAlias'),
@@ -344,7 +201,7 @@ class GenericEngine extends BaseEngine
             ->first();
 
         if (!$set) {
-            $set = $Datasets->newEntity([
+            $set = $this->_table->SearchDatasets->newEntity([
                 'entity_id' => $this->_entityId($entity),
                 'table_alias' => $this->config('tableAlias'),
                 'words' => '',
@@ -352,11 +209,11 @@ class GenericEngine extends BaseEngine
         }
 
         // We add starting and trailing space to allow LIKE %something-to-match%
-        $set = $Datasets->patchEntity($set, [
+        $set = $this->_table->SearchDatasets->patchEntity($set, [
             'words' => ' ' . $this->_extractEntityWords($entity) . ' '
         ]);
 
-        return (bool)$Datasets->save($set);
+        return (bool)$this->_table->SearchDatasets->save($set);
     }
 
     /**
@@ -374,7 +231,7 @@ class GenericEngine extends BaseEngine
      */
     public function get(EntityInterface $entity)
     {
-        return TableRegistry::get('Search.SearchDatasets')->find()
+        return $this->_table->SearchDatasets->find()
             ->where([
                 'entity_id' => $this->_entityId($entity),
                 'table_alias' => $this->config('tableAlias'),
@@ -415,12 +272,19 @@ class GenericEngine extends BaseEngine
      */
     public function search($criteria, Query $query)
     {
-        $query->contain('SearchDatasets');
-        foreach ($this->_getTokens($criteria) as $token) {
-            if ($token->isOperator()) {
-                $this->_scopeOperator($query, $token);
-            } else {
-                $this->_scopeWords($query, $token);
+        $tokens = (array)(new MiniLanguageParser($criteria))->parse();
+        if (!empty($tokens)) {
+            $query->contain('SearchDatasets');
+            $query->where(['SearchDatasets.id >' => 0]);
+            $operators = [];
+            $words = [];
+
+            foreach ($tokens as $token) {
+                if ($token->isOperator()) {
+                    $query = $this->_scopeOperator($query, $token);
+                } else {
+                    $query = $this->_scopeWords($query, $token);
+                }
             }
         }
 
@@ -434,62 +298,27 @@ class GenericEngine extends BaseEngine
      * @param \Search\Token $token Token describing an operator. e.g `-op_name:op_value`
      * @return \Cake\ORM\Query Scoped query
      */
-    protected function _scopeOperator(Query $query, Token $token)
+    protected function _scopeOperator(Query $query, TokenInterface $token)
     {
-        $callable = $this->_operatorCallable($token->name());
-        if (is_callable($callable)) {
-            $query = $callable($query, $token);
-            if (!($query instanceof Query)) {
-                throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
-            }
-        } else {
-            $result = $this->_triggerScope($query, $token);
-            if ($result instanceof Query) {
-                $query = $result;
-            }
-        }
-
-        return $query;
-    }
-
-    /**
-     * Triggers an event for handling undefined operators. Event listeners may
-     * capture this event and provide operator handling logic, such listeners should
-     * alter the provided Query object and then return it back.
-     *
-     * The triggered event follows the pattern:
-     *
-     * ```
-     * GenericEngine.operator<CamelCaseOperatorName>
-     * ```
-     *
-     * For example, `GenericEngine.operatorAuthorName` will be triggered for
-     * handling an operator named either `author-name` or `author_name`.
-     *
-     * @param \Cake\ORM\Query $query The query that is expected to be scoped
-     * @param \Search\Token $token Token describing an operator. e.g `-op_name:op_value`
-     * @return mixed Scoped query object expected or null if event was not captured
-     *  by any listener
-     */
-    protected function _triggerScope(Query $query, Token $token)
-    {
-        $eventName = 'GenericEngine.' . (string)Inflector::variable('operator_' . $token->name());
-        $event = new Event($eventName, $this->_table, compact('query', 'token'));
-        return EventManager::instance()->dispatch($event)->result;
+        return $this->_table->applySearchOperator($query, $token);
     }
 
     /**
      * Scopes the given query using the given words token.
      *
      * @param \Cake\ORM\Query $query The query to scope
-     * @param \Search\Token $token Token describing a words sequence. e.g `this is a phrase`
+     * @param \Search\TokenInterface $token Token describing a words sequence. e.g `this is a phrase`
      * @return \Cake\ORM\Query Scoped query
      */
-    protected function _scopeWords(Query $query, Token $token)
+    protected function _scopeWords(Query $query, TokenInterface $token)
     {
-        $LIKE = 'LIKE';
+        if ($this->_isFullTextEnabled()) {
+            return $this->_scopeWordsInFulltext($query, $token);
+        }
+
+        $like = 'LIKE';
         if ($token->negated()) {
-            $LIKE = 'NOT LIKE';
+            $like = 'NOT LIKE';
         }
 
         // * Matches any one or more characters.
@@ -497,135 +326,73 @@ class GenericEngine extends BaseEngine
         $value = str_replace(['*', '!'], ['%', '_'], $token->value());
 
         if ($token->where() === 'or') {
-            $query->orWhere(["SearchDatasets.words {$LIKE}" => "%{$value}%"]);
+            $query->orWhere(["SearchDatasets.words {$like}" => "%{$value}%"]);
         } elseif ($token->where() === 'and') {
-            $query->andWhere(["SearchDatasets.words {$LIKE}" => "%{$value}%"]);
+            $query->andWhere(["SearchDatasets.words {$like}" => "%{$value}%"]);
         } else {
-            $query->where(["SearchDatasets.words {$LIKE}" => "%{$value}%"]);
+            $query->where(["SearchDatasets.words {$like}" => "%{$value}%"]);
         }
+
+        return $query;
     }
 
     /**
-     * Registers a new operator method.
+     * Similar to "_scopeWords" but using MySQL's fulltext indexes.
      *
-     * Allowed formats are:
-     *
-     * ```php
-     * $this->addOperator('created', 'operatorCreated');
-     * ```
-     *
-     * The above will use Table's `operatorCreated()` method to handle the "created"
-     * operator.
-     *
-     * ---
-     *
-     * ```php
-     * $this->addOperator('created', 'MyPlugin.Limit');
-     * ```
-     *
-     * The above will use `MyPlugin\Model\Search\LimitOperator` class to handle the
-     * "limit" operator. Note the `Operator` suffix.
-     *
-     * ---
-     *
-     * ```php
-     * $this->addOperator('created', 'MyPlugin.Limit', ['my_option' => 'option_value']);
-     * ```
-     *
-     * Similar as before, but in this case you can provide some configuration
-     * options passing an array as above.
-     *
-     * ---
-     *
-     * ```php
-     * $this->addOperator('created', 'Full\ClassName');
-     * ```
-     *
-     * Or you can indicate a full class name to use.
-     *
-     * ---
-     *
-     * ```php
-     * $this->addOperator('created', function ($query, $token) {
-     *     // scope $query
-     *     return $query;
-     * });
-     * ```
-     *
-     * You can simply pass a callable function to handle the operator, this callable
-     * must return the altered $query object.
-     *
-     * ---
-     *
-     * ```php
-     * $this->addOperator('created', new CreatedOperator($table, $options));
-     * ```
-     *
-     * In this case you can directly pass an instance of an operator handler,
-     * this object should extends the `Search\Operator` abstract class.
-     *
-     * @param string $name Underscored operator's name. e.g. `author`
-     * @param mixed $handler A valid handler as described above
-     * @return void
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param \Search\TokenInterface $token Token describing a words sequence. e.g `this is a phrase`
+     * @return \Cake\ORM\Query Scoped query
      */
-    public function addOperator($name, $handler, array $options = [])
+    protected function _scopeWordsInFulltext(Query $query, TokenInterface $token)
     {
-        $name = Inflector::underscore($name);
-        $operator = [
-            'name' => $name,
-            'handler' => false,
-            'options' => [],
-        ];
+        $value = str_replace(['*', '!'], ['*', '*'], $token->value());
+        $value = mb_strpos($value, ' ') ? '"' . $value . '"' : $value;
+        $value = mb_strpos($value, '+') === 0 ? mb_substr($value, 1) : $value;
 
-        if (is_string($handler)) {
-            if (method_exists($this->_table, $handler)) {
-                $operator['handler'] = $handler;
-            } else {
-                list($plugin, $class) = pluginSplit($handler);
+        if (empty($value)) {
+            continue;
+        }
 
-                if ($plugin) {
-                    $className = $plugin === 'Search' ? "Search\\Engine\\Generic\\Operator\\{$class}Operator" : "{$plugin}\\Model\\Search\\{$class}Operator";
-                    $className = str_replace('OperatorOperator', 'Operator', $className);
-                } else {
-                    $className = $class;
-                }
+        $not = $token->negated() ? 'NOT' : '';
+        $value = str_replace("'", '"', $value);
+        $conditions = ["{$not} MATCH(SearchDatasets.words) AGAINST('{$value}' IN BOOLEAN MODE)"];
 
-                $operator['handler'] = $className;
-                $operator['options'] = $options;
+        if ($token->where() === 'or') {
+            $query->orWhere($conditions);
+        } elseif ($token->where() === 'and') {
+            $query->andWhere($conditions);
+        } else {
+            $query->where($conditions);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Whether FullText index is available or not.
+     *
+     * @return bool True if enabled, false otherwise
+     */
+    protected function _isFullTextEnabled()
+    {
+        static $enabled = null;
+        if ($enabled !== null) {
+            return $enabled;
+        }
+
+        $schema = $this->_table->SearchDatasets->schema();
+        foreach ($schema->indexes() as $index) {
+            $info = $schema->index($index);
+            if (in_array('words', $info['columns']) &&
+                strtolower($info['type']) == 'fulltext'
+            ) {
+                $enabled = true;
+                return true;
             }
-        } elseif (is_object($handler) || is_callable($handler)) {
-            $operator['handler'] = $handler;
         }
 
-        $this->config("operators.{$name}", $operator);
-    }
-
-    /**
-     * Enables a an operator.
-     *
-     * @param string $name Name of the operator to be enabled
-     * @return void
-     */
-    public function enableOperator($name)
-    {
-        if (isset($this->_config['operators'][":{$name}"])) {
-            $this->_config['operators'][$name] = $this->_config['operators'][":{$name}"];
-            unset($this->_config['operators'][":{$name}"]);
-        }
-    }
-
-    /**
-     * Disables an operator.
-     *
-     * @param string $name Name of the operator to be disabled
-     * @return void
-     */
-    public function disableOperator($name)
-    {
-        if (isset($this->_config['operators'][$name])) {
-            $this->_config['operators'][":{$name}"] = $this->_config['operators'][$name];
-            unset($this->_config['operators'][$name]);
-        }
+        $enabled = false;
+        return false;
     }
 
     /**
@@ -716,74 +483,5 @@ class GenericEngine extends BaseEngine
         }
 
         return implode(' ', $words);
-    }
-
-    /**
-     * Gets the callable method for a given operator method.
-     *
-     * @param string $name Name of the method to get
-     * @return bool|callable False if no callback was found for the given operator
-     *  name. Or the callable if found.
-     */
-    protected function _operatorCallable($name)
-    {
-        $operator = $this->config("operators.{$name}");
-
-        if ($operator) {
-            $handler = $operator['handler'];
-
-            if (is_callable($handler)) {
-                return function ($query, $token) use ($handler) {
-                    return $handler($query, $token);
-                };
-            } elseif ($handler instanceof BaseOperator) {
-                return function ($query, $token) use ($handler) {
-                    return $handler->scope($query, $token);
-                };
-            } elseif (is_string($handler) && method_exists($this->_table, $handler)) {
-                return function ($query, $token) use ($handler) {
-                    return $this->_table->$handler($query, $token);
-                };
-            } elseif (is_string($handler) && class_exists($handler)) {
-                return function ($query, $token) use ($operator) {
-                    $instance = new $operator['handler']($this->_table, $operator['options']);
-                    return $instance->scope($query, $token);
-                };
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Extract tokens from search-criteria.
-     *
-     * @param string $criteria A search-criteria
-     * @return array List of extracted tokens
-     */
-    protected function _getTokens($criteria)
-    {
-        $criteria = trim(urldecode($criteria));
-        $criteria = preg_replace('/(-?[\w]+)\:"([\]\[\w\s]+)/', '"${1}:${2}', $criteria);
-        $criteria = str_replace(['-"', '+"'], ['"-', '"+'], $criteria);
-        $parts = str_getcsv($criteria, ' ');
-        $tokens = [];
-
-        foreach ($parts as $i => $t) {
-            if (in_array(strtolower($t), ['or', 'and'])) {
-                continue;
-            }
-
-            $where = null;
-            if (isset($parts[$i - 1]) &&
-                in_array(strtolower($parts[$i - 1]), ['or', 'and'])
-            ) {
-                $where = $parts[$i - 1];
-            }
-
-            $tokens[] = new Token($t, $where);
-        }
-
-        return $tokens;
     }
 }

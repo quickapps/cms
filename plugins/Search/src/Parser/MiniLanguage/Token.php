@@ -9,15 +9,15 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Engine\Generic;
+namespace Search\Parser\MiniLanguage;
 
 use Cake\Utility\Inflector;
+use Search\Parser\TokenInterface;
 
 /**
  * Represents a token within a search criteria.
- *
  */
-class Token
+class Token implements TokenInterface
 {
 
     /**
@@ -55,14 +55,7 @@ class Token
     }
 
     /**
-     * Indicates the type of "where()" ORM method that should be used to scope when
-     * using this token: "andWhere()", "orWhere" or just "where()".
-     *
-     * - `or`: Indicates that `Query::orWhere()` should be used
-     * - `and`: Indicates that `Query::andWhere()` should be used
-     * - `NULL`: Indicates that `Query::where()` should be used
-     *
-     * @return string Possible values are: `or`, `and` & null
+     * {@inheritDoc}
      */
     public function where()
     {
@@ -70,9 +63,7 @@ class Token
     }
 
     /**
-     * Whether this token represents an operator or not.
-     *
-     * @return bool True if it's an operator
+     * {@inheritDoc}
      */
     public function isOperator()
     {
@@ -80,11 +71,7 @@ class Token
     }
 
     /**
-     * Gets operator's name.
-     *
-     * Should be used only when this token is an operator.
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function operatorName()
     {
@@ -92,11 +79,7 @@ class Token
     }
 
     /**
-     * Gets operator's argument.
-     *
-     * Should be used only when this token is an operator.
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function operatorArguments()
     {
@@ -104,10 +87,7 @@ class Token
     }
 
     /**
-     * Gets operator's name (if this token is an operator), or string
-     * representation of this token (if ain't operator).
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function name()
     {
@@ -118,10 +98,7 @@ class Token
     }
 
     /**
-     * Gets operator's value (if this token is an operator), or string
-     * representation of this token (if ain't operator).
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function value()
     {
@@ -132,9 +109,7 @@ class Token
     }
 
     /**
-     * Indicates this token was negated using "-" symbol. e.g. `-"no this phrase"`
-     *
-     * @return boolean True if it's negated
+     * {@inheritDoc}
      */
     public function negated()
     {
@@ -142,9 +117,7 @@ class Token
     }
 
     /**
-     * Magic method.
-     *
-     * @return string
+     * {@inheritDoc}
      */
     public function __toString()
     {

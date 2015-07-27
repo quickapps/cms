@@ -17,6 +17,7 @@ use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
+use Search\Parser\TokenInterface;
 use \ArrayObject;
 
 /**
@@ -154,14 +155,14 @@ class ContentsTable extends Table
             }
         ]);
 
-        $this->engine()->addOperator('promote', 'operatorPromote');
-        $this->engine()->addOperator('author', 'operatorAuthor');
-        $this->engine()->addOperator('limit', 'Search.Limit');
-        $this->engine()->addOperator('modified', 'Search.Date', ['field' => 'modified']);
-        $this->engine()->addOperator('created', 'Search.Date', ['field' => 'created']);
-        $this->engine()->addOperator('type', 'Search.Generic', ['field' => 'content_type_slug', 'conjunction' => 'auto']);
-        $this->engine()->addOperator('language', 'Search.Generic', ['field' => 'language', 'conjunction' => 'auto']);
-        $this->engine()->addOperator('order', 'Search.Order', ['fields' => ['slug', 'title', 'description', 'sticky', 'created', 'modified']]);
+        $this->addSearchOperator('promote', 'operatorPromote');
+        $this->addSearchOperator('author', 'operatorAuthor');
+        $this->addSearchOperator('limit', 'Search.Limit');
+        $this->addSearchOperator('modified', 'Search.Date', ['field' => 'modified']);
+        $this->addSearchOperator('created', 'Search.Date', ['field' => 'created']);
+        $this->addSearchOperator('type', 'Search.Generic', ['field' => 'content_type_slug', 'conjunction' => 'auto']);
+        $this->addSearchOperator('language', 'Search.Generic', ['field' => 'language', 'conjunction' => 'auto']);
+        $this->addSearchOperator('order', 'Search.Order', ['fields' => ['slug', 'title', 'description', 'sticky', 'created', 'modified']]);
     }
 
     /**
@@ -295,10 +296,10 @@ class ContentsTable extends Table
      *     promote:<true|false>
      *
      * @param \Cake\ORM\Query $query The query object
-     * @param \Search\Token $token Operator token
+     * @param \Search\Parser\TokenInterface $token Operator token
      * @return \Cake\ORM\Query
      */
-    public function operatorPromote(Query $query, $token)
+    public function operatorPromote(Query $query, TokenInterface $token)
     {
         $value = strtolower($token->value());
         $conjunction = $token->negated() ? '<>' : '';
@@ -329,10 +330,10 @@ class ContentsTable extends Table
      *     author:<username1>,<username2>, ...
      *
      * @param \Cake\ORM\Query $query The query object
-     * @param \Search\Token $token Operator token
+     * @param \Search\Parser\TokenInterface $token Operator token
      * @return \Cake\ORM\Query
      */
-    public function operatorAuthor(Query $query, $token)
+    public function operatorAuthor(Query $query, TokenInterface $token)
     {
         $value = explode(',', $token->value());
 

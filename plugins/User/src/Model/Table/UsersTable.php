@@ -68,10 +68,10 @@ class UsersTable extends Table
         ]);
         $this->addBehavior('Field.Fieldable');
 
-        $this->engine()->addOperator('created', 'Search.Date', ['field' => 'created']);
-        $this->engine()->addOperator('limit', 'Search.Limit');
-        $this->engine()->addOperator('email', 'Search.Generic', ['field' => 'email', 'conjunction' => 'auto']);
-        $this->engine()->addOperator('order', 'Search.Order', ['fields' => ['name', 'username', 'email', 'web']]);
+        $this->addSearchOperator('created', 'Search.Date', ['field' => 'created']);
+        $this->addSearchOperator('limit', 'Search.Limit');
+        $this->addSearchOperator('email', 'Search.Generic', ['field' => 'email', 'conjunction' => 'auto']);
+        $this->addSearchOperator('order', 'Search.Order', ['fields' => ['name', 'username', 'email', 'web']]);
     }
 
     /**

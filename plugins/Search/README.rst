@@ -50,29 +50,317 @@ entity indexed in that way. To search entities you should use the `search()` met
 This method interacts with the engine being used. The ``$criteria`` must be a valid
 search-query compatible with the engine being used.
 
+Search Criteria
+---------------
+
+In most cases ``$criteria`` will be a string representing a search query. For
+instance: ``chris AND pratt AND -rat``. Criteria's syntax depends exclusively on the
+search engine being used. Search plugin provides a generic criteria parsing API for
+defining new criteria syntax.
+
+By default Search plugin comes with one built-in language parser: "Mini-Language
+Parser" which is used by the built-in "Generic Engine" search engine.
+
+A criteria parser must satisfy the ``Search\Parser\ParserInterface`` interface;
+basically it must provide the ``parser()`` method which must return an array list of
+"tokens" objects (``Search\Parser\TokenInterface``).
+
+
+Search Operators
+----------------
+
+An ``Operator`` is a search-criteria command which allows you to perform very
+specific SQL filter conditions. An operator is composed of **two parts**, a ``name``
+and its ``arguments``, both parts separated using the ``:`` symbol e.g.:
+
+::
+
+    // operator name is: "created"
+    // operator arguments are: "2013..2016"
+    created:2013..2016
+
+.. note::
+
+    Operators names are treated as **lowercase_and_underscored**, so ``AuthorName``,
+    ``AUTHOR_NAME`` or ``AuThoR_naMe`` are all treated as: ``author_name``.
+
+You can define custom operators for your table by using the ``addSearchOperator()``
+method. For example, you might need create a custom operator ``author`` which would
+allow you to search an ``Article`` entity by its author name. A search-criteria
+using this operator may looks as follow:
+
+::
+
+    // get all articles containing `this phrase` and created by `John Locke`
+    "this phrase" author:"John Locke"
+
+You can define in your table an operator method and register it into this behavior
+under the `author` name, a full working example may look as follow:
+
+.. code:: php
+
+    class MyTable extends Table {
+        public function initialize(array $config)
+        {
+            // attach the behavior
+            $this->addBehavior('Search.Searchable');
+
+            // register a new operator for handling `author:<author_name>` expressions
+            $this->addSearchOperator('author', 'operatorAuthor');
+        }
+
+        public function operatorAuthor(Query $query, Token $token)
+        {
+            // $query: The query object to alter
+            // $token: Token representing the operator to apply.
+            // Scope query using $token information and return.
+            return $query;
+        }
+    }
+
+You can also define operator as a callable function:
+
+.. code:: php
+
+    class MyTable extends Table
+    {
+        public function initialize(array $config)
+        {
+            $this->addBehavior('Search.Searchable');
+
+            $this->addSearchOperator('author', function(Query $query, Token $token) {
+                // Scope query and return.
+                return $query;
+            });
+        }
+    }
+
+Built-in Operator
+~~~~~~~~~~~~~~~~~
+
+Search Plugin comes with a few of these operator that should cover most common use
+cases:
+
+Date Operator
+^^^^^^^^^^^^^
+
+Allows to filter by date-based column types, for example, ``created``, ``modified``,
+etc. Date ranges are fully supported as follow: ``created:2014..2015``.
+
+To use this operator you should indicate the column you wish to scope as follow:
+
+.. code:: php
+
+    $this->addSearchOperator('created', 'Search.Date', ['field' => 'created_on']);
+
+Once operator is attached you should be able to filter using the ``created``
+operator in you search criteria:, for example:
+
+.. code:: php
+
+    $criteria = "created:2015..2016";
+    $this->Articles->search($criteria);
+
+Generic Operator
+^^^^^^^^^^^^^^^^
+
+Provides generic scoping for any column type. Usage:
+
+.. code:: php
+
+    $this->addSearchOperator('name', 'Search.Date', ['field' => 'name']);
+
+Supported options:
+
+-   conjunction: Indicates which conjunction type should be used when scoping the
+    column. Defaults to `auto`, accepted values are:
+
+    - LIKE: Useful when matching string values, accepts wildcard ``*`` for matching
+      "any" sequence of chars and ``!`` for matching any single char. e.g.
+      ``author:c*`` or ``author:ca!``, mixing: ``author:c!r*``.
+
+    - IN: Useful when operators accepts a list of possible values. e.g.
+      ``author:chris,carter,lisa``.
+
+    - =: Used for strict matching.
+
+    - <>: Used for strict matching.
+
+    - auto: Auto detects, it will use ``IN`` if comma symbol is found in the given
+      value, ``LIKE`` will be used otherwise. e.g. For ``author:chris,peter`` the
+      "IN" conjunction will be used, and for ``author:chris`` the "LIKE" conjunction
+      will be used instead.
+
+Limit Operator
+^^^^^^^^^^^^^^
+
+Allows to limit the number of results. Usage:
+
+.. code:: php
+
+    $this->addSearchOperator('num_articles', 'Search.Limit');
+
+Once operator is attached you should be able to filter using the ``num_articles``
+operator in you search criteria:, for example:
+
+.. code:: php
+
+    $criteria = "num_articles:6";
+    $this->Articles->search($criteria);
+
+
+Order Operator
+^^^^^^^^^^^^^^
+
+Allows to order results by given columns. When attaching this operator you must
+indicate which columns are allowed to be ordered by, for example:
+
+.. code:: php
+
+    $this->addSearchOperator('order_articles_by', 'Search.Order', [
+        'fields' => ['title', 'created_on']
+    ]);
+
+In this example, results can be sorted only by "title" and "created_on" columns.
+Once operator is attached you should be able to filter using the
+``order_articles_by`` operator in you search criteria and indicating the column and
+the ordering direction ("asc" or "desc"), if no direction is given "asc" will be
+used by default, for example:
+
+.. code:: php
+
+    $criteria = "order_articles_by:title,asc";
+    $this->Articles->search($criteria);
+
+Ordering by multiple columns is supported, in these cases each order command must be
+separated using the ``;`` symbol:
+
+.. code:: php
+
+    $criteria = "order_articles_by:title;created_on,desc";
+    $this->Articles->search($criteria);
+
+Range Operator
+^^^^^^^^^^^^^^
+
+Allows to scope results matching a given range constraint, in order words, SQL's
+``BETWEEN`` equivalent. Lower and upper values must be separated using "..".
+Example:
+
+.. code:: php
+
+    $this->addSearchOperator('comments_count', 'Search.Range', [
+        'field' => 'num_comments'
+    ]);
+
+Once operator is attached you should be able to filter using the ``comments_count``
+operator in you search criteria:, for example:
+
+.. code:: php
+
+    $criteria = "comments_count:6..10";
+    $this->Articles->search($criteria);
+
+This example should return only articles with 6 to 10 comments.
+
+
+Creating Reusable Operators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If your application has operators that are commonly reused, it is helpful to package
+those operators into re-usable classes:
+
+.. code:: php
+
+    // in MyPlugin/Model/Search/CustomOperator.php
+    namespace MyPlugin\Model\Search;
+
+    use Search\Operator;
+
+    class CustomOperator extends Operator
+    {
+        public function scope($query, $token)
+        {
+            // Scope $query
+            return $query;
+        }
+    }
+
+    // In any table class:
+
+    // Add the custom operator,
+    $this->addSearchOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
+
+    // OR passing a constructed operator
+    use MyPlugin\Model\Search\CustomOperator;
+    $this->addSearchOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
+
+
+Fallback Operators
+~~~~~~~~~~~~~~~~~~
+
+When an operator is detected in the given search criteria but no operator callable
+was defined using ``addSearchOperator()``, then
+``Search.operator<OperatorName>`` event will be triggered, so other
+plugins may respond and handle any undefined operator. For example, given the search
+criteria below, lets suppose ``date`` operator **was not defined** early:
+
+::
+
+    "this phrase" author:"John Locke" date:2013-06-06..2014-06-06
+
+The ``Search.operatorDate`` event will be fired. A plugin may respond to
+this call by implementing this event:
+
+.. code:: php
+
+    // ...
+
+    public function implementedEvents() {
+        return [
+            'Search.operatorDate' => 'operatorDate',
+        ];
+    }
+
+    // ...
+
+    public function operatorDate($event, $query, $token)
+    {
+        // alter $query object and return it
+        return $query;
+    }
+
+    // ...
+
+.. note::
+
+    -  Event handler method should always return the modified $query object.
+    -  The event’s context, that is ``$event->subject``, is the table instance that
+       triggered the event.
+
 
 Interacting With The Engine
 ---------------------------
 
-You can get an instance of the Search Engine being used by invoking the ``engine()``
-method, this allows you, for instance, manually index an entity, get index
-information for an specific entity, etc.
+You can get an instance of the Search Engine being used by invoking the
+``searchEngine()`` method, this allows you, for instance, manually index an entity,
+get index information for an specific entity, etc.
 
 .. code:: php
 
-    $engine = $this->Articles->engine();
+    $engine = $this->Articles->searchEngine();
     $engine->search( ... );
     $engine->get( ... );
     $engine->index( ... );
     $engine->delete( ... );
 
 
-You can also use the ``engine()`` method to change the engine on the fly:
+You can also use the ``searchEngine()`` method to change the engine on the fly:
 
 .. code:: php
 
     $config = [ ... ];
-    $engine = $this->Articles->engine(new CustomSearchEngine($this->Articles, $config));
+    $engine = $this->Articles->searchEngine(new CustomSearchEngine($this->Articles, $config));
 
 
 Engines Adapters
@@ -98,9 +386,10 @@ Generic Engine
 
 Search plugins comes with one built-in Engine which should cover most use cases.
 This Search Engine allows entities to be searchable through an auto-generated list
-of words using ``LIKE`` SQL expressions. If you need to hold a very large amount of
-index information you should create your own Engine adapter to work with third-party
-solutions such as "Elasticsearch", "Sphinx", etc.
+of words using ``LIKE`` SQL expressions, and optionally ``fulltext`` based searchs.
+If you need to hold a very large amount of index information you should create your
+own Engine adapter to work with third-party solutions such as "Elasticsearch",
+"Sphinx", etc. Or enable ``fulltext`` index to speed up Generic Engine.
 
 
 Using Generic Engine
@@ -230,274 +519,12 @@ below are equivalent:
     $criteria = '"this phrase" OR -"not this one" AND this';
     $query = $this->Articles->search($criteria);
 
-Search Operators
-----------------
 
-An ``Operator`` is a search-criteria command which allows you to perform very
-specific SQL filter conditions. An operator is composed of **two parts**, a ``name``
-and its ``arguments``, both parts must be separated using the ``:`` symbol e.g.:
-
-::
-
-    // operator name is: "created"
-    // operator arguments are: "2013..2016"
-    created:2013..2016
-
-.. note::
-
-    Operators names are treated as **lowercase_and_underscored**, so ``AuthorName``,
-    ``AUTHOR_NAME`` or ``AuThoR_naMe`` are all treated as: ``author_name``.
-
-You can define custom operators for your table by using the ``addOperator()``
-method. For example, you might need create a custom operator ``author`` which would
-allow you to search an ``Article`` entity by its author name. A search-criteria
-using this operator may looks as follow:
-
-::
-
-    // get all articles containing `this phrase` and created by `John Locke`
-    "this phrase" author:"John Locke"
-
-You can define in your table an operator method and register it into this behavior
-under the `author` name, a full working example may look as follow:
-
-.. code:: php
-
-    class MyTable extends Table {
-        public function initialize(array $config)
-        {
-            // attach the behavior
-            $this->addBehavior('Search.Searchable');
-
-            // register a new operator for handling `author:<author_name>` expressions
-            $this->addOperator('author', 'operatorAuthor');
-        }
-
-        public function operatorAuthor(Query $query, Token $token)
-        {
-            // $query: The query object to alter
-            // $token: Token representing the operator to apply.
-            // Scope query using $token information and return.
-            return $query;
-        }
-    }
-
-You can also define operator as a callable function:
-
-.. code:: php
-
-    class MyTable extends Table
-    {
-        public function initialize(array $config)
-        {
-            $this->addBehavior('Search.Searchable');
-
-            $this->addOperator('author', function(Query $query, Token $token) {
-                // Scope query and return.
-                return $query;
-            });
-        }
-    }
-
-Built-in Operator
-~~~~~~~~~~~~~~~~~
-
-Search Plugin comes with a few of these operator that should cover most common use
-cases:
-
-Date Operator
-^^^^^^^^^^^^^
-
-Allows to filter by date-based column types, for example, ``created``, ``modified``,
-etc. Date ranges are fully supported as follow: ``created:2014..2015``.
-
-To use this operator you should indicate the column you wish to scope as follow:
-
-.. code:: php
-
-    $this->addOperator('created', 'Search.Date', ['field' => 'created_on']);
-
-Once operator is attached you should be able to filter using the ``created``
-operator in you search criteria:, for example:
-
-.. code:: php
-
-    $criteria = "created:2015..2016";
-    $this->Articles->search($criteria);
-
-Generic Operator
-^^^^^^^^^^^^^^^^
-
-Provides generic scoping for any column type. Usage:
-
-.. code:: php
-
-    $this->addOperator('name', 'Search.Date', ['field' => 'name']);
-
-Supported options:
-
--   conjunction: Indicates which conjunction type should be used when scoping the
-    column. Defaults to `auto`, accepted values are:
-
-    - LIKE: Useful when matching string values, accepts wildcard ``*`` for matching
-      "any" sequence of chars and ``!`` for matching any single char. e.g.
-      ``author:c*`` or ``author:ca!``, mixing: ``author:c!r*``.
-
-    - IN: Useful when operators accepts a list of possible values. e.g.
-      ``author:chris,carter,lisa``.
-
-    - =: Used for strict matching.
-
-    - <>: Used for strict matching.
-
-    - auto: Auto detects, it will use ``IN`` if comma symbol is found in the given
-      value, ``LIKE`` will be used otherwise. e.g. For ``author:chris,peter`` the
-      "IN" conjunction will be used, and for ``author:chris`` the "LIKE" conjunction
-      will be used instead.
-
-Limit Operator
-^^^^^^^^^^^^^^
-
-Allows to limit the number of results. Usage:
-
-.. code:: php
-
-    $this->addOperator('num_articles', 'Search.Limit');
-
-Once operator is attached you should be able to filter using the ``num_articles``
-operator in you search criteria:, for example:
-
-.. code:: php
-
-    $criteria = "num_articles:6";
-    $this->Articles->search($criteria);
-
-
-Order Operator
-^^^^^^^^^^^^^^
-
-Allows to order results by given columns. When attaching this operator you must
-indicate which columns are allowed to be ordered by, for example:
-
-.. code:: php
-
-    $this->addOperator('order_articles_by', 'Search.Order', [
-        'fields' => ['title', 'created_on']
-    ]);
-
-In this example, results can be sorted only by "title" and "created_on" columns.
-Once operator is attached you should be able to filter using the
-``order_articles_by`` operator in you search criteria and indicating the column and
-the ordering direction ("asc" or "desc"), if no direction is given "asc" will be
-used by default, for example:
-
-.. code:: php
-
-    $criteria = "order_articles_by:title,asc";
-    $this->Articles->search($criteria);
-
-Ordering by multiple columns is supported, in these cases each order command must be
-separated using the ``;`` symbol:
-
-.. code:: php
-
-    $criteria = "order_articles_by:title;created_on,desc";
-    $this->Articles->search($criteria);
-
-Range Operator
-^^^^^^^^^^^^^^
-
-Allows to scope results matching a given range constraint, in order words, SQL's
-``BETWEEN`` equivalent. Lower and upper values must be separated using "..".
-Example:
-
-.. code:: php
-
-    $this->addOperator('comments_count', 'Search.Range', [
-        'field' => 'num_comments'
-    ]);
-
-Once operator is attached you should be able to filter using the ``comments_count``
-operator in you search criteria:, for example:
-
-.. code:: php
-
-    $criteria = "comments_count:6..10";
-    $this->Articles->search($criteria);
-
-This example should return only articles with 6 to 10 comments.
-
-
-Creating Reusable Operators
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If your application has operators that are commonly reused, it is helpful to package
-those operators into re-usable classes:
-
-.. code:: php
-
-    // in MyPlugin/Model/Search/CustomOperator.php
-    namespace MyPlugin\Model\Search;
-
-    use Search\Operator;
-
-    class CustomOperator extends Operator
-    {
-        public function scope($query, $token)
-        {
-            // Scope $query
-            return $query;
-        }
-    }
-
-    // In any table class:
-
-    // Add the custom operator,
-    $this->addOperator('operator_name', 'MyPlugin.Custom', ['opt1' => 'val1', ...]);
-
-    // OR passing a constructed operator
-    use MyPlugin\Model\Search\CustomOperator;
-    $this->addOperator('operator_name', new CustomOperator($this, ['opt1' => 'val1', ...]));
-
-
-Fallback Operators
-~~~~~~~~~~~~~~~~~~
-
-When an operator is detected in the given search criteria but no operator callable
-was defined using ``addOperator()``, then
-``SearchableBehavior.operator<OperatorName>`` event will be triggered, so other
-plugins may respond and handle any undefined operator. For example, given the search
-criteria below, lets suppose ``date`` operator **was not defined** early:
-
-::
-
-    "this phrase" author:"John Locke" date:2013-06-06..2014-06-06
-
-The ``SearchableBehavior.operatorDate`` event will be fired. A plugin may respond to
-this call by implementing this event:
-
-.. code:: php
-
-    // ...
-
-    public function implementedEvents() {
-        return [
-            'SearchableBehavior.operatorDate' => 'operatorDate',
-        ];
-    }
-
-    // ...
-
-    public function operatorDate($event, $query, $token)
-    {
-        // alter $query object and return it
-        return $query;
-    }
-
-    // ...
-
-.. note::
-
-    -  Event handler method should always return the modified $query object.
-    -  The event’s context, that is ``$event->subject``, is the table instance that
-       triggered the event.
+Fulltext Search
+---------------
+
+Generic engine uses by default ``LIKE`` SQL-statements when searching trough index,
+this should be enough for small sized web sites. However, for large websites
+fulltext index is recommended in order to improve search speed, you can enable
+fulltext search by simply creating a ``fulltext index`` for the ``words`` column of
+the ``search_datasets``.

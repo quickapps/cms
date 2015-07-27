@@ -13,11 +13,14 @@ namespace Search\Model\Behavior;
 
 use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\Event\EventManager;
 use Cake\ORM\Behavior;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
 use Search\Engine\EngineInterface;
 use Search\Error\EngineNotFoundException;
+use Search\Parser\TokenInterface;
 use \ArrayObject;
 
 /**
@@ -57,6 +60,14 @@ class SearchableBehavior extends Behavior
             ]
         ],
         'indexOn' => 'both',
+        'implementedMethods' => [
+            'searchEngine' => 'searchEngine',
+            'search' => 'search',
+            'applySearchOperator' => 'applySearchOperator',
+            'addSearchOperator' => 'addSearchOperator',
+            'enableSearchOperator' => 'enableSearchOperator',
+            'disableSearchOperator' => 'disableSearchOperator',
+        ],
     ];
 
     /**
@@ -111,7 +122,7 @@ class SearchableBehavior extends Behavior
             return;
         }
 
-        $this->engine()->index($entity);
+        $this->searchEngine()->index($entity);
     }
 
     /**
@@ -124,7 +135,7 @@ class SearchableBehavior extends Behavior
      */
     public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        return $this->engine()->delete($entity);
+        return $this->searchEngine()->delete($entity);
     }
 
     /**
@@ -142,7 +153,7 @@ class SearchableBehavior extends Behavior
         if ($query === null) {
             $query = $this->_table->find();
         }
-        return $this->engine()->search($criteria, $query);
+        return $this->searchEngine()->search($criteria, $query);
     }
 
     /**
@@ -150,11 +161,231 @@ class SearchableBehavior extends Behavior
      *
      * @return \Search\Engine\EngineInterface
      */
-    public function engine(EngineInterface $engine = null)
+    public function searchEngine(EngineInterface $engine = null)
     {
         if ($engine !== null) {
             $this->_engine = $engine;
         }
         return $this->_engine;
+    }
+
+    /**
+     * Registers a new operator method.
+     *
+     * Allowed formats are:
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'operatorCreated');
+     * ```
+     *
+     * The above will use Table's `operatorCreated()` method to handle the "created"
+     * operator.
+     *
+     * ---
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'MyPlugin.Limit');
+     * ```
+     *
+     * The above will use `MyPlugin\Model\Search\LimitOperator` class to handle the
+     * "limit" operator. Note the `Operator` suffix.
+     *
+     * ---
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'MyPlugin.Limit', ['my_option' => 'option_value']);
+     * ```
+     *
+     * Similar as before, but in this case you can provide some configuration
+     * options passing an array as above.
+     *
+     * ---
+     *
+     * ```php
+     * $this->addSearchOperator('created', 'Full\ClassName');
+     * ```
+     *
+     * Or you can indicate a full class name to use.
+     *
+     * ---
+     *
+     * ```php
+     * $this->addSearchOperator('created', function ($query, $token) {
+     *     // scope $query
+     *     return $query;
+     * });
+     * ```
+     *
+     * You can simply pass a callable function to handle the operator, this callable
+     * must return the altered $query object.
+     *
+     * ---
+     *
+     * ```php
+     * $this->addSearchOperator('created', new CreatedOperator($table, $options));
+     * ```
+     *
+     * In this case you can directly pass an instance of an operator handler,
+     * this object should extends the `Search\Operator` abstract class.
+     *
+     * @param string $name Underscored operator's name. e.g. `author`
+     * @param mixed $handler A valid handler as described above
+     * @return void
+     */
+    public function addSearchOperator($name, $handler, array $options = [])
+    {
+        $name = Inflector::underscore($name);
+        $operator = [
+            'name' => $name,
+            'handler' => false,
+            'options' => [],
+        ];
+
+        if (is_string($handler)) {
+            if (method_exists($this->_table, $handler)) {
+                $operator['handler'] = $handler;
+            } else {
+                list($plugin, $class) = pluginSplit($handler);
+
+                if ($plugin) {
+                    $className = $plugin === 'Search' ? "Search\\Operator\\{$class}Operator" : "{$plugin}\\Model\\Search\\{$class}Operator";
+                    $className = str_replace('OperatorOperator', 'Operator', $className);
+                } else {
+                    $className = $class;
+                }
+
+                $operator['handler'] = $className;
+                $operator['options'] = $options;
+            }
+        } elseif (is_object($handler) || is_callable($handler)) {
+            $operator['handler'] = $handler;
+        }
+
+        $this->config("operators.{$name}", $operator);
+    }
+
+    /**
+     * Enables a an operator.
+     *
+     * @param string $name Name of the operator to be enabled
+     * @return void
+     */
+    public function enableSearchOperator($name)
+    {
+        if (isset($this->_config['operators'][":{$name}"])) {
+            $this->_config['operators'][$name] = $this->_config['operators'][":{$name}"];
+            unset($this->_config['operators'][":{$name}"]);
+        }
+    }
+
+    /**
+     * Disables an operator.
+     *
+     * @param string $name Name of the operator to be disabled
+     * @return void
+     */
+    public function disableSearchOperator($name)
+    {
+        if (isset($this->_config['operators'][$name])) {
+            $this->_config['operators'][":{$name}"] = $this->_config['operators'][$name];
+            unset($this->_config['operators'][$name]);
+        }
+    }
+
+
+    /**
+     * Given a query instance applies the provided token representing a search
+     * operator.
+     *
+     * @param \Cake\ORM\Query $query The query to be scope
+     * @param \Search\TokenInterface $token Token describing an operator. e.g
+     *  `-op_name:op_value`
+     * @return \Cake\ORM\Query Scoped query
+     */
+    public function applySearchOperator(Query $query, TokenInterface $token)
+    {
+        if (!$token->isOperator()) {
+            return $query;
+        }
+
+        $callable = $this->_operatorCallable($token->name());
+        if (is_callable($callable)) {
+            $query = $callable($query, $token);
+            if (!($query instanceof Query)) {
+                throw new FatalErrorException(__d('search', 'Error while processing the "{0}" token in the search criteria.', $operator));
+            }
+        } else {
+            $result = $this->_triggerOperator($query, $token);
+            if ($result instanceof Query) {
+                $query = $result;
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Triggers an event for handling undefined operators. Event listeners may
+     * capture this event and provide operator handling logic, such listeners should
+     * alter the provided Query object and then return it back.
+     *
+     * The triggered event follows the pattern:
+     *
+     * ```
+     * Search.operator<CamelCaseOperatorName>
+     * ```
+     *
+     * For example, `Search.operatorAuthorName` will be triggered for
+     * handling an operator named either `author-name` or `author_name`.
+     *
+     * @param \Cake\ORM\Query $query The query that is expected to be scoped
+     * @param \Search\TokenInterface $token Token describing an operator. e.g
+     *  `-op_name:op_value`
+     * @return mixed Scoped query object expected or null if event was not captured
+     *  by any listener
+     */
+    protected function _triggerOperator(Query $query, TokenInterface $token)
+    {
+        $eventName = 'Search.' . (string)Inflector::variable('operator_' . $token->name());
+        $event = new Event($eventName, $this->_table, compact('query', 'token'));
+        return EventManager::instance()->dispatch($event)->result;
+    }
+
+
+    /**
+     * Gets the callable method for a given operator method.
+     *
+     * @param string $name Name of the method to get
+     * @return bool|callable False if no callback was found for the given operator
+     *  name. Or the callable if found.
+     */
+    protected function _operatorCallable($name)
+    {
+        $operator = $this->config("operators.{$name}");
+
+        if ($operator) {
+            $handler = $operator['handler'];
+
+            if (is_callable($handler)) {
+                return function ($query, $token) use ($handler) {
+                    return $handler($query, $token);
+                };
+            } elseif ($handler instanceof BaseOperator) {
+                return function ($query, $token) use ($handler) {
+                    return $handler->scope($query, $token);
+                };
+            } elseif (is_string($handler) && method_exists($this->_table, $handler)) {
+                return function ($query, $token) use ($handler) {
+                    return $this->_table->$handler($query, $token);
+                };
+            } elseif (is_string($handler) && class_exists($handler)) {
+                return function ($query, $token) use ($operator) {
+                    $instance = new $operator['handler']($this->_table, $operator['options']);
+                    return $instance->scope($query, $token);
+                };
+            }
+        }
+
+        return false;
     }
 }

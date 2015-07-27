@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Engine\Generic\Operator;
+namespace Search\Operator;
 
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Search\Engine\Generic\Operator\BaseOperator;
-use Search\Engine\Generic\Token;
+use Search\Operator\BaseOperator;
+use Search\Parser\TokenInterface;
 
 /**
  * Handles range-based operators. Values must be separated using ".." characters and
@@ -47,7 +47,7 @@ class RangeOperator extends BaseOperator
     /**
      * {@inheritDoc}
      */
-    public function scope(Query $query, Token $token)
+    public function scope(Query $query, TokenInterface $token)
     {
         $column = $this->config('field');
         $value = $token->value();

@@ -9,12 +9,12 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Search\Engine\Generic\Operator;
+namespace Search\Operator;
 
 use Cake\Core\InstanceConfigTrait;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
-use Search\Engine\Generic\Token;
+use Search\Parser\TokenInterface;
 
 /**
  * Base operator class.
@@ -57,8 +57,8 @@ abstract class BaseOperator
      * Alters the given query and applies this operator's filter conditions.
      *
      * @param \Cake\ORM\Query $query The query to alter
-     * @param \Search\Token $token Token representing this operator. Frequently used
-     *  methods are:
+     * @param \Search\Parser\TokenInterface $token Token representing this operator.
+     *  Frequently used methods are:
      *  - Token::value(): The value for this operator, that is whatever comes
      *    after `:` symbol. e.g. `JohnLocke` for criteria `author:JohnLocke`
      *  - Token::negated(): True if user has negated this operator using the `-`
@@ -71,5 +71,5 @@ abstract class BaseOperator
      *    methods as needed.
      * @return \Cake\ORM\Query Altered query
      */
-    abstract public function scope(Query $query, Token $token);
+    abstract public function scope(Query $query, TokenInterface $token);
 }
