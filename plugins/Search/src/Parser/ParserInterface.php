@@ -21,7 +21,7 @@ interface ParserInterface
      * Extract tokens from search-criteria.
      *
      * @param string $criteria A search-criteria
-     * @return array[\Search\Parser\TokenInterface] List of extracted tokens
+     * @return array List of extracted tokens (\Search\Parser\TokenInterface)
      */
     public function parse($criteria);
 }

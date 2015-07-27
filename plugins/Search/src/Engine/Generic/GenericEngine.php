@@ -276,8 +276,6 @@ class GenericEngine extends BaseEngine
         if (!empty($tokens)) {
             $query->contain('SearchDatasets');
             $query->where(['SearchDatasets.id >' => 0]);
-            $operators = [];
-            $words = [];
 
             foreach ($tokens as $token) {
                 if ($token->isOperator()) {

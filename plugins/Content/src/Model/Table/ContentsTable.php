@@ -30,7 +30,12 @@ use \ArrayObject;
  * @property \User\Model\Table\ContentsTable $Translations
  * @property \User\Model\Table\UsersTable $Author
  * @property \User\Model\Table\UsersTable $ModifiedBy
- * @method \Search\Engine\EngineInterface engine(\Search\Engine\EngineInterface $engine = null)
+ * @method \Search\Engine\BaseEngine searchEngine(\Search\Engine\BaseEngine $engine = null)
+ * @method \Cake\ORM\Query search(string $criteria, \Cake\ORM\Query|null $query = null)
+ * @method \Cake\ORM\Query applySearchOperator(\Cake\ORM\Query $query, \Search\Parser\TokenInterface $token)
+ * @method void addSearchOperator(string $name, mixed $handler, array $options = [])
+ * @method void enableSearchOperator(string $name)
+ * @method void disableSearchOperator(string $name)
  * @method void bindComments()
  * @method void unbindComments()
  * @method void configureFieldable(array $config)
@@ -38,7 +43,6 @@ use \ArrayObject;
  * @method void unbindFieldable()
  * @method \Cake\Datasource\EntityInterface attachFields(\Cake\Datasource\EntityInterface $entity)
  * @method \Cake\Datasource\ResultSetDecorator findComments(\Cake\ORM\Query $query, $options)
- * @method \Cake\ORM\Query search(string $criteria, \Cake\ORM\Query|null $query = null)
  */
 class ContentsTable extends Table
 {

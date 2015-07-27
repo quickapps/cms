@@ -20,6 +20,7 @@ use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use Search\Engine\EngineInterface;
 use Search\Error\EngineNotFoundException;
+use Search\Operator\BaseOperator;
 use Search\Parser\TokenInterface;
 use \ArrayObject;
 

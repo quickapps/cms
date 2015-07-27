@@ -99,11 +99,12 @@ class GenericOperator extends BaseOperator
      * Calculates the conjunction to use and the value to use with such conjunction
      * based on the given token.
      *
-     * @param \Search\Token $token Token for which calculating the conjunction
+     * @param \Search\Parser\TokenInterface $token Token for which calculating the
+     *  conjunction
      * @return array Numeric index array, where the first key (0) is the
      *  conjunction, and the second (1) is the value.
      */
-    protected function _prepareConjunction($token)
+    protected function _prepareConjunction(TokenInterface $token)
     {
         $value = $token->value();
         $conjunction = strtolower($this->config('conjunction'));
