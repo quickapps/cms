@@ -11,6 +11,7 @@
  */
 namespace Search\Engine\Generic;
 
+use Cake\Cache\Cache;
 use Cake\Core\InstanceConfigTrait;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
@@ -347,8 +348,8 @@ class GenericEngine extends BaseEngine
         $value = mb_strpos($value, ' ') ? '"' . $value . '"' : $value;
         $value = mb_strpos($value, '+') === 0 ? mb_substr($value, 1) : $value;
 
-        if (empty($value)) {
-            continue;
+        if (empty($value) || in_array($value, $this->_stopWords())) {
+            return $query;
         }
 
         $not = $token->negated() ? 'NOT' : '';
@@ -391,6 +392,36 @@ class GenericEngine extends BaseEngine
 
         $enabled = false;
         return false;
+    }
+
+    /**
+     * Gets a list of storage engine's stopwords. That is words that is considered
+     * common or Trivial enough that it is omitted from the search index and ignored
+     * in search queries
+     *
+     * @return array List of words
+     */
+    protected function _stopWords()
+    {
+        $conn = $this->_table->find()->connection();
+        $cacheKey = $conn->configName() . '_generic_engine_stopwords_list';
+        if ($cache = Cache::read($cacheKey, '_cake_model_')) {
+            return (array)$cache;
+        }
+
+        $words = [];
+        $sql = $conn
+            ->execute('SELECT * FROM INFORMATION_SCHEMA.INNODB_FT_DEFAULT_STOPWORD')
+            ->fetchAll('assoc');
+
+        foreach ((array)$sql as $row) {
+            if (!empty($row['value'])) {
+                $words[] = $row['value'];
+            }
+        }
+
+        Cache::write($cacheKey, $words, '_cake_model_');
+        return $words;
     }
 
     /**
