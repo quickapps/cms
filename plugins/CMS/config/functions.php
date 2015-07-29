@@ -250,7 +250,9 @@ if (!function_exists('snapshot')) {
         }
 
         Configure::write('QuickApps', $snapshot);
-        Configure::dump('snapshot', 'QuickApps', ['QuickApps']);
+        if (!Configure::dump('snapshot', 'QuickApps', ['QuickApps'])) {
+            die('QuickAppsCMS was unable to create a snapshot file, check that PHP have permission to write to the "/tmp" directory.');
+        }
     }
 }
 
