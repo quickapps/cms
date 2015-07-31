@@ -284,8 +284,7 @@ if (!function_exists('normalizePath')) {
      */
     function normalizePath($path, $ds = DIRECTORY_SEPARATOR)
     {
-        $path = str_replace(['/', '\\'], $ds, $path);
-        return str_replace("{$ds}{$ds}", $ds, $path);
+        return preg_replace('/' . preg_quote($ds, '/') . '{2,}/', $ds, $path);
     }
 }
 
