@@ -48,9 +48,13 @@ class Token implements TokenInterface
         $this->_data['isOperator'] = mb_strpos($token, ':') !== false;
 
         if ($this->_data['isOperator']) {
-            $parts = explode(':', $token);
-            $this->_data['operatorName'] = (string)Inflector::underscore(preg_replace('/\PL/u', '', $parts[0]));
-            $this->_data['operatorArguments'] = !empty($parts[1]) ? $parts[1] : '';
+            $cutAt = mb_strpos($token, ':');
+            list($left, $right) = [
+                substr($token, 0, $cutAt),
+                substr($token, $cutAt + 1)
+            ];
+            $this->_data['operatorName'] = (string)Inflector::underscore(preg_replace('/\PL/u', '', $left));
+            $this->_data['operatorArguments'] = !empty($right) ? $right : '';
         }
     }
 

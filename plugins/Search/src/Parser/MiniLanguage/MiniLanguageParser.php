@@ -46,13 +46,14 @@ class MiniLanguageParser implements ParserInterface
         }
 
         $criteria = trim(urldecode($criteria));
-        $criteria = preg_replace('/(-?[\w]+)\:"([\]\[\w\s]+)/', '"${1}:${2}', $criteria);
+        $criteria = preg_replace('/(-?[\w]+)\:"([^\s"]+)/', '"${1}:${2}', $criteria);
         $criteria = str_replace(['-"', '+"'], ['"-', '"+'], $criteria);
         $parts = str_getcsv($criteria, ' ');
         $tokens = [];
 
         foreach ($parts as $i => $t) {
-            if (in_array(strtolower($t), ['or', 'and'])) {
+            $t = trim($t);
+            if (empty($t) || in_array(strtolower($t), ['or', 'and'])) {
                 continue;
             }
 
