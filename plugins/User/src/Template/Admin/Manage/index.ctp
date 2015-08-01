@@ -38,7 +38,12 @@
     <div class="col-md-4">
         <?php echo $this->Form->create(null, ['type' => 'get']); ?>
         <div class="input-group">
-            <?php echo $this->Form->input('filter', ['label' => false]) ?>
+            <?php
+                echo $this->Form->input('filter', [
+                    'label' => false,
+                    'value' => (!empty($this->request->query['filter']) ? $this->request->query['filter'] : '')
+                ]);
+            ?>
             <span class="input-group-btn"><?php echo $this->Form->submit(__d('user', 'Search Users')); ?></span>
         </div>
         <?php echo $this->Form->end(); ?>
