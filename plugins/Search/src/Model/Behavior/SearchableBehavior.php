@@ -108,6 +108,15 @@ class SearchableBehavior extends Behavior
     /**
      * Generates a list of words after each entity is saved.
      *
+     * Triggers the following events:
+     *
+     * - `Model.beforeIndex`: Before entity gets indexed by the configured search
+     *   engine adapter. First argument is the entity instance being indexed.
+     *
+     * - `Model.afterIndex`: After entity was indexed by the configured search
+     *   engine adapter. First argument is the entity instance that was indexed, and
+     *   second indicates whether the indexing process completed correctly or not.
+     *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
      * @param \ArrayObject $options Additional options
@@ -123,11 +132,22 @@ class SearchableBehavior extends Behavior
             return;
         }
 
-        $this->searchEngine()->index($entity);
+        $this->_table->dispatchEvent('Model.beforeIndex', $entity);
+        $success = $this->searchEngine()->index($entity);
+        $this->_table->dispatchEvent('Model.afterIndex', $entity, $success);
     }
 
     /**
      * Prepares entity to delete its words-index.
+     *
+     * Triggers the following events:
+     *
+     * - `Model.beforeRemoveIndex`: Before entity's index is removed. First argument
+     *   is the affected entity instance.
+     *
+     * - `Model.afterRemoveIndex`: After entity's index is removed. First argument
+     *   is the affected entity instance, and second indicates whether the
+     *   index-removing process completed correctly or not.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was removed
@@ -136,7 +156,10 @@ class SearchableBehavior extends Behavior
      */
     public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        return $this->searchEngine()->delete($entity);
+        $this->_table->dispatchEvent('Model.beforeRemoveIndex', $entity);
+        $success = $this->searchEngine()->delete($entity);
+        $this->_table->dispatchEvent('Model.afterRemoveIndex', $entity, $success);
+        return $success;
     }
 
     /**

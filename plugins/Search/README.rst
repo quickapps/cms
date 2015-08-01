@@ -50,6 +50,28 @@ entity indexed in that way. To search entities you should use the `search()` met
 This method interacts with the engine being used. The ``$criteria`` must be a valid
 search-query compatible with the engine being used.
 
+Indexing Events
+---------------
+
+Whatever search engine is being used, some events are automatically triggered by
+Searchable Behavior when an entity is being index or when its index is being
+removed, you can catch these events in your table and alter the index information as
+you need:
+
+- ``Model.beforeIndex``: Before entity gets indexed by the configured search engine
+  adapter. First argument is the entity instance being indexed.
+
+- ``Model.afterIndex``: After entity was indexed by the configured search engine
+  adapter. First argument is the entity instance that was indexed, and second
+  indicates whether the indexing process completed correctly or not.
+
+- ``Model.beforeRemoveIndex``: Before entity's index is removed. First argument is
+  the affected entity instance.
+
+- ``Model.afterRemoveIndex``: After entity's index is removed. First argument is the
+  affected entity instance, and second indicates whether the index-removing process
+  completed correctly or not.
+
 Search Criteria
 ---------------
 
@@ -64,7 +86,6 @@ Parser" which is used by the built-in "Generic Engine" search engine.
 A criteria parser must satisfy the ``Search\Parser\ParserInterface`` interface;
 basically it must provide the ``parser()`` method which must return an array list of
 "tokens" objects (``Search\Parser\TokenInterface``).
-
 
 Search Operators
 ----------------
@@ -378,7 +399,6 @@ efficiency approach is recommended, such as ``Elasticsearch``, ``Apache SOLR``,
 
 
 ---
-
 
 
 Generic Engine
