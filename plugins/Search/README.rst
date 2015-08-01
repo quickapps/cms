@@ -545,6 +545,8 @@ Fulltext Search
 
 Generic engine uses by default ``LIKE`` SQL-statements when searching trough index,
 this should be enough for small sized web sites. However, for large websites
-fulltext index is recommended in order to improve search speed, you can enable
+``fulltext`` index is recommended in order to improve search speed, you can enable
 fulltext search by simply creating a ``fulltext index`` for the ``words`` column of
 the ``search_datasets``.
+
+NOTE: This feature is currently supported for MySQL databases only.

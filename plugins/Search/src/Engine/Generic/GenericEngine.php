@@ -379,6 +379,12 @@ class GenericEngine extends BaseEngine
             return $enabled;
         }
 
+        list(, $driverClass) = namespaceSplit(strtolower(get_class($this->_table->connection()->driver())));
+        if ($driverClass != 'mysql') {
+            $enabled = false;
+            return false;
+        }
+
         $schema = $this->_table->SearchDatasets->schema();
         foreach ($schema->indexes() as $index) {
             $info = $schema->index($index);
