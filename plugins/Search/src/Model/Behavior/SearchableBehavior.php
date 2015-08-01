@@ -132,9 +132,9 @@ class SearchableBehavior extends Behavior
             return;
         }
 
-        $this->_table->dispatchEvent('Model.beforeIndex', $entity);
+        $this->_table->dispatchEvent('Model.beforeIndex', compact('entity'));
         $success = $this->searchEngine()->index($entity);
-        $this->_table->dispatchEvent('Model.afterIndex', $entity, $success);
+        $this->_table->dispatchEvent('Model.afterIndex', compact('entity', 'success'));
     }
 
     /**
@@ -156,9 +156,9 @@ class SearchableBehavior extends Behavior
      */
     public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        $this->_table->dispatchEvent('Model.beforeRemoveIndex', $entity);
+        $this->_table->dispatchEvent('Model.beforeRemoveIndex', compact('entity'));
         $success = $this->searchEngine()->delete($entity);
-        $this->_table->dispatchEvent('Model.afterRemoveIndex', $entity, $success);
+        $this->_table->dispatchEvent('Model.afterRemoveIndex', compact('entity', 'success'));
         return $success;
     }
 
