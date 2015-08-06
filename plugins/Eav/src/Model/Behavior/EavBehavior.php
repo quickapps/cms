@@ -311,6 +311,30 @@ class EavBehavior extends Behavior
     }
 
     /**
+     * Triggered before data is converted into entities.
+     *
+     * Converts incoming POST data to its corresponding types.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \ArrayObject $data The POST data to be merged with entity
+     * @param \ArrayObject $options The options passed to the marshaller
+     * @return void
+     */
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options)
+    {
+        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
+        $attrs = array_keys($this->_toolbox->attributes($bundle));
+        foreach ($data as $property => $value) {
+            if (!in_array($property, $attrs)) {
+                continue;
+            }
+            $dataType = $this->_toolbox->getType($property);
+            $marshaledValue = $this->_toolbox->marshal($value, $dataType);
+            $data[$property] = $marshaledValue;
+        }
+    }
+
+    /**
      * After an entity is saved.
      *
      * @param \Cake\Event\Event $event The event that was triggered
@@ -440,6 +464,7 @@ class EavBehavior extends Behavior
             $propertyName = is_string($alias) ? $alias : $name;
             if (!$entity->has($propertyName)) {
                 $entity->set($propertyName, $this->_toolbox->marshal($value, $type));
+                $entity->dirty($propertyName, false);
             }
         }
         return $entity;
