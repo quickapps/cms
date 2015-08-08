@@ -74,7 +74,7 @@ interface TokenInterface
     /**
      * Indicates this token was negated using "-" symbol. e.g. `-"no this phrase"`
      *
-     * @return boolean True if it's negated
+     * @return bool True if it's negated
      */
     public function negated();
 
