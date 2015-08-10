@@ -345,7 +345,6 @@ class GenericEngine extends BaseEngine
     protected function _scopeWordsInFulltext(Query $query, TokenInterface $token)
     {
         $value = str_replace(['*', '!'], ['*', '*'], $token->value());
-        $value = mb_strpos($value, ' ') ? '"' . $value . '"' : $value;
         $value = mb_strpos($value, '+') === 0 ? mb_substr($value, 1) : $value;
 
         if (empty($value) || in_array($value, $this->_stopWords())) {
