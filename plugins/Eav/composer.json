@@ -5,6 +5,9 @@
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "model", "database", "eav"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
+    "require": {
+        "cakephp/cakephp": "~3.1"
+    },
     "authors": [
         {
             "name": "Christopher Castro",

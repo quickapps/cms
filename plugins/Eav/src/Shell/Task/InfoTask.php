@@ -72,21 +72,30 @@ class InfoTask extends Shell
             return false;
         }
 
-        foreach ($table->listColumns($options['bundle']) as $name => $info) {
-            $info = $info + [
-                'type' => 'string',
-                'bundle' => '---',
-                'searchable' => true,
+        $columns = $table->listColumns($options['bundle']);
+        ksort($columns, SORT_LOCALE_STRING);
+        $rows = [
+            [
+                __d('eav', 'Column Name'),
+                __d('eav', 'Data Type'),
+                __d('eav', 'Bundle'),
+                __d('eav', 'Searchable'),
+            ]
+        ];
+
+        foreach ($columns as $name => $info) {
+            $rows[] = [
+                $name,
+                $info['type'],
+                (!empty($info['bundle']) ? $info['bundle'] : '---'),
+                (!empty($info['searchable']) ? 'no' : 'yes'),
             ];
-            $this->out(__d('eav', '- Column Name: {0}', $name));
-            $this->out(__d('eav', '  - type: {0}', $info['type']));
-            $this->out(__d('eav', '  - bundle: {0}', ($info['bundle'] ? $info['bundle'] : '---')));
-            $this->out(__d('eav', '  - searchable: {searchable, select, yes{YES} other{NO}}', [
-                'searchable' => ($info['searchable'] ? 'yes' : 'no')
-            ]));
-            $this->out();
         }
 
+        $this->out();
+        $this->out(__d('eav', 'EAV information for table "{0}":', $options['use']));
+        $this->out();
+        $this->helper('table')->output($rows);
         return true;
     }
 }
