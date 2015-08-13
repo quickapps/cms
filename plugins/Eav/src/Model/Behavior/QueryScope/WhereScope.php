@@ -125,22 +125,17 @@ class WhereScope implements QueryScopeInterface
             return false;
         }
 
+        $attr = $this->_toolbox->attributes($bundle)[$column];
         $value = $expression->getValue();
         $type = $this->_toolbox->getType($column);
         $conjunction = $expression->getOperator();
         $conditions = [
-            'EavAttribute.table_alias' => $this->_table->table(),
-            'EavAttribute.name' => $column,
+            'EavValues.eav_attribute_id' => $attr['id'],
             "EavValues.value_{$type} {$conjunction}" => $value,
         ];
 
-        if (!empty($bundle)) {
-            $conditions['EavAttribute.bundle'] = $bundle;
-        }
-
         return TableRegistry::get('Eav.EavValues')
             ->find()
-            ->contain(['EavAttribute'])
             ->select('EavValues.entity_id')
             ->where($conditions);
     }
