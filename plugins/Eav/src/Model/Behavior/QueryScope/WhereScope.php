@@ -93,9 +93,15 @@ class WhereScope implements QueryScopeInterface
                     break;
             }
 
+            $ids = $subQuery->all()->extract('entity_id')->toArray();
             $expression->setField($field);
-            $expression->setValue($subQuery);
+            $expression->setValue($ids);
             $expression->setOperator('IN');
+
+            $class = new \ReflectionClass($expression);
+            $property = $class->getProperty('_type');
+            $property->setAccessible(true);
+            $property->setValue($expression, 'string[]');
         });
 
         return $query;
