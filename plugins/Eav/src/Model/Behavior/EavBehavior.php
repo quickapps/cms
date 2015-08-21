@@ -447,26 +447,35 @@ class EavBehavior extends Behavior
 
         $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($options['query'], $bundle);
         $validColumns = array_values($selectedVirtual);
-        $attrs = array_intersect(array_keys($this->_toolbox->attributes($bundle)), $validColumns);
+        $validNames = array_intersect($this->_toolbox->getAttributeNames($bundle), $validColumns);
+        $attrsById = [];
+
+        foreach ($this->_toolbox->attributes($bundle) as $name => $attr) {
+            if (in_array($name, $validNames)) {
+                $attrsById[$attr['id']] = $attr;
+            }
+        }
+
         $values = TableRegistry::get('Eav.EavValues')
             ->find('all')
-            ->contain(['EavAttribute'])
             ->where([
-                'EavAttribute.table_alias' => $this->_table->table(),
-                'EavAttribute.name IN' => $attrs,
+                'EavValues.eav_attribute_id IN' => array_keys($attrsById),
                 'EavValues.entity_id' => $this->_toolbox->getEntityId($entity),
             ]);
+
         foreach ($values as $value) {
-            $type = $value->get('eav_attribute')->get('type');
-            $name = $value->get('eav_attribute')->get('name');
+            $type = $attrsById[$value->get('eav_attribute_id')]->get('type');
+            $name = $attrsById[$value->get('eav_attribute_id')]->get('name');
             $value = $value->get("value_{$type}");
             $alias = array_search($name, $selectedVirtual);
             $propertyName = is_string($alias) ? $alias : $name;
+
             if (!$entity->has($propertyName)) {
                 $entity->set($propertyName, $this->_toolbox->marshal($value, $type));
                 $entity->dirty($propertyName, false);
             }
         }
+
         return $entity;
     }
 
