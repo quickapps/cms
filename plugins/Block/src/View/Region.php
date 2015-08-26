@@ -16,6 +16,7 @@ use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use CMS\Core\StaticCacheTrait;
 use CMS\View\View;
