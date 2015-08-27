@@ -137,7 +137,7 @@ class FormHelperAspect extends Aspect
      * @Around("execution(public Cake\View\Helper\FormHelper->select(*))")
      * @return bool Whether object invocation should proceed or not
      */
-    public function alteSelectbox(MethodInvocation $invocation)
+    public function alterSelectbox(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
         list($fieldName, $options, $attributes) = $invocation->getArguments();
