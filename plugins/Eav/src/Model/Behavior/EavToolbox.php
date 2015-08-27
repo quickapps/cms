@@ -133,7 +133,7 @@ class EavToolbox
      *
      * @param string|null $bundle Get attributes within given bundle, or all of them
      *  regardless of the bundle if not provided
-     * @return array
+     * @return array List of attributes indexed by name (virtual column name)
      */
     public function attributes($bundle = null)
     {
