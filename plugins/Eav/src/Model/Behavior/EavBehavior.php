@@ -66,9 +66,9 @@ class EavBehavior extends Behavior
     protected $_defaultConfig = [
         'enabled' => true,
         'queryScope' => [
-            'Eav\Model\\Behavior\\QueryScope\\SelectScope',
-            'Eav\Model\\Behavior\\QueryScope\\WhereScope',
-            'Eav\Model\\Behavior\\QueryScope\\OrderScope',
+            'Eav\\Model\\Behavior\\QueryScope\\SelectScope',
+            'Eav\\Model\\Behavior\\QueryScope\\WhereScope',
+            'Eav\\Model\\Behavior\\QueryScope\\OrderScope',
         ],
         'implementedMethods' => [
             'enableEav' => 'enableEav',
