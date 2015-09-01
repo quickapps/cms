@@ -81,7 +81,7 @@
                         <td class="hidden-xs hidden-sm"><?php echo $content->language ? $content->language : __d('content', '---'); ?></td>
                         <td class="hidden-xs">
                             <?php
-                                echo __d('content', '{on} <br /> by <em>{author}</em>',
+                                echo __d('content', '{0} <br /> by <em>{1}</em>',
                                     $content->created->format(__d('content', 'Y-m-d H:i:s')),
                                     $content->author->name
                                 );
