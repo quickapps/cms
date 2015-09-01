@@ -186,7 +186,7 @@ class PluginsShell extends Shell
         $this->out();
         foreach ($allPlugins as $plugin) {
             $allPlugins[$index] = $plugin;
-            $this->out(__d('installer', '[{index, number}] {name}', ['index' => $index, 'name' => $plugin->humanName]));
+            $this->out(__d('installer', '[{0, number}] {1}', [$index, $plugin->humanName]));
             $index++;
         }
         $this->out();
@@ -255,7 +255,7 @@ class PluginsShell extends Shell
         $this->out();
         foreach ($disabledPlugins as $plugin) {
             $disabledPlugins[$index] = $plugin;
-            $this->out(__d('installer', '[{index, number, integer}] {name}', ['index' => $index, 'name' => $plugin->humanName]));
+            $this->out(__d('installer', '[{0, number, integer}] {1}', [$index, $plugin->humanName]));
             $index++;
         }
         $this->out();
@@ -308,7 +308,7 @@ class PluginsShell extends Shell
         $this->out();
         foreach ($enabledPlugins as $plugin) {
             $enabledPlugins[$index] = $plugin;
-            $this->out(__d('installer', '[{index, number, integer}] {name}', ['index' => $index, 'name' => $plugin->humanName]));
+            $this->out(__d('installer', '[{0, number, integer}] {1}', [$index, $plugin->humanName]));
             $index++;
         }
         $this->out();

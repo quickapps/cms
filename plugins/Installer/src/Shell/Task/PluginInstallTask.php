@@ -186,11 +186,11 @@ class PluginInstallTask extends Shell
             try {
                 $event = $this->trigger("Plugin.{$this->_plugin['name']}.beforeInstall");
                 if ($event->isStopped() || $event->result === false) {
-                    $this->err(__d('installer', 'Task was explicitly rejected by the {type, select, theme{theme} other{plugin}}.', ['type' => $this->_plugin['type']]));
+                    $this->err(__d('installer', 'Task was explicitly rejected by the {0, select, theme{theme} other{plugin}}.', $this->_plugin['type']));
                     return $this->_reset();
                 }
             } catch (\Exception $ex) {
-                $this->err(__d('installer', 'Internal error, {type, select, theme{theme} other{plugin}} did not respond to "beforeInstall" callback correctly.', ['type' => $this->_plugin['type']]));
+                $this->err(__d('installer', 'Internal error, {0, select, theme{theme} other{plugin}} did not respond to "beforeInstall" callback correctly.', $this->_plugin['type']));
                 return $this->_reset();
             }
         }
@@ -232,7 +232,7 @@ class PluginInstallTask extends Shell
             try {
                 $event = $this->trigger("Plugin.{$pluginName}.afterInstall");
             } catch (\Exception $ex) {
-                $this->err(__d('installer', '{type, select, theme{The theme} other{The plugin}} was installed but some errors occur.', ['type' => $pluginType]));
+                $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} was installed but some errors occur.', [$pluginType]));
             }
         }
 
@@ -266,7 +266,7 @@ class PluginInstallTask extends Shell
             $this->loadModel('System.Options');
             foreach ($this->_plugin['composer']['extra']['options'] as $index => $option) {
                 if (empty($option['name'])) {
-                    $this->err(__d('installer', 'Unable to register {type, select, theme{theme} other{plugin}} option, invalid option #{index}.', ['type' => $this->_plugin['type'], 'index' => $index]));
+                    $this->err(__d('installer', 'Unable to register {0, select, theme{theme} other{plugin}} option, invalid option #{1}.', $this->_plugin['type'], $index));
                     return false;
                 }
 
@@ -279,14 +279,14 @@ class PluginInstallTask extends Shell
 
                 if (empty($errors)) {
                     if (!$this->Options->save($entity)) {
-                        $this->err(__d('installer', 'Unable to register option "{name}".', ['name' => $option['name']]));
+                        $this->err(__d('installer', 'Unable to register option "{0}".', [$option['name']]));
                         return false;
                     }
                     $this->_addedOptions[] = $option['name'];
                 } else {
-                    $this->err(__d('installer', 'Some errors were found while trying to register {type, select, theme{theme} other{plugin}} options values, see below:', ['type' => $this->_plugin['type']]));
+                    $this->err(__d('installer', 'Some errors were found while trying to register {0, select, theme{theme} other{plugin}} options values, see below:', $this->_plugin['type']));
                     foreach ($errors as $error) {
-                        $this->err(__d('installer', '  - {error}', ['error' => $error]));
+                        $this->err(__d('installer', '  - {0}', [$error]));
                     }
                     return false;
                 }
@@ -409,7 +409,7 @@ class PluginInstallTask extends Shell
             return $this->_getFromUrl();
         }
 
-        $this->err(__d('installer', 'Unable to resolve the given source ({source}).', ['source' => $this->params['source']]));
+        $this->err(__d('installer', 'Unable to resolve the given source ({0}).', [$this->params['source']]));
         return false;
     }
 
@@ -479,7 +479,7 @@ class PluginInstallTask extends Shell
                 return false;
             }
 
-            $this->err(__d('installer', 'Unable to download the file, check write permission on "{path}" directory.', ['path' => TMP]));
+            $this->err(__d('installer', 'Unable to download the file, check write permission on "{0}" directory.', [TMP]));
             return false;
         }
 
@@ -521,7 +521,7 @@ class PluginInstallTask extends Shell
             return true;
         }
 
-        $this->err(__d('installer', 'Unzip error: {error}', ['error' => $PclZip->errorInfo(true)]));
+        $this->err(__d('installer', 'Unzip error: {0}', [$PclZip->errorInfo(true)]));
         return false;
     }
 
@@ -571,9 +571,9 @@ class PluginInstallTask extends Shell
                 if (Plugin::exists($this->_plugin['name'])) {
                     $exists = plugin($this->_plugin['name']);
                     if ($exists->status) {
-                        $errors[] = __d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is already installed.', ['type' => $this->_plugin['type'], 'name' => $this->_plugin['name']]);
+                        $errors[] = __d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" is already installed.', [$this->_plugin['type'], $this->_plugin['name']]);
                     } else {
-                        $errors[] = __d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" is already installed but disabled, maybe you want try to enable it?.', ['type' => $this->_plugin['type'], 'name' => $this->_plugin['name']]);
+                        $errors[] = __d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" is already installed but disabled, maybe you want try to enable it?.', [$this->_plugin['type'], $this->_plugin['name']]);
                     }
                 }
 
@@ -586,7 +586,7 @@ class PluginInstallTask extends Shell
                 if (isset($json['require'])) {
                     $checker = new RuleChecker($json['require']);
                     if (!$checker->check()) {
-                        $errors[] = __d('installer', '{type, select, theme{The theme} other{The plugin}} "{name}" depends on other packages, plugins or libraries that were not found: {depends}', ['type' => $this->_plugin['type'], 'name' => $this->_plugin['name'], 'depends' => $checker->fail(true)]);
+                        $errors[] = __d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" depends on other packages, plugins or libraries that were not found: {2}', [$this->_plugin['type'], $this->_plugin['name'], $checker->fail(true)]);
                     }
                 }
             }
@@ -596,7 +596,7 @@ class PluginInstallTask extends Shell
             !is_dir(SITE_ROOT . '/plugins') ||
             !is_writable(SITE_ROOT . '/plugins')
         ) {
-            $errors[] = __d('installer', 'Write permissions required for directory: {path}.', ['path' => SITE_ROOT . '/plugins/']);
+            $errors[] = __d('installer', 'Write permissions required for directory: {0}.', [SITE_ROOT . '/plugins/']);
         }
 
         foreach ($errors as $message) {

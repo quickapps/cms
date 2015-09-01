@@ -149,9 +149,9 @@ class LinksController extends AppController
             ->select(['id', 'slug', 'content_type_slug', 'title'])
             ->all();
         foreach ($contents as $content) {
-            $contentLinks[stripLanguagePrefix($content->get('url'))] = __d('menu', '{title} [{content_type}]', [
-                'title' => $content->title,
-                'content_type' => $content->content_type_slug
+            $contentLinks[stripLanguagePrefix($content->get('url'))] = __d('menu', '{0} [{1}]', [
+                $content->title,
+                $content->content_type_slug
             ]);
         }
 

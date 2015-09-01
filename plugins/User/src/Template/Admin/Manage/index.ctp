@@ -21,7 +21,7 @@
     <div class="col-md-8">
         <p>
             <?php
-                echo $this->Html->link(__d('user','{plus_icon} New User', ['plus_icon' => '<span class="glyphicon glyphicon-plus"></span>']),
+                echo $this->Html->link(__d('user','{0} New User', '<span class="glyphicon glyphicon-plus"></span>'),
                     [
                         'plugin' => 'User',
                         'controller' => 'manage',

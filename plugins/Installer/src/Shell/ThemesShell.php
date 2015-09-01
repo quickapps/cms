@@ -182,7 +182,7 @@ class ThemesShell extends Shell
         $this->out();
         foreach ($allThemes as $plugin) {
             $allThemes[$index] = $plugin;
-            $this->out(__d('installer', '[{index, number}] {name}', ['index' => $index, 'name' => $plugin->humanName]));
+            $this->out(__d('installer', '[{0, number}] {1}', [$index, $plugin->humanName]));
             $index++;
         }
         $this->out();
@@ -251,10 +251,10 @@ class ThemesShell extends Shell
         foreach ($disabledThemes as $theme) {
             $disabledThemes[$index] = $theme;
             $this->out(
-                __d('installer', '[{index, number, integer}] {name} [{theme_type, select, front{frontend} other{backend}}]', [
-                    'index' => $index,
-                    'name' => $theme->humanName,
-                    'theme_type' => ($theme->isAdmin ? 'back' : 'front'),
+                __d('installer', '[{0, number, integer}] {1} [{2, select, front{frontend} other{backend}}]', [
+                    $index,
+                    $theme->humanName,
+                    ($theme->isAdmin ? 'back' : 'front'),
                 ])
             );
             $index++;

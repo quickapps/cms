@@ -44,7 +44,7 @@ class AppController extends Controller
         }
 
         if (!empty($plugins)) {
-            $this->Flash->set(__d('system', 'Some {type, select, plugin{plugins} other{themes}} are awaiting for installation', compact('type')), [
+            $this->Flash->set(__d('system', 'Some {0, select, plugin{plugins} other{themes}} are awaiting for installation', $type), [
                 'element' => 'System.stashed_plugins',
                 'params' => compact('plugins'),
             ]);
