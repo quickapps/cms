@@ -17,7 +17,7 @@
     },
     "require": {
         "php": ">=5.4.19",
-        "lisachenko/go-aop-php": "0.6.0",
+        "goaop/framework": "0.6.*",
         "cakephp/cakephp": "3.0.*"
     },
     "require-dev": {
