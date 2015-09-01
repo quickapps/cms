@@ -81,18 +81,18 @@
                         <td class="hidden-xs hidden-sm"><?php echo $content->language ? $content->language : __d('content', '---'); ?></td>
                         <td class="hidden-xs">
                             <?php
-                                echo __d('content', '{on} <br /> by <em>{author}</em>', [
-                                    'on' => $content->created->format(__d('content', 'Y-m-d H:i:s')),
-                                    'author' => $content->author->name,
-                                ]);
+                                echo __d('content', '{on} <br /> by <em>{author}</em>',
+                                    $content->created->format(__d('content', 'Y-m-d H:i:s')),
+                                    $content->author->name
+                                );
                             ?>
                         </td>
                         <td class="hidden-xs">
                             <?php
-                                echo __d('content', '{0} <br /> by <em>{1}</em>', [
+                                echo __d('content', '{0} <br /> by <em>{1}</em>',
                                     $content->modified->format(__d('content', 'Y-m-d H:i:s')),
-                                    is_object($content->get('modified_by')) ? $content->get('modified_by')->get('name') : __d('content', '-- unknown --'),
-                                ]);
+                                    is_object($content->get('modified_by')) ? $content->get('modified_by')->get('name') : __d('content', '-- unknown --')
+                                );
                             ?>
                         </td>
                         <td>
