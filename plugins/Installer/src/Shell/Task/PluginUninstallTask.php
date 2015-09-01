@@ -129,7 +129,7 @@ class PluginUninstallTask extends Shell
         }
 
         if (!$plugin || !$pluginEntity) {
-            $this->err(__d('installer', 'Plugin "{name}" was not found.', ['name' => $this->params['plugin']]));
+            $this->err(__d('installer', 'Plugin "{0}" was not found.', $this->params['plugin']));
             return false;
         }
 

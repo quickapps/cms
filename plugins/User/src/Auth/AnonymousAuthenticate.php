@@ -212,7 +212,8 @@ class AnonymousAuthenticate extends BaseAuthenticate
             ->select(['aco_id'])
             ->where(['role_id' => $roleId])
             ->all()
-            ->extract('aco_id');
+            ->extract('aco_id')
+            ->toArray();
 
         foreach ($acoIds as $acoId) {
             $path = $Acos->find('path', ['for' => $acoId]);

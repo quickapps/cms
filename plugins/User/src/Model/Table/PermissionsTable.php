@@ -61,7 +61,7 @@ class PermissionsTable extends Table
             return false;
         }
 
-        $acoIDs = $acoPath->extract('id');
+        $acoIDs = $acoPath->extract('id')->toArray();
         foreach ($user->role_ids as $roleId) {
             $permission = $this->find()
                 ->where([
@@ -69,6 +69,7 @@ class PermissionsTable extends Table
                     'aco_id IN' => $acoIDs,
                 ])
                 ->first();
+
             if ($permission) {
                 return true;
             }

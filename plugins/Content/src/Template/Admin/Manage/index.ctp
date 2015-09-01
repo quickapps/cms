@@ -89,9 +89,9 @@
                         </td>
                         <td class="hidden-xs">
                             <?php
-                                echo __d('content', '{on} <br /> by <em>{author}</em>', [
-                                    'on' => $content->modified->format(__d('content', 'Y-m-d H:i:s')),
-                                    'author' => is_object($content->get('modified_by')) ? $content->get('modified_by')->get('name') : __d('content', '-- unknown --'),
+                                echo __d('content', '{0} <br /> by <em>{1}</em>', [
+                                    $content->modified->format(__d('content', 'Y-m-d H:i:s')),
+                                    is_object($content->get('modified_by')) ? $content->get('modified_by')->get('name') : __d('content', '-- unknown --'),
                                 ]);
                             ?>
                         </td>

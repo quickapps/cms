@@ -53,7 +53,8 @@ class ContentType extends Entity
             ->filter(function ($rule) use ($action) {
                 return $rule->get('action') == $action;
             })
-            ->extract('role_id');
+            ->extract('role_id')
+            ->toArray();
         $intersect = array_intersect($allowedRoles, user()->get('role_ids'));
         return !empty($intersect);
     }
