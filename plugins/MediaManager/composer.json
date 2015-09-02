@@ -5,6 +5,8 @@
     "keywords": ["quickapps", "plugin", "multimedia", "files", "upload"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Christopher Castro",
@@ -12,7 +14,7 @@
         }
     ],
     "require": {
-        "quickapps/cms": "~2.0"
+        "quickapps-plugins/cms": "*"
     },
     "autoload": {
         "psr-4": {

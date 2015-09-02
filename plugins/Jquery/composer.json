@@ -5,12 +5,17 @@
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "jquery", "jquery ui"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Christopher Castro",
             "email": "chris@quickapps.es"
         }
     ],
+    "require": {
+        "quickapps-plugins/cms": "*"
+    },
     "autoload": {
         "psr-4": {
             "Jquery\\": "src"
