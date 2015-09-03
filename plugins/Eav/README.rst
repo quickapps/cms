@@ -22,11 +22,11 @@ attributes at all because columns need to be pre-defined in relational databases
 
 To solve this situation in a relational fashion you would create a child table, and
 relate that to the 'entity' table using a One-to-Many relation, where every
-attribute would become a record in the child table ("eav_attributes" in the image).
-Downside of this approach however is that to be able to get a specific attribute
-value, you'll have to loop over all related records, compare the value of the
-attribute column with the attribute you look for, and if a match is found, get the
-contents of the value column.
+attribute would become a record in the child table. Downside of this approach
+however is that to be able to get a specific attribute value, you'll have to loop
+over all related records, compare the value of the attribute column with the
+attribute you look for, and if a match is found, get the contents of the value
+column.
 
 EAV Plugin uses this same implementation, but allows you to merge these virtual
 attributes with the entity, so the attributes become properties of the entity
@@ -214,7 +214,6 @@ We have defined two different columns for two different bundles, ``article`` and
             'article-body' => 'Lorem ipsum dolor sit amet ...',
         ]
     ]
-
 
     debug($firstPage);
     // Produces:
