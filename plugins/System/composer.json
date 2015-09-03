@@ -5,8 +5,6 @@
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "authors": [
         {
             "name": "Christopher Castro",

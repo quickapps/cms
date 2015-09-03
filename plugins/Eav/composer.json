@@ -5,8 +5,6 @@
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "model", "database", "eav"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "quickapps-plugins/cms": "*"
     },

@@ -15,15 +15,15 @@
     ],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
+    "require": {
+        "quickapps-plugins/cms": "*"
+    },
     "authors": [
         {
             "name": "Christopher Castro",
             "email": "chris@quickapps.es"
         }
     ],
-    "require": {
-        "quickapps/cms": "~2.0"
-    },
     "extra": {
         "admin": false,
         "regions": {
