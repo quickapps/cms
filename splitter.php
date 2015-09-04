@@ -70,13 +70,22 @@ $null = DIRECTORY_SEPARATOR === '/' ? '/dev/null' : 'NUL';
  * repository. Such branches are removed after pushed.
  */
 foreach ($plugins as $plugin) {
-    $org = 'quickapps-plugins';
-    if (strpos($plugin, 'Theme') !== false) {
-        $plg = strtolower(str_replace('Theme', '-theme', $plugin));
-        $org = 'quickapps-themes';
-    } else {
-        $plg = strtolower($plugin);
+    $pluginDirectory = dirname(__FILE__) . "/plugins/{$plugin}";
+    $jsonPath = "{$pluginDirectory}/composer.json";
+
+    if (!is_readable($jsonPath)) {
+        echo sprintf('Missing file: %s', $jsonPath);
+        continue;
     }
+
+    $composer = json_decode(file_get_contents($jsonPath), true);
+
+    if (!isset($composer['name']) || strpos($composer['name'], '/') === false) {
+        echo 'Invalid composer.json, missing or invalid "name" key';
+        continue;
+    }
+
+    list($org, $plg) = explode('/', $composer['name']);
 
     echo "Processing: {$plugin}\n";
     echo str_repeat('-', strlen("Processing: {$plugin}")) . "\n\n";
