@@ -28,8 +28,11 @@
     </div>
 
     <div class="col-md-7">
-        <h1><?php echo $theme->humanName; ?> <small>(v<?php echo $theme->composer['version']; ?>)</small></h1>
-        <em><?php echo $theme->composer['description']; ?></em>
+        <h1>
+            <?php echo $theme->humanName; ?>
+            <small>(<?php echo $theme->version(); ?>)</small>
+        </h1>
+        <em><?php echo $theme->composer['description'] ? $theme->composer['description'] : ''; ?></em>
 
         <div class="extended-info">
             <?php echo $this->element('System.composer_details', ['composer' => $theme->composer]); ?>
