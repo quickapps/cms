@@ -249,7 +249,6 @@ AppAspect::getInstance()->init([
     'includePaths' => [
         SITE_ROOT . DS . 'plugins',
         ROOT . DS . 'plugins',
-        ROOT . DS . 'src',
         CAKE,
     ],
     'excludePaths' => [TMP . 'aop'],
