@@ -97,19 +97,22 @@ class Plugin extends CakePlugin
     {
         $cacheKey = "scan({$ignoreThemes})";
         $cache = static::cache($cacheKey);
+
         if (!$cache) {
             $cache = [];
             $paths = App::path('Plugin');
             $Folder = new Folder();
             $Folder->sort = true;
+
             foreach ($paths as $path) {
                 $Folder->cd($path);
                 foreach ($Folder->read(true, true, true)[0] as $dir) {
                     $name = basename($dir);
-                    if ($name == 'CMS') {
+                    if (strpos($name, '.') === 0) {
                         continue;
-                    }
-                    if ($ignoreThemes && str_ends_with($name, 'Theme')) {
+                    } elseif ($name == 'CMS') {
+                        continue;
+                    } elseif ($ignoreThemes && str_ends_with($name, 'Theme')) {
                         continue;
                     }
                     $cache[$name] = normalizePath("{$dir}/");
@@ -124,6 +127,7 @@ class Plugin extends CakePlugin
                 }
             }
         }
+
         return $cache;
     }
 
