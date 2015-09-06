@@ -90,11 +90,6 @@ class PluginToggleTask extends Shell
             return false;
         }
 
-        if ($plugin->isCore) {
-            $this->err(__d('installer', 'Plugin "{0}" is a core plugin, you cannot enable or disable core\'s plugins.', $plugin->humanName));
-            return false;
-        }
-
         if ($this->params['status'] === 'enable') {
             return $this->_enable($plugin);
         }
@@ -138,8 +133,13 @@ class PluginToggleTask extends Shell
     protected function _disable(PluginPackage $plugin)
     {
         $requiredBy = Plugin::checkReverseDependency($plugin->name);
-        if ($this->params['status'] === 'disable' && !empty($requiredBy)) {
-            $this->err(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $plugin->humanName, implode(', ', $requiredBy)));
+        if (!$requiredBy->isEmpty()) {
+            $names = [];
+            foreach ($requiredBy as $p) {
+                $names[] = $p->name();
+            }
+
+            $this->err(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $plugin->humanName, implode(', ', $names)));
             return false;
         }
 

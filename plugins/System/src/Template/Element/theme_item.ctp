@@ -65,7 +65,7 @@
                                 'class' => 'btn btn-default btn-xs'
                             ]);
                         ?>
-                        <?php if (!$theme->isCore): ?>
+                        <?php if ($theme->requiredBy()->isEmpty()): ?>
                             <?php
                                 echo $this->Html->link(__d('system', 'Uninstall'), [
                                     'plugin' => 'System',

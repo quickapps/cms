@@ -184,7 +184,6 @@ if (!function_exists('snapshot')) {
             $eventsPath = "{$pluginPath}/src/Event/";
             $fieldsPath = "{$pluginPath}/src/Field/";
             $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
-            $isCore = strpos($pluginPath, $corePath) !== false;
             $isTheme = str_ends_with($plugin->name, 'Theme');
             $status = (bool)$plugin->status;
             $humanName = '';
@@ -234,7 +233,6 @@ if (!function_exists('snapshot')) {
                 'humanName' => $humanName,
                 'package' => $plugin->package,
                 'isTheme' => $isTheme,
-                'isCore' => $isCore,
                 'hasHelp' => !empty($helpFiles),
                 'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
                 'aspects' => $aspects,

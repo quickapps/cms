@@ -12,8 +12,25 @@
         }
     ],
     "require": {
+        "quickapps-themes/backend-theme": "*",
+        "quickapps-plugins/block": "*",
+        "quickapps-plugins/bootstrap": "*",
+        "quickapps-plugins/captcha": "*",
         "quickapps-plugins/cms": "*",
-        "quickapps-plugins/user": "*"
+        "quickapps-plugins/comment": "*",
+        "quickapps-plugins/content": "*",
+        "quickapps-plugins/eav": "*",
+        "quickapps-plugins/field": "*",
+        "quickapps-themes/frontend-theme": "*",
+        "quickapps-plugins/jquery": "*",
+        "quickapps-plugins/locale": "*",
+        "quickapps-plugins/media-manager": "*",
+        "quickapps-plugins/menu": "*",
+        "quickapps-plugins/search": "*",
+        "quickapps-plugins/system": "*",
+        "quickapps-plugins/taxonomy": "*",
+        "quickapps-plugins/user": "*",
+        "quickapps-plugins/wysiwyg": "*"
     },
     "autoload": {
         "psr-4": {
