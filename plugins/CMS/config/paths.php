@@ -35,14 +35,14 @@ tryDefine('DS', DIRECTORY_SEPARATOR);
  * The full path to the directory which holds site's directories, that is, where the
  * "webroot" directory can the found. path WITHOUT a trailing DS.
  */
-tryDefine('ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
+tryDefine('ROOT', dirname(dirname(dirname(dirname(__DIR__)))));
 
 /**
  * Path to composer's vendor directory.
  *
  * There is where quickapps & cakephp must be located. WITH trailing DS.
  */
-tryDefine('VENDOR_INCLUDE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))) . DS);
+tryDefine('VENDOR_INCLUDE_PATH', dirname(dirname(dirname(__DIR__))) . DS);
 
 /**
  * The actual directory name for SITE core's "src".
