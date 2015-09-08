@@ -57,12 +57,12 @@ tryDefine('WEBROOT_DIR', 'webroot');
 /**
  * Path to QuickAppsCMS application's directory. WITH trailing DS.
  */
-tryDefine('APP', ROOT . DS . APP_DIR . DS);
+tryDefine('APP', dirname(__DIR__) . DS . APP_DIR . DS);
 
 /**
  * Path to the config directory.
  */
-tryDefine('CONFIG', ROOT . DS . 'config' . DS);
+tryDefine('CONFIG', __DIR__ . DS);
 
 /**
  * File path to the webroot directory.
