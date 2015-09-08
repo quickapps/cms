@@ -16,3 +16,8 @@ use Captcha\CaptchaManager;
  * Registers "Are You A Human" CAPTCHA adapter
  */
 CaptchaManager::addAdapter('ayah', 'Captcha\\Adapter\\AyahAdapter');
+
+/**
+ * Registers "reCaptcha" CAPTCHA adapter
+ */
+CaptchaManager::addAdapter('reCaptcha', 'Captcha\\Adapter\\RecaptchaAdapter');
