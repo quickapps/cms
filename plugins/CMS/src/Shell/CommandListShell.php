@@ -27,7 +27,7 @@ class CommandListShell extends CakeCommandListShell
      */
     public function main()
     {
-        if (!defined('SITE_ROOT')) {
+        if (!defined('QUICKAPPS_CORE')) {
             return parent::main();
         }
 
@@ -35,7 +35,7 @@ class CommandListShell extends CakeCommandListShell
             $this->out(__d('cms', '<info>Current Paths:</info>'), 2);
             $this->out(__d('cms', '* QuickApps Core: {0}', [normalizePath(QUICKAPPS_CORE)]));
             $this->out(__d('cms', '* CakePHP Core:   {0}', [normalizePath(CORE_PATH)]));
-            $this->out(__d('cms', '* Site Path:      {0}', [normalizePath(SITE_ROOT)]));
+            $this->out(__d('cms', '* Site Path:      {0}', [normalizePath(ROOT)]));
             $this->out('');
 
             $this->out(__d('cms', '<info>Available Shells:</info>'), 2);
@@ -61,7 +61,7 @@ class CommandListShell extends CakeCommandListShell
      */
     protected function _asText($shellList)
     {
-        if (!defined('SITE_ROOT')) {
+        if (!defined('QUICKAPPS_CORE')) {
             return parent::_asText($shellList);
         }
 
@@ -89,7 +89,7 @@ class CommandListShell extends CakeCommandListShell
      */
     public function getOptionParser()
     {
-        if (!defined('SITE_ROOT')) {
+        if (!defined('QUICKAPPS_CORE')) {
             return parent::getOptionParser();
         }
 
@@ -111,7 +111,7 @@ class CommandListShell extends CakeCommandListShell
      */
     protected function _welcome()
     {
-        if (!defined('SITE_ROOT')) {
+        if (!defined('QUICKAPPS_CORE')) {
             return parent::_welcome();
         }
 

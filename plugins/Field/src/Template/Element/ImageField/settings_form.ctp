@@ -62,8 +62,8 @@ use Field\Utility\ImageToolbox;
 ?>
 <em class="help-block">
     <?php echo __d('field', 'Optional subdirectory where images will be stored.'); ?><br />
-    <?php echo __d('field', 'The root directory is: <code>{0}</code>', normalizePath(SITE_ROOT . '/webroot/files/')); ?><br />
-    <?php echo __d('field', 'For example, "my-subdirectory" will maps to <code>{0}my-subdirectory</code>', normalizePath(SITE_ROOT . '/webroot/files/')); ?>
+    <?php echo __d('field', 'The root directory is: <code>{0}</code>', normalizePath(ROOT . '/webroot/files/')); ?><br />
+    <?php echo __d('field', 'For example, "my-subdirectory" will maps to <code>{0}my-subdirectory</code>', normalizePath(ROOT . '/webroot/files/')); ?>
 </em>
 
 <?php

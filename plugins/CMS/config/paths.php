@@ -32,20 +32,20 @@ if (!function_exists('tryDefine')) {
 tryDefine('DS', DIRECTORY_SEPARATOR);
 
 /**
- * The full path to the directory which holds "cms" directory, WITHOUT a trailing
- * DS.
+ * The full path to the directory which holds site's directories, that is, where the
+ * "webroot" directory can the found. path WITHOUT a trailing DS.
  */
-tryDefine('ROOT', dirname(dirname(dirname(__DIR__))));
+tryDefine('ROOT', dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))));
 
 /**
  * Path to composer's vendor directory.
  *
- * There is where quickapps & cakephp must be located.
+ * There is where quickapps & cakephp must be located. WITH trailing DS.
  */
-tryDefine('VENDOR_INCLUDE_PATH', dirname(dirname(ROOT)) . DS);
+tryDefine('VENDOR_INCLUDE_PATH', dirname(dirname(dirname(dirname(dirname(__DIR__))))) . DS);
 
 /**
- * The actual directory name for QuickAppsCMS core's "src".
+ * The actual directory name for SITE core's "src".
  */
 tryDefine('APP_DIR', 'src');
 
@@ -55,19 +55,19 @@ tryDefine('APP_DIR', 'src');
 tryDefine('WEBROOT_DIR', 'webroot');
 
 /**
- * Path to QuickAppsCMS application's directory.
+ * Path to QuickAppsCMS application's directory. WITH trailing DS.
  */
-tryDefine('APP', QUICKAPPS_CORE . APP_DIR . DS);
+tryDefine('APP', ROOT . DS . APP_DIR . DS);
 
 /**
  * Path to the config directory.
  */
-tryDefine('CONFIG', QUICKAPPS_CORE . 'config' . DS);
+tryDefine('CONFIG', ROOT . DS . 'config' . DS);
 
 /**
  * File path to the webroot directory.
  */
-tryDefine('WWW_ROOT', SITE_ROOT . DS . WEBROOT_DIR . DS);
+tryDefine('WWW_ROOT', ROOT . DS . WEBROOT_DIR . DS);
 
 /**
  * Path to the tests directory.
@@ -77,12 +77,12 @@ tryDefine('TESTS', ROOT . DS . 'tests' . DS);
 /**
  * Path to the temporary files directory.
  */
-tryDefine('TMP', SITE_ROOT . DS . 'tmp' . DS);
+tryDefine('TMP', ROOT . DS . 'tmp' . DS);
 
 /**
  * Path to the logs directory.
  */
-tryDefine('LOGS', SITE_ROOT . DS . 'logs' . DS);
+tryDefine('LOGS', ROOT . DS . 'logs' . DS);
 
 /**
  * Path to the cache files directory. It can be shared between hosts in a multi-server setup.

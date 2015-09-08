@@ -13,10 +13,10 @@
 /**
  * Proxy file, includes site's settings (database info, etc).
  */
-if (is_readable(SITE_ROOT . '/config/settings.php')) {
-    return require SITE_ROOT . '/config/settings.php';
-} elseif (is_readable(SITE_ROOT . '/config/settings.php.tmp')) {
-    return require SITE_ROOT . '/config/settings.php.tmp';
+if (is_readable(ROOT . '/config/settings.php')) {
+    return require ROOT . '/config/settings.php';
+} elseif (is_readable(ROOT . '/config/settings.php.tmp')) {
+    return require ROOT . '/config/settings.php.tmp';
 } else {
     return [];
 }

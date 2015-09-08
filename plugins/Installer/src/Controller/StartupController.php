@@ -73,7 +73,7 @@ class StartupController extends Controller
      */
     public function beforeFilter(Event $event)
     {
-        if (is_readable(SITE_ROOT . '/config/settings.php')) {
+        if (is_readable(ROOT . '/config/settings.php')) {
             $this->redirect('/');
         }
 
@@ -263,7 +263,7 @@ class StartupController extends Controller
     public function finish()
     {
         if ($this->request->data()) {
-            if (rename(SITE_ROOT . '/config/settings.php.tmp', SITE_ROOT . '/config/settings.php')) {
+            if (rename(ROOT . '/config/settings.php.tmp', ROOT . '/config/settings.php')) {
                 snapshot();
                 $this->request->session()->delete('Startup');
 
@@ -324,7 +324,7 @@ class StartupController extends Controller
             ->add('cache_writable', is_writable(TMP . 'cache'), __d('installer', '"{0}" folder is not writable.', 'tmp/cache/'))
             ->add('models_writable', is_writable(TMP . 'cache/models'), __d('installer', '"{0}" folder is not writable.', 'tmp/cache/models/'))
             ->add('persistent_writable', is_writable(TMP . 'cache/persistent'), __d('installer', '"{0}" folder is not writable.', 'tmp/cache/persistent/'))
-            ->add('config_writable', is_writable(SITE_ROOT . '/config'), __d('installer', '"{0}" folder is not writable.', 'config/'))
+            ->add('config_writable', is_writable(ROOT . '/config'), __d('installer', '"{0}" folder is not writable.', 'config/'))
             ->add('pdo', [
                 'rule' => function () {
                     return

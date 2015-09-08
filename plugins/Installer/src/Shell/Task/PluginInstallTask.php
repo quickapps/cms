@@ -247,7 +247,7 @@ class PluginInstallTask extends Shell
     protected function _rollbackCopyPackage()
     {
         if (!empty($this->_plugin['name'])) {
-            $destinationPath = normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/");
+            $destinationPath = normalizePath(ROOT . "/plugins/{$this->_plugin['name']}/");
             if (is_dir($destinationPath) && is_writable($destinationPath)) {
                 $dst = new Folder($destinationPath);
                 $dst->delete();
@@ -341,7 +341,7 @@ class PluginInstallTask extends Shell
         snapshot();
         Plugin::dropCache();
         // trick: makes plugin visible to AcoManager
-        $classLoader->addPsr4($this->_plugin['name'] . "\\", normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/src"), true);
+        $classLoader->addPsr4($this->_plugin['name'] . "\\", normalizePath(ROOT . "/plugins/{$this->_plugin['name']}/src"), true);
         AcoManager::buildAcos($this->_plugin['name']);
         $this->_reset();
     }
@@ -357,7 +357,7 @@ class PluginInstallTask extends Shell
     protected function _copyPackage($clearDestination = false)
     {
         $source = new Folder($this->_workingDir);
-        $destinationPath = normalizePath(SITE_ROOT . "/plugins/{$this->_plugin['name']}/");
+        $destinationPath = normalizePath(ROOT . "/plugins/{$this->_plugin['name']}/");
 
         // allow to install from destination folder
         if ($this->_workingDir === $destinationPath) {
@@ -592,11 +592,11 @@ class PluginInstallTask extends Shell
             }
         }
 
-        if (!file_exists(SITE_ROOT . '/plugins') ||
-            !is_dir(SITE_ROOT . '/plugins') ||
-            !is_writable(SITE_ROOT . '/plugins')
+        if (!file_exists(ROOT . '/plugins') ||
+            !is_dir(ROOT . '/plugins') ||
+            !is_writable(ROOT . '/plugins')
         ) {
-            $errors[] = __d('installer', 'Write permissions required for directory: {0}.', [SITE_ROOT . '/plugins/']);
+            $errors[] = __d('installer', 'Write permissions required for directory: {0}.', [ROOT . '/plugins/']);
         }
 
         foreach ($errors as $message) {

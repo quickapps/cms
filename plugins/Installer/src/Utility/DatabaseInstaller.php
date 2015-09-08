@@ -90,8 +90,8 @@ class DatabaseInstaller
      */
     public function __construct($config = [])
     {
-        $this->_defaultConfig['settingsPath'] = SITE_ROOT . '/config/settings.php';
-        $this->_defaultConfig['schemaPath'] = ROOT . '/plugins/Installer/config/fixture/';
+        $this->_defaultConfig['settingsPath'] = ROOT . '/config/settings.php';
+        $this->_defaultConfig['schemaPath'] = dirname(dirname(__DIR__)) . '/config/fixture/';
         $this->config($config);
 
         if (function_exists('ini_set')) {
@@ -171,10 +171,10 @@ class DatabaseInstaller
             return true;
         }
 
-        if (is_readable(SITE_ROOT . '/config/settings.php.tmp')) {
-            $dbConfig = include SITE_ROOT . '/config/settings.php.tmp';
+        if (is_readable(ROOT . '/config/settings.php.tmp')) {
+            $dbConfig = include ROOT . '/config/settings.php.tmp';
             if (empty($dbConfig['Datasources']['default'])) {
-                $this->error(__d('installer', 'Invalid database information in file "{0}"', SITE_ROOT . '/config/settings.php.tmp'));
+                $this->error(__d('installer', 'Invalid database information in file "{0}"', ROOT . '/config/settings.php.tmp'));
                 return false;
             }
             $dbConfig = $dbConfig['Datasources']['default'];

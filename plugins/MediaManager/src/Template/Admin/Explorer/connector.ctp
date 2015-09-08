@@ -56,7 +56,7 @@ $opts = [
     'roots' => [[
         'alias' => __d('media_manager', 'Site Files'),
         'driver' => 'LocalFileSystem',
-        'path' => SITE_ROOT . '/webroot/files/',
+        'path' => ROOT . '/webroot/files/',
         'URL' => $this->Url->build('/files', true),
         'mimeDetect' => 'internal',
         'tmbPath' => '.tmb',
@@ -71,7 +71,7 @@ $opts = [
     ], [
         'alias' => __d('media_manager', 'Site Templates'),
         'driver' => 'LocalFileSystem',
-        'path' => SITE_ROOT . '/templates/',
+        'path' => ROOT . '/templates/',
         'mimeDetect' => 'internal',
         'tmbPath' => '.tmb',
         'utf8fix' => true,
@@ -84,7 +84,7 @@ $opts = [
     ], [
         'alias' => __d('media_manager', 'Plugins'),
         'driver' => 'LocalFileSystem',
-        'path' => SITE_ROOT . '/plugins/',
+        'path' => ROOT . '/plugins/',
         'URL' => $this->Url->build(['plugin' => 'MediaManager', 'controller' => 'explorer', 'action' => 'plugin_file', 'file' => '#'], true),
         'mimeDetect' => 'internal',
         'tmbPath' => '.tmb',
