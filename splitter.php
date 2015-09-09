@@ -10,7 +10,8 @@
  * ```
  *
  * - If no main branch name is provided "2.0" will be used by default.
- * - If no plugin names are given, all of them will be splitted.
+ * - If no plugin names are given (or wildcard * is provided), all of
+ *   them will be splitted.
  */
 
 /**
@@ -53,7 +54,7 @@ $plugins = [
 ];
 
 if (!empty($options['plugins'])) {
-    $plugins = array_intersect($plugins, explode(',', $options['plugins']));
+    $plugins = $options['plugins'] === '*' ? $plugins : array_intersect($plugins, explode(',', $options['plugins']));
 }
 
 /**
