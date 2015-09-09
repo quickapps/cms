@@ -1,7 +1,7 @@
 {
     "name": "quickapps-plugins/cms",
     "description": "QuickAppsCMS core libraries.",
-    "type": "cakephp-plugin",
+    "type": "project",
     "keywords": ["framework", "cms", "cmf", "quickapps", "core"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
