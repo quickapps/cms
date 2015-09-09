@@ -125,8 +125,8 @@ class ThemesController extends AppController
     {
         $theme = plugin($themeName); // throws
         if (!in_array($themeName, [option('front_theme'), option('back_theme')])) {
-            if ($theme->isCore) {
-                $this->Flash->danger(__d('system', 'You cannot remove a core theme!'));
+            if (!$theme->requiredBy()->isEmpty()) {
+                $this->Flash->danger(__d('system', 'You cannot remove this theme!'));
             } else {
                 $task = (bool)WebShellDispatcher::run("Installer.plugins uninstall -p {$theme->name}");
                 if ($task) {

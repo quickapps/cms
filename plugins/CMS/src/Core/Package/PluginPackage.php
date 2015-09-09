@@ -23,7 +23,6 @@ use CMS\Core\Plugin;
  * @property string $package Composer package name as `vendor/name`, e.g. `quickapps/megamenu`
  * @property string $path Full path to plugin root directory, where the `src` directory can be found
  * @property bool $isTheme Whether or not this plugin is actually a theme
- * @property bool $isCore Whether or not belongs to QuickAppCMS's core
  * @property bool $hasHelp Whether or not this plugin provides help documentation
  * @property bool $hasSettings Whether or not this plugin provides configurable values
  * @property bool $status Whether this plugin is enabled or not
@@ -146,7 +145,6 @@ class PluginPackage extends BasePackage
      * [
      *     'name' => 'User,
      *     'isTheme' => false,
-     *     'isCore' => true,
      *     'hasHelp' => true,
      *     'hasSettings' => false,
      *     'eventListeners' => [ ... ],
@@ -302,6 +300,40 @@ class PluginPackage extends BasePackage
             $settings = isset($settings[$key]) ? $settings[$key] : null;
         }
         return $settings;
+    }
+
+    /**
+     * Gets a collection list of plugin that depends on this plugin.
+     *
+     * @return \Cake\Collection\Collection List of plugins
+     */
+    public function requiredBy()
+    {
+        if ($cache = $this->config('required_by')) {
+            return collection($cache);
+        }
+
+        Plugin::dropCache();
+        $out = [];
+        $plugins = Plugin::get()->filter(function ($v, $k) {
+            return $v->name() !== $this->name();
+        });
+
+        foreach ($plugins as $plugin) {
+            if ($dependencies = $plugin->dependencies($plugin->name)) {
+                $packages = array_map(function ($item) {
+                    list(, $package) = packageSplit($item, true);
+                    return strtolower($package);
+                }, array_keys($dependencies));
+
+                if (in_array(strtolower($this->name()), $packages)) {
+                    $out[] = $plugin;
+                }
+            }
+        }
+
+        $this->config('required_by', $out);
+        return collection($out);
     }
 
     /**

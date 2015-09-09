@@ -58,8 +58,8 @@ return [
         'cssBaseUrl' => 'css/',
         'jsBaseUrl' => 'js/',
         'paths' => [
-            'plugins' => [SITE_ROOT . '/plugins/', ROOT . '/plugins/'],
-            'templates' => [APP . 'Template/'],
+            'plugins' => [ROOT . '/plugins/'],
+            'templates' => [APP . 'template/'],
         ],
     ],
 

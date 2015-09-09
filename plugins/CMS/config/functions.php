@@ -61,7 +61,7 @@ if (!function_exists('snapshot')) {
             Cache::clear(false, '_cake_model_');
         }
 
-        $corePath = normalizePath(ROOT);
+        $versionPath = QUICKAPPS_CORE . 'VERSION.txt';
         $snapshot = [
             'version' => null,
             'content_types' => [],
@@ -71,11 +71,11 @@ if (!function_exists('snapshot')) {
             'aspects' => [],
         ];
 
-        if (is_readable(ROOT . '/VERSION.txt')) {
-            $versionFile = file(ROOT . '/VERSION.txt');
+        if (is_readable($versionPath)) {
+            $versionFile = file($versionPath);
             $snapshot['version'] = trim(array_pop($versionFile));
         } else {
-            die('Missing file: VERSION.txt');
+            die(sprintf('Missing file: %s', $versionPath));
         }
 
         if (ConnectionManager::config('default')) {
@@ -150,7 +150,7 @@ if (!function_exists('snapshot')) {
                 $plugins[] = new Entity([
                     'name' => $plugin,
                     'status' => true,
-                    'package' => (is_dir("{$corePath}/plugins/{$plugin}") ? 'quickapps-plugins' : 'unknow-package'),
+                    'package' => 'quickapps-plugins',
                 ]);
             }
         }
@@ -184,7 +184,6 @@ if (!function_exists('snapshot')) {
             $eventsPath = "{$pluginPath}/src/Event/";
             $fieldsPath = "{$pluginPath}/src/Field/";
             $helpFiles = glob($pluginPath . '/src/Template/Element/Help/help*.ctp');
-            $isCore = strpos($pluginPath, $corePath) !== false;
             $isTheme = str_ends_with($plugin->name, 'Theme');
             $status = (bool)$plugin->status;
             $humanName = '';
@@ -234,7 +233,6 @@ if (!function_exists('snapshot')) {
                 'humanName' => $humanName,
                 'package' => $plugin->package,
                 'isTheme' => $isTheme,
-                'isCore' => $isCore,
                 'hasHelp' => !empty($helpFiles),
                 'hasSettings' => is_readable($pluginPath . '/src/Template/Element/settings.ctp'),
                 'aspects' => $aspects,

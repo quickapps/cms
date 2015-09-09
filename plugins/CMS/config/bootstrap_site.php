@@ -19,8 +19,8 @@ require __DIR__ . '/paths.php';
 /**
  * Load site's "bootstrap.php".
  */
-if (is_readable(SITE_ROOT . '/config/bootstrap.php')) {
-    include SITE_ROOT . '/config/bootstrap.php';
+if (is_readable(ROOT . '/config/bootstrap.php')) {
+    include ROOT . '/config/bootstrap.php';
 }
 
 /**
@@ -82,8 +82,8 @@ Type::map('serialized', 'CMS\Database\Type\SerializedType');
  * idea to create multiple configuration files, and separate the configuration
  * that changes from configuration that does not. This makes deployment simpler.
  */
-Configure::config('default', new PhpConfig());
-Configure::load('app', 'default', false);
+Configure::config('default', new PhpConfig(__DIR__ . DS));
+
 
 /**
  * Load an environment local configuration file.
@@ -91,6 +91,7 @@ Configure::load('app', 'default', false);
  * You can use this file to provide local overrides to your
  * shared configuration.
  */
+Configure::load('app', 'default', false);
 Configure::load('app_site', 'default');
 
 /**
@@ -192,9 +193,9 @@ if (!is_readable(TMP . 'snapshot.php')) {
 /**
  * Load all registered plugins.
  */
-$activePlugins = 0;
+$pluginsPath = [];
 plugin()
-    ->each(function ($plugin) use (&$activePlugins, $classLoader) {
+    ->each(function ($plugin) use (&$pluginsPath, $classLoader) {
         $filter = $plugin->status;
         if ($plugin->isTheme) {
             $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
@@ -212,14 +213,16 @@ plugin()
             $classLoader->addPsr4("{$plugin->name}\\Test\\", normalizePath("{$plugin->path}/tests/"), true);
         }
 
-        Plugin::load($plugin->name, [
+        $info = [
             'autoload' => false,
             'bootstrap' => true,
             'routes' => true,
             'path' => normalizePath("{$plugin->path}/"),
             'classBase' => 'src',
             'ignoreMissing' => true,
-        ]);
+        ];
+
+        Plugin::load($plugin->name, $info);
 
         foreach ($plugin->eventListeners as $fullClassName) {
             if (class_exists($fullClassName)) {
@@ -233,10 +236,10 @@ plugin()
             }
         }
 
-        $activePlugins++;
+        $pluginsPath[] = $info['path'];
     });
 
-if (!$activePlugins) {
+if (empty($pluginsPath)) {
     die("Ops, something went wrong. Try to clear your site's snapshot and verify write permissions on /tmp directory.");
 }
 
@@ -246,11 +249,10 @@ if (!$activePlugins) {
 AppAspect::getInstance()->init([
     'debug' => Configure::read('debug'),
     'cacheDir' => TMP . 'aop',
-    'includePaths' => [
-        SITE_ROOT . DS . 'plugins',
+    'includePaths' => array_unique(array_merge($pluginsPath, [
         ROOT . DS . 'plugins',
         CAKE,
-    ],
+    ])),
     'excludePaths' => [TMP . 'aop'],
     'features' => AppAspect::getDefaultFeatures() | \Go\Aop\Features::INTERCEPT_FUNCTIONS,
 ]);
@@ -259,7 +261,7 @@ AppAspect::getInstance()->init([
  * Connect middleware/dispatcher filters.
  */
 DispatcherFactory::add('Asset');
-if (!is_readable(SITE_ROOT . '/config/settings.php')) {
+if (!is_readable(ROOT . '/config/settings.php')) {
     DispatcherFactory::add('Routing');
 } else {
     DispatcherFactory::add('Language');

@@ -15,7 +15,7 @@
 	echo $this->Form->textarea('license', [
 		'readonly',
 		'rows' => 10,
-		'value' => file_get_contents(ROOT . DS . 'LICENSE.txt')
+		'value' => file_get_contents(QUICKAPPS_CORE . 'LICENSE.txt')
 	]);
 ?>
 <p>

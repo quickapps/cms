@@ -140,14 +140,14 @@ class PluginUninstallTask extends Shell
             return false;
         }
 
-        if ($plugin->isCore) {
-            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" is a core plugin, you cannot remove core\'s plugins.', [$type, $plugin->humanName]));
-            return false;
-        }
-
         $requiredBy = Plugin::checkReverseDependency($this->params['plugin']);
-        if (!empty($requiredBy)) {
-            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" cannot be removed as it is required by: {2}', [$type, $plugin->humanName, implode(', ', $requiredBy)]));
+        if (!$requiredBy->isEmpty()) {
+            $names = [];
+            foreach ($requiredBy as $p) {
+                $names[] = $p->name();
+            }
+
+            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" cannot be removed as it is required by: {2}', $type, $plugin->humanName, implode(', ', $names)));
             return false;
         }
 
@@ -169,7 +169,7 @@ class PluginUninstallTask extends Shell
         }
 
         if (!$this->Plugins->delete($pluginEntity)) {
-            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" could not be unregistered from DB.', [$type, $plugin->humanName]));
+            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" could not be unregistered from DB.', $type, $plugin->humanName));
             return false;
         }
 
@@ -183,7 +183,7 @@ class PluginUninstallTask extends Shell
             try {
                 $this->trigger("Plugin.{$plugin->name}.afterUninstall");
             } catch (\Exception $e) {
-                $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} did not respond to "afterUninstall" callback.', [$type]));
+                $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} did not respond to "afterUninstall" callback.', $type));
             }
         }
 

@@ -14,7 +14,7 @@
  * Include bootstraping logic only if CMS plugin has been installed as part of
  * QuickAppsCMS.
  */
-if (defined('SITE_ROOT')) {
+if (defined('QUICKAPPS_CORE')) {
     require __DIR__ . '/bootstrap_site.php';
 } else {
     require __DIR__ . '/functions.php';

@@ -99,7 +99,6 @@ class Region
             $options['fixMissing'] = $options['fixMissing'] == null ? Configure::read('debug') : $options['fixMissing'];
             if (!in_array($this->_machineName, $validRegions) &&
                 $options['fixMissing'] &&
-                !$this->_theme->isCore &&
                 is_writable($jsonPath)
             ) {
                 $jsonArray = json_decode(file_get_contents($jsonPath), true);

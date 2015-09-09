@@ -50,7 +50,7 @@ class ExplorerController extends AppController
         if (!empty($this->request->query['file'])) {
             $path = $this->request->query['file'];
             $path = str_replace_once('#', '', $path);
-            $file = str_replace('//', '/', SITE_ROOT . "/plugins/{$path}");
+            $file = str_replace('//', '/', ROOT . "/plugins/{$path}");
             if ((strpos($file, 'webroot') !== false || strpos($file, '.tmb') !== false) && file_exists($file)) {
                 $this->response->file($file);
                 return $this->response;

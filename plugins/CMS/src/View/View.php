@@ -242,8 +242,9 @@ class View extends CakeView
      */
     protected function _paths($plugin = null, $cached = true)
     {
+        // TODO: remove this? as ROOT/template is already added to app's paths
         $paths = parent::_paths($plugin, $cached);
-        $base = SITE_ROOT . '/templates/';
+        $base = ROOT . '/templates/';
         $subDirectory = $this->request->isAdmin() ? 'Back/' : 'Front/';
         foreach (['Common/', $subDirectory] as $dir) {
             array_unshift($paths, "{$base}{$dir}");

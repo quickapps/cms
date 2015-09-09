@@ -207,38 +207,22 @@ class Plugin extends CakePlugin
     /**
      * Checks if there is any active plugin that depends of $pluginName.
      *
-     * @param string $pluginName Plugin name to check
+     * @param string|CMS\Package\PluginPackage $plugin Plugin name, package
+     *  name (as `vendor/package`) or plugin package object result of
+     *  `static::get()`
      * @return array A list of all plugin names that depends on $pluginName, an
      *  empty array means that no other plugins depends on $pluginName, so
      *  $pluginName can be safely deleted or turned off.
+     * @throws \Cake\Error\FatalErrorException When requested plugin was not found
+     * @see \CMS\Core\Plugin::get()
      */
-    public static function checkReverseDependency($pluginName)
+    public static function checkReverseDependency($plugin)
     {
-        $out = [];
-        list(, $pluginName) = packageSplit($pluginName, true);
-        $plugins = static::get()
-            ->filter(function ($plugin) use ($pluginName) {
-                return
-                    $plugin->status &&
-                    strtolower($plugin->name) !== strtolower($pluginName);
-            });
-
-        foreach ($plugins as $plugin) {
-            $dependencies = $plugin->dependencies($plugin->name);
-            if (!empty($dependencies)) {
-                $packages = array_map(
-                    function ($item) {
-                        list(, $package) = packageSplit($item, true);
-                        return strtolower($package);
-                    },
-                    array_keys($dependencies)
-                );
-
-                if (in_array(strtolower($pluginName), $packages)) {
-                    $out[] = $plugin->humanName;
-                }
-            }
+        if (!($plugin instanceof PluginPackage)) {
+            list(, $pluginName) = packageSplit($plugin, true);
+            $plugin = static::get($pluginName);
         }
-        return $out;
+
+        return $plugin->requiredBy()->toArray();
     }
 }

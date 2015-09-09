@@ -9,12 +9,9 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
-$classes = [];
-$classes[] = $plugin->status ? 'enabled' : 'danger disabled';
-$classes[] = $plugin->isCore ? 'plugin-core' : 'plugin-third-party';
 ?>
-<tr class="<?php echo implode(' ', $classes); ?>">
+
+<tr class="<?php echo $plugin->status ? 'enabled' : 'danger disabled'; ?>">
     <td>
         <p><?php echo $plugin->humanName; ?> (<?php echo $plugin->version(); ?>)</p>
         <div class="btn-group">
@@ -61,7 +58,7 @@ $classes[] = $plugin->isCore ? 'plugin-core' : 'plugin-third-party';
                 ?>
             <?php endif; ?>
 
-            <?php if (!$plugin->isCore): ?>
+            <?php if ($plugin->requiredBy()->isEmpty()): ?>
                 <?php if (!$plugin->status): ?>
                     <?php
                         echo $this->Html->link('', [
@@ -108,7 +105,21 @@ $classes[] = $plugin->isCore ? 'plugin-core' : 'plugin-third-party';
         </div>
     </td>
     <td>
-        <p><?php echo $plugin->composer['description']; ?></p>
+        <p>
+        <?php echo $plugin->composer['description']; ?>
+        <?php if (!$plugin->requiredBy()->isEmpty()): ?>
+            <br />
+            <span class="text-muted"><?php echo __d('system', 'Required by'); ?>:</span>
+            <?php foreach ($plugin->requiredBy() as $p): ?>
+                <?php if ($p->status): ?>
+                    <span class="label label-success"><?php echo $p->humanName; ?></span>
+                <?php else: ?>
+                    <span class="label label-danger"><?php echo $p->humanName; ?></span>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endif; ?>
+        </p>
+
         <p>
             <a href="" class="btn btn-default btn-xs toggler">
                 <span class="glyphicon glyphicon-arrow-down"></span> <?php echo __d('system', 'Details'); ?>

@@ -20,11 +20,9 @@
  */
 $options = getopt('', ['main-branch::', 'plugins::']);
 if (empty($options['main-branch'])) {
-    echo "No main branch name given, using '2.0' by default.\n";
-    $mainBranch = '2.0';
-} else {
-    $mainBranch = $options['main-branch'];
+    die("No main branch name given, you must provide one using the '--main-branch' option. For example: --main-branch=\"2.0\".\n");
 }
+$mainBranch = $options['main-branch'];
 
 /**
  * List of core plugins located in the "plugins" directory.
