@@ -255,6 +255,7 @@ AppAspect::getInstance()->init([
     'cacheDir' => TMP . 'aop',
     'includePaths' => array_unique(array_merge($pluginsPath, [
         ROOT . DS . 'plugins',
+        QUICKAPPS_CORE,
         CAKE,
     ])),
     'excludePaths' => [TMP . 'aop'],
