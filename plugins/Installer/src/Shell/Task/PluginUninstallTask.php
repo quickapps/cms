@@ -136,7 +136,7 @@ class PluginUninstallTask extends Shell
         $this->_plugin = $plugin;
         $type = $plugin->isTheme ? 'theme' : 'plugin';
         if ($plugin->isTheme && in_array($plugin->name, [option('front_theme'), option('back_theme')])) {
-            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" is currently being used and cannot be removed.', $type, $plugin->humanName));
+            $this->err(__d('installer', '{0} "{1}" is currently being used and cannot be removed.', ($type == 'plugin' ? __d('installer', 'The plugin') : __d('installer', 'The theme')), $plugin->humanName));
             return false;
         }
 
@@ -147,7 +147,7 @@ class PluginUninstallTask extends Shell
                 $names[] = $p->name();
             }
 
-            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" cannot be removed as it is required by: {2}', $type, $plugin->humanName, implode(', ', $names)));
+            $this->err(__d('installer', '{0} "{1}" cannot be removed as it is required by: {2}', ($type == 'plugin' ? __d('installer', 'The plugin') : __d('installer', 'The theme')), $plugin->humanName, implode(', ', $names)));
             return false;
         }
 
@@ -159,17 +159,17 @@ class PluginUninstallTask extends Shell
             try {
                 $event = $this->trigger("Plugin.{$plugin->name}.beforeUninstall");
                 if ($event->isStopped() || $event->result === false) {
-                    $this->err(__d('installer', 'Task was explicitly rejected by the {0, select, theme{theme} other{plugin}}.', $type));
+                    $this->err(__d('installer', 'Task was explicitly rejected by {0}.', ($type == 'plugin' ? __d('installer', 'the plugin') : __d('installer', 'the theme'))));
                     return false;
                 }
             } catch (\Exception $e) {
-                $this->err(__d('installer', 'Internal error, the {0, select, theme{theme} other{plugin}} did not respond to "beforeUninstall" callback correctly.', $type));
+                $this->err(__d('installer', 'Internal error, {0} did not respond to "beforeUninstall" callback correctly.', ($type == 'plugin' ? __d('installer', 'the plugin') : __d('installer', 'the theme'))));
                 return false;
             }
         }
 
         if (!$this->Plugins->delete($pluginEntity)) {
-            $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} "{1}" could not be unregistered from DB.', $type, $plugin->humanName));
+            $this->err(__d('installer', '{0} "{1}" could not be unregistered from DB.', ($type == 'plugin' ? __d('installer', 'The plugin') : __d('installer', 'The theme')), $plugin->humanName));
             return false;
         }
 
@@ -183,7 +183,7 @@ class PluginUninstallTask extends Shell
             try {
                 $this->trigger("Plugin.{$plugin->name}.afterUninstall");
             } catch (\Exception $e) {
-                $this->err(__d('installer', '{0, select, theme{The theme} other{The plugin}} did not respond to "afterUninstall" callback.', $type));
+                $this->err(__d('installer', '{0} did not respond to "afterUninstall" callback.', ($type == 'plugin' ? __d('installer', 'The plugin') : __d('installer', 'The theme'))));
             }
         }
 
@@ -246,7 +246,7 @@ class PluginUninstallTask extends Shell
     {
         $type = $this->_plugin->isTheme ? 'theme' : 'plugin';
         if (!file_exists($path) || !is_dir($path)) {
-            $this->err(__d('installer', "{0, select, theme{Theme's} other{Plugin's}} directory was not found: {1}", $type, $path));
+            $this->err(__d('installer', "{0} directory was not found: {1}", ($type == 'plugin' ? __d('installer', "Plugin's") : __d('installer', "Theme's")), $path));
             return false;
         }
 
@@ -263,7 +263,7 @@ class PluginUninstallTask extends Shell
         }
 
         if (!empty($notWritable)) {
-            $this->err(__d('installer', "Some {0, select, theme{theme's} other{plugin's}} files or directories cannot be removed from your server, please check write permissions of:", $type));
+            $this->err(__d('installer', "{0} files or directories cannot be removed from your server, please check write permissions of:", ($type == 'plugin' ? __d('installer', "Some plugin's") : __d('installer', "Some theme's"))));
             foreach ($notWritable as $path) {
                 $this->err(__d('installer', '  - {0}', [$path]));
             }

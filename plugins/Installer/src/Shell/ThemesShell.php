@@ -251,10 +251,10 @@ class ThemesShell extends Shell
         foreach ($disabledThemes as $theme) {
             $disabledThemes[$index] = $theme;
             $this->out(
-                __d('installer', '[{0, number, integer}] {1} [{2, select, front{frontend} other{backend}}]', [
+                __d('installer', '[{0, number, integer}] {1} [{2}]', [
                     $index,
                     $theme->humanName,
-                    ($theme->isAdmin ? 'back' : 'front'),
+                    ($theme->isAdmin ? __d('installer', 'backend') : __d('installer', 'frontend')),
                 ])
             );
             $index++;

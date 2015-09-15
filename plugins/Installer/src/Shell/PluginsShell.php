@@ -206,7 +206,7 @@ class PluginsShell extends Shell
                 $this->hr();
                 $this->out(__d('installer', 'Name:        {0}', $plugin->name));
                 $this->out(__d('installer', 'Description: {0}', $plugin->composer['description']));
-                $this->out(__d('installer', 'Status:      {0, select, active{Active} other{Disabled}}', ($plugin->status ? 'active' : 'disabled')));
+                $this->out(__d('installer', 'Status:      {0}', ($plugin->status ? __d('installer', 'Active') : __d('installer', 'Disabled'))));
                 $this->out(__d('installer', 'Path:        {0}', $plugin->path));
                 $this->hr();
                 $this->out();
@@ -328,7 +328,7 @@ class PluginsShell extends Shell
                 $this->hr();
                 $this->out(__d('installer', 'Name:        {0}', $plugin->name));
                 $this->out(__d('installer', 'Description: {0}', $plugin->composer['description']));
-                $this->out(__d('installer', 'Status:      {0, select, active{Active} other{Disabled}}', $plugin->status ? 'active' : 'disabled'));
+                $this->out(__d('installer', 'Status:      {0}', $plugin->status ? __d('installer', 'Active') : __d('installer', 'Disabled')));
                 $this->out(__d('installer', 'Path:        {0}', $plugin->path));
                 $this->hr();
                 $this->out();
