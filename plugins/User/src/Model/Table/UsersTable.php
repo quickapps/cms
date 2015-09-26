@@ -50,6 +50,9 @@ class UsersTable extends Table
         ]);
         $this->addBehavior('Timestamp', [
             'events' => [
+                'Model.beforeSave' => [
+                    'created' => 'new',
+                ],
                 'Users.login' => [
                     'last_login' => 'always'
                 ]
