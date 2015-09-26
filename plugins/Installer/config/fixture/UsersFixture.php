@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class UsersFixture
 {
 
@@ -146,7 +145,7 @@ class UsersFixture
     'type' => 'boolean',
     'length' => null,
     'null' => false,
-    'default' => null,
+    'default' => '0',
     'comment' => '',
     'precision' => null,
     ],
@@ -155,7 +154,7 @@ class UsersFixture
     'type' => 'boolean',
     'length' => null,
     'null' => false,
-    'default' => null,
+    'default' => '0',
     'comment' => '',
     'precision' => null,
     ],
@@ -163,7 +162,7 @@ class UsersFixture
     [
     'type' => 'string',
     'length' => 200,
-    'null' => false,
+    'null' => true,
     'default' => null,
     'comment' => 'random unique code, used for pass recovery',
     'precision' => null,
@@ -191,7 +190,7 @@ class UsersFixture
     [
     'type' => 'datetime',
     'length' => null,
-    'null' => false,
+    'null' => true,
     'default' => null,
     'comment' => '',
     'precision' => null,
