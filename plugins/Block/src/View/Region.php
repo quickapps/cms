@@ -87,7 +87,7 @@ class Region
     {
         $options += [
             'fixMissing' => null,
-            'theme' => $view->theme,
+            'theme' => $view->theme(),
         ];
         $this->_machineName = Inflector::slug($name, '-');
         $this->_View = $view;
@@ -263,7 +263,7 @@ class Region
             ->contain(['Roles', 'BlockRegions'])
             ->matching('BlockRegions', function ($q) {
                 return $q->where([
-                    'BlockRegions.theme' => $this->_View->theme,
+                    'BlockRegions.theme' => $this->_View->theme(),
                     'BlockRegions.region' => $this->_machineName,
                 ]);
             })

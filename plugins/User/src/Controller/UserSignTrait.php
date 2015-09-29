@@ -29,7 +29,7 @@ trait UserSignTrait
     public function beforeFilter(Event $event)
     {
         $this->Auth->allow(['login', 'logout', 'unauthorized', 'forgot', 'activationEmail', 'register']);
-        $this->viewPath = 'Gateway';
+        $this->viewBuilder()->templatePath('Gateway');
     }
 
     /**
@@ -40,7 +40,7 @@ trait UserSignTrait
     public function login()
     {
         $this->loadModel('User.Users');
-        $this->layout = 'login';
+        $this->viewBuilder()->layout('login');
 
         if ($this->request->is('post')) {
             $loginBlocking =
@@ -120,7 +120,7 @@ trait UserSignTrait
     public function logout()
     {
         $result = $this->Auth->logout();
-        $this->layout = 'login';
+        $this->viewBuilder()->layout('login');
         $this->title(__d('user', 'Logout'));
 
         if ($result) {

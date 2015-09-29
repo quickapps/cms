@@ -49,7 +49,7 @@ class MenuHelperTest extends TestCase
     {
         parent::setUp();
         $view = new View();
-        $view->theme = option('front_theme');
+        $view->theme(option('front_theme'));
         $this->helper = new MenuHelper($view);
     }
 

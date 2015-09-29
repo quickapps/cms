@@ -191,7 +191,7 @@ class View extends CakeView
         }
 
         // parse shortcodes if not layout was applied
-        if (!$layout || !$this->autoLayout) {
+        if (!$layout || !$this->autoLayout()) {
             $this->shortcodes($html);
         }
 
