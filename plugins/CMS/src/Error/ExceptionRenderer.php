@@ -28,7 +28,7 @@ class ExceptionRenderer extends CakeExceptionRenderer
     public function __construct(\Exception $exception)
     {
         parent::__construct($exception);
-        $this->controller->viewClass = 'CMS\View\View';
+        $this->controller->viewBuilder()->className('CMS\View\View');
     }
 
     /**

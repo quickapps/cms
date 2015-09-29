@@ -18,7 +18,7 @@
     "require": {
         "php": ">=5.4.19",
         "goaop/framework": "0.6.*",
-        "cakephp/cakephp": "3.0.*"
+        "cakephp/cakephp": "~3.0"
     },
     "require-dev": {
         "phpunit/phpunit": "*",

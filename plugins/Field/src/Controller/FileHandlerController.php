@@ -65,7 +65,7 @@ class FileHandlerController extends AppController
             $this->_error(__d('field', 'File upload error, details: {0}', $uploader->error), 502);
         }
 
-        $this->layout = 'ajax';
+        $this->viewBuilder()->layout('ajax');
         $this->title(__d('field', 'Upload File'));
         $this->set(compact('response'));
     }
@@ -92,7 +92,7 @@ class FileHandlerController extends AppController
         }
 
         $response = '';
-        $this->layout = 'ajax';
+        $this->viewBuilder()->layout('ajax');
         $this->title(__d('field', 'Delete File'));
         $this->set(compact('response'));
     }

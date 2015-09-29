@@ -50,7 +50,7 @@ class RegionTest extends TestCase
     {
         parent::setUp();
         $View = new View();
-        $View->theme = option('front_theme');
+        $View->theme(option('front_theme'));
         $options = ['fixMissing' => false];
 
         $this->regions = [

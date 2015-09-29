@@ -161,25 +161,25 @@ class Controller extends CakeController
      */
     public function prepareTheme()
     {
-        $this->layout = 'default';
+        $this->viewBuilder()->layout('default');
         if (!empty($this->request->params['prefix']) &&
             strtolower($this->request->params['prefix']) === 'admin'
         ) {
-            $this->theme = option('back_theme');
+            $this->viewBuilder()->theme('back_theme');
         } else {
-            $this->theme = option('front_theme');
+            $this->viewBuilder()->theme('front_theme');
         }
 
         if ($this->request->isAjax()) {
-            $this->layout = 'ajax';
+            $this->viewBuilder()->layout('ajax');
         }
 
         if ($this->request->isHome()) {
-            $this->layout = 'home';
+            $this->viewBuilder()->layout('home');
         }
 
         if ($this->request->isDashboard()) {
-            $this->layout = 'dashboard';
+            $this->viewBuilder()->layout('dashboard');
         }
     }
 

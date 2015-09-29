@@ -150,7 +150,7 @@ trait CommentUIControllerTrait
             $alternativeTemplatePath = Plugin::classPath('Comment') . 'Template/CommentUI';
 
             if (is_readable("{$alternativeTemplatePath}/{$action}.ctp")) {
-                $this->view = "{$alternativeTemplatePath}/{$action}.ctp";
+                $this->viewBuilder()->template("{$alternativeTemplatePath}/{$action}.ctp");
             }
         }
 

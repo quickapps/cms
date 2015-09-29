@@ -27,6 +27,6 @@ class FinderController extends AppController
      */
     public function index()
     {
-        $this->layout = 'Wysiwyg.elfinder';
+        $this->viewBuilder()->layout('Wysiwyg.elfinder');
     }
 }
