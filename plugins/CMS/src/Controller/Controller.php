@@ -32,27 +32,6 @@ class Controller extends CakeController
     use ViewModeAwareTrait;
 
     /**
-     * In use theme name.
-     *
-     * @var string
-     */
-    public $theme;
-
-    /**
-     * Name of the layout that should be used by current theme.
-     *
-     * @var string
-     */
-    public $layout;
-
-    /**
-     * The name of the View class controllers sends output to.
-     *
-     * @var string
-     */
-    public $viewClass = 'CMS\View\View';
-
-    /**
      * An array containing the names of components controllers uses.
      *
      * @var array
@@ -93,6 +72,8 @@ class Controller extends CakeController
     {
         parent::__construct($request, $response);
         $location = $this->response->location();
+        $this->viewBuilder()->className('CMS\View\View');
+
         if (empty($location)) {
             $this->viewMode('default');
             $this->prepareTheme();
@@ -165,9 +146,9 @@ class Controller extends CakeController
         if (!empty($this->request->params['prefix']) &&
             strtolower($this->request->params['prefix']) === 'admin'
         ) {
-            $this->viewBuilder()->theme('back_theme');
+            $this->viewBuilder()->theme(option('back_theme'));
         } else {
-            $this->viewBuilder()->theme('front_theme');
+            $this->viewBuilder()->theme(option('front_theme'));
         }
 
         if ($this->request->isAjax()) {
