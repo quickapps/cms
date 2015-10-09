@@ -21,7 +21,6 @@
                 'type' => 'select',
                 'multiple' => 'checkbox',
                 'options' => $languagesList,
-                'value' => !empty($block->settings['languages']) ? $block->settings['languages'] : [],
             ]);
         ?>
         <em class="help-block">
