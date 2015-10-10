@@ -14,6 +14,7 @@ namespace Locale\Widget;
 use Block\Model\Entity\Block;
 use Block\Widget;
 use CMS\View\View;
+use Locale\Utility\LocaleToolbox;
 
 /**
  * Renders a simple language menu for switching site language.
@@ -35,6 +36,19 @@ class LanguageSwitcherWidget extends Widget
      */
     public function settings(Block $block, View $view)
     {
-        return $view->element('Locale.language_switcher_widget_settings', compact('block'));
+        $languagesList = LocaleToolbox::languagesList(false, false);
+        return $view->element('Locale.language_switcher_widget_settings', compact('block', 'languagesList'));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function defaultSttings(Block $block)
+    {
+        return [
+            'languages' => [],
+            'type' => 'html',
+            'flags' => true,
+        ];
     }
 }

@@ -11,14 +11,26 @@
  */
 use Cake\I18n\I18n;
 use Locale\Utility\LocaleToolbox;
+
+if (!empty($block->settings['languages'])) {
+    foreach (quickapps('languages') as $k => $v) {
+        if (in_array($k, $block->settings['languages'])) {
+            $validLanguages[$k] = $v;
+        }
+    }
+} else {
+    $validLanguages = quickapps('languages');
+}
+
 ?>
 
 <?php if ($block->settings['type'] == 'selectbox'): ?>
     <?php
         $options = [];
-        foreach (quickapps('languages') as $code => $info) {
+        foreach ($validLanguages as $code => $info) {
             $options[$code] = $info['name'];
         }
+
         echo $this->Html->script('Locale.language.switcher.js');
         echo $this->Form->input('language-switcher', [
             'type' => 'select',
@@ -42,7 +54,7 @@ use Locale\Utility\LocaleToolbox;
 <?php else: ?>
     <?php
         $links = [];
-        foreach (quickapps('languages') as $code => $info) {
+        foreach ($validLanguages as $code => $info) {
             if ($block->settings['flags'] && $info['icon']) {
                 $name = $this->Html->image("Locale.flags/{$info['icon']}") . " {$info['name']}";
             } else {

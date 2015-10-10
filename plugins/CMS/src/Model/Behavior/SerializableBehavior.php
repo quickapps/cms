@@ -120,8 +120,36 @@ class SerializableBehavior extends Behavior
      * ### Options:
      *
      * - flatten: Flattens serialized information into plain entity properties, for
-     *   example `settings:some_option` => `value`. Valid only for column that
-     *   stores array values.
+     *   example `settings:some_option` => `value`, where `settings` is the
+     *   serialized column and `some_option` a key of the serialized array value.
+     *   Valid only for column that stores array values. Example:
+     *
+     *   Consider the following entity:
+     *
+     *   ```php
+     *   object(Cake\Datasource\EntityInterface) {
+     *       'settings' => [
+     *           'option_1' => 'Lorem ipsum',
+     *           'option_2' => [1, 2, 3, 4],
+     *           'option_3' => object,
+     *       ],
+     *   }
+     *   ```
+     *
+     *   Once `settings` column is flattened the entity will look as follow:
+     *
+     *   ```php
+     *   object(Cake\Datasource\EntityInterface) {
+     *       'settings' => [
+     *           'option_1' => 'Lorem ipsum',
+     *           'option_2' => [1, 2, 3, 4],
+     *           'option_3' => object,
+     *       ],
+     *       'settings:option_1' => 'Lorem ipsum',
+     *       'settings:option_2' => [1, 2, 3, 4],
+     *       'settings:option_3' => object,
+     *   }
+     *   ```
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\ORM\Query $query Query object
@@ -153,9 +181,8 @@ class SerializableBehavior extends Behavior
 
                         $entity->set($column, $newValue);
                         if (!empty($options['flatten']) && is_array($entity->get($column))) {
-                            $array = Hash::flatten([$column => $entity->get($column)], ':');
-                            foreach ($array as $key => $value) {
-                                $entity->set($key, $value);
+                            foreach ($entity->get($column) as $key => $value) {
+                                $entity->set("{$column}:{$key}", $value);
                             }
                         }
                     }
