@@ -16,6 +16,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -46,6 +47,25 @@ use \ArrayObject;
  *     ->all();
  * ```
  *
+ * ### Using EAV Cache:
+ *
+ * ```php
+ * $this->addBehavior('Eav.Eav', [
+ *     'columnCache' => [
+ *         'contact_info' => ['user-name', 'user-address'],
+ *         'eav_all' => '*',
+ *     ],
+ * ]);
+ * ```
+ *
+ * Cache all EAV values into a real column named `eav_all`:
+ *
+ * ```php
+ * $this->addBehavior('Eav.Eav', [
+ *     'columnCache' => 'eav_all',
+ * ]);
+ * ```
+ *
  * @link https://github.com/quickapps/docs/blob/2.x/en/developers/field-api.rst
  */
 class EavBehavior extends Behavior
@@ -65,6 +85,7 @@ class EavBehavior extends Behavior
      */
     protected $_defaultConfig = [
         'enabled' => true,
+        'columnCache' => false,
         'queryScope' => [
             'Eav\\Model\\Behavior\\QueryScope\\SelectScope',
             'Eav\\Model\\Behavior\\QueryScope\\WhereScope',
@@ -73,6 +94,7 @@ class EavBehavior extends Behavior
         'implementedMethods' => [
             'enableEav' => 'enableEav',
             'disableEav' => 'disableEav',
+            'updateEavCache' => 'updateEavCache',
             'addColumn' => 'addColumn',
             'dropColumn' => 'dropColumn',
             'listColumns' => 'listColumns',
@@ -94,8 +116,39 @@ class EavBehavior extends Behavior
      */
     public function __construct(Table $table, array $config = [])
     {
+        $config['cacheMap'] = false; // private config, prevent user modifications
         $this->_toolbox = new EavToolbox($table);
         parent::__construct($table, $config);
+
+        if ($this->config('columnCache')) {
+            $info = $this->config('columnCache');
+            $holders = []; // column => [list of virtual columns]
+
+            if (is_string($info)) {
+                $holders[$info] = ['*'];
+            } elseif (is_array($info)) {
+                foreach ($info as $column => $fields) {
+                    if (is_integer($column)) {
+                        $holders[$fields] = ['*'];
+                    } else {
+                        $holders[$column] = ($fields === '*') ? ['*'] : $fields;
+                    }
+                }
+            }
+
+            // attach Serializable behavior, or re-configure if already attached
+            if ($this->_table->behaviors()->has('Serializable')) {
+                $serializedColumns = $this->_table->behaviors()->get('Serializable')->config('columns');
+                $serializedColumns = array_merge($serializedColumns, array_keys($holders));
+                $this->_table->behaviors()->get('Serializable')->config('columns', $serializedColumns);
+            } else {
+                $this->_table->addBehavior('Serializable', [
+                    'columns' => array_keys($holders)
+                ]);
+            }
+
+            $this->config('cacheMap', $holders);
+        }
     }
 
     /**
@@ -259,6 +312,54 @@ class EavBehavior extends Behavior
     }
 
     /**
+     * Update EAV cache for the specified $entity.
+     *
+     * @return bool Success
+     */
+    public function updateEavCache(EntityInterface $entity)
+    {
+        if (!$this->config('cacheMap')) {
+            return false;
+        }
+
+        $attrsById = [];
+        foreach ($this->_toolbox->attributes() as $attr) {
+            $attrsById[$attr['id']] = $attr;
+        }
+
+        $values = [];
+        $query = TableRegistry::get('Eav.EavValues')
+            ->find('all')
+            ->where([
+                'EavValues.eav_attribute_id IN' => array_keys($attrsById),
+                'EavValues.entity_id' => $this->_toolbox->getEntityId($entity),
+            ]);
+
+        foreach ($query as $v) {
+            $type = $attrsById[$v->get('eav_attribute_id')]->get('type');
+            $name = $attrsById[$v->get('eav_attribute_id')]->get('name');
+            $values[$name] = $this->_toolbox->marshal($v->get("value_{$type}"), $type);
+        }
+
+        foreach ((array)$this->config('cacheMap') as $column => $fields) {
+            $cache = [];
+            if (in_array('*', $fields)) {
+                $cache = $values;
+            } else {
+                foreach ($fields as $field) {
+                    if (isset($values[$field])) {
+                        $cache[$field] = $values[$field];
+                    }
+                }
+            }
+
+            $entity->set($column, new Entity($cache));
+        }
+
+        return (bool)$this->_table->save($entity);
+    }
+
+    /**
      * Attaches virtual properties to entities.
      *
      * This method iterates over each retrieved entity and invokes the
@@ -392,6 +493,10 @@ class EavBehavior extends Behavior
                 $valuesTable->save($value);
             }
         }
+
+        if ($this->config('cacheMap')) {
+            $this->updateEavCache($entity);
+        }
     }
 
     /**
@@ -473,6 +578,16 @@ class EavBehavior extends Behavior
             if (!$entity->has($propertyName)) {
                 $entity->set($propertyName, $this->_toolbox->marshal($value, $type));
                 $entity->dirty($propertyName, false);
+            }
+        }
+
+        // force cache-columns to be of the proper type as they might be NULL if
+        // entity has not been updated yet.
+        if ($this->config('cacheMap')) {
+            foreach ($this->config('cacheMap') as $column => $fields) {
+                if ($entity->has($column) && !($entity->get($column) instanceof Entity)) {
+                    $entity->set($column, new Entity);
+                }
             }
         }
 

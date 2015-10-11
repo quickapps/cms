@@ -51,57 +51,6 @@ To use the EAV API you must attach the ``Eav.Eav`` behavior to the table you wis
         }
     }
 
-In some cases when fetching to many entities per query EAV may become slow, as for
-every entity being fetched EAV plugin needs to retrieve all virtual columns related
-to that entity, that is, for every entity an additional ``SELECT`` query is
-performed. In order to improve this EAV allows to cache all EAV columns (and their
-corresponding values) of each entity within a real column. To do so, you must
-indicate the name of the column where EAV values will be cached using the
-``columnCache`` option:
-
-.. code:: php
-
-    use Cake\ORM\Table;
-
-    class UsersTable extends Table
-    {
-        public function initialize(Table $table)
-        {
-            $this->addBehavior('Eav.Eav', ['columnCache' => 'eav_cache']);
-        }
-    }
-
-This cache will be updated after every entity update. After cache has been enabled,
-you can access EAV values as follow:
-
-.. code:: php
-
-    // controller
-    use App\AppController;
-
-    class UsersController extends AppController
-    {
-        public function index()
-        {
-            // load the model and fetch ALL USERS AT ONCE.
-            $this->loadModel('Users');
-            $users = $this->Users->find('all', ['eav' => false])
-            $this->set('users', $users);
-        }
-    }
-
-    // view
-    foreach ($users as $user) {
-        // physical column `name`
-        $name = $user->get('name');
-
-        // virtual columns read from cache, read as follow:
-        // $user->get(<cache_column_name>)->get(<virtual_column_name>);
-        $age = $user->get('eav_cache')->get('user-age');
-
-        echo sprintf('%s is %s years old', $name, $age);
-    }
-
 Defining Attributes
 -------------------
 
@@ -312,4 +261,95 @@ all attributes regardless of the bundle they belong to:
 
     As ``article-body`` attribute exists only on ``article`` bundle you will get an
     SQL error as described before.
+
+
+EAV Cache
+---------
+
+In some cases when fetching to many entities per query EAV may become slow, as for
+every entity being fetched EAV plugin needs to retrieve all virtual columns related
+to that entity, that is, for every entity an additional ``SELECT`` query is
+performed. In order to improve this, EAV allows to cache for each entity all its
+virtual values as a serialized array under a real column of your entities. To do so,
+you must indicate the name of the column where EAV values will be cached using the
+``columnCache`` option, for example:
+
+Cache all virtual values under the `eav_cache` column:
+
+.. code:: php
+
+    $this->addBehavior('Eav.Eav', ['columnCache' => 'eav_cache']);
+
+You cache custom sets of virtual values under different columns:
+
+.. code:: php
+
+    $this->addBehavior('Eav.Eav', [
+        'columnCache' => [
+            'contact_info' => ['user-name', 'user-address'],
+            'eav_all' => '*',
+        ],
+    ]);
+
+
+Accesing cached values
+^^^^^^^^^^^^^^^^^^^^^^
+
+After cache has been enabled, you can access EAV values as follow:
+
+.. code:: php
+
+    // controller
+    use App\AppController;
+
+    class UsersController extends AppController
+    {
+        public function index()
+        {
+            // load the model and fetch ALL USERS AT ONCE.
+            $this->loadModel('Users');
+            $users = $this->Users->find('all', ['eav' => false])
+            $this->set('users', $users);
+        }
+    }
+
+    // view
+    foreach ($users as $user) {
+        // physical column `name`
+        $name = $user->get('name');
+
+        // virtual columns read from cache, read as follow:
+        // $user->get(<cache_column_name>)->get(<virtual_column_name>);
+        $age = $user->get('eav_cache')->get('user-age');
+
+        echo sprintf('%s is %s years old', $name, $age);
+    }
+
+Limitations
+^^^^^^^^^^^
+
+Caches are automatically updated after every entity update. However, cache may
+become out of sync under certain circumstances. In some cases, you will be able to
+see cached values for virtual columns that was previously removed/modified if the
+entity has not been updated yet.
+
+Updating EAV-cache of every entity after virtual columns are changed is a really
+expensive task, that is why EAV plugin **will not** perform this task automatically.
+
+To summarize, you must be aware of the following cases:
+
+- After dropping a virtual column.
+- After adding new virtual columns.
+- After virtual column's definition is changed (type of value, etc).
+
+.. note::
+
+    You can use the ``updateEavCache()`` method of your table to update EAV cache
+    for a single entity:
+
+    .. code:: php
+
+        $this->loadModel('Users');
+        $user = $this->Users->get($id),
+        $this->Users->updateEavCache($entity);
 
