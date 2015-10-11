@@ -14,6 +14,18 @@
  *   them will be splitted.
  */
 
+if (!function_exists('readline')) {
+    function readline($prompt = null){
+        if ($prompt){
+            echo $prompt;
+        }
+
+        $fp = fopen('php://stdin', 'r');
+        $line = rtrim(fgets($fp, 1024));
+        return $line;
+    }
+}
+
 /**
  * Main branch name.
  *
@@ -30,7 +42,7 @@ $mainBranch = $options['main-branch'];
  *
  * @var array
  */
-$plugins = [
+$validPlugins = [
     'Block',
     'Bootstrap',
     'Captcha',
@@ -53,8 +65,46 @@ $plugins = [
     'FrontendTheme',
 ];
 
-if (!empty($options['plugins'])) {
-    $plugins = $options['plugins'] === '*' ? $plugins : array_intersect($plugins, explode(',', $options['plugins']));
+/**
+ * List of selected plugins to be splitted.
+ *
+ * @var array
+ */
+$selectedPlugins = [];
+
+/**
+ * Plugin picker interface.
+ */
+if (empty($options['plugins'])) {
+    $line = 'dummy';
+    while ($line != '') {
+        echo " [*] All plugins\n";
+        foreach ($validPlugins as $i => $p) {
+            $index = in_array($p, $selectedPlugins) ? 'x' : $i + 1;
+            echo sprintf(" [%s] %s\n", $index, $p);
+        }
+
+        echo "\n";
+        $line = readline("Which plugins would you like to split?\n(press intro to stop selecting, or select again to uncheck a plugin): ");
+
+        if ($line == '*') {
+            $selectedPlugins = $validPlugins;
+        } elseif (isset($validPlugins[$line - 1])) {
+            if (($key = array_search($validPlugins[$line - 1], $selectedPlugins)) !== false) {
+                unset($selectedPlugins[$key]);
+                echo sprintf('Plugin "%s" has been UNSELECTED', $validPlugins[$line - 1]) . "\n";
+            } else {
+                $selectedPlugins[] = $validPlugins[$line - 1];
+                echo sprintf('Plugin "%s" has been selected', $validPlugins[$line - 1]) . "\n";
+            }
+        } else {
+            echo "Invalid option, try again\n";
+        }
+
+        echo "\n";
+    }
+} else {
+    $selectedPlugins = $options['plugins'] === '*' ? $validPlugins : array_intersect($validPlugins, explode(',', $options['plugins']));
 }
 
 /**
@@ -68,7 +118,7 @@ $null = DIRECTORY_SEPARATOR === '/' ? '/dev/null' : 'NUL';
  * Creates a new branch for every plugin and theme, and push to corresponding GitHub
  * repository. Such branches are removed after pushed.
  */
-foreach ($plugins as $plugin) {
+foreach ($selectedPlugins as $plugin) {
     $pluginDirectory = dirname(__FILE__) . "/plugins/{$plugin}";
     $jsonPath = "{$pluginDirectory}/composer.json";
 
