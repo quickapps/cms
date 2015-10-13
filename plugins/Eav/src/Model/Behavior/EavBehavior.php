@@ -51,7 +51,7 @@ use \ArrayObject;
  *
  * ```php
  * $this->addBehavior('Eav.Eav', [
- *     'columnCache' => [
+ *     'cache' => [
  *         'contact_info' => ['user-name', 'user-address'],
  *         'eav_all' => '*',
  *     ],
@@ -62,7 +62,7 @@ use \ArrayObject;
  *
  * ```php
  * $this->addBehavior('Eav.Eav', [
- *     'columnCache' => 'eav_all',
+ *     'cache' => 'eav_all',
  * ]);
  * ```
  *
@@ -85,7 +85,7 @@ class EavBehavior extends Behavior
      */
     protected $_defaultConfig = [
         'enabled' => true,
-        'columnCache' => false,
+        'cache' => false,
         'queryScope' => [
             'Eav\\Model\\Behavior\\QueryScope\\SelectScope',
             'Eav\\Model\\Behavior\\QueryScope\\WhereScope',
@@ -120,8 +120,8 @@ class EavBehavior extends Behavior
         $this->_toolbox = new EavToolbox($table);
         parent::__construct($table, $config);
 
-        if ($this->config('columnCache')) {
-            $info = $this->config('columnCache');
+        if ($this->config('cache')) {
+            $info = $this->config('cache');
             $holders = []; // column => [list of virtual columns]
 
             if (is_string($info)) {
