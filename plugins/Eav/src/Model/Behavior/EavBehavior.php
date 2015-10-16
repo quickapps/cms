@@ -16,7 +16,6 @@ use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
-use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -24,6 +23,7 @@ use Eav\Model\Behavior\EavToolbox;
 use Eav\Model\Behavior\QueryScope\QueryScopeInterface;
 use Eav\Model\Behavior\QueryScope\SelectScope;
 use Eav\Model\Behavior\QueryScope\WhereScope;
+use Eav\Model\Entity\CachedColumn;
 use \ArrayObject;
 
 /**
@@ -134,17 +134,6 @@ class EavBehavior extends Behavior
                         $holders[$column] = ($fields === '*') ? ['*'] : $fields;
                     }
                 }
-            }
-
-            // attach Serializable behavior, or re-configure if already attached
-            if ($this->_table->behaviors()->has('Serializable')) {
-                $serializedColumns = $this->_table->behaviors()->get('Serializable')->config('columns');
-                $serializedColumns = array_merge($serializedColumns, array_keys($holders));
-                $this->_table->behaviors()->get('Serializable')->config('columns', $serializedColumns);
-            } else {
-                $this->_table->addBehavior('Serializable', [
-                    'columns' => array_keys($holders)
-                ]);
             }
 
             $this->config('cacheMap', $holders);
@@ -341,6 +330,7 @@ class EavBehavior extends Behavior
             $values[$name] = $this->_toolbox->marshal($v->get("value_{$type}"), $type);
         }
 
+        $toUpdate = [];
         foreach ((array)$this->config('cacheMap') as $column => $fields) {
             $cache = [];
             if (in_array('*', $fields)) {
@@ -353,10 +343,27 @@ class EavBehavior extends Behavior
                 }
             }
 
-            $entity->set($column, new Entity($cache));
+            $toUpdate[$column] = (string)serialize(new CachedColumn($cache));
         }
 
-        return (bool)$this->_table->save($entity);
+        if (!empty($toUpdate)) {
+            $conditions = []; // scope to entity's PK (composed PK supported)
+            $keys = $this->_table->primaryKey();
+            $keys = !is_array($keys) ? [$keys] : $keys;
+            foreach ($keys as $key) {
+                // TODO: check key exists in entity's visible properties list.
+                // Throw an error otherwise as PK MUST be correctly calculated.
+                $conditions[$key] = $entity->get($key);
+            }
+
+            if (empty($conditions)) {
+                return false;
+            }
+
+            return (bool)$this->_table->updateAll($toUpdate, $conditions);
+        }
+
+        return true;
     }
 
     /**
@@ -394,6 +401,7 @@ class EavBehavior extends Behavior
         return $query->formatResults(function ($results) use ($event, $query, $options, $primary) {
             return $results->map(function ($entity) use ($event, $query, $options, $primary) {
                 if ($entity instanceof EntityInterface) {
+                    $entity = $this->_prepareCachedColumns($entity);
                     $entity = $this->attachEntityAttributes($entity, compact('event', 'query', 'options', 'primary'));
                 }
 
@@ -441,7 +449,7 @@ class EavBehavior extends Behavior
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
      * @param \ArrayObject $options Additional options given as an array
-     * @return void
+     * @return bool True always
      */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
@@ -497,6 +505,8 @@ class EavBehavior extends Behavior
         if ($this->config('cacheMap')) {
             $this->updateEavCache($entity);
         }
+
+        return true;
     }
 
     /**
@@ -587,6 +597,28 @@ class EavBehavior extends Behavior
             foreach ($this->config('cacheMap') as $column => $fields) {
                 if ($entity->has($column) && !($entity->get($column) instanceof Entity)) {
                     $entity->set($column, new Entity);
+                }
+            }
+        }
+
+        return $entity;
+    }
+
+    /**
+     * Prepares entity's cache-columns (those defined using `cache` option).
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity to prepare
+     * @return \Cake\Datasource\EntityInterfa Modified entity
+     */
+    protected function _prepareCachedColumns(EntityInterface $entity)
+    {
+        foreach ((array)$this->config('cacheMap') as $column => $fields) {
+            if (in_array($column, $entity->visibleProperties())) {
+                $string = $entity->get($column);
+                if ($string == serialize(false) || @unserialize($string) !== false) {
+                    $entity->set($column, unserialize($string));
+                } else {
+                    $entity->set($column, new CachedColumn());
                 }
             }
         }
