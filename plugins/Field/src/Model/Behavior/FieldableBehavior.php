@@ -60,18 +60,19 @@ class FieldableBehavior extends EavBehavior
      * These are merged with user-provided configuration when the behavior is used.
      * Available options are:
      *
-     * - `tableAlias`: Name of the table being managed. Defaults to null (auto-
-     *   detect).
-     *
      * - `bundle`: Bundle within this the table. Can be a string or a callable
-     *   method that must return a string to use as bundle. Default null.
+     *   method that must return a string to use as bundle. Default null. If set to
+     *   a callable function, it will receive the entity being saved as first
+     *   argument, so you can calculate a bundle name for each particular entity.
      *
      * - `enabled`: True enables this behavior or false for disable. Default to
      *   true.
      *
+     * - `cache`: Column-based cache. See EAV plugin's documentation.
+     *
      * Bundles are usually set to dynamic values. For example, for the "contents"
      * table we have "content" entities, but we may have "article contents", "page
-     * contents", etc depending on the "type of content" they are; is said that
+     * contents", etc. depending on the "type of content" they are; is said that
      * "article" and "page" **are bundles** of "contents" table.
      *
      * @var array
@@ -338,6 +339,10 @@ class FieldableBehavior extends EavBehavior
         foreach ($this->_attributesForEntity($entity) as $attr) {
             $field = $this->_prepareMockField($entity, $attr);
             $field->afterSave();
+        }
+
+        if ($this->config('cacheMap')) {
+            $this->updateEavCache($entity);
         }
 
         return true;
