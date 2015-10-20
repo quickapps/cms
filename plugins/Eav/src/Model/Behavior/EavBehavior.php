@@ -612,13 +612,15 @@ class EavBehavior extends Behavior
      */
     protected function _prepareCachedColumns(EntityInterface $entity)
     {
-        foreach ((array)$this->config('cacheMap') as $column => $fields) {
-            if (in_array($column, $entity->visibleProperties())) {
-                $string = $entity->get($column);
-                if ($string == serialize(false) || @unserialize($string) !== false) {
-                    $entity->set($column, unserialize($string));
-                } else {
-                    $entity->set($column, new CachedColumn());
+        if ($this->config('cacheMap')) {
+            foreach ((array)$this->config('cacheMap') as $column => $fields) {
+                if (in_array($column, $entity->visibleProperties())) {
+                    $string = $entity->get($column);
+                    if ($string == serialize(false) || @unserialize($string) !== false) {
+                        $entity->set($column, unserialize($string));
+                    } else {
+                        $entity->set($column, new CachedColumn());
+                    }
                 }
             }
         }
