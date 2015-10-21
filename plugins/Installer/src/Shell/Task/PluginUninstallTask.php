@@ -141,7 +141,7 @@ class PluginUninstallTask extends Shell
         }
 
         $requiredBy = Plugin::checkReverseDependency($this->params['plugin']);
-        if (!$requiredBy->isEmpty()) {
+        if (!empty($requiredBy)) {
             $names = [];
             foreach ($requiredBy as $p) {
                 $names[] = $p->name();

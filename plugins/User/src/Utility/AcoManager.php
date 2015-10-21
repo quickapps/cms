@@ -208,6 +208,10 @@ class AcoManager
 
         $added = [];
         foreach ($plugins as $plugin) {
+            if (!Plugin::exists($plugin->name)) {
+                continue;
+            }
+
             $aco = new AcoManager($plugin->name);
             $controllerDir = normalizePath("{$plugin->path}/src/Controller/");
             $folder = new Folder($controllerDir);

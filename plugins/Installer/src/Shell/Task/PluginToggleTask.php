@@ -133,7 +133,7 @@ class PluginToggleTask extends Shell
     protected function _disable(PluginPackage $plugin)
     {
         $requiredBy = Plugin::checkReverseDependency($plugin->name);
-        if (!$requiredBy->isEmpty()) {
+        if (!empty($requiredBy)) {
             $names = [];
             foreach ($requiredBy as $p) {
                 $names[] = $p->name();
