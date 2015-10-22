@@ -15,7 +15,7 @@ namespace Installer\Shell\Task;
  * Plugins updater.
  *
  */
-class PluginUpdateTask extends PluginInstall
+class PluginUpdateTask extends PluginInstallTask
 {
 
     /**
