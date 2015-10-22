@@ -35,34 +35,6 @@ class StartupController extends Controller
      *
      * @var string
      */
-    public $theme = false;
-
-    /**
-     * {@inheritDoc}
-     *
-     * @var string
-     */
-    public $layout = 'Installer.startup';
-
-    /**
-     * {@inheritDoc}
-     *
-     * @var string
-     */
-    public $helpers = ['Menu.Menu'];
-
-    /**
-     * The name of the View class controllers sends output to.
-     *
-     * @var string
-     */
-    public $viewClass = 'CMS\View\View';
-
-    /**
-     * {@inheritDoc}
-     *
-     * @var string
-     */
     public $components = ['Flash'];
 
     /**
@@ -78,6 +50,11 @@ class StartupController extends Controller
         }
 
         $this->_prepareLayout();
+        $this->viewBuilder()
+            ->className('CMS\View\View')
+            ->theme(false)
+            ->layout('Installer.startup')
+            ->helpers(['Menu.Menu']);
 
         if (!empty($this->request->query['locale']) && !in_array($this->request->params['action'], ['language', 'index'])) {
             I18n::locale($this->request->query['locale']);
