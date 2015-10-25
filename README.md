@@ -6,6 +6,7 @@
 [![Total Downloads](https://poser.pugx.org/quickapps/cms/downloads)](https://packagist.org/packages/quickapps/cms)
 [![Latest Unstable Version](https://poser.pugx.org/quickapps/cms/v/unstable)](https://packagist.org/packages/quickapps/cms)
 [![License](https://poser.pugx.org/quickapps/cms/license)](https://packagist.org/packages/quickapps/cms)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/quickapps/cms/trend.png)](https://bitdeli.com/free)
 
 [![QuickAppsCMS](http://quickappscms.org/system/img/logo.png)](http://www.quickappscms.org)
 
