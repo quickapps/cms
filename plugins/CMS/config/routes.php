@@ -15,5 +15,5 @@
  * QuickAppsCMS.
  */
 if (defined('QUICKAPPS_CORE')) {
-    require __DIR__ . '/routes_site.php';
+    require_once __DIR__ . '/routes_site.php';
 }

@@ -15,7 +15,7 @@
  * QuickAppsCMS.
  */
 if (defined('QUICKAPPS_CORE')) {
-    require __DIR__ . '/bootstrap_site.php';
+    require_once __DIR__ . '/bootstrap_site.php';
 } else {
-    require __DIR__ . '/functions.php';
+    require_once __DIR__ . '/functions.php';
 }
