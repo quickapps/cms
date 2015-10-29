@@ -196,6 +196,10 @@ if (!is_readable(TMP . 'snapshot.php')) {
 $pluginsPath = [];
 plugin()
     ->each(function ($plugin) use (&$pluginsPath, $classLoader) {
+        if (strtoupper($plugin->name) === 'CMS') {
+            return;
+        }
+
         $filter = $plugin->status;
         if ($plugin->isTheme) {
             $filter = $filter && in_array($plugin->name, [option('front_theme'), option('back_theme')]);
