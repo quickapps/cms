@@ -66,9 +66,9 @@ class EavAttributesTable extends Table
                 ],
                 'regExp' => [
                     'rule' => function ($value, $context) {
-                        return preg_match('/^[a-z\d\-]+$/', $value) > 0;
+                        return preg_match('/^[a-z\d\-_]+$/', $value) > 0;
                     },
-                    'message' => __d('eav', 'Only lowercase letters, numbers and "-" symbol are allowed.'),
+                    'message' => __d('eav', 'Only lowercase letters, numbers, "-" and "_" are allowed.'),
                 ],
                 'unique' => [
                     'rule' => ['validateUnique', ['scope' => 'table_alias']],
