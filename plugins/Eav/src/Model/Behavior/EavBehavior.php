@@ -291,8 +291,10 @@ class EavBehavior extends Behavior
         $columns = [];
         foreach ($this->_toolbox->attributes($bundle) as $name => $attr) {
             $columns[$name] = [
-                'type' => $attr->get('type'),
+                'id' => $attr->get('id'),
                 'bundle' => $attr->get('bundle'),
+                'name' => $name,
+                'type' => $attr->get('type'),
                 'searchable ' => $attr->get('searchable'),
                 'extra ' => $attr->get('extra'),
             ];
