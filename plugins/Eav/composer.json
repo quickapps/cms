@@ -13,7 +13,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "Eav\\": "src"
+            "Eav\\": "src",
+            "Eav\\Test\\": "tests"
         }
     },
     "suggest": {
