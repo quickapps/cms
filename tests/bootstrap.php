@@ -3,7 +3,7 @@
  * Constants & paths.
  */
 define('DS', DIRECTORY_SEPARATOR);
-define('SITE_ROOT', __DIR__ . DS . 'TestSite');
+define('ROOT', __DIR__ . DS . 'TestSite');
 define('QUICKAPPS_CORE', dirname(__DIR__) . '/plugins/CMS/');
 
 if (file_exists('../../../vendor/')) {
@@ -12,7 +12,7 @@ if (file_exists('../../../vendor/')) {
     define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
 }
 
-define('WWW_ROOT', SITE_ROOT . DS . 'webroot' . DS);
+define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 
 use Cake\Cache\Cache;
