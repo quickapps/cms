@@ -5,9 +5,6 @@
     "keywords": ["framework", "cms", "cmf", "quickapps", "plugin", "model", "database", "eav"],
     "homepage": "http://quickappscms.org",
     "license": "GPL-3.0",
-    "require": {
-        "quickapps-plugins/cms": "*"
-    },
     "authors": [
         {
             "name": "Christopher Castro",
@@ -18,5 +15,8 @@
         "psr-4": {
             "Eav\\": "src"
         }
+    },
+    "suggest": {
+        "quickapps-plugins/cms": "Allows to store extended meta-information for each virtual column as a serialized array."
     }
 }
