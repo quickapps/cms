@@ -17,7 +17,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Field\\": "src"
+            "Field\\": "src",
+            "Eav\\Test\\": "tests"
         }
     }
 }
