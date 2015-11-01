@@ -81,7 +81,7 @@ class PluginsControllerTest extends IntegrationTestCase
      */
     protected function _clear()
     {
-        $folder = new Folder(TESTS . 'TestSite/plugins/NukedApp/');
+        $folder = new Folder(ROOT . '/plugins/NukedApp/');
         $folder->delete();
         snapshot();
     }
@@ -95,7 +95,7 @@ class PluginsControllerTest extends IntegrationTestCase
     public function testInstallStops()
     {
         $this->post('/admin/system/plugins/install', [
-            'path' => normalizePath(TESTS . 'TestSite/plugins/source/NukedApp/'),
+            'path' => normalizePath(ROOT . '/plugins/source/NukedApp/'),
             'activate' => 0,
             'file_system' => 'Install from File System',
         ]);

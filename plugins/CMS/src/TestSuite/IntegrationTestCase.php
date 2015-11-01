@@ -29,5 +29,6 @@ abstract class IntegrationTestCase extends CakeIntegrationTestCase
         parent::setUp();
         EventManager::instance($eventManagerInstance);
         $this->session(mockUserSession());
+        include QUICKAPPS_CORE . '/config/routes_site.php';
     }
 }
