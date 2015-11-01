@@ -49,16 +49,17 @@ class WebShellDispatcher extends ShellDispatcher
      * Run the dispatcher.
      *
      * @param string $args Commands to run
+     * @param array $extra Extra parameters
      * @return int Result of the shell process. 1 on success, 0 otherwise.
      */
-    public static function run($args)
+    public static function run($args, $extra = [])
     {
         static::$_out = '';
         $argv = explode(' ', "dummy-shell.php {$args}");
         $dispatcher = new WebShellDispatcher($argv);
 
         ob_start();
-        $response = $dispatcher->dispatch();
+        $response = $dispatcher->dispatch($extra);
         static::$_out = ob_get_clean();
         return (int)($response === 0);
     }
