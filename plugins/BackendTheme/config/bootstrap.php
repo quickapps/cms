@@ -38,10 +38,10 @@ if (!function_exists('backendLayoutVars')) {
     function backendLayoutVars()
     {
         $layoutOptions = [];
-        $skin = theme()->settings['skin'];
+        $skin = theme()->settings('skin');
         $boxClass = 'success';
-
         $pendingComments = Cache::read('pending_comments', 'pending_comments');
+
         if ($pendingComments === false) {
             $pendingComments = TableRegistry::get('Comment.Comments')
                 ->find()->where(['Comments.status' => 'pending', 'Comments.table_alias' => 'contents'])
@@ -60,13 +60,13 @@ if (!function_exists('backendLayoutVars')) {
             $boxClass = 'warning';
         }
 
-        if (theme()->settings['fixed_layout']) {
+        if (theme()->settings('fixed_layout')) {
             $layoutOptions[] = 'fixed';
         }
-        if (theme()->settings['boxed_layout']) {
+        if (theme()->settings('boxed_layout')) {
             $layoutOptions[] = 'layout-boxed';
         }
-        if (theme()->settings['collapsed_sidebar']) {
+        if (theme()->settings('collapsed_sidebar')) {
             $layoutOptions[] = 'sidebar-collapse';
         }
 
