@@ -11,6 +11,7 @@
  */
 namespace Content\Test\TestCase\Controller\Admin;
 
+use Cake\ORM\TableRegistry;
 use CMS\TestSuite\IntegrationTestCase;
 
 /**
@@ -80,8 +81,7 @@ class TypesControllerTest extends IntegrationTestCase
             ]
         ]);
 
-        $type = $this->_controller
-            ->ContentTypes
+        $type = TableRegistry::get('Content.ContentTypes')
             ->find()
             ->where(['name' => 'Modified Article'])
             ->limit(1)
@@ -106,8 +106,7 @@ class TypesControllerTest extends IntegrationTestCase
             ]
         ]);
 
-        $type = $this->_controller
-            ->ContentTypes
+        $type = TableRegistry::get('Content.ContentTypes')
             ->find()
             ->where(['slug' => 'modified-slug'])
             ->limit(1)
@@ -136,8 +135,7 @@ class TypesControllerTest extends IntegrationTestCase
             ]
         ]);
 
-        $type = $this->_controller
-            ->ContentTypes
+        $type = TableRegistry::get('Content.ContentTypes')
             ->find()
             ->where(['slug' => 'forum-post'])
             ->limit(1)

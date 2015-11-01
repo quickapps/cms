@@ -11,6 +11,7 @@
  */
 namespace Menu\Test\TestCase\Controller\Admin;
 
+use Cake\ORM\TableRegistry;
 use CMS\TestSuite\IntegrationTestCase;
 
 /**
@@ -74,8 +75,7 @@ class ManageControllerTest extends IntegrationTestCase
             'title' => 'Test Menu',
             'description' => 'this is a test menu',
         ]);
-        $menu = $this->_controller
-            ->Menus
+        $menu = TableRegistry::get('Menu.Menus')
             ->find()
             ->where(['title' => 'Test Menu'])
             ->limit(1)

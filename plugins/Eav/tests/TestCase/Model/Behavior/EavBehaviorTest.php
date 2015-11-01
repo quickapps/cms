@@ -59,8 +59,8 @@ class EavBehaviorTest extends TestCase
      */
     public function testAddColumn()
     {
-        $success1 = $this->Users->addColumn('user-age', ['type' => 'integer']);
-        $success2 = $this->Users->addColumn('user-birth-date', ['type' => 'date']);
+        $success1 = $this->behavior->addColumn('user-age', ['type' => 'integer']);
+        $success2 = $this->behavior->addColumn('user-birth-date', ['type' => 'date']);
 
         $this->assertTrue($success1);
         $this->assertTrue($success2);
@@ -75,6 +75,6 @@ class EavBehaviorTest extends TestCase
      */
     public function testAddColumnThrows()
     {
-        $this->Users->addColumn('name', ['type' => 'string']);
+        $this->behavior->addColumn('name', ['type' => 'string']);
     }
 }

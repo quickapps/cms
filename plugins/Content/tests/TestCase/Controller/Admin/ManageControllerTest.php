@@ -11,6 +11,7 @@
  */
 namespace Content\Test\TestCase\Controller\Admin;
 
+use Cake\ORM\TableRegistry;
 use CMS\TestSuite\IntegrationTestCase;
 
 /**
@@ -93,8 +94,7 @@ class ManageControllerTest extends IntegrationTestCase
             'article-body' => 'Article body',
             'article-category' => [],
         ]);
-        $content = $this->_controller
-            ->Contents
+        $content = TableRegistry::get('Content.Contents')
             ->find()
             ->where(['title' => 'Test Article'])
             ->limit(1)
@@ -123,8 +123,7 @@ class ManageControllerTest extends IntegrationTestCase
             'article-body' => 'Article body',
         ]);
 
-        $content = $this->_controller
-            ->Contents
+        $content = TableRegistry::get('Content.Contents')
             ->find()
             ->where(['title' => 'Modified Article'])
             ->limit(1)
@@ -146,8 +145,7 @@ class ManageControllerTest extends IntegrationTestCase
                 'title' => $newTitle,
                 'language' => 'es_ES',
             ]);
-            $translation = $this->_controller
-                ->Contents
+            $translation = TableRegistry::get('Content.Contents')
                 ->find()
                 ->where(['title' => $newTitle])
                 ->limit(1)
@@ -165,8 +163,7 @@ class ManageControllerTest extends IntegrationTestCase
     {
         foreach ([1, 2] as $id) {
             $this->get("/admin/content/manage/delete/{$id}");
-            $exists = $this->_controller
-                ->Contents
+            $exists = TableRegistry::get('Content.Contents')
                 ->find()
                 ->where(['id' => $id])
                 ->limit(1)
