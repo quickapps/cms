@@ -8,6 +8,8 @@ define('QUICKAPPS_CORE', dirname(__DIR__) . '/plugins/CMS/');
 
 if (file_exists('../../../vendor/')) {
     define('VENDOR_INCLUDE_PATH', realpath('../../../vendor/') . DS);
+} elseif (file_exists(dirname(__DIR__) . DS . 'vendor')) {
+    define('VENDOR_INCLUDE_PATH', realpath(dirname(__DIR__) . DS . 'vendor/') . DS);
 } else {
     define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
 }
@@ -71,7 +73,10 @@ function snapshot()
         ]
     ];
 
-    foreach (App::path('Plugin') as $pluginsPath) {
+    $paths = App::path('Plugin');
+    $paths[] = realpath(dirname(__DIR__) . DS . 'plugins/') . DS;
+
+    foreach ($paths as $pluginsPath) {
         if (!is_dir($pluginsPath)) {
             continue;
         }
