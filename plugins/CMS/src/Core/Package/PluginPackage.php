@@ -282,9 +282,9 @@ class PluginPackage extends BasePackage
             return $cache;
         }
 
+        $pluginsTable = TableRegistry::get('System.Plugins');
         $settings = [];
-        $dbInfo = TableRegistry::get('System.Plugins')
-            ->find()
+        $dbInfo = $pluginsTable->find()
             ->cache("{$plugin}_settings", 'plugins')
             ->select(['name', 'settings'])
             ->where(['name' => $plugin])
@@ -293,6 +293,10 @@ class PluginPackage extends BasePackage
 
         if ($dbInfo) {
             $settings = (array)$dbInfo->settings;
+        }
+
+        if (empty($settings)) {
+            $settings = (array)$pluginsTable->trigger("Plugin.{$plugin}.settingsDefaults")->result;
         }
 
         $this->config('settings', $settings);
