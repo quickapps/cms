@@ -94,6 +94,7 @@ class WhereScope implements QueryScopeInterface
             }
 
             $ids = $subQuery->all()->extract('entity_id')->toArray();
+            $ids = empty($ids) ? ['-1'] : $ids;
             $expression->setField($field);
             $expression->setValue($ids);
             $expression->setOperator('IN');
