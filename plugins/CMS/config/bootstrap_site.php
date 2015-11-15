@@ -24,9 +24,10 @@ if (is_readable(ROOT . '/config/bootstrap.php')) {
 }
 
 /**
- * Use composer to load the autoloader.
+ * Users can use another loader by defining the `$classLoader` global variable in
+ * site's `bootstrap.php`. If not provided, composer's will be used by default.
  */
-if (!isset($clasLoader)) {
+if (!isset($classLoader)) {
     $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 }
 
