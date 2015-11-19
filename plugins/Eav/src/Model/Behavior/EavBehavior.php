@@ -573,6 +573,10 @@ class EavBehavior extends Behavior
             }
         }
 
+        if (empty($attrsById)) {
+            return $entity;
+        }
+
         $values = TableRegistry::get('Eav.EavValues')
             ->find('all')
             ->where([
