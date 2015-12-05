@@ -82,7 +82,7 @@ class BreadcrumbComponent extends Component
             $found = $MenuLinks
                 ->find()
                 ->select(['id', 'menu_id'])
-                ->where(['MenuLinks.url IN' => $possibleMatches])
+                ->where(['MenuLinks.url IN' => empty($possibleMatches) ? ['-1'] : $possibleMatches])
                 ->first();
 
             $crumbs = [];
@@ -96,7 +96,7 @@ class BreadcrumbComponent extends Component
             $found = $MenuLinks
                 ->find()
                 ->select(['id', 'menu_id'])
-                ->where(['MenuLinks.url IN' => $crumbs])
+                ->where(['MenuLinks.url IN' => empty($crumbs) ? ['-1'] : $crumbs])
                 ->first();
 
             $crumbs = [];

@@ -318,6 +318,10 @@ class EavBehavior extends Behavior
             $attrsById[$attr['id']] = $attr;
         }
 
+        if (empty($attrsById)) {
+            return true; // nothing to cache
+        }
+
         $values = [];
         $query = TableRegistry::get('Eav.EavValues')
             ->find('all')
@@ -467,6 +471,10 @@ class EavBehavior extends Behavior
             $attrsById[$attr->get('id')] = $attr;
         }
 
+        if (empty($attrsById)) {
+            return true; // nothing to do
+        }
+
         $values = $valuesTable
             ->find()
             ->where([
@@ -574,7 +582,7 @@ class EavBehavior extends Behavior
         }
 
         if (empty($attrsById)) {
-            return $entity;
+            return $entity; // no attrs to attach
         }
 
         $values = TableRegistry::get('Eav.EavValues')

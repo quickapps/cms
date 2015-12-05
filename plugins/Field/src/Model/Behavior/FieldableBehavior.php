@@ -608,17 +608,20 @@ class FieldableBehavior extends EavBehavior
      *  values
      * @return \Cake\Datasource\ResultSetInterface
      */
-    protected function _fetchValues(EntityInterface $entity, $attrNames = [])
+    protected function _fetchValues(EntityInterface $entity, array $attrNames = [])
     {
         $bundle = $this->_resolveBundle($entity);
         $conditions = [
             'EavAttribute.table_alias' => $this->_table->table(),
-            'EavAttribute.name IN' => $attrNames,
             'EavValues.entity_id' => $entity->get((string)$this->_table->primaryKey()),
         ];
 
         if ($bundle) {
             $conditions['EavAttribute.bundle'] = $bundle;
+        }
+
+        if (!empty($attrNames)) {
+            $conditions['EavAttribute.name IN'] = $attrNames;
         }
 
         $storedValues = TableRegistry::get('Eav.EavValues')

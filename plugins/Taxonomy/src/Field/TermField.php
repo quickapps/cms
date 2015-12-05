@@ -147,12 +147,12 @@ class TermField extends Handler
         }
 
         $termsNames = $TermsTable
-        ->find()
-        ->select(['name'])
-        ->where(['id IN' => $field->extra])
-        ->all()
-        ->extract('name')
-        ->toArray();
+            ->find()
+            ->select(['name'])
+            ->where(['id IN' => $field->extra])
+            ->all()
+            ->extract('name')
+            ->toArray();
 
         $field->set('value', implode(' ', $termsNames));
         return true;
