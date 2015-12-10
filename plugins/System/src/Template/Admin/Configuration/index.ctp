@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <?php if ($pluginSettings->count()): ?>
+            <?php if (!$pluginSettings->isEmpty()): ?>
             <div class="row">
                 <div class="col-md-12">
                     <hr />
