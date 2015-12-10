@@ -31,7 +31,7 @@
 
             <div class="panel-body">
                 <?php echo $this->Form->create(null); ?>
-                    <?php if ($links->count()): ?>
+                    <?php if (!$links->isEmpty()): ?>
                         <?php echo $this->Form->hidden('tree_order', ['id' => 'tree_order']); ?>
                         <?php
                             echo $this->Menu->render($links, [
