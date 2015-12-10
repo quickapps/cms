@@ -12,7 +12,7 @@
 ?>
 <div class="row">
     <div class="col-md-12">
-        <?php if (count($contents)): ?>
+        <?php if (!$contents->isEmpty()): ?>
             <h1><?php echo __d('content', 'Search Results'); ?></h1>
 
             <?php foreach ($contents as $content): ?>

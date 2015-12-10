@@ -11,6 +11,7 @@
  */
 namespace Content\Controller;
 
+use Cake\Collection\Collection;
 use Cake\Datasource\EntityInterface;
 use Cake\I18n\I18n;
 use Cake\Network\Exception\ForbiddenException;
@@ -82,7 +83,7 @@ class ServeController extends AppController
             ->where([
                 'Contents.promote' => 1,
                 'Contents.status >' => 0,
-                'Contents.language IN' => ['', I18n::locale(), null],
+                'Contents.language IN' => ['', null, I18n::locale()]
             ])
             ->order(['Contents.sticky' => 'DESC', 'Contents.created' => 'DESC'])
             ->limit((int)option('site_contents_home'));
@@ -155,14 +156,21 @@ class ServeController extends AppController
 
         try {
             $contents = $this->Contents->search($criteria);
-
             if ($contents->clause('limit')) {
                 $this->paginate['limit'] = $contents->clause('limit');
             }
 
+            // TODO: ask search-engine for operator presence
+            if (strpos($criteria, 'language:') === false) {
+                $contents = $contents->where([
+                    'Contents.status >' => 0,
+                    'Contents.language IN' => ['', null, I18n::locale()] // any or concrete
+                ]);
+            }
+
             $contents = $this->paginate($contents);
         } catch (\Exception $e) {
-            $contents = [];
+            $contents = new Collection([]);
         }
 
         $this->set(compact('contents', 'criteria'));
