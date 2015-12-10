@@ -165,6 +165,7 @@ class ContentsTable extends Table
         $this->addSearchOperator('modified', 'Search.Date', ['field' => 'modified']);
         $this->addSearchOperator('created', 'Search.Date', ['field' => 'created']);
         $this->addSearchOperator('type', 'Search.Generic', ['field' => 'content_type_slug', 'conjunction' => 'auto']);
+        $this->addSearchOperator('term', 'operatorTerm');
         $this->addSearchOperator('language', 'Search.Generic', ['field' => 'language', 'conjunction' => 'auto']);
         $this->addSearchOperator('order', 'Search.Order', ['fields' => ['slug', 'title', 'description', 'sticky', 'created', 'modified']]);
     }
@@ -353,6 +354,47 @@ class ContentsTable extends Table
                 $query->andWhere(['Contents.created_by IN' => $subQuery]);
             } else {
                 $query->where(['Contents.created_by IN' => $subQuery]);
+            }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Handles "term" search operator.
+     *
+     *     term:term1-slug,term2-slug,...
+     *
+     * @param \Cake\ORM\Query $query The query object
+     * @param \Search\Parser\TokenInterface $token Operator token
+     * @return \Cake\ORM\Query
+     */
+    public function operatorterm(Query $query, TokenInterface $token)
+    {
+        $terms = explode(',', strtolower($token->value()));
+        $conjunction = $token->negated() ? 'NOT IN' : 'IN';
+
+        if (empty($terms)) {
+            return $query;
+        }
+
+        $conditions = [
+            "Contents.id {$conjunction}" => TableRegistry::get('Taxonomy.EntitiesTerms')
+                ->find()
+                ->select(['EntitiesTerms.entity_id'])
+                ->where(['EntitiesTerms.table_alias' => $this->alias()])
+                ->matching('Terms', function ($q) use ($terms) {
+                    return $q->where(['Terms.slug IN' => $terms]);
+                })
+        ];
+
+        if (!empty($conditions)) {
+            if ($token->where() === 'or') {
+                $query->orWhere($conditions);
+            } elseif ($token->where() === 'and') {
+                $query->andWhere($conditions);
+            } else {
+                $query->where($conditions);
             }
         }
 
