@@ -146,10 +146,11 @@ class TermField extends Handler
             $field->set('extra', array_unique($post));
         }
 
+        $ids = empty($field->extra) ? [-1] : $field->extra;
         $termsNames = $TermsTable
             ->find()
             ->select(['name'])
-            ->where(['id IN' => $field->extra])
+            ->where(['id IN' => $ids])
             ->all()
             ->extract('name')
             ->toArray();
