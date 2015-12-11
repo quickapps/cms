@@ -148,10 +148,9 @@ trait CommentUIControllerTrait
         $templatePath = Plugin::classPath($plugin) . "Template/{$prefix}{$controller}/{$action}.ctp";
         if (!is_readable($templatePath)) {
             $alternativeTemplatePath = Plugin::classPath('Comment') . 'Template/CommentUI';
-
             if (is_readable("{$alternativeTemplatePath}/{$action}.ctp")) {
-                $this->viewBuilder()->template("{$alternativeTemplatePath}/{$action}.ctp");
-            }
+                $this->plugin = 'Comment';
+                $this->viewBuilder()->templatePath('CommentUI');            }
         }
 
         parent::beforeRender($event);

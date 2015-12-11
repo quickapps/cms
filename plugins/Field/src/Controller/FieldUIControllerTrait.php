@@ -151,9 +151,9 @@ trait FieldUIControllerTrait
 
         if (!is_readable($templatePath)) {
             $alternativeTemplatePath = Plugin::classPath('Field') . 'Template/FieldUI';
-
             if (is_readable("{$alternativeTemplatePath}/{$action}.ctp")) {
-                $this->viewBuilder()->template("{$alternativeTemplatePath}/{$action}.ctp");
+                $this->plugin = 'Field';
+                $this->viewBuilder()->templatePath('FieldUI');
             }
         }
 
