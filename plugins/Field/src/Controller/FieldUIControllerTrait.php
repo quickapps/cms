@@ -146,7 +146,7 @@ trait FieldUIControllerTrait
     {
         $plugin = Inflector::camelize($event->subject()->request->params['plugin']);
         $controller = Inflector::camelize($event->subject()->request->params['controller']);
-        $action = $event->subject()->request->params['action'];
+        $action = Inflector::underscore($event->subject()->request->params['action']);
         $templatePath = Plugin::classPath($plugin) . "Template/{$controller}/{$action}.ctp";
 
         if (!is_readable($templatePath)) {

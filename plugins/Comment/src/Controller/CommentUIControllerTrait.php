@@ -138,7 +138,7 @@ trait CommentUIControllerTrait
     {
         $plugin = (string)Inflector::camelize($event->subject()->request->params['plugin']);
         $controller = Inflector::camelize($event->subject()->request->params['controller']);
-        $action = $event->subject()->request->params['action'];
+        $action = Inflector::underscore($event->subject()->request->params['action']);
         $prefix = '';
 
         if (!empty($event->subject()->request->params['prefix'])) {
