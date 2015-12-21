@@ -108,6 +108,10 @@ class SelectScope implements QueryScopeInterface
             }
         }
 
+        if (empty($selectClause) && !empty($selectedVirtual[$cacheKey])) {
+            $selectClause[] = $this->_table->primaryKey();
+        }
+
         $query->select($selectClause, true);
         return $selectedVirtual[$cacheKey];
     }
