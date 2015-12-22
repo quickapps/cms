@@ -1,6 +1,7 @@
 # QuickAppsCMS
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/quickapps/cms/badges/quality-score.png?b=2.0)](https://scrutinizer-ci.com/g/quickapps/cms/?branch=2.0)
+[![Code consistency](http://squizlabs.github.io/PHP_CodeSniffer/analysis/quickapps/cms/grade.svg)](http://squizlabs.github.io/PHP_CodeSniffer/analysis/quickapps/cms)
 [![Build Status](https://travis-ci.org/quickapps/cms.svg?branch=2.0)](https://travis-ci.org/quickapps/cms)
 [![Latest Stable Version](https://poser.pugx.org/quickapps/cms/v/stable)](https://packagist.org/packages/quickapps/cms)
 [![Total Downloads](https://poser.pugx.org/quickapps/cms/downloads)](https://packagist.org/packages/quickapps/cms)
