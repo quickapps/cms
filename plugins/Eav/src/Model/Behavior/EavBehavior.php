@@ -464,10 +464,9 @@ class EavBehavior extends Behavior
         $valuesTable = TableRegistry::get('Eav.EavValues');
 
         foreach ($this->_toolbox->attributes() as $name => $attr) {
-            if (!$entity->has($name)) {
+            if (!$this->_toolbox->propertyExists($entity, $name)) {
                 continue;
             }
-
             $attrsById[$attr->get('id')] = $attr;
         }
 
@@ -494,7 +493,7 @@ class EavBehavior extends Behavior
         }
 
         foreach ($this->_toolbox->attributes() as $name => $attr) {
-            if (!$entity->has($name)) {
+            if (!$this->_toolbox->propertyExists($entity, $name)) {
                 continue;
             }
 
@@ -599,7 +598,7 @@ class EavBehavior extends Behavior
             $alias = array_search($name, $selectedVirtual);
             $propertyName = is_string($alias) ? $alias : $name;
 
-            if (!$entity->has($propertyName)) {
+            if (!$this->_toolbox->propertyExists($entity, $propertyName)) {
                 $entity->set($propertyName, $this->_toolbox->marshal($value, $type));
                 $entity->dirty($propertyName, false);
             }
@@ -609,7 +608,7 @@ class EavBehavior extends Behavior
         // entity has not been updated yet.
         if ($this->config('cacheMap')) {
             foreach ($this->config('cacheMap') as $column => $fields) {
-                if ($entity->has($column) && !($entity->get($column) instanceof Entity)) {
+                if ($this->_toolbox->propertyExists($entity, $column) && !($entity->get($column) instanceof Entity)) {
                     $entity->set($column, new Entity);
                 }
             }

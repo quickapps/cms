@@ -13,6 +13,7 @@ namespace Eav\Model\Behavior;
 
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
+use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -114,6 +115,20 @@ class EavToolbox
         $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
         list($fieldName, ) = explode(' ', trim($fieldName));
         return $fieldName;
+    }
+
+    /**
+     * Checks if the provided entity has defined certain $property, regardless of
+     * its value.
+     *
+     * @param \Cake\ORM\Entity $entity The entity to check
+     * @param string $property The property name
+     * @return bool True if exists
+     */
+    public function propertyExists(Entity $entity, $property)
+    {
+        $entityArray = $entity->toArray();
+        return array_key_exists($property, $entityArray);
     }
 
     /**

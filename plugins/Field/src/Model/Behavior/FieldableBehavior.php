@@ -221,8 +221,9 @@ class FieldableBehavior extends EavBehavior
      * Here is where we dispatch each custom field's `$_POST` information to its
      * corresponding Field Handler, so they can operate over their values.
      *
-     * Fields Handler's `Field.<FieldHandler>.Entity.beforeSave` event is triggered
-     * over each attached field for this entity, so you should have a listener like:
+     * Fields Handler's `beforeSave()` method is automatically invoked for each
+     * attached field for the entity being processed, your field handler should look
+     * as follow:
      *
      * ```php
      * use Field\Handler;
@@ -264,7 +265,7 @@ class FieldableBehavior extends EavBehavior
 
         $this->_cache['createValues'] = [];
         foreach ($this->_attributesForEntity($entity) as $attr) {
-            if (!$entity->has($attr->get('name'))) {
+            if (!$this->_toolbox->propertyExists($entity, $attr->get('name'))) {
                 continue;
             }
 
