@@ -13,14 +13,14 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->element('Content.index_submenu'); ?>
+        <?= $this->element('Content.index_submenu'); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
         <p class="text-right">
-            <?php echo $this->Html->link(__d('content', 'Define new content type'), ['plugin' => 'Content', 'controller' => 'types', 'action' => 'add'], ['class' => 'btn btn-primary']); ?>
+            <?= $this->Html->link(__d('content', 'Define new content type'), ['plugin' => 'Content', 'controller' => 'types', 'action' => 'add'], ['class' => 'btn btn-primary']); ?>
         </p>
     </div>
 </div>
@@ -31,8 +31,8 @@
             <?php foreach ($types as $type): ?>
                 <li class="list-group-item">
                     <div class="btn-group pull-right">
-                        <?php
-                            echo $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
+                        <?=
+                            $this->Html->link('<span class="glyphicon glyphicon-pencil"></span>', [
                                 'plugin' => 'Content',
                                 'controller' => 'types',
                                 'action' => 'edit',
@@ -43,8 +43,8 @@
                                 'escape' => false
                             ]);
                         ?>
-                        <?php
-                            echo $this->Html->link('<span class="glyphicon glyphicon-list-alt"></span>', [
+                        <?=
+                            $this->Html->link('<span class="glyphicon glyphicon-list-alt"></span>', [
                                 'plugin' => 'Content',
                                 'controller' => 'fields',
                                 'action' => 'index',
@@ -55,8 +55,8 @@
                                     'escape' => false
                             ]);
                         ?>
-                        <?php
-                            echo $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
+                        <?=
+                            $this->Html->link('<span class="glyphicon glyphicon-trash"></span>', [
                                 'plugin' => 'Content',
                                 'controller' => 'types',
                                 'action' => 'delete',
@@ -69,8 +69,8 @@
                             ]);
                         ?>
                     </div>
-                    <h4 class="list-group-item-heading"><?php echo $type->name; ?> <small>(id: <?php echo $type->slug; ?>)</small></h4>
-                    <p class="list-group-item-text"><?php echo !empty($type->description) ? $type->description : __d('content', '(no description)'); ?></p>
+                    <h4 class="list-group-item-heading"><?= $type->name; ?> <small>(id: <?= $type->slug; ?>)</small></h4>
+                    <p class="list-group-item-text"><?= !empty($type->description) ? $type->description : __d('content', '(no description)'); ?></p>
                 </li>
             <?php endforeach; ?>
         </ul>

@@ -13,14 +13,14 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->element('Content.index_submenu'); ?>
+        <?= $this->element('Content.index_submenu'); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
-        <?php
-            echo $this->Menu->render($types, [
+        <?=
+            $this->Menu->render($types, [
                 'class' => 'list-group',
                 'formatter' => function ($contentType, $info) {
                     if (!$contentType->userAllowed('create')) {

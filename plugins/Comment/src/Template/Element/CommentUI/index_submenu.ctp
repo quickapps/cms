@@ -28,4 +28,4 @@ $menuItems = [[
 ]];
 ?>
 
-<p><?php echo $this->Menu->render($menuItems, ['class' => 'nav nav-pills']); ?></p>
+<p><?= $this->Menu->render($menuItems, ['class' => 'nav nav-pills']); ?></p>

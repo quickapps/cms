@@ -11,8 +11,8 @@
  */
 ?>
 
-<?php echo $this->Form->input('publisherKey', ['type' => 'text', 'label' => __d('captcha', 'Publisher Key *')]); ?>
-<em class="help-block"><?php echo __d('captcha', 'e.g. 310203ef720d21451c2516f2633c645acadc225a'); ?></em>
+<?= $this->Form->input('publisherKey', ['type' => 'text', 'label' => __d('captcha', 'Publisher Key *')]); ?>
+<em class="help-block"><?= __d('captcha', 'e.g. 310203ef720d21451c2516f2633c645acadc225a'); ?></em>
 
-<?php echo $this->Form->input('scoringKey', ['type' => 'text', 'label' => __d('captcha', 'Scoring Key *')]); ?>
-<em class="help-block"><?php echo __d('captcha', 'e.g. 6233426d2e41a5c37d11c65202fa23c1fca50520'); ?></em>
+<?= $this->Form->input('scoringKey', ['type' => 'text', 'label' => __d('captcha', 'Scoring Key *')]); ?>
+<em class="help-block"><?= __d('captcha', 'e.g. 6233426d2e41a5c37d11c65202fa23c1fca50520'); ?></em>

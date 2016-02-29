@@ -16,8 +16,8 @@ use CMS\Core\Plugin;
 <div class="row">
     <div class="col-md-12">
         <p class="text-right">
-            <?php
-                echo $this->Html->link(__d('block', 'Create New Block'), [
+            <?=
+                $this->Html->link(__d('block', 'Create New Block'), [
                     'plugin' => 'Block',
                     'controller' => 'manage',
                     'action' => 'add'
@@ -36,27 +36,27 @@ use CMS\Core\Plugin;
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#front-theme">
-                            <?php echo __d('block', 'Theme: {0}', plugin(option('front_theme'))->humanName); ?>
+                            <?= __d('block', 'Theme: {0}', plugin(option('front_theme'))->humanName); ?>
                         </a>
                     </h4>
                 </div>
                 <div id="front-theme" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <?php echo $this->Form->create(); ?>
+                        <?= $this->Form->create(); ?>
                             <?php foreach ($front as $region => $blocks): ?>
-                                <h4><?php echo $region; ?></h4>
+                                <h4><?= $region; ?></h4>
 
                                 <?php if (count($blocks->toArray())): ?>
                                     <ul class="sortable list-group">
                                         <?php foreach ($blocks as $block): ?>
                                             <li class="list-group-item clearfix">
                                                 <div class="pull-left">
-                                                    <strong><?php echo $block->title; ?></strong>
-                                                    <em class="help-block"><?php echo $block->description; ?></em>
+                                                    <strong><?= $block->title; ?></strong>
+                                                    <em class="help-block"><?= $block->description; ?></em>
                                                 </div>
                                                 <div class="btn-group pull-right">
-                                                    <?php
-                                                        echo $this->Html->link('', [
+                                                    <?=
+                                                        $this->Html->link('', [
                                                             'plugin' => 'Block',
                                                             'controller' => 'manage',
                                                             'action' => 'edit',
@@ -66,8 +66,8 @@ use CMS\Core\Plugin;
                                                             'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil'
                                                         ]);
                                                     ?>
-                                                    <?php
-                                                        echo $this->Html->link('', [
+                                                    <?=
+                                                        $this->Html->link('', [
                                                             'plugin' => 'Block',
                                                             'controller' => 'manage',
                                                             'action' => 'duplicate',
@@ -79,8 +79,8 @@ use CMS\Core\Plugin;
                                                         ]);
                                                     ?>
                                                     <?php if ($block->handler === 'Block' || !empty($block->copy_id)): ?>
-                                                        <?php
-                                                            echo $this->Html->link('', [
+                                                        <?=
+                                                            $this->Html->link('', [
                                                                 'plugin' => 'Block',
                                                                 'controller' => 'manage',
                                                                 'action' => 'delete',
@@ -93,20 +93,20 @@ use CMS\Core\Plugin;
                                                         ?>
                                                     <?php endif; ?>
                                                 </div>
-                                                <?php echo $this->Form->hidden('regions.' . option('front_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
+                                                <?= $this->Form->hidden('regions.' . option('front_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
                                 <?php else: ?>
-                                    <div class="alert alert-warning"><?php echo __d('block', 'There are no blocks in this region yet.'); ?></div>
+                                    <div class="alert alert-warning"><?= __d('block', 'There are no blocks in this region yet.'); ?></div>
                                 <?php endif; ?>
                             <?php endforeach; ?>
 
                             <hr />
 
-                            <em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the <span class="btn btn-default btn-xs glyphicon glyphicon-pencil"></span> button.'); ?>)</em>
-                            <?php echo $this->Form->submit(__d('block', 'Save Order')); ?>
-                        <?php echo $this->Form->end(); ?>
+                            <em class="help-block">(<?= __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the <span class="btn btn-default btn-xs glyphicon glyphicon-pencil"></span> button.'); ?>)</em>
+                            <?= $this->Form->submit(__d('block', 'Save Order')); ?>
+                        <?= $this->Form->end(); ?>
                     </div>
                 </div>
             </div>
@@ -115,27 +115,27 @@ use CMS\Core\Plugin;
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#back-theme">
-                            <?php echo __d('block', 'Theme: {0}', plugin(option('back_theme'))->humanName); ?>
+                            <?= __d('block', 'Theme: {0}', plugin(option('back_theme'))->humanName); ?>
                         </a>
                     </h4>
                 </div>
                 <div id="back-theme" class="panel-collapse collapse">
                     <div class="panel-body">
-                        <?php echo $this->Form->create(); ?>
+                        <?= $this->Form->create(); ?>
                             <?php foreach ($back as $region => $blocks): ?>
-                                <h4><?php echo $region; ?></h4>
+                                <h4><?= $region; ?></h4>
 
                                 <?php if (count($blocks->toArray())): ?>
                                     <ul class="sortable list-group">
                                         <?php foreach ($blocks as $block): ?>
                                             <li class="list-group-item clearfix">
                                                 <div class="pull-left">
-                                                    <strong><?php echo $block->title; ?></strong>
-                                                    <em class="help-block"><?php echo $block->description; ?></em>
+                                                    <strong><?= $block->title; ?></strong>
+                                                    <em class="help-block"><?= $block->description; ?></em>
                                                 </div>
                                                 <div class="btn-group pull-right">
-                                                    <?php
-                                                        echo $this->Html->link('', [
+                                                    <?=
+                                                        $this->Html->link('', [
                                                             'plugin' => 'Block',
                                                             'controller' => 'manage',
                                                             'action' => 'edit',
@@ -145,8 +145,8 @@ use CMS\Core\Plugin;
                                                             'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
                                                         ]);
                                                     ?>
-                                                    <?php
-                                                        echo $this->Html->link('', [
+                                                    <?=
+                                                        $this->Html->link('', [
                                                             'plugin' => 'Block',
                                                             'controller' => 'manage',
                                                             'action' => 'duplicate',
@@ -157,8 +157,8 @@ use CMS\Core\Plugin;
                                                         ]);
                                                     ?>
                                                     <?php if ($block->handler === 'Block' || !empty($block->copy_id)): ?>
-                                                        <?php
-                                                            echo $this->Html->link('', [
+                                                        <?=
+                                                            $this->Html->link('', [
                                                                 'plugin' => 'Block',
                                                                 'controller' => 'manage',
                                                                 'action' => 'delete',
@@ -171,20 +171,20 @@ use CMS\Core\Plugin;
                                                         ?>
                                                     <?php endif; ?>
                                                 </div>
-                                                <?php echo $this->Form->hidden('regions.' . option('back_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
+                                                <?= $this->Form->hidden('regions.' . option('back_theme') . ".{$block->region->region}.", ['value' => $block->region->id]); ?>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
                                 <?php else: ?>
-                                    <div class="alert alert-warning"><?php echo __d('block', 'There are no blocks in this region yet.'); ?></div>
+                                    <div class="alert alert-warning"><?= __d('block', 'There are no blocks in this region yet.'); ?></div>
                                 <?php endif; ?>
                             <?php endforeach; ?>
 
                             <hr />
 
-                            <em class="help-block">(<?php echo __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the "Edit" button.'); ?>)</em>
-                            <?php echo $this->Form->submit(__d('block', 'Save Order')); ?>
-                        <?php echo $this->Form->end(); ?>
+                            <em class="help-block">(<?= __d('block', 'Drag and drop blocks to reorder within a region. To move a block to a different region use block editing form by clicking in the "Edit" button.'); ?>)</em>
+                            <?= $this->Form->submit(__d('block', 'Save Order')); ?>
+                        <?= $this->Form->end(); ?>
                     </div>
                 </div>
             </div>
@@ -193,8 +193,8 @@ use CMS\Core\Plugin;
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#unused-blocks">
-                            <?php echo __d('block', 'Unused or Unassigned Blocks'); ?>
-                            <span class="badge"><?php echo count($unused->toArray()); ?></span>
+                            <?= __d('block', 'Unused or Unassigned Blocks'); ?>
+                            <span class="badge"><?= count($unused->toArray()); ?></span>
                         </a>
                     </h4>
                 </div>
@@ -204,12 +204,12 @@ use CMS\Core\Plugin;
                             <?php foreach ($unused as $block): ?>
                                 <li class="list-group-item clearfix">
                                     <div class="pull-left">
-                                        <strong><?php echo $block->title; ?></strong>
-                                        <em class="help-block"><?php echo $block->description; ?></em>
+                                        <strong><?= $block->title; ?></strong>
+                                        <em class="help-block"><?= $block->description; ?></em>
                                     </div>
                                     <div class="btn-group pull-right">
-                                        <?php
-                                            echo $this->Html->link('', [
+                                        <?=
+                                            $this->Html->link('', [
                                                 'plugin' => 'Block',
                                                 'controller' => 'manage',
                                                 'action' => 'edit',
@@ -219,8 +219,8 @@ use CMS\Core\Plugin;
                                                 'class' => 'btn btn-default btn-sm glyphicon glyphicon-pencil',
                                             ]);
                                         ?>
-                                        <?php
-                                            echo $this->Html->link('', [
+                                        <?=
+                                            $this->Html->link('', [
                                                 'plugin' => 'Block',
                                                 'controller' => 'manage',
                                                 'action' => 'duplicate',
@@ -231,8 +231,8 @@ use CMS\Core\Plugin;
                                             ]);
                                         ?>
                                         <?php if ($block->handler === 'Block' || !empty($block->copy_id)): ?>
-                                            <?php
-                                                echo $this->Html->link('', [
+                                            <?=
+                                                $this->Html->link('', [
                                                     'plugin' => 'Block',
                                                     'controller' => 'manage',
                                                     'action' => 'delete',
@@ -255,4 +255,4 @@ use CMS\Core\Plugin;
     </div>
 </div>
 
-<?php echo $this->Html->script(['Bootstrap.bootstrap.min.js', 'Jquery.jquery-ui.min.js', 'System.jquery.cookie.js', 'Block.collapse-ui.js']); ?>
+<?= $this->Html->script(['Bootstrap.bootstrap.min.js', 'Jquery.jquery-ui.min.js', 'System.jquery.cookie.js', 'Block.collapse-ui.js']); ?>

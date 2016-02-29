@@ -14,10 +14,10 @@ use Field\Utility\ListToolbox;
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
-    <h3 class="field-label"><?php echo $field->label; ?></h3>
-    <p><?php echo ListToolbox::formatter($field); ?></p>
+    <h3 class="field-label"><?= $field->label; ?></h3>
+    <p><?= ListToolbox::formatter($field); ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-    <p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo ListToolbox::formatter($field); ?></p>
+    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= ListToolbox::formatter($field); ?></p>
 <?php else: ?>
-    <p><?php echo ListToolbox::formatter($field); ?></p>
+    <p><?= ListToolbox::formatter($field); ?></p>
 <?php endif; ?>

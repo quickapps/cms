@@ -24,13 +24,13 @@ use Cake\Core\Configure;
 
 <div class="alert alert-danger">
 	<h1>
-		<?php echo __d('cms', 'Error'); ?>
+		<?= __d('cms', 'Error'); ?>
 		<br />
-		<small><?php echo __d('cms', 'An Internal Error Has Occurred.'); ?></small>
+		<small><?= __d('cms', 'An Internal Error Has Occurred.'); ?></small>
 	</h1>
-	<p><?php echo $message; ?></p>
+	<p><?= $message; ?></p>
 	<?php if (Configure::read('debug')): ?>
 		<p>&nbsp;</p>
-		<p><?php echo $this->element('exception_stack_trace'); ?></p>
+		<p><?= $this->element('exception_stack_trace'); ?></p>
 	<?php endif; ?>
 </div>

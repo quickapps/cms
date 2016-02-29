@@ -12,24 +12,26 @@
 use Cake\Core\Configure;
 ?>
 
-<span id="dp-container-<?php echo $field->name; ?>">
-    <?php
-        echo $this->Form->input($field, [
+<span id="dp-container-<?= $field->name; ?>">
+    <?=
+        $this->Form->input($field, [
             'name' => ":{$field->name}[date]",
             'value' => $field->extra,
             'class' => 'picker',
             'readonly',
         ]);
+    ?>
 
+    <?=
         // value dynamically set using JS
-        echo $this->Form->input(":{$field->name}.format", [
+        $this->Form->input(":{$field->name}.format", [
             'type' => 'hidden',
             'class' => 'format',
         ]);
     ?>
 
     <?php if (!$field->required): ?>
-        <em class="help-block"><?php echo $this->Html->link(__d('field', 'Empty date'), '', ['onclick' => "javascript: $('#dp-container-{$field->name} input').val(''); return false;"]); ?></em>
+        <em class="help-block"><?= $this->Html->link(__d('field', 'Empty date'), '', ['onclick' => "javascript: $('#dp-container-{$field->name} input').val(''); return false;"]); ?></em>
     <?php endif; ?>
 </span>
 
@@ -94,31 +96,31 @@ use Cake\Core\Configure;
     ?>
 
     $(document).ready(function() {
-        $('#dp-container-<?php echo $field->name; ?> .picker').<?php echo $pickerWidget; ?>({
-            <?php echo implode(",\n", $options); ?>
+        $('#dp-container-<?= $field->name; ?> .picker').<?= $pickerWidget; ?>({
+            <?= implode(",\n", $options); ?>
         });
 
         <?php if (!empty($settings['locale'])): ?>
-            $('#dp-container-<?php echo $field->name; ?> .picker').<?php echo $pickerWidget; ?>(
+            $('#dp-container-<?= $field->name; ?> .picker').<?= $pickerWidget; ?>(
                 'option',
-                $.datepicker.regional['<?php echo $settings['locale']; ?>']
+                $.datepicker.regional['<?= $settings['locale']; ?>']
             );
 
             <?php if ($settings['timepicker']): ?>
-                $('#dp-container-<?php echo $field->name; ?> .picker').<?php echo $pickerWidget; ?>(
+                $('#dp-container-<?= $field->name; ?> .picker').<?= $pickerWidget; ?>(
                     'option',
-                    $.timepicker.regional['<?php echo $settings['locale']; ?>']
+                    $.timepicker.regional['<?= $settings['locale']; ?>']
                 );
             <?php endif; ?>
         <?php endif; ?>
 
-        var dateFormat = $('#dp-container-<?php echo $field->name; ?> .picker').<?php echo $pickerWidget; ?>('option', 'dateFormat');
-        $('#dp-container-<?php echo $field->name; ?> .format').val(dateFormat);
+        var dateFormat = $('#dp-container-<?= $field->name; ?> .picker').<?= $pickerWidget; ?>('option', 'dateFormat');
+        $('#dp-container-<?= $field->name; ?> .format').val(dateFormat);
 
         <?php if ($settings['timepicker']): ?>
-            var timeFormat = $('#dp-container-<?php echo $field->name; ?> .picker').<?php echo $pickerWidget; ?>('option', 'timeFormat');
-            var currentVal = $('#dp-container-<?php echo $field->name; ?> .format').val();
-            $('#dp-container-<?php echo $field->name; ?> .format').val(currentVal + ' ' + timeFormat);
+            var timeFormat = $('#dp-container-<?= $field->name; ?> .picker').<?= $pickerWidget; ?>('option', 'timeFormat');
+            var currentVal = $('#dp-container-<?= $field->name; ?> .format').val();
+            $('#dp-container-<?= $field->name; ?> .format').val(currentVal + ' ' + timeFormat);
         <?php endif; ?>
     });
 </script>

@@ -16,5 +16,6 @@
  * @author Christopher Castro <chris@quickapps.es>
  */
 ?>
-<?php echo $this->fetch('content'); ?>
-<?php echo __d('cms', 'This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?>
+
+<?= $this->fetch('content'); ?>
+<?= __d('cms', 'This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?>

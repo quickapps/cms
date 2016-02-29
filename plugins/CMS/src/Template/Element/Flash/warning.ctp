@@ -11,12 +11,12 @@
  */
 ?>
 
-<div class="alert alert-warning<?php echo (!empty($dismiss) && $dismiss === true) ? ' alert-dismissible' : ''; ?>" role="alert">
+<div class="alert alert-warning<?= (!empty($dismiss) && $dismiss === true) ? ' alert-dismissible' : ''; ?>" role="alert">
 	<?php if (!empty($dismiss) && $dismiss === true): ?>
 	<button type="button" class="close" data-dismiss="alert">
 		<span aria-hidden="true">&times;</span>
-		<span class="sr-only"><?php echo __d('cms', 'Close'); ?></span>
+		<span class="sr-only"><?= __d('cms', 'Close'); ?></span>
 	</button>
 	<?php endif; ?>
-	<?php echo $message; ?>
+	<?= $message; ?>
 </div>

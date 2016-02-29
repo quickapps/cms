@@ -15,23 +15,23 @@ $format = DateToolbox::getPHPFormat($field);
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
-    <h3 class="field-label"><?php echo $field->label; ?></h3>
+    <h3 class="field-label"><?= $field->label; ?></h3>
     <p>
-        <?php echo __d('field', 'Start date: {0}', date($format, $field->extra['from']['timestamp'])); ?>
+        <?= __d('field', 'Start date: {0}', date($format, $field->extra['from']['timestamp'])); ?>
         <br />
-        <?php echo __d('field', 'Finish date: {0}', date($format, $field->extra['to']['timestamp'])); ?>
+        <?= __d('field', 'Finish date: {0}', date($format, $field->extra['to']['timestamp'])); ?>
     </p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
     <p>
-        <strong class="field-label"><?php echo $field->label; ?>:</strong>
-        <?php echo __d('field', 'Start date: {0}', date($format, $field->extra['from']['timestamp'])); ?>
+        <strong class="field-label"><?= $field->label; ?>:</strong>
+        <?= __d('field', 'Start date: {0}', date($format, $field->extra['from']['timestamp'])); ?>
         <br />
-        <?php echo __d('field', 'Finish date: {0}', date($format, $field->extra['to']['timestamp'])); ?>
+        <?= __d('field', 'Finish date: {0}', date($format, $field->extra['to']['timestamp'])); ?>
     </p>
 <?php else: ?>
     <p>
-        <?php echo __d('field', 'Start date: {0}', date($format, $field->extra['from']['timestamp'])); ?>
+        <?= __d('field', 'Start date: {0}', date($format, $field->extra['from']['timestamp'])); ?>
         <br />
-        <?php echo __d('field', 'Finish date: {0}', date($format, $field->extra['to']['timestamp'])); ?>
+        <?= __d('field', 'Finish date: {0}', date($format, $field->extra['to']['timestamp'])); ?>
     </p>
 <?php endif; ?>

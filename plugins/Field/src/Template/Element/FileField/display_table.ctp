@@ -17,16 +17,16 @@
         <tr>
             <td>
                 <?php if (!empty($file['mime_icon'])): ?>
-                    <?php echo $this->Html->image(normalizePath("/field/img/file-icons/{$file['mime_icon']}", '/')); ?>
+                    <?= $this->Html->image(normalizePath("/field/img/file-icons/{$file['mime_icon']}", '/')); ?>
                 <?php endif; ?>
 
-                <?php echo $this->Html->link($file['file_name'], normalizePath("/files/{$field->settings['upload_folder']}/{$file['file_name']}", '/'), ['target' => '_blank']); ?>
+                <?= $this->Html->link($file['file_name'], normalizePath("/files/{$field->settings['upload_folder']}/{$file['file_name']}", '/'), ['target' => '_blank']); ?>
 
                 <?php if (!empty($file['description'])): ?>
-                    <em class="help-block"><?php echo $file['description']; ?></em>
+                    <em class="help-block"><?= $file['description']; ?></em>
                 <?php endif; ?>
             </td>
-            <td><?php echo $file['file_size']; ?></td>
+            <td><?= $file['file_size']; ?></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

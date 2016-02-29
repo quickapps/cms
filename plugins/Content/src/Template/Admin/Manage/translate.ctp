@@ -14,33 +14,33 @@
 <div class="row">
     <div class="col-md-12">
         <?php if (!empty($languages)): ?>
-            <?php echo $this->Form->create($content); ?>
+            <?= $this->Form->create($content); ?>
                 <fieldset>
-                    <legend><?php echo __d('content', 'Translating Content'); ?></legend>
+                    <legend><?= __d('content', 'Translating Content'); ?></legend>
 
-                    <?php echo $this->Form->input('title', ['label' => $content->content_type->title_label . ' *']); ?>
-                    <em class="help-block"><?php echo __d('content', 'New title for the translated version.'); ?></em>
+                    <?= $this->Form->input('title', ['label' => $content->content_type->title_label . ' *']); ?>
+                    <em class="help-block"><?= __d('content', 'New title for the translated version.'); ?></em>
 
-                    <?php echo $this->Form->input('language', ['type' => 'select', 'label' => __d('content', 'Translate to'), 'options' => $languages]); ?>
-                    <em class="help-block"><?php echo __d('content', 'Select the language to which you desire translate this content.'); ?></em>
+                    <?= $this->Form->input('language', ['type' => 'select', 'label' => __d('content', 'Translate to'), 'options' => $languages]); ?>
+                    <em class="help-block"><?= __d('content', 'Select the language to which you desire translate this content.'); ?></em>
 
-                    <?php echo $this->Form->submit( __d('content', 'Continue')); ?>
+                    <?= $this->Form->submit( __d('content', 'Continue')); ?>
 
                     <?php if ($translations->count()): ?>
-                        <h3><?php echo __d('content', 'Available Translations'); ?></h3>
+                        <h3><?= __d('content', 'Available Translations'); ?></h3>
                         <ul>
                             <?php foreach ($translations as $t): ?>
                             <li>
-                                <?php echo $this->Html->link($t->title, ['plugin' => 'Content', 'controller' => 'manage', 'action' => 'edit', $t->id]); ?> (<?php echo $t->language; ?>)
+                                <?= $this->Html->link($t->title, ['plugin' => 'Content', 'controller' => 'manage', 'action' => 'edit', $t->id]); ?> (<?= $t->language; ?>)
                             </li>
                             <?php endforeach; ?>
                         </ul>
                     <?php endif; ?>
                 </fieldset>
-            <?php echo $this->Form->end(); ?>
+            <?= $this->Form->end(); ?>
         <?php else: ?>
             <div class="alert alert-danger">
-                <?php echo __d('content', 'This content cannot be translated because there are no more available languages into which this content could be translated to.'); ?>
+                <?= __d('content', 'This content cannot be translated because there are no more available languages into which this content could be translated to.'); ?>
             </div>
         <?php endif; ?>
     </div>

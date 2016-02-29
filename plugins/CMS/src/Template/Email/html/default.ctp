@@ -21,5 +21,5 @@ use Cake\Core\Configure;
 ?>
 <?php $content = explode("\n", $content); ?>
 <?php foreach ($content as $line): ?>
-	<p><?php echo $line; ?></p>
+	<p><?= $line; ?></p>
 <?php endforeach; ?>

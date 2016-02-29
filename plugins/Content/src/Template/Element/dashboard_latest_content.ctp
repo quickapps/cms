@@ -12,14 +12,14 @@
 ?>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><?php echo __d('content', 'Recent Content'); ?></div>
+    <div class="panel-heading"><?= __d('content', 'Recent Content'); ?></div>
     <div class="panel-body">
         <table class="table">
             <?php foreach ($contents as $content): ?>
                 <tr>
                     <td>
-                        <?php echo $this->Html->link($content->title, ['plugin' => 'Content', 'controller' => 'manage', 'action' => 'edit', $content->id]); ?>
-                        <em class="help-block"><?php echo $content->description; ?></em>
+                        <?= $this->Html->link($content->title, ['plugin' => 'Content', 'controller' => 'manage', 'action' => 'edit', $content->id]); ?>
+                        <em class="help-block"><?= $content->description; ?></em>
                     </td>
                 </tr>
             <?php endforeach; ?>

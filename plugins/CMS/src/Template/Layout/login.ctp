@@ -21,11 +21,11 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<?php echo $this->Html->head(['bootstrap' => true]); ?>
+		<?= $this->Html->head(['bootstrap' => true]); ?>
 	</head>
 	<body class="login">
 		<div class="container">
-			<?php echo $this->fetch('content'); ?>
+			<?= $this->fetch('content'); ?>
 		</div>
 	</body>
 </html>

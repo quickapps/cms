@@ -18,23 +18,23 @@
  */
 ?>
 
-<article class="content content-<?php echo $content->content_type_slug; ?> viewmode-<?php echo $this->viewMode(); ?>">
+<article class="content content-<?= $content->content_type_slug; ?> viewmode-<?= $this->viewMode(); ?>">
     <header>
         <?php if ($this->viewMode() === 'full'): ?>
-            <h1><?php echo $this->shortcodes($content->title); ?></h1>
+            <h1><?= $this->shortcodes($content->title); ?></h1>
         <?php else: ?>
-            <h2><?php echo $this->Html->link($this->shortcodes($content->title), $content->url); ?></h2>
+            <h2><?= $this->Html->link($this->shortcodes($content->title), $content->url); ?></h2>
         <?php endif; ?>
-        <p><?php echo __d('content', 'Published'); ?>: <time pubdate="pubdate"><?php echo $content->created->timeAgoInWords(); ?></time></p>
+        <p><?= __d('content', 'Published'); ?>: <time pubdate="pubdate"><?= $content->created->timeAgoInWords(); ?></time></p>
     </header>
 
     <?php if (!empty($content->_fields)): ?>
         <?php foreach ($content->_fields->sortByViewMode($this->viewMode()) as $field): ?>
-            <?php echo $this->render($field); ?>
+            <?= $this->render($field); ?>
         <?php endforeach; ?>
     <?php endif; ?>
 
     <?php if ($this->viewMode() === 'full'): ?>
-        <?php echo $this->Comment->render($content); ?>
+        <?= $this->Comment->render($content); ?>
     <?php endif; ?>
 </article>

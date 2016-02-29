@@ -19,10 +19,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 	<head>
-		<title><?php echo $this->fetch('title'); ?></title>
+		<title><?= $this->fetch('title'); ?></title>
 	</head>
 	<body>
-		<?php echo $this->fetch('content'); ?>
-		<p><?php echo __d('cms', 'This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?></p>
+		<?= $this->fetch('content'); ?>
+		<p><?= __d('cms', 'This email was sent using the QuickAppsCMS, http://quickappscms.org.'); ?></p>
 	</body>
 </html>

@@ -16,7 +16,7 @@ $ckeditorClass = ($text_processing === 'full' && $type === 'textarea') ? 'ckedit
 $rows = ($type === 'textarea') ? 5 : '';
 ?>
 
-<?php echo $this->Form->input($field, ['type'=> $type, 'class' => $ckeditorClass, 'rows' => $rows]); ?>
+<?= $this->Form->input($field, ['type'=> $type, 'class' => $ckeditorClass, 'rows' => $rows]); ?>
 <?php if (!empty($field->metadata->description)): ?>
-<em class="help-block"><?php echo $this->shortcodes($field->metadata->description); ?></em>
+<em class="help-block"><?= $this->shortcodes($field->metadata->description); ?></em>
 <?php endif; ?>

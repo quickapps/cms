@@ -13,9 +13,9 @@
 use Cake\Core\Configure;
 ?>
 
-<span id="dp-container-<?php echo $field->name; ?>">
-    <?php
-        echo $this->Form->input($field, [
+<span id="dp-container-<?= $field->name; ?>">
+    <?=
+        $this->Form->input($field, [
             'id' => "picker-{$field->name}-from",
             'name' => ":{$field->name}[from][string]",
             'label' => __d('field', 'Start Publishing'),
@@ -23,8 +23,10 @@ use Cake\Core\Configure;
             'value' => (!empty($field->extra['from']['string']) ? $field->extra['from']['string'] : ''),
             'readonly',
         ]);
+    ?>
 
-        echo $this->Form->input($field, [
+    <?=
+        $this->Form->input($field, [
             'id' => "picker-{$field->name}-to",
             'name' => ":{$field->name}[to][string]",
             'label' => __d('field', 'Finish Publishing'),
@@ -32,17 +34,10 @@ use Cake\Core\Configure;
             'value' => (!empty($field->extra['to']['string']) ? $field->extra['to']['string'] : ''),
             'readonly',
         ]);
-
-        echo $this->Form->input(":{$field->name}.from.format", [
-            'type' => 'hidden',
-            'class' => 'format-from',
-        ]);
-
-        echo $this->Form->input(":{$field->name}.to.format", [
-            'type' => 'hidden',
-            'class' => 'format-to',
-        ]);
     ?>
+
+    <?= $this->Form->input(":{$field->name}.from.format", [ 'type' => 'hidden', 'class' => 'format-from']); ?>
+    <?= $this->Form->input(":{$field->name}.to.format", ['type' => 'hidden', 'class' => 'format-to']); ?>
 </span>
 
 <script>
@@ -109,31 +104,31 @@ use Cake\Core\Configure;
         <?php foreach (['from', 'to'] as $ft): ?>
             <?php $picker = "picker-{$ft}"; ?>
             <?php $format = "format-{$ft}"; ?>
-            $('#dp-container-<?php echo $field->name; ?> .<?php echo $picker; ?>').<?php echo $pickerWidget; ?>({
-                <?php echo implode(",\n", $options); ?>
+            $('#dp-container-<?= $field->name; ?> .<?= $picker; ?>').<?= $pickerWidget; ?>({
+                <?= implode(",\n", $options); ?>
             });
 
             <?php if (!empty($settings['locale'])): ?>
-                $('#dp-container-<?php echo $field->name; ?> .<?php echo $picker; ?>').<?php echo $pickerWidget; ?>(
+                $('#dp-container-<?= $field->name; ?> .<?= $picker; ?>').<?= $pickerWidget; ?>(
                     'option',
-                    $.datepicker.regional['<?php echo $settings['locale']; ?>']
+                    $.datepicker.regional['<?= $settings['locale']; ?>']
                 );
 
                 <?php if ($settings['timepicker']): ?>
-                    $('#dp-container-<?php echo $field->name; ?> .<?php echo $picker; ?>').<?php echo $pickerWidget; ?>(
+                    $('#dp-container-<?= $field->name; ?> .<?= $picker; ?>').<?= $pickerWidget; ?>(
                         'option',
-                        $.timepicker.regional['<?php echo $settings['locale']; ?>']
+                        $.timepicker.regional['<?= $settings['locale']; ?>']
                     );
                 <?php endif; ?>
             <?php endif; ?>
 
-            var dateFormat = $('#dp-container-<?php echo $field->name; ?> .<?php echo $picker; ?>').<?php echo $pickerWidget; ?>('option', 'dateFormat');
-            $('#dp-container-<?php echo $field->name; ?> .<?php echo $format; ?>').val(dateFormat);
+            var dateFormat = $('#dp-container-<?= $field->name; ?> .<?= $picker; ?>').<?= $pickerWidget; ?>('option', 'dateFormat');
+            $('#dp-container-<?= $field->name; ?> .<?= $format; ?>').val(dateFormat);
 
             <?php if ($settings['timepicker']): ?>
-                var timeFormat = $('#dp-container-<?php echo $field->name; ?> .<?php echo $picker; ?>').<?php echo $pickerWidget; ?>('option', 'timeFormat');
-                var currentVal = $('#dp-container-<?php echo $field->name; ?> .<?php echo $format; ?>').val();
-                $('#dp-container-<?php echo $field->name; ?> .<?php echo $format; ?>').val(currentVal + ' ' + timeFormat)
+                var timeFormat = $('#dp-container-<?= $field->name; ?> .<?= $picker; ?>').<?= $pickerWidget; ?>('option', 'timeFormat');
+                var currentVal = $('#dp-container-<?= $field->name; ?> .<?= $format; ?>').val();
+                $('#dp-container-<?= $field->name; ?> .<?= $format; ?>').val(currentVal + ' ' + timeFormat)
             <?php endif; ?>
         <?php endforeach; ?>
     });

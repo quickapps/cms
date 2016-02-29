@@ -11,24 +11,24 @@
  */
 ?>
 
-<?php echo $this->fetch('beforeSubmenu'); ?>
+<?= $this->fetch('beforeSubmenu'); ?>
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?>
+        <?= $this->element('Field.FieldUI/field_ui_submenu'); ?>
     </div>
 </div>
-<?php echo $this->fetch('afterSubmenu'); ?>
+<?= $this->fetch('afterSubmenu'); ?>
 
-<?php echo $this->fetch('beforeTable'); ?>
+<?= $this->fetch('beforeTable'); ?>
 <div class="row">
     <div class="col-md-12">
         <table class="table table-hover table-bordered table-responsive">
             <thead>
                 <tr>
-                    <th><?php echo __d('field', 'Field label'); ?></th>
-                    <th class="hidden-xs"><?php echo __d('field', 'Machine name'); ?></th>
-                    <th class="hidden-xs"><?php echo __d('field', 'Type'); ?></th>
-                    <th><?php echo __d('field', 'Actions'); ?></th>
+                    <th><?= __d('field', 'Field label'); ?></th>
+                    <th class="hidden-xs"><?= __d('field', 'Machine name'); ?></th>
+                    <th class="hidden-xs"><?= __d('field', 'Type'); ?></th>
+                    <th><?= __d('field', 'Actions'); ?></th>
                 </tr>
             </thead>
 
@@ -39,17 +39,17 @@
                 <tr>
                     <td>
                         <?php if ($instance->locked): ?>
-                            <span class="glyphicon glyphicon-lock" title="<?php echo __d('field', 'This field is locked and you can not edit it.'); ?>"></span>
+                            <span class="glyphicon glyphicon-lock" title="<?= __d('field', 'This field is locked and you can not edit it.'); ?>"></span>
                         <?php endif; ?>
-                        <?php echo $instance->label; ?>
+                        <?= $instance->label; ?>
                     </td>
-                    <td class="hidden-xs"><?php echo $instance->get('eav_attribute')->get('name'); ?></td>
-                    <td class="hidden-xs"><?php echo $instance->get('handlerName'); ?></td>
+                    <td class="hidden-xs"><?= $instance->get('eav_attribute')->get('name'); ?></td>
+                    <td class="hidden-xs"><?= $instance->get('handlerName'); ?></td>
                     <td>
                         <div class="btn-group pull-right">
                             <?php if ($k > 0): ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => $this->request->params['plugin'],
                                         'controller' => $this->request->params['controller'],
                                         'action' => 'move',
@@ -63,8 +63,8 @@
                             <?php endif; ?>
 
                             <?php if ($k < $count - 1): ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => $this->request->params['plugin'],
                                         'controller' => $this->request->params['controller'],
                                         'action' => 'move',
@@ -78,8 +78,8 @@
                             <?php endif; ?>
 
                             <?php if (!$instance->locked): ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => $this->request->params['plugin'],
                                         'controller' => $this->request->params['controller'],
                                         'action' => 'configure',
@@ -90,8 +90,8 @@
                                     ]);
                                 ?>
 
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => $this->request->params['plugin'],
                                         'controller' => $this->request->params['controller'],
                                         'action' => 'detach',
@@ -112,4 +112,4 @@
         </table>
     </div>
 </div>
-<?php echo $this->fetch('afterTable'); ?>
+<?= $this->fetch('afterTable'); ?>

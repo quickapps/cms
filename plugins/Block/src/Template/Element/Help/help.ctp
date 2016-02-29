@@ -15,7 +15,7 @@
 <p>
      The Block plugin allows you to create boxes of content, which are rendered into an area, or region, of one or more pages of a website.
      The core's Frontend theme, for example, implements the regions "Right Sidebar" and "Site Footer", and a block may appear in any one of these regions.
-     The <?php echo $this->Html->link(__d('block', 'Blocks administration page'), ['plugin' => 'Block', 'controller' => 'manage']); ?> provides an interface
+     The <?= $this->Html->link(__d('block', 'Blocks administration page'), ['plugin' => 'Block', 'controller' => 'manage']); ?> provides an interface
      for assigning a block to a region, and for controlling the order of blocks within regions.
 </p>
 
@@ -25,7 +25,7 @@
     <dd>
         When working with blocks, remember that all themes do <em>not</em> implement the same regions, or display regions
         in the same way. Blocks are positioned on a per-theme basis. Users with permissions can disable blocks.
-        Disabled blocks are listed on the <?php echo $this->Html->link(__d('block', 'Blocks administration page'), ['plugin' => 'Block', 'controller' => 'manage']); ?>,
+        Disabled blocks are listed on the <?= $this->Html->link(__d('block', 'Blocks administration page'), ['plugin' => 'Block', 'controller' => 'manage']); ?>,
         but are not displayed in any region.
     </dd>
 
@@ -37,8 +37,8 @@
 
     <dt>Creating custom blocks</dt>
     <dd>
-        Users with permissions can <?php echo $this->Html->link(__d('block', 'add custom blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'add']); ?>, which are then listed on
-        the <?php echo $this->Html->link(__d('block', 'Blocks administration page'), ['plugin' => 'Block', 'controller' => 'manage']); ?>.
+        Users with permissions can <?= $this->Html->link(__d('block', 'add custom blocks'), ['plugin' => 'Block', 'controller' => 'manage', 'action' => 'add']); ?>, which are then listed on
+        the <?= $this->Html->link(__d('block', 'Blocks administration page'), ['plugin' => 'Block', 'controller' => 'manage']); ?>.
         Once created, custom blocks behave just like default and plugin-generated blocks.
     </dd>
 </dl>

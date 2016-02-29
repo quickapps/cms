@@ -18,10 +18,10 @@ $date = DateToolbox::createFromFormat($format, $field->extra);
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
-    <h3 class="field-label"><?php echo $field->label; ?></h3>
-    <p><?php echo date($phpFormat, $date->getTimestamp()); ?></p>
+    <h3 class="field-label"><?= $field->label; ?></h3>
+    <p><?= date($phpFormat, $date->getTimestamp()); ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-    <p><strong class="field-label"><?php echo $field->label; ?>:</strong> <?php echo date($phpFormat, $date->getTimestamp()); ?></p>
+    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= date($phpFormat, $date->getTimestamp()); ?></p>
 <?php else: ?>
-    <p><?php echo date($format, $field->extra); ?></p>
+    <p><?= date($format, $field->extra); ?></p>
 <?php endif; ?>

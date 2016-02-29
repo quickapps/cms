@@ -44,10 +44,9 @@
             'value' => (is_array($selected) ? array_pop($selected) : $selected), // user may change from checkbox to radio
         ];
     }
-
-    echo $this->Form->input($field->name, $inputOptions);
 ?>
 
+<?= $this->Form->input($field->name, $inputOptions); ?>
 <?php if (!empty($field->metadata->description)): ?>
-<em class="help-block"><?php echo $this->shortcodes($field->metadata->description); ?></em>
+<em class="help-block"><?= $this->shortcodes($field->metadata->description); ?></em>
 <?php endif; ?>

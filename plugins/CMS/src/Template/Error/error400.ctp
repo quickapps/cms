@@ -24,13 +24,13 @@ use Cake\Core\Configure;
 
 <div class="alert alert-warning">
 	<h1>
-		<?php echo __d('cms', 'Error'); ?>
+		<?= __d('cms', 'Error'); ?>
 		<br />
-		<small><?php echo __d('cms', 'The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?></small>
+		<small><?= __d('cms', 'The requested address {0} was not found on this server.', "<strong>'{$url}'</strong>"); ?></small>
 	</h1>
-	<p><?php echo $message; ?></p>
+	<p><?= $message; ?></p>
 	<?php if (Configure::read('debug')): ?>
 		<p>&nbsp;</p>
-		<p><?php echo $this->element('exception_stack_trace'); ?></p>
+		<p><?= $this->element('exception_stack_trace'); ?></p>
 	<?php endif; ?>
 </div>

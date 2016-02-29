@@ -48,7 +48,7 @@
                 <div class="media-body">
                     {{#show_image}}
                         <p>
-                            <button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
+                            <button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?= __d('field', 'Remove'); ?></button>
                         </p>
                     {{/show_image}}
 
@@ -57,15 +57,15 @@
                             <img src="{{&icon_url}}" class="file-icon" />
                             <a href="{{&link}}" target="_blank" class="file-link">{{file_name}}</a>
                             <span class="file-size">({{file_size}})</span>
-                            <button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
+                            <button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?= __d('field', 'Remove'); ?></button>
                         </p>
                     {{/show_image}}
 
                     {{#show_title}}
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon"><?php echo __d('field', 'Title'); ?></span>
-                            <input type="text" name="{{instance_name}}[{{number}}][title]" value="{{title}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'Image title or description'); ?>" />
+                            <span class="input-group-addon"><?= __d('field', 'Title'); ?></span>
+                            <input type="text" name="{{instance_name}}[{{number}}][title]" value="{{title}}" class="file-description form-control input-sm" placeholder="<?= __d('field', 'Image title or description'); ?>" />
                         </div>
                     </div>
                     {{/show_title}}
@@ -73,8 +73,8 @@
                     {{#show_alt}}
                     <div class="form-group">
                         <div class="input-group">
-                            <span class="input-group-addon"><?php echo __d('field', 'Alt'); ?></span>
-                            <input type="text" name="{{instance_name}}[{{number}}][alt]" value="{{alt}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'Alternative text'); ?>" />
+                            <span class="input-group-addon"><?= __d('field', 'Alt'); ?></span>
+                            <input type="text" name="{{instance_name}}[{{number}}][alt]" value="{{alt}}" class="file-description form-control input-sm" placeholder="<?= __d('field', 'Alternative text'); ?>" />
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
             view.show_image = settings.showThumbnail;
             view.show_title = settings.showTitle;
             view.show_alt = settings.showAlt;
-            view.thumbnail_url = '<?php echo $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'thumbnail', 'prefix' => false]); ?>/' + settings.name + '?size=' + settings.thumbnailSize + '&file=' + view.file_name;
+            view.thumbnail_url = '<?= $this->Url->build(['plugin' => 'Field', 'controller' => 'image_handler', 'action' => 'thumbnail', 'prefix' => false]); ?>/' + settings.name + '?size=' + settings.thumbnailSize + '&file=' + view.file_name;
 
             view.thumbnail_size = 200;
             return Mustache.render($('#image-item-template').html(), view);

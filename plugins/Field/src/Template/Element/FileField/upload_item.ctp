@@ -38,11 +38,11 @@
 
         <a href="{{&link}}" target="_blank" class="file-link">{{file_name}}</a>
         <span class="file-size">({{file_size}})</span>
-        <button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?php echo __d('field', 'Remove'); ?></button>
+        <button class="btn btn-danger btn-xs" onclick="FileField.remove('{{uid}}'); return false;"><?= __d('field', 'Remove'); ?></button>
 
         {{#show_description}}
         <hr />
-        <input type="text" name="{{instance_name}}[{{number}}][description]" value="{{description}}" class="file-description form-control input-sm" placeholder="<?php echo __d('field', 'File description'); ?>" />
+        <input type="text" name="{{instance_name}}[{{number}}][description]" value="{{description}}" class="file-description form-control input-sm" placeholder="<?= __d('field', 'File description'); ?>" />
         {{/show_description}}
 
         <input type="hidden" name="{{instance_name}}[{{number}}][mime_icon]" value="{{mime_icon}}" class="mime-icon" />

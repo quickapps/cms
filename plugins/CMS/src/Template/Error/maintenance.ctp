@@ -23,10 +23,10 @@ use Cake\Core\Configure;
 ?>
 
 <div class="alert alert-warning">
-	<h1><?php echo __d('cms', 'Site Under Maintenance'); ?></h1>
-	<p><?php echo $this->shortcodes(html_entity_decode($message)); ?></p>
+	<h1><?= __d('cms', 'Site Under Maintenance'); ?></h1>
+	<p><?= $this->shortcodes(html_entity_decode($message)); ?></p>
 	<?php if (Configure::read('debug')): ?>
 		<p>&nbsp;</p>
-		<p><?php echo $this->element('exception_stack_trace'); ?></p>
+		<p><?= $this->element('exception_stack_trace'); ?></p>
 	<?php endif; ?>
 </div>

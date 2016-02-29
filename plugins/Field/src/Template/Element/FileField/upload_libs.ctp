@@ -15,21 +15,21 @@ use Cake\Core\Configure;
 
 <?php if (!isset($this->viewVars['__FileFieldUploadLibs__'])): ?>
     <?php $this->viewVars['__FileFieldUploadLibs__'] = '__LOADED__'; ?>
-    <?php echo $this->Html->css('Field.uploadify'); ?>
-    <?php echo $this->Html->script('Jquery.jquery-ui.min.js'); ?>
-    <?php echo $this->Html->script('System.mustache'); ?>
-    <?php echo $this->Html->script('Field.FileField'); ?>
-    <?php echo $this->Html->script('Field.uploadify/jquery.uploadify.min.js?' . time()); ?>
+    <?= $this->Html->css('Field.uploadify'); ?>
+    <?= $this->Html->script('Jquery.jquery-ui.min.js'); ?>
+    <?= $this->Html->script('System.mustache'); ?>
+    <?= $this->Html->script('Field.FileField'); ?>
+    <?= $this->Html->script('Field.uploadify/jquery.uploadify.min.js?' . time()); ?>
 
     <script type="text/javascript">
         $(document).ready(function() {
-            FileField.defaultSettings.uploader.mimeIconsBaseURL = '<?php echo $this->Url->build('/', true); ?>';
-            FileField.defaultSettings.uploader.swf = '<?php echo $this->Url->build('/field/js/uploadify/uploadify.swf', true); ?>';
-            FileField.defaultSettings.uploader.debug = <?php echo Configure::read('debug') ? 'true' : 'false'; ?>;
+            FileField.defaultSettings.uploader.mimeIconsBaseURL = '<?= $this->Url->build('/', true); ?>';
+            FileField.defaultSettings.uploader.swf = '<?= $this->Url->build('/field/js/uploadify/uploadify.swf', true); ?>';
+            FileField.defaultSettings.uploader.debug = <?= Configure::read('debug') ? 'true' : 'false'; ?>;
             FileField.defaultSettings.uploader.errorMessages = {
-                504: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid field instance.'); ?>',
-                501: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: invalid file extension.'); ?>',
-                502: '<?php echo __d('field', 'The file {{file.name}} could not be uploaded: internal server error.'); ?>',
+                504: '<?= __d('field', 'The file {{file.name}} could not be uploaded: invalid field instance.'); ?>',
+                501: '<?= __d('field', 'The file {{file.name}} could not be uploaded: invalid file extension.'); ?>',
+                502: '<?= __d('field', 'The file {{file.name}} could not be uploaded: internal server error.'); ?>',
             };
             FileField.defaultSettings.uploader.itemTemplate = '<div id="${fileID}" class="uploadify-queue-item">\
                 <div class="cancel">\
@@ -43,7 +43,7 @@ use Cake\Core\Configure;
 
             $(window).on('beforeunload',function() {
                 if ($('.file-handler .file-item').not('.is-perm').length > 0) {
-                    return '<?php echo __d('field', 'Are you sure you want to leave this page?'); ?>';
+                    return '<?= __d('field', 'Are you sure you want to leave this page?'); ?>';
                 }
             });
 
@@ -53,5 +53,5 @@ use Cake\Core\Configure;
         });
     </script>
 
-    <?php echo $this->element('Field.FileField/upload_item'); ?>
+    <?= $this->element('Field.FileField/upload_item'); ?>
 <?php endif; ?>

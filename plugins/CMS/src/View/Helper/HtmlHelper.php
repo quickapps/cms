@@ -39,7 +39,7 @@ class HtmlHelper extends CakeHtmlHelper
      *     <!DOCTYPE html>
      *     <html>
      *           <head>
-     *             <?php echo $this->head(); ?>
+     *             <?= $this->head(); ?>
      *             <!-- rest of your head code -->
      *          </head>
      *          <body>
@@ -60,19 +60,19 @@ class HtmlHelper extends CakeHtmlHelper
      * #### Example:
      *
      *     // no CSS nor JS
-     *     <?php echo $this->Html->head(['boostrap' => false]); ?>
+     *     <?= $this->Html->head(['boostrap' => false]); ?>
      *
      *     // CSS files only (default)
-     *     <?php echo $this->Html->head(['boostrap' => 'css']); ?>
+     *     <?= $this->Html->head(['boostrap' => 'css']); ?>
      *
      *     // CSS & JS files
-     *     <?php echo $this->Html->head(['boostrap' => true]); ?>
+     *     <?= $this->Html->head(['boostrap' => true]); ?>
      *
      *     // JS files only
-     *     <?php echo $this->Html->head(['boostrap' => 'js']); ?>
+     *     <?= $this->Html->head(['boostrap' => 'js']); ?>
      *
      *     // CSS & JS files, it can be either "css,js" or "js,css"
-     *     <?php echo $this->Html->head(['boostrap' => 'css,js']); ?>
+     *     <?= $this->Html->head(['boostrap' => 'css,js']); ?>
      *
      * Other options available are:
      *

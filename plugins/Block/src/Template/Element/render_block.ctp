@@ -17,7 +17,7 @@
  */
 ?>
 
-<div class="qa-block" data-block-id="<?php echo $block->id; ?>" data-block-region="<?php echo $block->region->region; ?>">
-    <h2><?php echo $block->title; ?></h2>
-    <p><?php echo $block->body; ?></p>
+<div class="qa-block" data-block-id="<?= $block->id; ?>" data-block-region="<?= $block->region->region; ?>">
+    <h2><?= $block->title; ?></h2>
+    <p><?= $block->body; ?></p>
 </div>

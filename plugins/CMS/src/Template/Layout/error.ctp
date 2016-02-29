@@ -19,11 +19,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php echo $this->Html->head(['bootstrap' => true]); ?>
+        <?= $this->Html->head(['bootstrap' => true]); ?>
     </head>
     <body class="error">
         <div class="container">
-            <?php echo $this->fetch('content'); ?>
+            <?= $this->fetch('content'); ?>
         </div>
     </body>
 </html>

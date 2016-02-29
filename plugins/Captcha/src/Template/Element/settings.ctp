@@ -17,8 +17,8 @@ foreach (CaptchaManager::adapters() as $name => $config) {
 }
 ?>
 
-<?php
-    echo $this->Form->input('default_adapter', [
+<?=
+    $this->Form->input('default_adapter', [
         'id' => 'default-adapter',
         'type' => 'select',
         'options' => $options,
@@ -26,19 +26,19 @@ foreach (CaptchaManager::adapters() as $name => $config) {
         'onchange' => 'toggleSettings()'
     ]);
 ?>
-<em class="help-block"><?php echo __d('captcha', 'Select which CAPTCHA component to use by default. Additional configuration may be required depending on the selected component.'); ?></em>
+<em class="help-block"><?= __d('captcha', 'Select which CAPTCHA component to use by default. Additional configuration may be required depending on the selected component.'); ?></em>
 
 <hr />
 
 <?php foreach (CaptchaManager::adapters() as $name => $config): ?>
-    <fieldset class="<?php echo $name; ?>-adapter adapter-info">
+    <fieldset class="<?= $name; ?>-adapter adapter-info">
         <?php
             $adapter = CaptchaManager::adapter($name);
             $prefix = $this->Form->prefix();
         ?>
-        <legend><?php echo $adapter->name(); ?></legend>
+        <legend><?= $adapter->name(); ?></legend>
         <?php $this->Form->prefix("{$prefix}{$name}:"); ?>
-        <?php echo $adapter->settings($this); ?>
+        <?= $adapter->settings($this); ?>
         <?php $this->Form->prefix($prefix); ?>
     </fieldset>
 <?php endforeach; ?>

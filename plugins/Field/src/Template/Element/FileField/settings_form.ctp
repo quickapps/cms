@@ -11,36 +11,35 @@
  */
 ?>
 
-<?php echo $this->Form->input('extensions', ['type' => 'text', 'label' => __d('field', 'Allowed extensions')]); ?>
-<em class="help-block"><?php echo __d('field', 'Comma separated, leave empty to allow any extension. e.g. jpg,gif,png'); ?></em>
+<?= $this->Form->input('extensions', ['type' => 'text', 'label' => __d('field', 'Allowed extensions')]); ?>
+<em class="help-block"><?= __d('field', 'Comma separated, leave empty to allow any extension. e.g. jpg,gif,png'); ?></em>
 
-<?php
-    $ranges = [
-        '1' => '1',
-        '2' => '2',
-        '3' => '3',
-        '4' => '4',
-        '5' => '5',
-        '6' => '6',
-        '7' => '7',
-        '8' => '8',
-        '9' => '9',
-        '10' => '10',
-        'custom' => __d('field', 'Custom')
-    ];
-    echo $this->Form->input('multi', [
+<?=
+    $this->Form->input('multi', [
         'type' => 'select',
-        'options' => $ranges,
+        'options' => [
+            '1' => '1',
+            '2' => '2',
+            '3' => '3',
+            '4' => '4',
+            '5' => '5',
+            '6' => '6',
+            '7' => '7',
+            '8' => '8',
+            '9' => '9',
+            '10' => '10',
+            'custom' => __d('field', 'Custom')
+        ],
         'label' => __d('field', 'Number of files'),
         'id' => 'multi-type',
         'onchange' => 'customMulti()'
     ]);
 ?>
-<em class="help-block"><?php echo __d('field', 'Maximum number of files users can upload for this field.'); ?></em>
+<em class="help-block"><?= __d('field', 'Maximum number of files users can upload for this field.'); ?></em>
 
 <div class="custom-multi">
-    <?php
-        echo $this->Form->input('multi_custom', [
+    <?=
+        $this->Form->input('multi_custom', [
             'type' => 'text',
             'label' => __d('field', 'Customized number of files'),
             'onkeyup' => "if (/\D/g.test(this.value)) { this.value = this.value.replace(/\D/g,'') }",
@@ -48,25 +47,25 @@
     ?>
 </div>
 
-<?php
-    echo $this->Form->input('upload_folder', [
+<?=
+    $this->Form->input('upload_folder', [
         'type' => 'text',
         'label' => __d('field', 'Upload folder'),
     ]);
 ?>
 <em class="help-block">
-    <?php echo __d('field', 'Optional subdirectory where files will be stored.'); ?><br />
-    <?php echo __d('field', 'The root directory is: <code>{0}</code>', normalizePath(ROOT . '/webroot/files/')); ?><br />
-    <?php echo __d('field', 'For example, "my-subdirectory" will maps to <code>{0}my-subdirectory</code>', normalizePath(ROOT . '/webroot/files/')); ?>
+    <?= __d('field', 'Optional subdirectory where files will be stored.'); ?><br />
+    <?= __d('field', 'The root directory is: <code>{0}</code>', normalizePath(ROOT . '/webroot/files/')); ?><br />
+    <?= __d('field', 'For example, "my-subdirectory" will maps to <code>{0}my-subdirectory</code>', normalizePath(ROOT . '/webroot/files/')); ?>
 </em>
 
-<?php
-    echo $this->Form->input('description', [
+<?=
+    $this->Form->input('description', [
         'type' => 'checkbox',
         'label' => __d('field', 'Enable description field'),
     ]);
 ?>
-<em class="help-block"><?php echo __d('field', 'The description field allows users to enter a description about the uploaded file.'); ?></em>
+<em class="help-block"><?= __d('field', 'The description field allows users to enter a description about the uploaded file.'); ?></em>
 
 <script>
     function customMulti() {

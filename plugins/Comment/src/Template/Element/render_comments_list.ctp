@@ -17,14 +17,14 @@
 
 <section class="comments">
     <header>
-        <h2><?php echo __d('comment', 'Comments'); ?></h2>
+        <h2><?= __d('comment', 'Comments'); ?></h2>
     </header>
 
     <?php if ($this->Comment->config('entity')->has('comments') && count($this->Comment->config('entity')->get('comments'))): ?>
         <?php foreach ($this->Comment->config('entity')->get('comments') as $comment): ?>
-            <?php echo $this->render($comment); ?>
+            <?= $this->render($comment); ?>
         <?php endforeach; ?>
     <?php else: ?>
-        <p><?php echo __d('comment', 'There are no comments yet.'); ?></p>
+        <p><?= __d('comment', 'There are no comments yet.'); ?></p>
     <?php endif; ?>
 <section>

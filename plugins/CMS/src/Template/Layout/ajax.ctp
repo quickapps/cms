@@ -16,4 +16,4 @@
  * @author Christopher Castro <chris@quickapps.es>
  */
 ?>
-<?php echo $this->fetch('content'); ?>
+<?= $this->fetch('content'); ?>

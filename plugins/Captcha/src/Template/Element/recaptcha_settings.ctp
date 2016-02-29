@@ -11,8 +11,8 @@
  */
 ?>
 
-<?php echo $this->Form->input('siteKey', ['type' => 'text', 'label' => __d('captcha', 'Site Key *')]); ?>
-<em class="help-block"><?php echo __d('captcha', 'e.g. 6LfydwwTAAAAABPxuvVpS3w70OlV2JDwTnCPqiD1'); ?></em>
+<?= $this->Form->input('siteKey', ['type' => 'text', 'label' => __d('captcha', 'Site Key *')]); ?>
+<em class="help-block"><?= __d('captcha', 'e.g. 6LfydwwTAAAAABPxuvVpS3w70OlV2JDwTnCPqiD1'); ?></em>
 
-<?php echo $this->Form->input('secretKey', ['type' => 'text', 'label' => __d('captcha', 'Secret Key *')]); ?>
-<em class="help-block"><?php echo __d('captcha', 'e.g. 6LfydwwTAAAAAB2z1xzjRbGKkboqXRbodtIU3BLE'); ?></em>
+<?= $this->Form->input('secretKey', ['type' => 'text', 'label' => __d('captcha', 'Secret Key *')]); ?>
+<em class="help-block"><?= __d('captcha', 'e.g. 6LfydwwTAAAAAB2z1xzjRbGKkboqXRbodtIU3BLE'); ?></em>

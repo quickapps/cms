@@ -15,13 +15,13 @@
  */
 ?>
 
-<article id="comment-<?php echo $comment->id; ?>" class="comment">
+<article id="comment-<?= $comment->id; ?>" class="comment">
     <header>
         <address class="author">
-            <?php echo $this->Html->image($comment->get('author')->avatar); ?>
-            <?php echo __d('comment', 'By @{0}', $comment->get('author')->name); ?>
+            <?= $this->Html->image($comment->get('author')->avatar); ?>
+            <?= __d('comment', 'By @{0}', $comment->get('author')->name); ?>
         </address>
-        <h3><?php echo $comment->subject; ?></h3>
+        <h3><?= $comment->subject; ?></h3>
         <p class="date">
             <?php
                 echo __d('comment',
@@ -34,13 +34,13 @@
 
     <div class="comment-body">
         <div class="message">
-            <p><?php echo $comment->body; ?></p>
+            <p><?= $comment->body; ?></p>
         </div>
 
         <?php if ($comment->has('children') && !empty($comment->children)): ?>
             <div calss="comment-answers">
                 <?php foreach($comment->children as $child): ?>
-                    <?php echo $this->render($child); ?>
+                    <?= $this->render($child); ?>
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
@@ -49,8 +49,8 @@
     <footer>
         <?php if ($this->Comment->config('visibility') === 1): ?>
             <p>
-                <?php
-                    echo $this->Form->button(__d('comment', 'Reply'), [
+                <?=
+                    $this->Form->button(__d('comment', 'Reply'), [
                         'class' => 'btn btn-default btn-sm',
                         'onclick' => "CommentForm.replyTo({$comment->id});"
                     ]);

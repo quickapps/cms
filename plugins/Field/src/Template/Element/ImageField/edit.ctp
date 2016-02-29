@@ -17,5 +17,5 @@
         'initScript' => $this->element('Field.ImageField/item_init_script', compact('field'))
     ];
 ?>
-<?php echo $this->element('Field.ImageField/upload_item'); ?>
-<?php echo $this->element('Field.FileField/edit', compact('field', 'options')); ?>
+<?= $this->element('Field.ImageField/upload_item'); ?>
+<?= $this->element('Field.FileField/edit', compact('field', 'options')); ?>
