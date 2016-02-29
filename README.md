@@ -18,7 +18,7 @@ and powered by [CakePHP 3.0](http://cakephp.org) MVC framework.
 ## Requirements
 
 * Apache with mod_rewrite
-* PHP 5.4.19 or higher
+* PHP 5.5.9 or higher
 * mbstring extension installed
 * mcrypt extension installed
 * intl extension installed
