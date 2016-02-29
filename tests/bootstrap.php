@@ -18,6 +18,10 @@ define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
 $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 
 use Cake\Cache\Cache;
+use Cake\Chronos\Chronos;
+use Cake\Chronos\Date;
+use Cake\Chronos\MutableDate;
+use Cake\Chronos\MutableDateTime;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
@@ -201,9 +205,12 @@ try {
 }
 
 /**
- * Carbon test now()
+ * Chronos test now()
  */
-Carbon\Carbon::setTestNow(Carbon\Carbon::now());
+Chronos::setTestNow(Chronos::now());
+MutableDateTime::setTestNow(MutableDateTime::now());
+Date::setTestNow(Date::now());
+MutableDate::setTestNow(MutableDate::now());
 
 /**
  * Include QuickAppsCMS's bootstrap
