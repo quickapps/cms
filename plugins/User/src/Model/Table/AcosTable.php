@@ -11,6 +11,7 @@
  */
 namespace User\Model\Table;
 
+use Cake\Cache\Cache;
 use Cake\Event\Event;
 use Cake\ORM\Table;
 use User\Model\Entity\Aco;
@@ -58,6 +59,18 @@ class AcosTable extends Table
         if ($aco->isNew()) {
             $aco->set('alias_hash', md5($aco->alias));
         }
+    }
+
+    /**
+     * Clear permissions cache after ACO save so new changes are applied.
+     *
+     * @param \Cake\Event\Event $event The event that was triggered
+     * @param \User\Model\Entity\Aco $aco ACO entity that was saved
+     * @return void
+     */
+    public function afterSave(Event $event, Aco $aco)
+    {
+        Cache::clear(false, 'permissions');
     }
 
     /**
