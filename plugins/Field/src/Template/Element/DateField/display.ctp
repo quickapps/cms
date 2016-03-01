@@ -15,13 +15,14 @@ $settings = $field->metadata->settings;
 $phpFormat = DateToolbox::getPHPFormat($field);
 $format = empty($settings['format']) ? 'yy-mm-dd' : $settings['format'];
 $date = DateToolbox::createFromFormat($format, $field->extra);
+$timestamp = $date ? $date->getTimestamp() : 0;
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
     <h3 class="field-label"><?= $field->label; ?></h3>
-    <p><?= date($phpFormat, $date->getTimestamp()); ?></p>
+    <p><?= date($phpFormat, $timestamp); ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= date($phpFormat, $date->getTimestamp()); ?></p>
+    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= date($phpFormat, $timestamp); ?></p>
 <?php else: ?>
-    <p><?= date($format, $field->extra); ?></p>
+    <p><?= date($phpFormat, $timestamp); ?></p>
 <?php endif; ?>
