@@ -34,23 +34,23 @@ use Cake\ORM\TableRegistry;
 ?>
 
 <?php if (!$count): ?>
-    <?php echo $this->Html->css('Taxonomy.token-input.css'); ?>
-    <?php echo $this->Html->css('Taxonomy.token-input-facebook.css'); ?>
-    <?php echo $this->Html->script('Taxonomy.jquery.tokeninput.js'); ?>
+    <?= $this->Html->css('Taxonomy.token-input.css'); ?>
+    <?= $this->Html->css('Taxonomy.token-input-facebook.css'); ?>
+    <?= $this->Html->script('Taxonomy.jquery.tokeninput.js'); ?>
 <?php endif; ?>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#<?php echo $fieldId; ?>').tokenInput('<?php echo $this->Url->build(['plugin' => 'Taxonomy', 'controller' => 'tagger', 'action' => 'search', $field->metadata->settings['vocabulary']], true); ?>', {
+        $('#<?= $fieldId; ?>').tokenInput('<?= $this->Url->build(['plugin' => 'Taxonomy', 'controller' => 'tagger', 'action' => 'search', $field->metadata->settings['vocabulary']], true); ?>', {
             allowNewItems: true,
-            hintText: '<?php echo __d('taxonomy', 'Type in a search term'); ?>',
-            noResultsText: '<?php echo __d('taxonomy', 'No results'); ?>',
-            searchingText: '<?php echo __d('taxonomy', 'Searching...'); ?>',
-            deleteText: '<?php echo __d('taxonomy', 'x'); ?>',
-            <?php echo $tokenLimit; ?>
+            hintText: '<?= __d('taxonomy', 'Type in a search term'); ?>',
+            noResultsText: '<?= __d('taxonomy', 'No results'); ?>',
+            searchingText: '<?= __d('taxonomy', 'Searching...'); ?>',
+            deleteText: '<?= __d('taxonomy', 'x'); ?>',
+            <?= $tokenLimit; ?>
             theme: 'facebook',
             preventDuplicates: true,
-            prePopulate: [<?php echo $prePopulate; ?>]
+            prePopulate: [<?= $prePopulate; ?>]
         });
     });
 </script>

@@ -19,4 +19,5 @@ use Cake\Core\Configure;
  * @author Christopher Castro <chris@quickapps.es>
  */
 ?>
-<?php echo $content; ?>
+
+<?= $content; ?>

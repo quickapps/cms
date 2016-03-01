@@ -13,15 +13,15 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->element('User.index_submenu'); ?>
+        <?= $this->element('User.index_submenu'); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-12">
         <p>
-            <?php
-                echo $this->Html->link(__d('user','{0} New Role', '<span class="glyphicon glyphicon-plus"></span>'), [
+            <?=
+                $this->Html->link(__d('user','{0} New Role', '<span class="glyphicon glyphicon-plus"></span>'), [
                     'plugin' => 'User',
                     'controller' => 'roles',
                     'action' => 'add'
@@ -39,21 +39,21 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><?php echo __d('user', 'Role name'); ?></th>
-                    <th class="text-right"><?php echo __d('user', 'Actions'); ?></th>
+                    <th><?= __d('user', 'Role name'); ?></th>
+                    <th class="text-right"><?= __d('user', 'Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($roles as $role): ?>
                     <tr>
                         <td>
-                            <?php echo $role->name; ?><br />
-                            <small>(<?php echo $role->slug; ?>)</small>
+                            <?= $role->name; ?><br />
+                            <small>(<?= $role->slug; ?>)</small>
                         </td>
                         <td>
                             <div class="btn-group pull-right">
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'User',
                                         'controller' => 'roles',
                                         'action' => 'edit',
@@ -65,8 +65,8 @@
                                 ?>
 
                                 <?php if (!in_array($role->id, [ROLE_ID_ADMINISTRATOR, ROLE_ID_AUTHENTICATED, ROLE_ID_ANONYMOUS])): ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'User',
                                         'controller' => 'roles',
                                         'action' => 'delete',

@@ -30,9 +30,10 @@ if (!empty($block->settings['languages'])) {
         foreach ($validLanguages as $code => $info) {
             $options[$code] = $info['name'];
         }
+    ?>
 
-        echo $this->Html->script('Locale.language.switcher.js');
-        echo $this->Form->input('language-switcher', [
+    <?= $this->Html->script('Locale.language.switcher.js'); ?>
+    <?= $this->Form->input('language-switcher', [
             'type' => 'select',
             'options' => $options,
             'value' => I18n::locale(),
@@ -45,7 +46,7 @@ if (!empty($block->settings['languages'])) {
             function switchLanguage(sb) {
                 var code = $(sb).val();
                 if (code.length) {
-                    var url = '<?php echo stripLanguagePrefix($this->Url->build($this->request->url, true)); ?>?locale=' + code;
+                    var url = '<?= stripLanguagePrefix($this->Url->build($this->request->url, true)); ?>?locale=' + code;
                     $(location).attr('href', url);
                 }
             }
@@ -69,6 +70,6 @@ if (!empty($block->settings['languages'])) {
                 }
             ];
         }
-        echo $this->Menu->render($links, ['class' => 'language-switcher']);
     ?>
+    <?= $this->Menu->render($links, ['class' => 'language-switcher']); ?>
 <?php endif; ?>

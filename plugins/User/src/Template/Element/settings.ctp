@@ -12,12 +12,12 @@
 ?>
 
 <fieldset>
-    <legend><?php echo __d('user', 'Login security'); ?></legend>
+    <legend><?= __d('user', 'Login security'); ?></legend>
 
     <div class="input-group">
-        <span class="input-group-addon"><?php echo __d('user', 'After:'); ?></span>
-        <?php
-            echo $this->Form->input('failed_login_attempts', [
+        <span class="input-group-addon"><?= __d('user', 'After:'); ?></span>
+        <?=
+            $this->Form->input('failed_login_attempts', [
                 'type' => 'select',
                 'options' => [
                     2 => '2',
@@ -30,9 +30,9 @@
                 'label' => false
             ]);
         ?>
-        <span class="input-group-addon"><?php echo __d('user', 'failed login attempts, block visitor for: '); ?></span>
-        <?php
-            echo $this->Form->input('failed_login_attempts_block_seconds', [
+        <span class="input-group-addon"><?= __d('user', 'failed login attempts, block visitor for: '); ?></span>
+        <?=
+            $this->Form->input('failed_login_attempts_block_seconds', [
                 'type' => 'select',
                 'options' => [
                     MINUTE => '1',
@@ -51,32 +51,32 @@
                 'label' => false
             ]);
         ?>
-        <span class="input-group-addon"><?php echo __d('user', 'minutes'); ?></span>
+        <span class="input-group-addon"><?= __d('user', 'minutes'); ?></span>
     </div>
 
-    <em class="help-block"><?php echo __d('user', 'Leave empty any of the parameters for disable this feature.'); ?></em>
+    <em class="help-block"><?= __d('user', 'Leave empty any of the parameters for disable this feature.'); ?></em>
 </fieldset>
 
 <p>&nbsp;</p>
 
 <fieldset>
-    <legend><?php echo __d('user', 'Password strength'); ?></legend>
+    <legend><?= __d('user', 'Password strength'); ?></legend>
 
-    <?php echo $this->Form->input('password_min_length', ['type' => 'text', 'label' => __d('user', 'Minimum password length')]); ?>
-    <?php echo $this->Form->input('password_uppercase', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one uppercase letter')]); ?>
-    <?php echo $this->Form->input('password_lowercase', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one lowercase letter')]); ?>
-    <?php echo $this->Form->input('password_number', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one number')]); ?>
-    <?php echo $this->Form->input('password_non_alphanumeric', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one non-alphanumeric character')]); ?>
+    <?= $this->Form->input('password_min_length', ['type' => 'text', 'label' => __d('user', 'Minimum password length')]); ?>
+    <?= $this->Form->input('password_uppercase', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one uppercase letter')]); ?>
+    <?= $this->Form->input('password_lowercase', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one lowercase letter')]); ?>
+    <?= $this->Form->input('password_number', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one number')]); ?>
+    <?= $this->Form->input('password_non_alphanumeric', ['type' => 'checkbox', 'label' => __d('user', 'Require at least one non-alphanumeric character')]); ?>
 </fieldset>
 
 <p>&nbsp;</p>
 
 <fieldset>
     {no_shortcode}
-    <legend><?php echo __d('user', 'Mailing'); ?></legend>
+    <legend><?= __d('user', 'Mailing'); ?></legend>
 
     <div class="alert alert-info">
-        <strong><?php echo __d('user', 'Available variables are:'); ?></strong>
+        <strong><?= __d('user', 'Available variables are:'); ?></strong>
         <code>{{user:name}}</code>
         <code>{{user:username}}</code>
         <code>{{user:email}}</code>
@@ -95,22 +95,22 @@
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __d('user', 'Welcome'); ?></div>
+                <div class="panel-heading"><?= __d('user', 'Welcome'); ?></div>
                 <div class="panel-body">
-                    <em class="help-block"><?php echo __d('user', 'Edit the welcome e-mail messages sent to new member accounts created by an administrator.'); ?></em>
+                    <em class="help-block"><?= __d('user', 'Edit the welcome e-mail messages sent to new member accounts created by an administrator.'); ?></em>
                     <hr />
-                    <?php echo $this->Form->input('message_welcome_subject', ['label' => __d('user', 'Subject')]); ?>
-                    <?php echo $this->Form->input('message_welcome_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
+                    <?= $this->Form->input('message_welcome_subject', ['label' => __d('user', 'Subject')]); ?>
+                    <?= $this->Form->input('message_welcome_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
                 </div>
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __d('user', 'Account Activation'); ?></div>
+                <div class="panel-heading"><?= __d('user', 'Account Activation'); ?></div>
                 <div class="panel-body">
-                    <em class="help-block"><?php echo __d('user', 'Enable and edit e-mail messages sent to users upon account activation (when an administrator activates an account of a user who has already registered).'); ?></em>
+                    <em class="help-block"><?= __d('user', 'Enable and edit e-mail messages sent to users upon account activation (when an administrator activates an account of a user who has already registered).'); ?></em>
                     <hr />
-                    <?php
-                        echo $this->Form->input('message_activation', [
+                    <?=
+                        $this->Form->input('message_activation', [
                             'type' => 'checkbox',
                             'label' => __d('user', 'Notify user when account is activated'),
                             'onclick' => 'toggleInputs()',
@@ -118,19 +118,19 @@
                         ]);
                     ?>
                     <div class="message_activation_inputs">
-                        <?php echo $this->Form->input('message_activation_subject', ['label' => __d('user', 'Subject')]); ?>
-                        <?php echo $this->Form->input('message_activation_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
+                        <?= $this->Form->input('message_activation_subject', ['label' => __d('user', 'Subject')]); ?>
+                        <?= $this->Form->input('message_activation_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
                     </div>
                 </div>
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __d('user', 'Account Blocked'); ?></div>
+                <div class="panel-heading"><?= __d('user', 'Account Blocked'); ?></div>
                 <div class="panel-body">
-                    <em class="help-block"><?php echo __d('user', 'Enable and edit e-mail messages sent to users when their accounts are blocked.'); ?></em>
+                    <em class="help-block"><?= __d('user', 'Enable and edit e-mail messages sent to users when their accounts are blocked.'); ?></em>
                     <hr />
-                    <?php
-                        echo $this->Form->input('message_blocked', [
+                    <?=
+                        $this->Form->input('message_blocked', [
                             'type' => 'checkbox',
                             'label' => __d('user', 'Notify user when account is blocked'),
                             'onclick' => 'toggleInputs()',
@@ -138,8 +138,8 @@
                         ]);
                     ?>
                     <div class="message_blocked_inputs">
-                        <?php echo $this->Form->input('message_blocked_subject', ['label' => __d('user', 'Subject')]); ?>
-                        <?php echo $this->Form->input('message_blocked_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
+                        <?= $this->Form->input('message_blocked_subject', ['label' => __d('user', 'Subject')]); ?>
+                        <?= $this->Form->input('message_blocked_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
                     </div>
                 </div>
             </div>
@@ -147,32 +147,32 @@
 
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __d('user', 'Password Recovery'); ?></div>
+                <div class="panel-heading"><?= __d('user', 'Password Recovery'); ?></div>
                 <div class="panel-body">
-                    <em class="help-block"><?php echo __d('user', 'Edit the e-mail messages sent to users who request a new password.'); ?></em>
+                    <em class="help-block"><?= __d('user', 'Edit the e-mail messages sent to users who request a new password.'); ?></em>
                     <hr />
-                    <?php echo $this->Form->input('message_password_recovery_subject', ['label' => __d('user', 'Subject')]); ?>
-                    <?php echo $this->Form->input('message_password_recovery_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
+                    <?= $this->Form->input('message_password_recovery_subject', ['label' => __d('user', 'Subject')]); ?>
+                    <?= $this->Form->input('message_password_recovery_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
                 </div>
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __d('user', 'Account Cancellation Confirmation'); ?></div>
+                <div class="panel-heading"><?= __d('user', 'Account Cancellation Confirmation'); ?></div>
                 <div class="panel-body">
-                    <em class="help-block"><?php echo __d('user', 'Edit the e-mail messages sent to users when they attempt to cancel their accounts.'); ?></em>
+                    <em class="help-block"><?= __d('user', 'Edit the e-mail messages sent to users when they attempt to cancel their accounts.'); ?></em>
                     <hr />
-                    <?php echo $this->Form->input('message_cancel_request_subject', ['label' => __d('user', 'Subject')]); ?>
-                    <?php echo $this->Form->input('message_cancel_request_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
+                    <?= $this->Form->input('message_cancel_request_subject', ['label' => __d('user', 'Subject')]); ?>
+                    <?= $this->Form->input('message_cancel_request_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
                 </div>
             </div>
 
             <div class="panel panel-default">
-                <div class="panel-heading"><?php echo __d('user', 'Account Canceled'); ?></div>
+                <div class="panel-heading"><?= __d('user', 'Account Canceled'); ?></div>
                 <div class="panel-body">
-                    <em class="help-block"><?php echo __d('user', 'Enable and edit e-mail messages sent to users when their accounts are canceled.'); ?></em>
+                    <em class="help-block"><?= __d('user', 'Enable and edit e-mail messages sent to users when their accounts are canceled.'); ?></em>
                     <hr />
-                    <?php
-                        echo $this->Form->input('message_canceled', [
+                    <?=
+                        $this->Form->input('message_canceled', [
                             'type' => 'checkbox',
                             'label' => __d('user', 'Notify user when account is canceled'),
                             'onclick' => 'toggleInputs()',
@@ -180,8 +180,8 @@
                         ]);
                     ?>
                     <div class="message_canceled_inputs">
-                        <?php echo $this->Form->input('message_canceled_subject', ['label' => __d('user', 'Subject')]); ?>
-                        <?php echo $this->Form->input('message_canceled_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
+                        <?= $this->Form->input('message_canceled_subject', ['label' => __d('user', 'Subject')]); ?>
+                        <?= $this->Form->input('message_canceled_body', ['type' => 'textarea', 'label' => __d('user', 'Body')]); ?>
                     </div>
                 </div>
             </div>

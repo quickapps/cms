@@ -13,40 +13,38 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->element('User.index_submenu'); ?>
+        <?= $this->element('User.index_submenu'); ?>
     </div>
 </div>
 
 <div class="row">
     <div class="col-md-8">
         <p>
-            <?php
-                echo $this->Html->link(__d('user','{0} New User', '<span class="glyphicon glyphicon-plus"></span>'),
-                    [
-                        'plugin' => 'User',
-                        'controller' => 'manage',
-                        'action' => 'add'
-                    ], [
-                        'class' => 'btn btn-primary',
-                        'escape' => false,
-                    ]
-                );
+            <?=
+                $this->Html->link(__d('user','{0} New User', '<span class="glyphicon glyphicon-plus"></span>'), [
+                    'plugin' => 'User',
+                    'controller' => 'manage',
+                    'action' => 'add'
+                ], [
+                    'class' => 'btn btn-primary',
+                    'escape' => false,
+                ]);
             ?>
         </p>
     </div>
 
     <div class="col-md-4">
-        <?php echo $this->Form->create(null, ['type' => 'get']); ?>
+        <?= $this->Form->create(null, ['type' => 'get']); ?>
         <div class="input-group">
-            <?php
-                echo $this->Form->input('filter', [
+            <?=
+                $this->Form->input('filter', [
                     'label' => false,
                     'value' => (!empty($this->request->query['filter']) ? $this->request->query['filter'] : '')
                 ]);
             ?>
-            <span class="input-group-btn"><?php echo $this->Form->submit(__d('user', 'Search Users')); ?></span>
+            <span class="input-group-btn"><?= $this->Form->submit(__d('user', 'Search Users')); ?></span>
         </div>
-        <?php echo $this->Form->end(); ?>
+        <?= $this->Form->end(); ?>
     </div>
 </div>
 
@@ -55,25 +53,25 @@
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
-                    <th><?php echo __d('user', 'Name'); ?></th>
-                    <th><?php echo __d('user', 'e-Mail'); ?></th>
-                    <th class="hidden-xs"><?php echo __d('user', 'Roles'); ?></th>
-                    <th class="text-right"><?php echo __d('user', 'Actions'); ?></th>
+                    <th><?= __d('user', 'Name'); ?></th>
+                    <th><?= __d('user', 'e-Mail'); ?></th>
+                    <th class="hidden-xs"><?= __d('user', 'Roles'); ?></th>
+                    <th class="text-right"><?= __d('user', 'Actions'); ?></th>
                 </tr>
             </thead>
 
             <tbody>
                 <?php foreach ($users as $user): ?>
                     <tr>
-                        <td><?php echo $user->name; ?> <small>(<?php echo $user->username; ?>)</small></td>
-                        <td><?php echo $user->email; ?></td>
+                        <td><?= $user->name; ?> <small>(<?= $user->username; ?>)</small></td>
+                        <td><?= $user->email; ?></td>
                         <td class="hidden-xs">
-                            <?php echo implode(', ', $user->role_names); ?>
+                            <?= implode(', ', $user->role_names); ?>
                         </td>
                         <td>
                             <div class="btn-group pull-right">
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'User',
                                         'controller' => 'manage',
                                         'action' => 'edit',
@@ -83,8 +81,8 @@
                                         'class' => 'btn btn-sm btn-default btn-sm glyphicon glyphicon-pencil',
                                     ]);
                                 ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'User',
                                         'controller' => 'manage',
                                         'action' => 'password_instructions',
@@ -97,8 +95,8 @@
                                 ?>
                                 <?php if (!in_array(ROLE_ID_ADMINISTRATOR, $user->role_ids)): ?>
                                     <?php if ($user->status): ?>
-                                        <?php
-                                            echo $this->Html->link('', [
+                                        <?=
+                                            $this->Html->link('', [
                                                 'plugin' => 'User',
                                                 'controller' => 'manage',
                                                 'action' => 'block',
@@ -110,8 +108,8 @@
                                             ]);
                                         ?>
                                     <?php else: ?>
-                                        <?php
-                                            echo $this->Html->link('', [
+                                        <?=
+                                            $this->Html->link('', [
                                                 'plugin' => 'User',
                                                 'controller' => 'manage',
                                                 'action' => 'activate',
@@ -123,8 +121,8 @@
                                             ]);
                                         ?>
                                     <?php endif; ?>
-                                    <?php
-                                        echo $this->Html->link('', [
+                                    <?=
+                                        $this->Html->link('', [
                                             'plugin' => 'User',
                                             'controller' => 'manage',
                                             'action' => 'delete',
@@ -144,9 +142,9 @@
         </table>
 
         <ul class="pagination">
-            <?php echo $this->Paginator->prev(); ?>
-            <?php echo $this->Paginator->numbers(); ?>
-            <?php echo $this->Paginator->next(); ?>
+            <?= $this->Paginator->prev(); ?>
+            <?= $this->Paginator->numbers(); ?>
+            <?= $this->Paginator->next(); ?>
         </ul>
     </div>
 </div>

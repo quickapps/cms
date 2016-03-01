@@ -11,12 +11,12 @@
  */
 ?>
 
-<li id="vocabularyTerm_<?php echo $term->id; ?>">
+<li id="vocabularyTerm_<?= $term->id; ?>">
     <div>
-        <span style="cursor:move;"><?php echo $term->name; ?> (<?php echo $term->slug; ?>)&nbsp;&nbsp;&nbsp;</span>
+        <span style="cursor:move;"><?= $term->name; ?> (<?= $term->slug; ?>)&nbsp;&nbsp;&nbsp;</span>
         <div class="btn-group">
-            <?php
-                echo $this->Html->link('', [
+            <?=
+                $this->Html->link('', [
                     'plugin' => 'Taxonomy',
                     'controller' => 'terms',
                     'action' => 'edit',
@@ -26,8 +26,8 @@
                     'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
                 ]);
             ?>
-            <?php
-                echo $this->Html->link('', [
+            <?=
+                $this->Html->link('', [
                     'plugin' => 'Taxonomy',
                     'controller' => 'terms',
                     'action' => 'delete',
@@ -41,5 +41,5 @@
         </div>
     </div>
 
-    <p><?php echo $info['children']; ?></p>
+    <p><?= $info['children']; ?></p>
 </li>

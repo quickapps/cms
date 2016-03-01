@@ -12,15 +12,15 @@
 ?>
 
 <div class="alert alert-info">
-    <strong><?php echo $message; ?>:</strong>
+    <strong><?= $message; ?>:</strong>
 
     <ol>
         <?php foreach ($params['plugins'] as $name => $path): ?>
         <li>
-            <b><?php echo $name; ?></b>:
-            <?php
-                $controller = str_ends_with($name, 'Theme') ? 'themes' : 'plugins';
-                echo $this->Html->link($this->Text->truncate($path, 35, ['ellipsis' => ' ...']), [
+            <b><?= $name; ?></b>:
+            <?php $controller = str_ends_with($name, 'Theme') ? 'themes' : 'plugins'; ?>
+            <?=
+                $this->Html->link($this->Text->truncate($path, 35, ['ellipsis' => ' ...']), [
                     'plugin' => 'System',
                     'controller' => $controller,
                     'action' => 'install',

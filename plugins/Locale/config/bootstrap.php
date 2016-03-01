@@ -57,7 +57,7 @@ if (!function_exists('language')) {
      *    to render an icon using HtmlHelper you should do as follow:
      *
      * ```php
-     * <?php echo $this->Html->image('Locale.flags/' . language('icon')); ?>
+     * <?= $this->Html->image('Locale.flags/' . language('icon')); ?>
      * ```
      *
      * @param string|null $key The key to read, or null to read the whole info

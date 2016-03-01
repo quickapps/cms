@@ -11,16 +11,16 @@
  */
 ?>
 
-<?php
-    echo $this->Form->input('formatter', [
+<?=
+    $this->Form->input('formatter', [
         'id' => 'formatter-type',
         'label' => __d('taxonomy', 'Show as'),
         'type' => 'select',
-        'options' => array(
+        'options' => [
             'plain' => __d('taxonomy', 'Plain text'),
             'link_localized' => __d('taxonomy', 'Links (localized)'),
             'plain_localized' => __d('taxonomy', 'Plain text (localized)')
-        ),
+        ],
         'empty' => false,
         'onchange' => 'toggleUrlPrefix()',
     ]);
@@ -28,20 +28,15 @@
 
 {no_shortcode}
 <div class="option-url-prefix">
-    <?php
-        echo $this->Form->input('link_template', [
-            'label' => __d('taxonomy', 'Link template'),
-            'type' => 'text',
-        ]);
-    ?>
+    <?= $this->Form->input('link_template', ['label' => __d('taxonomy', 'Link template'), 'type' => 'text']); ?>
     <em class="help-block">
-        <?php echo __d('taxonomy', '<strong>Experts only</strong>. A string compatible with HtmlHelper::url() used to create each link. Placeholders are:'); ?>
+        <?= __d('taxonomy', '<strong>Experts only</strong>. A string compatible with HtmlHelper::url() used to create each link. Placeholders are:'); ?>
         <ul>
-            <li><code>{{url}}</code>: <?php echo __d('taxonomy', 'Will be replaced with auto-generated URL.'); ?></li>
-            <li><code>{{attrs}}</code>: <?php echo __d('taxonomy', 'Will be replaced with auto-generated HTML attributes.'); ?></li>
-            <li><code>{{content}}</code>: <?php echo __d('taxonomy', "Will be replaced with term's name"); ?></li>
+            <li><code>{{url}}</code>: <?= __d('taxonomy', 'Will be replaced with auto-generated URL.'); ?></li>
+            <li><code>{{attrs}}</code>: <?= __d('taxonomy', 'Will be replaced with auto-generated HTML attributes.'); ?></li>
+            <li><code>{{content}}</code>: <?= __d('taxonomy', "Will be replaced with term's name"); ?></li>
         </ul>
-        <strong><?php echo __d('taxonomy', 'Example'); ?></strong>: <code><?php echo h('<a href="{{url}}"{{attrs}}>{{content}}</a>'); ?></code>
+        <strong><?= __d('taxonomy', 'Example'); ?></strong>: <code><?= h('<a href="{{url}}"{{attrs}}>{{content}}</a>'); ?></code>
     </em>
 </div>
 {/no_shortcode}

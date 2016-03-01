@@ -11,31 +11,31 @@
  */
 ?>
 
-<?php echo $this->fetch('beforeSubmenu'); ?>
+<?= $this->fetch('beforeSubmenu'); ?>
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->element('Field.FieldUI/field_ui_submenu'); ?>
+        <?= $this->element('Field.FieldUI/field_ui_submenu'); ?>
     </div>
 </div>
-<?php echo $this->fetch('afterSubmenu'); ?>
+<?= $this->fetch('afterSubmenu'); ?>
 
 <div class="row">
     <div class="col-md-12">
-        <h2><?php echo $viewModeInfo['name']; ?></h2>
-        <em class="help-block"><?php echo $viewModeInfo['description']; ?></em>
+        <h2><?= $viewModeInfo['name']; ?></h2>
+        <em class="help-block"><?= $viewModeInfo['description']; ?></em>
     </div>
 </div>
 
-<?php echo $this->fetch('beforeTable'); ?>
+<?= $this->fetch('beforeTable'); ?>
 <div class="row">
     <div class="col-md-12">
         <table class="table table-hover table-bordered table-responsive">
             <thead>
                 <tr>
-                    <th><?php echo __d('field', 'Field label'); ?></th>
-                    <th><?php echo __d('field', 'Label visibility'); ?></th>
-                    <th><?php echo __d('field', 'Field visibility'); ?></th>
-                    <th><?php echo __d('field', 'Actions'); ?></th>
+                    <th><?= __d('field', 'Field label'); ?></th>
+                    <th><?= __d('field', 'Label visibility'); ?></th>
+                    <th><?= __d('field', 'Field visibility'); ?></th>
+                    <th><?= __d('field', 'Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,17 +44,17 @@
                 <?php foreach ($instances as $instance): ?>
                 <tr>
                     <td>
-                        <?php echo $instance->label; ?>
+                        <?= $instance->label; ?>
                         <br />
-                        <em><small><?php echo $instance->slug; ?></small></em>
+                        <em><small><?= $instance->slug; ?></small></em>
                     </td>
-                    <td><?php echo $instance->view_modes[$viewMode]['label_visibility']; ?></td>
-                    <td><?php echo $instance->view_modes[$viewMode]['hidden'] ? __d('field', 'hidden') : __d('field', 'visible'); ?></td>
+                    <td><?= $instance->view_modes[$viewMode]['label_visibility']; ?></td>
+                    <td><?= $instance->view_modes[$viewMode]['hidden'] ? __d('field', 'hidden') : __d('field', 'visible'); ?></td>
                     <td>
                         <div class="btn-group">
                             <?php if ($k > 0): ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => $this->request->params['plugin'],
                                         'controller' => $this->request->params['controller'],
                                         'action' => 'view_mode_move',
@@ -69,8 +69,8 @@
                             <?php endif; ?>
 
                             <?php if ($k < $count - 1): ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => $this->request->params['plugin'],
                                         'controller' => $this->request->params['controller'],
                                         'action' => 'view_mode_move',
@@ -84,8 +84,8 @@
                                 ?>
                             <?php endif; ?>
 
-                            <?php
-                                echo $this->Html->link('', [
+                            <?=
+                                $this->Html->link('', [
                                     'plugin' => $this->request->params['plugin'],
                                     'controller' => $this->request->params['controller'],
                                     'action' => 'view_mode_edit',
@@ -105,4 +105,4 @@
         </table>
     </div>
 </div>
-<?php echo $this->fetch('afterTable'); ?>
+<?= $this->fetch('afterTable'); ?>

@@ -13,11 +13,11 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->Form->create($theme); ?>
+        <?= $this->Form->create($theme); ?>
             <?php $this->Form->prefix('settings:'); ?>
-            <?php echo $this->element("{$theme->name}.settings"); ?>
+            <?= $this->element("{$theme->name}.settings"); ?>
             <?php $this->Form->prefix(''); ?>
-            <?php echo $this->Form->submit(__d('system', 'Save all')); ?>
-        <?php echo $this->Form->end(); ?>
+            <?= $this->Form->submit(__d('system', 'Save all')); ?>
+        <?= $this->Form->end(); ?>
     </div>
 </div>

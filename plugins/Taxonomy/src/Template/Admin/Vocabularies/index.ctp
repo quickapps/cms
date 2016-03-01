@@ -14,8 +14,8 @@
 <div class="row">
     <div class="col-md-12">
         <p class="text-right">
-            <?php
-                echo $this->Html->link(__d('taxonomy', 'Define new vocabulary'), [
+            <?=
+                $this->Html->link(__d('taxonomy', 'Define new vocabulary'), [
                     'plugin' => 'Taxonomy',
                     'controller' => 'vocabularies',
                     'action' => 'add'
@@ -32,9 +32,9 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th><?php echo __d('taxonomy', 'Name'); ?></th>
-                    <th><?php echo __d('taxonomy', 'Description'); ?></th>
-                    <th><?php echo __d('taxonomy', 'Actions'); ?></th>
+                    <th><?= __d('taxonomy', 'Name'); ?></th>
+                    <th><?= __d('taxonomy', 'Description'); ?></th>
+                    <th><?= __d('taxonomy', 'Actions'); ?></th>
                 </tr>
             </thead>
 
@@ -44,13 +44,13 @@
                     <?php $k = 0; ?>
                     <?php foreach ($vocabularies as $vocabulary): ?>
                     <tr>
-                        <td><?php echo $vocabulary->name; ?> (<?php echo $vocabulary->slug; ?>)</td>
-                        <td><em><?php echo $vocabulary->brief_description; ?></em></td>
+                        <td><?= $vocabulary->name; ?> (<?= $vocabulary->slug; ?>)</td>
+                        <td><em><?= $vocabulary->brief_description; ?></em></td>
                         <td>
                             <div class="btn-group">
                                 <?php if ($k > 0): ?>
-                                    <?php
-                                        echo $this->Html->link('', [
+                                    <?=
+                                        $this->Html->link('', [
                                             'plugin' => 'Taxonomy',
                                             'controller' => 'vocabularies',
                                             'action' => 'move',
@@ -64,8 +64,8 @@
                                 <?php endif; ?>
 
                                 <?php if ($k < $count - 1): ?>
-                                    <?php
-                                        echo $this->Html->link('', [
+                                    <?=
+                                        $this->Html->link('', [
                                             'plugin' => 'Taxonomy',
                                             'controller' => 'vocabularies',
                                             'action' => 'move',
@@ -78,8 +78,8 @@
                                     ?>
                                 <?php endif; ?>
 
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'Taxonomy',
                                         'controller' => 'vocabularies',
                                         'action' => 'edit',
@@ -89,8 +89,8 @@
                                         'class' => 'btn btn-default glyphicon glyphicon-pencil',
                                     ]);
                                 ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'Taxonomy',
                                         'controller' => 'terms',
                                         'action' => 'vocabulary',
@@ -100,8 +100,8 @@
                                         'class' => 'btn btn-default glyphicon glyphicon-tags',
                                     ]);
                                 ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'Taxonomy',
                                         'controller' => 'terms',
                                         'action' => 'add',
@@ -112,8 +112,8 @@
                                     ]);
                                 ?>
                                 <?php if (!$vocabulary->locked): ?>
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'Taxonomy',
                                         'controller' => 'vocabularies',
                                         'action' => 'delete',
@@ -134,7 +134,7 @@
                 <tr>
                     <td colspan="3">
                         <div class="alert alert-warning">
-                            <?php echo __d('taxonomy', 'There are no vocabularies yet, click on "Define new vocabulary" button to add one.'); ?>
+                            <?= __d('taxonomy', 'There are no vocabularies yet, click on "Define new vocabulary" button to add one.'); ?>
                         </div>
                     </td>
                 </tr>

@@ -32,7 +32,7 @@
 
         <p>
             After creating roles, you can set permissions for each role
-            on the <?php echo $this->Html->link('Permissions page', ['plugin' => 'User', 'controller' => 'permissions', 'prefix' => 'admin']); ?>.
+            on the <?= $this->Html->link('Permissions page', ['plugin' => 'User', 'controller' => 'permissions', 'prefix' => 'admin']); ?>.
             Granting a permission allows users who have been assigned a particular
             role to perform an action on the site, such as editing or creating
             content, administering settings for a particular plugin, or using a particular

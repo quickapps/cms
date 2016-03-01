@@ -21,10 +21,10 @@
 
 <div class="row dashboard-container">
     <div class="dashboard-main col-md-8">
-        <?php echo $this->region('dashboard-main'); ?>
+        <?= $this->region('dashboard-main'); ?>
     </div>
 
     <div class="dashboard-sidebar col-md-4">
-        <?php echo $this->region('dashboard-sidebar'); ?>
+        <?= $this->region('dashboard-sidebar'); ?>
     </div>
 </div>

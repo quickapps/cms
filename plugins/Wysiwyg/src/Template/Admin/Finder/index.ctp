@@ -11,7 +11,7 @@
  */
 ?>
 
-<div class="elfinder"><?php echo __d('wysiwyg', 'Please enable JavaScript to use elFinder plugin.'); ?></div>
+<div class="elfinder"><?= __d('wysiwyg', 'Please enable JavaScript to use elFinder plugin.'); ?></div>
 
 <?php $this->Html->css('MediaManager.elfinder.min.css', ['block' => true]); ?>
 <?php $this->Html->css('MediaManager.theme.css', ['block' => true]); ?>
@@ -34,7 +34,7 @@
                 pluginName = pluginName.replace(/([A-Z])/g, function($1) { return '_' + $1.toLowerCase(); })
                     .replace(/^_/i, '')
                     .replace(/(_){2,}/g, '_');
-                url = '<?php echo $this->Url->build('/', true); ?>' + pluginName + '/' + asset;
+                url = '<?= $this->Url->build('/', true); ?>' + pluginName + '/' + asset;
             }
         }
 
@@ -53,9 +53,9 @@
         var beeper = $(document.createElement('audio')).hide().appendTo('body')[0];
 
         $('div.elfinder').elfinder({
-            url : '<?php echo $this->Url->build(['plugin' => 'MediaManager', 'controller' => 'explorer', 'action' => 'connector', 'prefix' => 'admin']); ?>',
-            dateFormat: '<?php echo __d('wysiwyg', 'M d, Y h:i A'); ?>',
-            fancyDateFormat: '<?php echo __d('wysiwyg', '$1 H:m:i'); ?>',
+            url : '<?= $this->Url->build(['plugin' => 'MediaManager', 'controller' => 'explorer', 'action' => 'connector', 'prefix' => 'admin']); ?>',
+            dateFormat: '<?= __d('wysiwyg', 'M d, Y h:i A'); ?>',
+            fancyDateFormat: '<?= __d('wysiwyg', '$1 H:m:i'); ?>',
             lang: 'en',
             cookie : {
                 expires: 30,
@@ -72,7 +72,7 @@
         .bind('rm', function(e) {
             e.stopPropagation();
             var play  = beeper.canPlayType && beeper.canPlayType('audio/wav; codecs="1"');
-            play && play != '' && play != 'no' && $(beeper).html('<source src="<?php echo $this->Url->build('/MediaManager/sounds/rm.wav'); ?>" type="audio/wav">')[0].play()
+            play && play != '' && play != 'no' && $(beeper).html('<source src="<?= $this->Url->build('/MediaManager/sounds/rm.wav'); ?>" type="audio/wav">')[0].play()
         });
     });
 </script>

@@ -14,8 +14,8 @@
 <div class="row">
     <div class="col-md-12">
         <p class="text-right">
-            <?php
-                echo $this->Html->link(__d('locale', 'Add new language'), [
+            <?=
+                $this->Html->link(__d('locale', 'Add new language'), [
                     'plugin' => 'Locale',
                     'controller' => 'manage',
                     'action' => 'add'
@@ -32,9 +32,9 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><?php echo __d('locale', 'Name'); ?></th>
-                    <th class="hidden-xs"><?php echo __d('locale', 'Path'); ?></th>
-                    <th class="text-right"><?php echo __d('locale', 'Actions'); ?></th>
+                    <th><?= __d('locale', 'Name'); ?></th>
+                    <th class="hidden-xs"><?= __d('locale', 'Path'); ?></th>
+                    <th class="text-right"><?= __d('locale', 'Actions'); ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,26 +44,26 @@
                     <tr>
                         <td>
                             <?php if ($language->icon): ?>
-                                <?php echo $this->Html->image("Locale.flags/{$language->icon}"); ?>
+                                <?= $this->Html->image("Locale.flags/{$language->icon}"); ?>
                             <?php endif; ?>
 
                             <?php if ($language->status): ?>
-                                <?php echo $language->name; ?>
+                                <?= $language->name; ?>
                             <?php else: ?>
-                                <s title="<?php echo __d('locale', 'Disabled'); ?>"><?php echo $language->name; ?></s>
+                                <s title="<?= __d('locale', 'Disabled'); ?>"><?= $language->name; ?></s>
                             <?php endif; ?>
 
                             <?php if (option('default_language') === $language->code): ?>
-                            <span class="glyphicon glyphicon-star" title="<?php echo __d('locale', 'Default language'); ?>"></span>
+                            <span class="glyphicon glyphicon-star" title="<?= __d('locale', 'Default language'); ?>"></span>
                             <?php endif; ?>
                         </td>
-                        <td class="hidden-xs">/<?php echo $language->code; ?></td>
+                        <td class="hidden-xs">/<?= $language->code; ?></td>
                         <td>
                             <div class="btn-group pull-right">
                                 <!-- move up -->
                                 <?php if ($k > 0): ?>
-                                    <?php
-                                        echo $this->Html->link('', [
+                                    <?=
+                                        $this->Html->link('', [
                                             'plugin' => 'Locale',
                                             'controller' => 'manage',
                                             'action' => 'move',
@@ -78,8 +78,8 @@
 
                                 <!-- move down -->
                                 <?php if ($k < $count - 1): ?>
-                                    <?php
-                                        echo $this->Html->link('', [
+                                    <?=
+                                        $this->Html->link('', [
                                             'plugin' => 'Locale',
                                             'controller' => 'manage',
                                             'action' => 'move',
@@ -94,8 +94,8 @@
 
                                 <!-- set default -->
                                 <?php if ($language->status && option('default_language') !== $language->code): ?>
-                                    <?php
-                                        echo $this->Html->link('', [
+                                    <?=
+                                        $this->Html->link('', [
                                             'plugin' => 'Locale',
                                             'controller' => 'manage',
                                             'action' => 'set_default',
@@ -108,8 +108,8 @@
                                 <?php endif; ?>
 
                                 <!-- edit -->
-                                <?php
-                                    echo $this->Html->link('', [
+                                <?=
+                                    $this->Html->link('', [
                                         'plugin' => 'Locale',
                                         'controller' => 'manage',
                                         'action' => 'edit',
@@ -123,8 +123,8 @@
                                 <!-- delete, enable, disable -->
                                 <?php if (!in_array($language->code, [CORE_LOCALE, option('default_language')])): ?>
                                     <?php if ($language->status): ?>
-                                        <?php
-                                            echo $this->Html->link('', [
+                                        <?=
+                                            $this->Html->link('', [
                                                 'plugin' => 'Locale',
                                                 'controller' => 'manage',
                                                 'action' => 'disable',
@@ -136,8 +136,8 @@
                                             ]);
                                         ?>
                                     <?php else: ?>
-                                        <?php
-                                            echo $this->Html->link('', [
+                                        <?=
+                                            $this->Html->link('', [
                                                 'plugin' => 'Locale',
                                                 'controller' => 'manage',
                                                 'action' => 'enable',
@@ -148,8 +148,8 @@
                                             ]);
                                         ?>
                                     <?php endif; ?>
-                                    <?php
-                                        echo $this->Html->link('', [
+                                    <?=
+                                        $this->Html->link('', [
                                             'plugin' => 'Locale',
                                             'controller' => 'manage',
                                             'action' => 'delete',
@@ -169,6 +169,6 @@
             </tbody>
         </table>
 
-        <em><?php echo __d('locale', 'Language\'s order dictates the position in which languages are rendered, for example in "Language Switcher" block.'); ?></em>
+        <em><?= __d('locale', 'Language\'s order dictates the position in which languages are rendered, for example in "Language Switcher" block.'); ?></em>
     </div>
 </div>

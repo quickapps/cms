@@ -11,34 +11,34 @@
  */
 ?>
 
-<?php echo $this->Form->create('Database', ['class' => 'database-form form-vertical']); ?>
+<?= $this->Form->create('Database', ['class' => 'database-form form-vertical']); ?>
 <fieldset>
-    <legend><?php echo __d('installer', 'Database Connection'); ?></legend>
-    <small><em><?php echo __d('installer', 'Enter connection data for your database. Note: your database must already exist before completing this step.'); ?></em></small>
+    <legend><?= __d('installer', 'Database Connection'); ?></legend>
+    <small><em><?= __d('installer', 'Enter connection data for your database. Note: your database must already exist before completing this step.'); ?></em></small>
 
     <hr />
 
     <div class="row">
         <div class="col-md-12">
-            <?php echo $this->Flash->render(); ?>
+            <?= $this->Flash->render(); ?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <?php echo $this->Form->input('host', ['label' => __d('installer', 'Host'), 'value' => 'localhost', 'placeholder' => __d('installer', 'ex. localhost')]); ?>
-                <em class="help-block"><?php echo __d('installer', 'ex. mysql.server.com or localhost'); ?></em>
+                <?= $this->Form->input('host', ['label' => __d('installer', 'Host'), 'value' => 'localhost', 'placeholder' => __d('installer', 'ex. localhost')]); ?>
+                <em class="help-block"><?= __d('installer', 'ex. mysql.server.com or localhost'); ?></em>
             </div>
 
             <div class="form-group">
-                <?php echo $this->Form->input('database', ['label' => __d('installer', 'Database Name'), 'placeholder' => __d('installer', 'ex. quickappscms_db')]); ?>
-                <em class="help-block"><?php echo __d('installer', 'Database must already exist!'); ?></em>
+                <?= $this->Form->input('database', ['label' => __d('installer', 'Database Name'), 'placeholder' => __d('installer', 'ex. quickappscms_db')]); ?>
+                <em class="help-block"><?= __d('installer', 'Database must already exist!'); ?></em>
             </div>
 
             <div class="form-group">
-                <?php
-                    echo $this->Form->input('driver', [
+                <?=
+                    $this->Form->input('driver', [
                         'options' => [
                             'Mysql' => 'MySQL',
                             'Postgres' => 'Postgres',
@@ -50,19 +50,19 @@
                         'class' => 'form-control'
                     ]);
                 ?>
-                <em class="help-block"><?php echo __d('installer', 'The type of database your QuickAppsCMS data will be stored in.'); ?></em>
+                <em class="help-block"><?= __d('installer', 'The type of database your QuickAppsCMS data will be stored in.'); ?></em>
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="form-group">
-                <?php echo $this->Form->input('username', ['label' => __d('installer', 'Username')]); ?>
-                <em class="help-block"><?php echo __d('installer', 'Username used to log into this database.'); ?></em>
+                <?= $this->Form->input('username', ['label' => __d('installer', 'Username')]); ?>
+                <em class="help-block"><?= __d('installer', 'Username used to log into this database.'); ?></em>
             </div>
 
             <div class="form-group">
-                <?php echo $this->Form->input('password', ['label' => __d('installer', 'Password')]); ?>
-                <em class="help-block"><?php echo __d('installer', 'Password used to log into this database.'); ?></em>
+                <?= $this->Form->input('password', ['label' => __d('installer', 'Password')]); ?>
+                <em class="help-block"><?= __d('installer', 'Password used to log into this database.'); ?></em>
             </div>
         </div>
     </div>
@@ -71,17 +71,17 @@
 
     <div class="row">
         <div class="col-md-12">
-            <p><?php echo $this->Form->submit(__d('installer', 'Continue'), ['class' => 'submit-btn pull-right']); ?></p>
+            <p><?= $this->Form->submit(__d('installer', 'Continue'), ['class' => 'submit-btn pull-right']); ?></p>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <small class="wait-msg pull-right" style="display:none;"><em><?php echo __d('installer', 'This might take a few minutes, please be patient'); ?></em></small>
+            <small class="wait-msg pull-right" style="display:none;"><em><?= __d('installer', 'This might take a few minutes, please be patient'); ?></em></small>
         </div>
     </div>
 </fieldset>
-<?php echo $this->Form->end(); ?>
+<?= $this->Form->end(); ?>
 
 <script>
     $('form.database-form').on('submit', function () {

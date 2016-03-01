@@ -14,8 +14,8 @@
 <div class="row">
     <div class="col-md-12">
         <p class="text-right">
-            <?php
-                echo $this->Html->link(__d('menu', 'Create new menu'), [
+            <?=
+                $this->Html->link(__d('menu', 'Create new menu'), [
                     'plugin' => 'Menu',
                     'controller' => 'manage',
                     'action' => 'add'
@@ -34,8 +34,8 @@
             <?php foreach ($menus as $menu): ?>
                 <li class="list-group-item">
                     <div class="btn-group pull-right">
-                        <?php
-                            echo $this->Html->link('', [
+                        <?=
+                            $this->Html->link('', [
                                 'plugin' => 'Menu',
                                 'controller' => 'manage',
                                 'action' => 'edit',
@@ -45,8 +45,8 @@
                                 'class' => 'btn btn-sm btn-default glyphicon glyphicon-pencil',
                             ]);
                         ?>
-                        <?php
-                            echo $this->Html->link('', [
+                        <?=
+                            $this->Html->link('', [
                                 'plugin' => 'Menu',
                                 'controller' => 'links',
                                 'action' => 'menu',
@@ -56,8 +56,8 @@
                                 'class' => 'btn btn-sm btn-default glyphicon glyphicon-link',
                             ]);
                         ?>
-                        <?php
-                            echo $this->Html->link('', [
+                        <?=
+                            $this->Html->link('', [
                                 'plugin' => 'Menu',
                                 'controller' => 'links',
                                 'action' => 'add',
@@ -67,29 +67,30 @@
                                 'class' => 'btn btn-sm btn-default glyphicon glyphicon-plus',
                             ]);
                         ?>
+
                         <?php if ($menu->handler === 'Menu'): ?>
-                        <?php
-                            echo $this->Html->link('', [
-                                'plugin' => 'Menu',
-                                'controller' => 'manage',
-                                'action' => 'delete',
-                                $menu->id
-                            ], [
-                                'title' => __d('menu', 'Delete this menu'),
-                                'confirm' => __d('menu', 'Delete this menu ? All links within this menu will be lost.'),
-                                'class' => 'btn btn-sm btn-default glyphicon glyphicon-trash',
-                            ]);
-                        ?>
+                            <?=
+                                $this->Html->link('', [
+                                    'plugin' => 'Menu',
+                                    'controller' => 'manage',
+                                    'action' => 'delete',
+                                    $menu->id
+                                ], [
+                                    'title' => __d('menu', 'Delete this menu'),
+                                    'confirm' => __d('menu', 'Delete this menu ? All links within this menu will be lost.'),
+                                    'class' => 'btn btn-sm btn-default glyphicon glyphicon-trash',
+                                ]);
+                            ?>
                         <?php endif; ?>
                     </div>
-                    <h4 class="list-group-item-heading"><?php echo $menu->title; ?></h4>
-                    <p class="list-group-item-text"><?php echo $menu->description; ?></p>
+                    <h4 class="list-group-item-heading"><?= $menu->title; ?></h4>
+                    <p class="list-group-item-text"><?= $menu->description; ?></p>
                 </li>
             <?php endforeach; ?>
             </ul>
         <?php else: ?>
             <div class="alert alert-warning">
-                <?php echo __d('menu', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>
+                <?= __d('menu', 'There are no menus yet, click on "Create new menu" button to add one.'); ?>
             </div>
         <?php endif; ?>
     </div>

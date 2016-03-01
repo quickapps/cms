@@ -13,19 +13,19 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->Form->create($term); ?>
+        <?= $this->Form->create($term); ?>
             <fieldset>
-                <legend><?php echo __d('taxonomy', "Editing Vocabulary's Term"); ?></legend>
+                <legend><?= __d('taxonomy', "Editing Vocabulary's Term"); ?></legend>
 
-                <?php echo $this->Form->label(__d('taxonomy', "Term's Name *")); ?>
+                <?= $this->Form->label(__d('taxonomy', "Term's Name *")); ?>
                 <div class="input-group">
-                    <?php echo $this->Form->input('name', ['label' => false]); ?>
-                    <span class="input-group-addon"><?php echo __d('taxonomy', 'Slug: {0}', $term->slug); ?></span>
+                    <?= $this->Form->input('name', ['label' => false]); ?>
+                    <span class="input-group-addon"><?= __d('taxonomy', 'Slug: {0}', $term->slug); ?></span>
                 </div>
-                <em class="help-block"><?php echo __d('taxonomy', 'The name for this term. e.g. "cat", "dog" or "bird" for the "animals" vocabulary.'); ?></em>
+                <em class="help-block"><?= __d('taxonomy', 'The name for this term. e.g. "cat", "dog" or "bird" for the "animals" vocabulary.'); ?></em>
 
-                <?php echo $this->Form->submit(__d('taxonomy', 'Save Changes')); ?>
+                <?= $this->Form->submit(__d('taxonomy', 'Save Changes')); ?>
             </fieldset>
-        <?php echo $this->Form->end(); ?>
+        <?= $this->Form->end(); ?>
     </div>
 </div>

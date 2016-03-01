@@ -14,21 +14,21 @@
 <div class="row">
     <div class="col-md-12">
         <div class="well well-sm">
-            <p><?php echo implode($path, ' / '); ?></p>
+            <p><?= implode($path, ' / '); ?></p>
 
-            <?php echo $this->Form->create($aco, ['onsubmit' => 'return false;', 'id' => 'permissions-form']); ?>
+            <?= $this->Form->create($aco, ['onsubmit' => 'return false;', 'id' => 'permissions-form']); ?>
                 <div class="roles-list">
-                    <?php echo $this->Form->input('roles._ids', ['type' => 'select', 'options' => $roles, 'multiple' => true, 'label' => __d('user', 'Role Permissions')]); ?>
+                    <?= $this->Form->input('roles._ids', ['type' => 'select', 'options' => $roles, 'multiple' => true, 'label' => __d('user', 'Role Permissions')]); ?>
                 </div>
                 <em class="help-block">
-                    <?php echo __d('user', 'Hold <kbd>ctrl</kbd> key when clicking to select multiple roles. Administrators have full access to the entire platform. No restrictions can be applied to them.'); ?>
+                    <?= __d('user', 'Hold <kbd>ctrl</kbd> key when clicking to select multiple roles. Administrators have full access to the entire platform. No restrictions can be applied to them.'); ?>
                 </em>
 
                 <a class="btn btn-success has-spinner">
                     <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
-                    <?php echo __d('user', 'Save Permissions'); ?>
+                    <?= __d('user', 'Save Permissions'); ?>
                 </a>
-            <?php echo $this->Form->end(); ?>
+            <?= $this->Form->end(); ?>
         </div>
     </div>
 </div>

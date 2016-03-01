@@ -13,13 +13,13 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->Form->create($language); ?>
+        <?= $this->Form->create($language); ?>
             <fieldset>
-                <legend><?php echo __d('locale', 'Editing Language'); ?></legend>
+                <legend><?= __d('locale', 'Editing Language'); ?></legend>
 
-                <?php echo $this->Form->input('name', ['label' => __d('locale', 'Language Name')]); ?>
-                <?php
-                    echo $this->Form->input('direction', [
+                <?= $this->Form->input('name', ['label' => __d('locale', 'Language Name')]); ?>
+                <?=
+                    $this->Form->input('direction', [
                         'type' => 'select',
                         'options' => [
                             'ltr' => __d('locale', 'Left to Right'),
@@ -30,9 +30,9 @@
                 ?>
 
                 <div class="input-group">
-                    <span class="input-group-addon"><?php echo __d('locale', 'Language Icon'); ?>: <span class="flag"></span></span>
-                    <?php
-                        echo $this->Form->input('icon', [
+                    <span class="input-group-addon"><?= __d('locale', 'Language Icon'); ?>: <span class="flag"></span></span>
+                    <?=
+                        $this->Form->input('icon', [
                             'id' => 'flag-icons',
                             'label' => false,
                             'type' => 'select',
@@ -44,16 +44,16 @@
 
                 <p>&nbsp;</p>
 
-                <?php echo $this->Form->submit(__d('locale', 'Save')); ?>
+                <?= $this->Form->submit(__d('locale', 'Save')); ?>
             </fieldset>
-        <?php echo $this->Form->end(); ?>
+        <?= $this->Form->end(); ?>
     </div>
 </div>
 
-<?php echo $this->Html->script('Locale.language.form.js'); ?>
+<?= $this->Html->script('Locale.language.form.js'); ?>
 
 <script type="text/javascript">
     $(document).ready(function () {
-        changeFlag('#flag-icons', '<?php echo $this->Url->build('/Locale/img/flags/', true); ?>')
+        changeFlag('#flag-icons', '<?= $this->Url->build('/Locale/img/flags/', true); ?>')
     });
 </script>

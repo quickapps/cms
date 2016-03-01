@@ -12,11 +12,11 @@
 ?>
 
 <fieldset>
-    <legend><?php echo __d('locale', 'Display Mode'); ?></legend>
+    <legend><?= __d('locale', 'Display Mode'); ?></legend>
 
     <div class="form-group">
-        <?php
-            echo $this->Form->input('languages', [
+        <?=
+            $this->Form->input('languages', [
                 'label' => 'Show languages',
                 'type' => 'select',
                 'multiple' => 'checkbox',
@@ -24,19 +24,10 @@
             ]);
         ?>
         <em class="help-block">
-            <?echo __d('locale', 'Select which languages should be presented to users in the selector interface. <b>If none is selected</b>, all enabled languages will be used.'); ?>
+            <?= __d('locale', 'Select which languages should be presented to users in the selector interface. <b>If none is selected</b>, all enabled languages will be used.'); ?>
         </em>
     </div>
 
-    <?php
-        echo $this->Form->radio('type', [
-            'html' => __d('locale', 'HTML list'),
-            'selectbox' => __d('locale', 'Selectbox'),
-        ]);
-
-        echo $this->Form->input('flags', [
-            'type' => 'checkbox',
-            'label' => __d('locale', 'Show flags when possible.'),
-        ]);
-    ?>
+    <?= $this->Form->radio('type', ['html' => __d('locale', 'HTML list'), 'selectbox' => __d('locale', 'Selectbox')]); ?>
+    <?= $this->Form->input('flags', ['type' => 'checkbox', 'label' => __d('locale', 'Show flags when possible.')]); ?>
 </fieldset>

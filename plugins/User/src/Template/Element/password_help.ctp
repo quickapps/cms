@@ -13,22 +13,22 @@
 
 <em class="help-block">
     <ul>
-        <li><?php echo __d('user', 'At least {0} characters length.', plugin('User')->settings['password_min_length']); ?></li>
+        <li><?= __d('user', 'At least {0} characters length.', plugin('User')->settings['password_min_length']); ?></li>
 
         <?php if (plugin('User')->settings['password_uppercase']): ?>
-            <li><?php echo __d('user', 'At least one uppercase character (A-Z).'); ?></li>
+            <li><?= __d('user', 'At least one uppercase character (A-Z).'); ?></li>
         <?php endif; ?>
 
         <?php if (plugin('User')->settings['password_lowercase']): ?>
-            <li><?php echo __d('user', 'At least one lowercase character (a-z).'); ?></li>
+            <li><?= __d('user', 'At least one lowercase character (a-z).'); ?></li>
         <?php endif; ?>
 
         <?php if (plugin('User')->settings['password_number']): ?>
-            <li><?php echo __d('user', 'At least one numeric character (0-9).'); ?></li>
+            <li><?= __d('user', 'At least one numeric character (0-9).'); ?></li>
         <?php endif; ?>
 
         <?php if (plugin('User')->settings['password_non_alphanumeric']): ?>
-            <li><?php echo __d('user', 'At least one non-alphanumeric character (e.g. <code>#$"</code>).'); ?></li>
+            <li><?= __d('user', 'At least one non-alphanumeric character (e.g. <code>#$"</code>).'); ?></li>
         <?php endif; ?>
     </ul>
 </em>

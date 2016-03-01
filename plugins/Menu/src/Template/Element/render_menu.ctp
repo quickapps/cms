@@ -11,5 +11,5 @@
  */
 ?>
 
-<h3><?php echo $menu->title; ?></h3>
-<nav><?php echo $this->Menu->render($menu->links); ?></nav>
+<h3><?= $menu->title; ?></h3>
+<nav><?= $this->Menu->render($menu->links); ?></nav>

@@ -14,20 +14,20 @@
 <div class="row">
     <div class="col-md-6">
         <div class="btn-group filters">
-            <?php
-                echo $this->Html->link(__d('system', 'All') . ' <span class="badge"></span>', '#show-all', [
+            <?=
+                $this->Html->link(__d('system', 'All') . ' <span class="badge"></span>', '#show-all', [
                     'class' => 'btn btn-primary btn-sm btn-all',
                     'escape' => false,
                 ]);
             ?>
-            <?php
-                echo $this->Html->link(__d('system', 'Enabled') . ' <span class="badge">' . $enabled . '</span>', '#show-enabled', [
+            <?=
+                $this->Html->link(__d('system', 'Enabled') . ' <span class="badge">' . $enabled . '</span>', '#show-enabled', [
                     'class' => 'btn btn-success btn-sm btn-enabled',
                     'escape' => false,
                 ]);
             ?>
-            <?php
-                echo $this->Html->link(__d('system', 'Disabled') . ' <span class="badge">' . $disabled . '</span>', '#show-disabled', [
+            <?=
+                $this->Html->link(__d('system', 'Disabled') . ' <span class="badge">' . $disabled . '</span>', '#show-disabled', [
                     'class' => 'btn btn-danger btn-sm btn-disabled',
                     'escape' => false,
                 ]);
@@ -36,8 +36,8 @@
     </div>
 
     <div class="col-md-6 text-right">
-        <?php
-            echo $this->Html->link(__d('system', 'Install plugin'), [
+        <?=
+            $this->Html->link(__d('system', 'Install plugin'), [
                 'plugin' => 'System',
                 'controller' => 'plugins',
                 'action' => 'install',
@@ -52,8 +52,8 @@
     <div class="col-md-3 pull-right">
         <p>
             <div class="input-group">
-                <span class="input-group-addon"><?php echo __d('system', 'Filter by'); ?></span>
-                <?php echo $this->Form->input('filter-input', ['class' => 'filter-input', 'label' => false]) ?>
+                <span class="input-group-addon"><?= __d('system', 'Filter by'); ?></span>
+                <?= $this->Form->input('filter-input', ['class' => 'filter-input', 'label' => false]) ?>
             </div>
         </p>
     </div>
@@ -64,17 +64,17 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th><?php echo __d('system', 'Plugin Name'); ?></th>
-                    <th><?php echo __d('system', 'Description'); ?></th>
+                    <th><?= __d('system', 'Plugin Name'); ?></th>
+                    <th><?= __d('system', 'Description'); ?></th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($plugins as $info): ?>
-                    <?php echo $this->element('System.plugin_item', ['plugin' => $info]); ?>
+                    <?= $this->element('System.plugin_item', ['plugin' => $info]); ?>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
 </div>
 
-<?php echo $this->Html->script(['System.jquery.ba-hashchange.min.js', 'System.plugins.management.js']); ?>
+<?= $this->Html->script(['System.jquery.ba-hashchange.min.js', 'System.plugins.management.js']); ?>

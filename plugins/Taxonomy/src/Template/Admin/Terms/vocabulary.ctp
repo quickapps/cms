@@ -15,9 +15,9 @@
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <?php echo __d('taxonomy', '{0}: Terms Tree', $vocabulary->name); ?>
-                <?php
-                    echo $this->Html->link('<span class="glyphicon glyphicon-plus"></span> ' . __d('taxonomy', 'add term'), [
+                <?= __d('taxonomy', '{0}: Terms Tree', $vocabulary->name); ?>
+                <?=
+                    $this->Html->link('<span class="glyphicon glyphicon-plus"></span> ' . __d('taxonomy', 'add term'), [
                         'plugin' => 'Taxonomy',
                         'controller' => 'terms',
                         'action' => 'add',
@@ -30,11 +30,11 @@
             </div>
 
             <div class="panel-body">
-                <?php echo $this->Form->create(null); ?>
+                <?= $this->Form->create(null); ?>
                     <?php if (!$terms->isEmpty()): ?>
-                        <?php echo $this->Form->hidden('tree_order', ['id' => 'tree_order']); ?>
-                        <?php
-                            echo $this->Menu->render($terms, [
+                        <?= $this->Form->hidden('tree_order', ['id' => 'tree_order']); ?>
+                        <?=
+                            $this->Menu->render($terms, [
                                 'beautify' => false,
                                 'breadcrumbGuessing' => false,
                                 'id' => 'menu-links',
@@ -47,19 +47,19 @@
                                 }
                             ]);
                         ?>
-                        <?php echo $this->Form->submit(__d('taxonomy', 'Save Order')); ?>
+                        <?= $this->Form->submit(__d('taxonomy', 'Save Order')); ?>
                     <?php else: ?>
                         <div class="alert alert-warning">
-                            <?php echo __d('taxonomy', 'There are not terms yet, use the "add term" button to start adding new terms to this vocabulary.'); ?>
+                            <?= __d('taxonomy', 'There are not terms yet, use the "add term" button to start adding new terms to this vocabulary.'); ?>
                         </div>
                     <?php endif; ?>
-                <?php echo $this->Form->end(); ?>
+                <?= $this->Form->end(); ?>
             </div>
         </div>
     </div>
 </div>
-<?php
-    echo $this->Html->script([
+<?=
+    $this->Html->script([
         'Jquery.jquery-ui.min.js',
         'System.jquery.json.js',
         'System.jquery.mjs.nestedSortable.js',

@@ -22,9 +22,9 @@
 <dl>
     <dt>Creating vocabularies</dt>
     <dd>
-        Users with sufficient <?php echo $this->Html->link(__d('taxonomy', 'permissions'), ['plugin' => 'User', 'controller' => 'permissions']); ?>
+        Users with sufficient <?= $this->Html->link(__d('taxonomy', 'permissions'), ['plugin' => 'User', 'controller' => 'permissions']); ?>
         can create <em>vocabularies</em> and <em>terms</em> through the
-        <?php echo $this->Html->link(__d('taxonomy', 'Taxonomy page'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies']); ?>.
+        <?= $this->Html->link(__d('taxonomy', 'Taxonomy page'), ['plugin' => 'Taxonomy', 'controller' => 'vocabularies']); ?>.
         The page listing the terms provides an interface for controlling the order of the terms and sub-terms within a vocabulary,
         in a hierarchical fashion. A <em>controlled vocabulary</em> classifying music by genre with terms and sub-terms could look as follows:
 
@@ -51,7 +51,7 @@
     <dt>Assigning vocabularies to content types</dt>
     <dd>
         Before you can use a new vocabulary to classify your content, a new Taxonomy terms field must be added to a
-        <?php echo $this->Html->link(__d('taxonomy', 'content type'), ['plugin' => 'Content', 'controller' => 'types']); ?> on its
+        <?= $this->Html->link(__d('taxonomy', 'content type'), ['plugin' => 'Content', 'controller' => 'types']); ?> on its
         <em>fields</em> page. After choosing the terms field, on the subsequent <em>field settings</em> page you can
         choose the desired vocabulary, whether one or multiple terms can be chosen from the vocabulary, and other settings.
         The same vocabulary can be added to multiple content types by using the terms field.
@@ -61,7 +61,7 @@
     <dd>
         After the vocabulary is assigned to the content type's Taxonomy field, you can start classifying content.
         The field with terms will appear on the content editing screen when you edit or
-        <?php echo $this->Html->link(__d('taxonomy', 'add new content'), ['plugin' => 'Content', 'controller' => 'manage', 'action' => 'create']); ?>.
+        <?= $this->Html->link(__d('taxonomy', 'add new content'), ['plugin' => 'Content', 'controller' => 'manage', 'action' => 'create']); ?>.
     </dd>
 
     <dt>Filtering contents by term</dt>

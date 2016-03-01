@@ -12,7 +12,7 @@
 ?>
 
 <?php if (!$field->metadata->settings['vocabulary']): ?>
-    <div class="alert alert-warning"><?php echo __d('taxonomy', 'You must select a vocabulary for this field!'); ?></div>
+    <div class="alert alert-warning"><?= __d('taxonomy', 'You must select a vocabulary for this field!'); ?></div>
 <?php else: ?>
     <?php
         // considering "max_values" > 1
@@ -50,6 +50,6 @@
     ?>
 
     <!-- taxonomy field -->
-    <?php echo $this->Form->input($field->name, $inputOptions); ?>
-    <em class="help-block"><?php echo $field->metadata->description; ?></em>
+    <?= $this->Form->input($field->name, $inputOptions); ?>
+    <em class="help-block"><?= $field->metadata->description; ?></em>
 <?php endif; ?>

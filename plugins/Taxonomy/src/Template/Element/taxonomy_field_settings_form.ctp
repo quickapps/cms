@@ -11,17 +11,17 @@
  */
 ?>
 
-<?php
-    echo $this->Form->input('vocabulary', [
+<?=
+    $this->Form->input('vocabulary', [
         'type' => 'select',
         'label' => __d('taxonomy', 'Vocabulary *'),
         'options' => $vocabularies,
     ]);
 ?>
-<em class="help-block"><?php echo __d('taxonomy', 'The vocabulary which supplies the options for this field.'); ?></em>
+<em class="help-block"><?= __d('taxonomy', 'The vocabulary which supplies the options for this field.'); ?></em>
 
-<?php
-    echo $this->Form->input('type', [
+<?=
+    $this->Form->input('type', [
         'type' => 'select',
         'label' => __d('taxonomy', 'Element Type *'),
         'options' => [
@@ -31,10 +31,10 @@
         ],
     ]);
 ?>
-<em class="help-block"><?php echo __d('taxonomy', 'The type of form element you would like to present to the user when creating new contents.'); ?></em>
+<em class="help-block"><?= __d('taxonomy', 'The type of form element you would like to present to the user when creating new contents.'); ?></em>
 
-<?php
-    echo $this->Form->input('max_values', [
+<?=
+    $this->Form->input('max_values', [
         'type' => 'select',
         'label' => __d('taxonomy', 'Number of values *'),
         'options' => [
@@ -52,8 +52,8 @@
         ],
     ]);
 ?>
-<em class="help-block"><?php echo __d('taxonomy', 'Maximum number of values users can enter for this field.'); ?></em>
-<em class="help-block"><?php echo __d('taxonomy', 'If you choose "Check boxes/radio buttons" as element type and you set "Number of values" to 1, radio buttons will be used.'); ?></em>
+<em class="help-block"><?= __d('taxonomy', 'Maximum number of values users can enter for this field.'); ?></em>
+<em class="help-block"><?= __d('taxonomy', 'If you choose "Check boxes/radio buttons" as element type and you set "Number of values" to 1, radio buttons will be used.'); ?></em>
 
-<?php echo $this->Form->input('error_message', ['label' => __d('taxonomy', 'Error message')]); ?>
-<em class="help-block"><?php echo __d('taxonomy', 'Error message that is shown to the user when he/she exceeds the "Number of values".'); ?></em>
+<?= $this->Form->input('error_message', ['label' => __d('taxonomy', 'Error message')]); ?>
+<em class="help-block"><?= __d('taxonomy', 'Error message that is shown to the user when he/she exceeds the "Number of values".'); ?></em>

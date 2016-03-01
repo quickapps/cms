@@ -14,8 +14,8 @@
 <div class="row">
     <div class="col-md-5">
         <div class="thumbnail">
-            <?php
-                echo $this->Html->image([
+            <?=
+                $this->Html->image([
                     'plugin' => 'System',
                     'controller' => 'themes',
                     'action' => 'screenshot',
@@ -29,13 +29,13 @@
 
     <div class="col-md-7">
         <h1>
-            <?php echo $theme->humanName; ?>
-            <small>(<?php echo $theme->version(); ?>)</small>
+            <?= $theme->humanName; ?>
+            <small>(<?= $theme->version(); ?>)</small>
         </h1>
-        <em><?php echo $theme->composer['description'] ? $theme->composer['description'] : ''; ?></em>
+        <em><?= $theme->composer['description'] ? $theme->composer['description'] : ''; ?></em>
 
         <div class="extended-info">
-            <?php echo $this->element('System.composer_details', ['composer' => $theme->composer]); ?>
+            <?= $this->element('System.composer_details', ['composer' => $theme->composer]); ?>
         </div>
     </div>
 </div>

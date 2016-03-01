@@ -14,8 +14,8 @@
 <?php $type = $theme->composer['extra']['admin'] ? 'back_theme' : 'front_theme'; ?>
 <div class="theme-box col-sm-4 col-md-3">
     <div class="thumbnail">
-        <?php
-            echo $this->Html->image([
+        <?=
+            $this->Html->image([
                 'plugin' => 'System',
                 'controller' => 'themes',
                 'action' => 'screenshot',
@@ -25,15 +25,15 @@
         <div class="caption">
             <h4>
                 <?php if ($theme->name === option($type)): ?>
-                    <strong><?php echo __d('system', 'Active'); ?>:</strong>
+                    <strong><?= __d('system', 'Active'); ?>:</strong>
                 <?php endif; ?>
-                <?php echo $theme->humanName; ?>
+                <?= $theme->humanName; ?>
             </h4>
-            <p><small><em><?php echo $this->Text->truncate($theme->composer['description'], 80); ?></em></small></p>
+            <p><small><em><?= $this->Text->truncate($theme->composer['description'], 80); ?></em></small></p>
             <p>
                 <div class="btn-group">
-                    <?php
-                        echo $this->Html->link(__d('system', 'Details'), [
+                    <?=
+                        $this->Html->link(__d('system', 'Details'), [
                             'plugin' => 'System',
                             'controller' => 'themes',
                             'action' => 'details',
@@ -43,8 +43,8 @@
                         ]);
                     ?>
                     <?php if ($theme->name === option($type) && $theme->hasSettings): ?>
-                        <?php
-                            echo $this->Html->link(__d('system', 'Customize'), [
+                        <?=
+                            $this->Html->link(__d('system', 'Customize'), [
                                 'plugin' => 'System',
                                 'controller' => 'themes',
                                 'action' => 'settings',
@@ -55,8 +55,8 @@
                         ?>
                     <?php endif; ?>
                     <?php if ($theme->name !== option($type)): ?>
-                        <?php
-                            echo $this->Html->link(__d('system', 'Activate'), [
+                        <?=
+                            $this->Html->link(__d('system', 'Activate'), [
                                 'plugin' => 'System',
                                 'controller' => 'themes',
                                 'action' => 'activate',
@@ -66,8 +66,8 @@
                             ]);
                         ?>
                         <?php if ($theme->requiredBy()->isEmpty()): ?>
-                            <?php
-                                echo $this->Html->link(__d('system', 'Uninstall'), [
+                            <?=
+                                $this->Html->link(__d('system', 'Uninstall'), [
                                     'plugin' => 'System',
                                     'controller' => 'themes',
                                     'action' => 'uninstall',

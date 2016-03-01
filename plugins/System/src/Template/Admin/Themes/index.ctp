@@ -15,14 +15,14 @@
     <div class="col-md-6">
         <div class="btn-group filters">
             <p>
-                <?php
-                    echo $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $frontCount . '</span>', '#show-front', [
+                <?=
+                    $this->Html->link(__d('system', 'Front Themes') . ' <span class="badge">' . $frontCount . '</span>', '#show-front', [
                         'class' => 'btn btn-primary btn-sm btn-front',
                         'escape' => false,
                     ]);
                 ?>
-                <?php
-                    echo $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $backCount . '</span>', '#show-back', [
+                <?=
+                    $this->Html->link(__d('system', 'Back Themes') . ' <span class="badge">' . $backCount . '</span>', '#show-back', [
                         'class' => 'btn btn-info btn-sm btn-back',
                         'escape' => false,
                     ]);
@@ -33,8 +33,8 @@
 
     <div class="col-md-6 text-right">
         <p>
-            <?php
-                echo $this->Html->link(__d('system', 'Install theme'), [
+            <?=
+                $this->Html->link(__d('system', 'Install theme'), [
                     'plugin' => 'System',
                     'controller' => 'themes',
                     'action' => 'install',
@@ -50,8 +50,8 @@
     <div class="col-md-3 pull-right">
         <p>
             <div class="input-group">
-                <span class="input-group-addon"><?php echo __d('system', 'Filter by'); ?></span>
-                <?php echo $this->Form->input('filter-input', ['class' => 'filter-input', 'label' => false]) ?>
+                <span class="input-group-addon"><?= __d('system', 'Filter by'); ?></span>
+                <?= $this->Form->input('filter-input', ['class' => 'filter-input', 'label' => false]) ?>
             </div>
         </p>
     </div>
@@ -61,7 +61,7 @@
     <div class="col-md-12 front-themes themes-list">
         <p>
             <?php foreach ($frontThemes as $theme): ?>
-                <?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
+                <?= $this->element('System.theme_item', ['theme' => $theme]); ?>
             <?php endforeach; ?>
         </p>
     </div>
@@ -69,10 +69,10 @@
     <div class="col-md-12 back-themes themes-list">
         <p>
             <?php foreach ($backThemes as $theme): ?>
-                <?php echo $this->element('System.theme_item', ['theme' => $theme]); ?>
+                <?= $this->element('System.theme_item', ['theme' => $theme]); ?>
             <?php endforeach; ?>
         </p>
     </div>
 </div>
 
-<?php echo $this->Html->script(['System.jquery.ba-hashchange.min.js', 'System.themes.management.js']); ?>
+<?= $this->Html->script(['System.jquery.ba-hashchange.min.js', 'System.themes.management.js']); ?>

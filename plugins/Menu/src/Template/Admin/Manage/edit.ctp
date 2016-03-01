@@ -13,16 +13,16 @@
 
 <div class="row">
     <div class="col-md-12">
-        <?php echo $this->Form->create($menu); ?>
+        <?= $this->Form->create($menu); ?>
             <fieldset>
-                <legend><?php echo __d('menu', 'Menu Information'); ?></legend>
+                <legend><?= __d('menu', 'Menu Information'); ?></legend>
 
-                <?php echo $this->Form->input('title', ['label' => __d('menu', 'Title *')]); ?>
-                <?php echo $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
-                <em class="help-block"><?php echo __d('menu', 'Briefly describe your menu, e.g. "Sitemap Links".'); ?></em>
+                <?= $this->Form->input('title', ['label' => __d('menu', 'Title *')]); ?>
+                <?= $this->Form->input('description', ['label' => __d('menu', 'Description')]); ?>
+                <em class="help-block"><?= __d('menu', 'Briefly describe your menu, e.g. "Sitemap Links".'); ?></em>
 
-                <?php echo $this->Form->submit(__d('menu', 'Save Changes')); ?>
+                <?= $this->Form->submit(__d('menu', 'Save Changes')); ?>
             </fieldset>
-        <?php echo $this->Form->end(); ?>
+        <?= $this->Form->end(); ?>
     </div>
 </div>

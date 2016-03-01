@@ -63,7 +63,7 @@
 
         <p>
             <code>{{url}/some_path/image.jpg{/url}}</code>
-            <p>Return well formatted url. URL can be an relative url (/type-of-content/my-post<?php echo CONTENT_EXTENSION; ?>) or external (http://www.example.com/my-url).</p>
+            <p>Return well formatted url. URL can be an relative url (/type-of-content/my-post<?= CONTENT_EXTENSION; ?>) or external (http://www.example.com/my-url).</p>
         </p>
 
         <p>
@@ -91,13 +91,13 @@
     <dt>Managing plugins</dt>
     <dd>
         The System plugin allows users with the appropriate permissions to enable and disable plugins on the
-        <?php echo $this->Html->link('Plugins administration page', ['plugin' => 'System', 'controller' => 'plugins', 'prefix' => 'admin']); ?>.
+        <?= $this->Html->link('Plugins administration page', ['plugin' => 'System', 'controller' => 'plugins', 'prefix' => 'admin']); ?>.
         QuickAppsCMS comes with a number of core plugins, and each plugin provides a discrete set of features and may be enabled or disabled depending on the needs of the site.
     </dd>
 
     <dt>Managing themes</dt>
     <dd>
-        The System plugin allows users with the appropriate permissions to enable and disable themes on the <?php echo $this->Html->link('Appearance administration page', ['plugin' => 'System', 'controller' => 'themes', 'prefix' => 'admin']); ?>.
+        The System plugin allows users with the appropriate permissions to enable and disable themes on the <?= $this->Html->link('Appearance administration page', ['plugin' => 'System', 'controller' => 'themes', 'prefix' => 'admin']); ?>.
         Themes determine the design and presentation of your site.
         QuickAppsCMS comes packaged with two core themes (FrontendTheme and BackendTheme)
     </dd>

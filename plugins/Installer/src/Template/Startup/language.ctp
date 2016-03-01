@@ -17,8 +17,8 @@
 
 <ul class="nav nav-pills nav-stacked languages">
     <?php foreach ($languages as $code => $link): ?>
-    <li class="<?php echo $code === 'eng' ? "active locale-{$code}" : "locale-{$code}"; ?>">
-        <?php echo $this->Html->link($link['action'], $link['url'], ['title' => $link['action'], 'data-welcome' => $link['welcome']]); ?>
+    <li class="<?= $code === 'eng' ? "active locale-{$code}" : "locale-{$code}"; ?>">
+        <?= $this->Html->link($link['action'], $link['url'], ['title' => $link['action'], 'data-welcome' => $link['welcome']]); ?>
     </li>
     <?php endforeach; ?>
 </ul>

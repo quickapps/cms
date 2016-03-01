@@ -20,24 +20,24 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
 <?php if (!$vocabularies): ?>
     <div class="alert alert-danger" role="alert">
         <em>
-            <?php echo __d('taxonomy', 'There are no vocabularies yet, please <a href="{0}">create at least one</a> to use this block.', $this->Url->build('/admin/taxonomy/vocabularies')); ?>
+            <?= __d('taxonomy', 'There are no vocabularies yet, please <a href="{0}">create at least one</a> to use this block.', $this->Url->build('/admin/taxonomy/vocabularies')); ?>
         </em>
     </div>
 <?php else: ?>
-    <?php
-        echo $this->Form->input('vocabularies', [
+    <?=
+        $this->Form->input('vocabularies', [
             'type' => 'select',
             'multiple' => 'checkbox',
             'options' => $vocabularies,
             'label' => __d('taxonomy', 'Vocabularies')
         ]);
     ?>
-     <em class="help-block"><?php echo __d('taxonomy', 'Show terms within selected vocabularies.'); ?></em>
+     <em class="help-block"><?= __d('taxonomy', 'Show terms within selected vocabularies.'); ?></em>
 
     <hr />
 
-    <?php
-        echo $this->Form->input('show_counters', [
+    <?=
+        $this->Form->input('show_counters', [
             'type' => 'checkbox',
             'options' => [
                 0 => __d('taxonomy', 'No'),
@@ -46,8 +46,8 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
             'label' => __d('taxonomy', 'Show content count')
         ]);
     ?>
-    <?php
-        echo $this->Form->input('show_vocabulary', [
+    <?=
+        $this->Form->input('show_vocabulary', [
             'type' => 'checkbox',
             'options' => [
                 0 => __d('taxonomy', 'No'),
@@ -57,13 +57,13 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
         ]);
     ?>
     {no_shortcode}
-    <?php
-        echo $this->Form->input('link_template', [
+    <?=
+        $this->Form->input('link_template', [
             'type' => 'text',
             'label' => __d('taxonomy', 'Link template')
         ]);
     ?>
-    <em class="help-block"><?php echo __d('taxonomy', 'Template to use when rendering each link of the list. Valid placeholders are <code>{{url}}</code>, <code>{{attrs}}</code> and <code>{{content}}</code>. If not provided defaults to: <code>&lt;a href="{{url}}"{{attrs}}&gt;&lt;span&gt;{{content}}&lt;/span&gt;&lt;/a&gt;</code>'); ?></em>
+    <em class="help-block"><?= __d('taxonomy', 'Template to use when rendering each link of the list. Valid placeholders are <code>{{url}}</code>, <code>{{attrs}}</code> and <code>{{content}}</code>. If not provided defaults to: <code>&lt;a href="{{url}}"{{attrs}}&gt;&lt;span&gt;{{content}}&lt;/span&gt;&lt;/a&gt;</code>'); ?></em>
     {/no_shortcode}
 <?php endif; ?>
 

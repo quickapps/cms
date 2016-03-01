@@ -11,27 +11,27 @@
  */
 ?>
 
-<?php echo $this->Flash->render('register'); ?>
+<?= $this->Flash->render('register'); ?>
 
 <?php if (!$registered): ?>
-    <?php echo $this->Form->create($user, ['id' => 'user-form']); ?>
+    <?= $this->Form->create($user, ['id' => 'user-form']); ?>
         <fieldset>
-            <legend><?php echo __d('user', 'Creating New Account'); ?></legend>
-            <?php echo $this->Form->input('name', ['label' => __d('user', 'Real name')]); ?>
-            <em class="help-block"><?php echo __d('user', 'Your real name, e.g. John Locke'); ?></em>
+            <legend><?= __d('user', 'Creating New Account'); ?></legend>
+            <?= $this->Form->input('name', ['label' => __d('user', 'Real name')]); ?>
+            <em class="help-block"><?= __d('user', 'Your real name, e.g. John Locke'); ?></em>
 
-            <?php echo $this->Form->input('username', ['label' => __d('user', 'User Name')]); ?>
-            <em class="help-block"><?php echo __d('user', 'Alphanumeric characters only and "_" symbol. e.g. My_user_Email'); ?></em>
+            <?= $this->Form->input('username', ['label' => __d('user', 'User Name')]); ?>
+            <em class="help-block"><?= __d('user', 'Alphanumeric characters only and "_" symbol. e.g. My_user_Email'); ?></em>
 
-            <?php echo $this->Form->input('email', ['label' => __d('user', 'e-Mail')]); ?>
-            <em class="help-block"><?php echo __d('user', 'Must be unique.'); ?></em>
+            <?= $this->Form->input('email', ['label' => __d('user', 'e-Mail')]); ?>
+            <em class="help-block"><?= __d('user', 'Must be unique.'); ?></em>
 
-            <?php echo $this->Form->input('password', ['type' => 'password', 'label' => __d('user', 'Password')]); ?>
-            <?php echo $this->element('User.password_help'); ?>
+            <?= $this->Form->input('password', ['type' => 'password', 'label' => __d('user', 'Password')]); ?>
+            <?= $this->element('User.password_help'); ?>
 
-            <?php echo $this->Form->input('password2', ['type' => 'password', 'label' => __d('user', 'Confirm Password')]); ?>
+            <?= $this->Form->input('password2', ['type' => 'password', 'label' => __d('user', 'Confirm Password')]); ?>
 
-            <?php echo $this->Form->submit(__d('user', 'Register')); ?>
+            <?= $this->Form->submit(__d('user', 'Register')); ?>
         </fieldset>
-    <?php echo $this->Form->end(); ?>
+    <?= $this->Form->end(); ?>
 <?php endif; ?>

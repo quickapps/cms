@@ -11,19 +11,19 @@
  */
 ?>
 
-<li id="menuLink_<?php echo $link->id; ?>">
+<li id="menuLink_<?= $link->id; ?>">
     <div>
         <span style="cursor:move;">
             <?php if (!in_array($link->id, $disabledIds) && !in_array($link->parent_id, $disabledIds)): ?>
-                <?php echo $link->title; ?>
+                <?= $link->title; ?>
             <?php else: ?>
-                <del><?php echo $link->title; ?></del>
+                <del><?= $link->title; ?></del>
             <?php endif; ?>
             &nbsp;&nbsp;&nbsp;
         </span>
         <div class="btn-group">
-            <?php
-                echo $this->Html->link('', [
+            <?=
+                $this->Html->link('', [
                     'plugin' => 'Menu',
                     'controller' => 'links',
                     'action' => 'edit',
@@ -33,17 +33,19 @@
                     'class' => 'btn btn-default btn-xs glyphicon glyphicon-pencil',
                 ]);
             ?>
+
             <?php if (!empty($link->url)): ?>
-                <?php
-                    echo $this->Html->link('', $link->url, [
+                <?=
+                    $this->Html->link('', $link->url, [
                         'title' => __d('menu', 'Visit URL'),
                         'class' => 'btn btn-default btn-xs glyphicon glyphicon-link',
                         'target' => '_blank',
                     ]);
                 ?>
             <?php endif; ?>
-            <?php
-                echo $this->Html->link('', [
+
+            <?=
+                $this->Html->link('', [
                     'plugin' => 'Menu',
                     'controller' => 'links',
                     'action' => 'delete',
@@ -57,5 +59,5 @@
         </div>
     </div>
 
-    <p><?php echo $info['children']; ?></p>
+    <p><?= $info['children']; ?></p>
 </li>

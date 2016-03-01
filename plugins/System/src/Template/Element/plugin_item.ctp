@@ -11,12 +11,12 @@
  */
 ?>
 
-<tr class="<?php echo $plugin->status ? 'enabled' : 'danger disabled'; ?>">
+<tr class="<?= $plugin->status ? 'enabled' : 'danger disabled'; ?>">
     <td>
-        <p><?php echo $plugin->humanName; ?> (<?php echo $plugin->version(); ?>)</p>
+        <p><?= $plugin->humanName; ?> (<?= $plugin->version(); ?>)</p>
         <div class="btn-group">
-            <?php
-                echo $this->Html->link('', [
+            <?=
+                $this->Html->link('', [
                     'plugin' => 'User',
                     'controller' => 'permissions',
                     'action' => 'index',
@@ -29,8 +29,8 @@
             ?>
 
             <?php if ($plugin->status && $plugin->hasHelp): ?>
-                <?php
-                    echo $this->Html->link('', [
+                <?=
+                    $this->Html->link('', [
                         'plugin' => 'System',
                         'controller' => 'help',
                         'action' => 'about',
@@ -44,8 +44,8 @@
             <?php endif; ?>
 
             <?php if ($plugin->hasSettings && $plugin->hasSettings): ?>
-                <?php
-                    echo $this->Html->link('', [
+                <?=
+                    $this->Html->link('', [
                         'plugin' => 'System',
                         'controller' => 'plugins',
                         'action' => 'settings',
@@ -60,8 +60,8 @@
 
             <?php if ($plugin->requiredBy()->isEmpty()): ?>
                 <?php if (!$plugin->status): ?>
-                    <?php
-                        echo $this->Html->link('', [
+                    <?=
+                        $this->Html->link('', [
                             'plugin' => 'System',
                             'controller' => 'plugins',
                             'action' => 'enable',
@@ -73,8 +73,8 @@
                         ]);
                     ?>
                 <?php else: ?>
-                    <?php
-                        echo $this->Html->link('', [
+                    <?=
+                        $this->Html->link('', [
                             'plugin' => 'System',
                             'controller' => 'plugins',
                             'action' => 'disable',
@@ -88,8 +88,8 @@
                     ?>
                 <?php endif; ?>
 
-                <?php
-                    echo $this->Html->link('', [
+                <?=
+                    $this->Html->link('', [
                         'plugin' => 'System',
                         'controller' => 'plugins',
                         'action' => 'delete',
@@ -106,15 +106,15 @@
     </td>
     <td>
         <p>
-        <?php echo $plugin->composer['description']; ?>
+        <?= $plugin->composer['description']; ?>
         <?php if (!$plugin->requiredBy()->isEmpty()): ?>
             <br />
-            <span class="text-muted"><?php echo __d('system', 'Required by'); ?>:</span>
+            <span class="text-muted"><?= __d('system', 'Required by'); ?>:</span>
             <?php foreach ($plugin->requiredBy() as $p): ?>
                 <?php if ($p->status): ?>
-                    <span class="label label-success"><?php echo $p->humanName; ?></span>
+                    <span class="label label-success"><?= $p->humanName; ?></span>
                 <?php else: ?>
-                    <span class="label label-danger"><?php echo $p->humanName; ?></span>
+                    <span class="label label-danger"><?= $p->humanName; ?></span>
                 <?php endif; ?>
             <?php endforeach; ?>
         <?php endif; ?>
@@ -122,11 +122,11 @@
 
         <p>
             <a href="" class="btn btn-default btn-xs toggler">
-                <span class="glyphicon glyphicon-arrow-down"></span> <?php echo __d('system', 'Details'); ?>
+                <span class="glyphicon glyphicon-arrow-down"></span> <?= __d('system', 'Details'); ?>
             </a>
             <div class="extended-info" style="display:none;">
-                <?php echo $this->element('System.composer_details', ['composer' => $plugin->composer]); ?>
-                <small class="pull-right"><?php echo __d('system', 'Package location: {0}', "<code>{$plugin->path}</code>"); ?></small>
+                <?= $this->element('System.composer_details', ['composer' => $plugin->composer]); ?>
+                <small class="pull-right"><?= __d('system', 'Package location: {0}', "<code>{$plugin->path}</code>"); ?></small>
             </div>
         </p>
     </td>

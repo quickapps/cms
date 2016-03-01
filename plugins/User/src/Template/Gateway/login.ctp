@@ -11,9 +11,9 @@
  */
 ?>
 
-<?php echo $this->Form->create($user); ?>
-    <?php echo $this->Form->input('username', ['label' => __d('user', 'Username')]); ?>
-    <?php echo $this->Form->input('password', ['label' => __d('user', 'Password')]); ?>
-    <?php echo $this->Form->input('remember', ['type' => 'checkbox', 'label' => __d('user', 'Remember me')]); ?>
-    <?php echo $this->Form->submit(__d('user', 'Login')); ?>
-<?php echo $this->Form->end(); ?>
+<?= $this->Form->create($user); ?>
+    <?= $this->Form->input('username', ['label' => __d('user', 'Username')]); ?>
+    <?= $this->Form->input('password', ['label' => __d('user', 'Password')]); ?>
+    <?= $this->Form->input('remember', ['type' => 'checkbox', 'label' => __d('user', 'Remember me')]); ?>
+    <?= $this->Form->submit(__d('user', 'Login')); ?>
+<?= $this->Form->end(); ?>
