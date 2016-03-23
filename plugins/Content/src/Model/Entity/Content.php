@@ -98,14 +98,8 @@ class Content extends Entity
      */
     protected function _getAuthor()
     {
-        if ($this->has('user')) {
-            return $this->get('user');
-        } elseif (!empty($this->created_by)) {
-            try {
-                return TableRegistry::get('User.Users')->get($this->created_by, ['fieldable' => false]);
-            } catch (\Exception $ex) {
-                // user not found
-            }
+        if ($this->created_by instanceof User) {
+            return $this->created_by;
         }
 
         return new User([

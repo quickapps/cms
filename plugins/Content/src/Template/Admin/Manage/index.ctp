@@ -83,7 +83,7 @@
                             <?=
                                 __d('content', '{0} <br /> by <em>{1}</em>',
                                     $content->created->format(__d('content', 'Y-m-d H:i:s')),
-                                    $content->author->name
+                                    $content->get('author')->name
                                 );
                             ?>
                         </td>

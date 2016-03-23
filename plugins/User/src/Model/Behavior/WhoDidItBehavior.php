@@ -80,6 +80,7 @@ class WhoDidItBehavior extends Behavior
                 $this->_table->belongsTo('CreatedBy', [
                     'className' => $this->config('userModel'),
                     'foreignKey' => $this->config('createdByField'),
+                    'propertyName' => 'created_by',
                 ]);
             }
 
@@ -87,6 +88,7 @@ class WhoDidItBehavior extends Behavior
                 $this->_table->belongsTo('ModifiedBy', [
                     'className' => $this->config('userModel'),
                     'foreignKey' => $this->config('modifiedByField'),
+                    'propertyName' => 'modified_by',
                 ]);
             }
         }

@@ -103,12 +103,6 @@ class ContentsTable extends Table
             'dependent' => true,
         ]);
 
-        $this->belongsTo('Author', [
-            'className' => 'User.Users',
-            'foreignKey' => 'created_by',
-            'fields' => ['id', 'name', 'username']
-        ]);
-
         $this->addBehavior('Timestamp');
         $this->addBehavior('Comment.Commentable');
         $this->addBehavior('Sluggable');

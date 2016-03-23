@@ -48,11 +48,11 @@ class ManageController extends AppController
     public function index()
     {
         $this->loadModel('Content.Contents');
-        $this->Contents->Author->unbindFieldable();
+        $this->Contents->CreatedBy->unbindFieldable();
         $this->Contents->ModifiedBy->unbindFieldable();
         $contents = $this->Contents
             ->find('all', ['fieldable' => false])
-            ->contain(['ContentTypes', 'Author', 'ModifiedBy']);
+            ->contain(['ContentTypes', 'CreatedBy', 'ModifiedBy']);
 
         if (!empty($this->request->query['filter']) &&
             $contents instanceof Query
