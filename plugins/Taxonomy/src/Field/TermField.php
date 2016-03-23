@@ -57,7 +57,12 @@ class TermField extends Handler
         $terms = [];
         if ($field->metadata->settings['vocabulary']) {
             $TermsTable = TableRegistry::get('Taxonomy.Terms');
-            $TermsTable->addBehavior('Tree', ['scope' => ['vocabulary_id' => $field->metadata->settings['vocabulary']]]);
+            $TermsTable->removeBehavior('Tree');
+            $TermsTable->addBehavior('Tree', [
+                'scope' => [
+                    'vocabulary_id' => $field->metadata->settings['vocabulary']
+                ]
+            ]);
             $terms = $TermsTable->find('treeList', ['spacer' => '&nbsp;&nbsp;']);
         }
 
@@ -83,15 +88,15 @@ class TermField extends Handler
             }
 
             $validator
-            ->add($field->name, 'validateLimit', [
-                'rule' => function ($value, $context) use ($field) {
-                    if (!is_array($value)) {
-                        $value = explode(',', (string)$value);
-                    }
-                    return count($value) <= $field->metadata->settings['max_values'];
-                },
-                'message' => $limitErrorMessage,
-            ]);
+                ->add($field->name, 'validateLimit', [
+                    'rule' => function ($value, $context) use ($field) {
+                        if (!is_array($value)) {
+                            $value = explode(',', (string)$value);
+                        }
+                        return count($value) <= $field->metadata->settings['max_values'];
+                    },
+                    'message' => $limitErrorMessage,
+                ]);
         }
 
         return true;
@@ -109,26 +114,29 @@ class TermField extends Handler
         $TermsTable = TableRegistry::get('Taxonomy.Terms');
         if ($field->metadata->settings['type'] === 'autocomplete') {
             $termIds = explode(',', (string)$post);
+
+            $TermsTable->removeBehavior('Tree');
             $TermsTable->addBehavior('Tree', [
-            'scope' => [
-                'vocabulary_id' => $field->metadata->settings['vocabulary']
-            ]
+                'scope' => [
+                    'vocabulary_id' => $field->metadata->settings['vocabulary']
+                ]
             ]);
 
             // any non-integer value represents a new term to be registered
             foreach ($termIds as $i => $idOrName) {
                 if (!intval($idOrName)) {
-                    $alreadyExists = $TermsTable
-                    ->find()
-                    ->where(['name' => $idOrName])
-                    ->first();
+                    $alreadyExists = $TermsTable->find()
+                        ->where(['name' => $idOrName])
+                        ->first();
+
                     if ($alreadyExists) {
                         $termIds[$i] = $alreadyExists->id;
                     } else {
                         $termEntity = $TermsTable->newEntity([
-                        'name' => $idOrName,
-                        'vocabulary_id' => $field->metadata->settings['vocabulary'],
+                            'name' => $idOrName,
+                            'vocabulary_id' => $field->metadata->settings['vocabulary'],
                         ]);
+
                         if ($TermsTable->save($termEntity)) {
                             $termIds[$i] = $termEntity->id;
                         } else {
@@ -206,10 +214,10 @@ class TermField extends Handler
     public function defaultSettings(FieldInstance $instance)
     {
         return [
-        'vocabulary' => null,
-        'type' => 'checkbox', // checkbox, select, tagging
-        'max_values' => 0, // 0: unlimited
-        'error_message' => null,
+            'vocabulary' => null,
+            'type' => 'checkbox', // checkbox, select, tagging
+            'max_values' => 0, // 0: unlimited
+            'error_message' => null,
         ];
     }
 
@@ -227,11 +235,11 @@ class TermField extends Handler
     public function defaultViewModeSettings(FieldInstance $instance, $viewMode)
     {
         return [
-        'label_visibility' => 'above',
-        'shortcodes' => false,
-        'hidden' => false,
-        'formatter' => 'plain',
-        'link_template' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
+            'label_visibility' => 'above',
+            'shortcodes' => false,
+            'hidden' => false,
+            'formatter' => 'plain',
+            'link_template' => '<a href="{{url}}"{{attrs}}>{{content}}</a>',
         ];
     }
 }
