@@ -172,7 +172,7 @@ class AcoManager
      *   - Admin
      *     - PrivateController
      *       - index
-     *       - private_action
+     *       - some_action
      *   - ControllerName
      *     - index
      *     - another_action
