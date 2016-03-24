@@ -18,11 +18,14 @@ use Cake\ORM\TableRegistry;
     $count = intval(Configure::read('_taggerWidgetInstancesCount'));
     $tokenLimit = '';
     $prePopulate = [];
+    $termIds = (array)$field->extra;
+    $termIds = empty($termIds) ? [-1] : $termIds;
     $terms = TableRegistry::get('Taxonomy.Terms')
         ->find()
         ->select(['id', 'name'])
-        ->where(['id IN' => (array)$field->extra])
+        ->where(['id IN' => $termIds])
         ->all();
+
     foreach ($terms as $term) {
         $prePopulate[] = "{id: {$term->id}, name: \"{$term->name}\"}";
     }

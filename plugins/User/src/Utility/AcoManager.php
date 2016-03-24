@@ -247,17 +247,14 @@ class AcoManager
             $validLeafs = $aco->Acos
                 ->find()
                 ->select(['id'])
-                ->where(['id NOT IN' => $aco->Acos
-                    ->find()
-                    ->select(['parent_id'])
-                    ->where(['parent_id IS NOT' => null])
-                    ->all()
-                    ->extract('parent_id')
-                    ->toArray()
-                ])
-                ->all();
+                ->where([
+                    'id NOT IN' => $aco->Acos->find()
+                        ->select(['parent_id'])
+                        ->where(['parent_id IS NOT' => null])
+                ]);
+
             $aco->Acos->Permissions->deleteAll([
-                'aco_id NOT IN' => $validLeafs->extract('id')->toArray()
+                'aco_id NOT IN' => $validLeafs
             ]);
         }
 
@@ -289,15 +286,14 @@ class AcoManager
             $aco = new AcoManager('__dummy__');
             $aco->loadModel('User.Acos');
             $leafs = $aco->Acos
-                ->find()
+                ->find('all')
                 ->select(['id'])
                 ->where([
                     'Acos.id NOT IN' => $aco->Acos
                         ->find()
                         ->select(['parent_id'])
                         ->where(['parent_id IS NOT' => null])
-                ])
-                ->all();
+                ]);
 
             foreach ($leafs as $leaf) {
                 $path = $aco->Acos

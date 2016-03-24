@@ -62,9 +62,11 @@ class TaxonomyToolbox
         $out = [];
         $instance = static::getInstance();
         $glue = ' ';
+        $termIds = (array)$field->extra;
+        $termIds = empty($termIds) ? [-1] : $termIds;
         $terms = TableRegistry::get('Taxonomy.Terms')
             ->find()
-            ->where(['id IN' => (array)$field->extra])
+            ->where(['id IN' => $termIds])
             ->all();
 
         if (!empty($field->viewModeSettings['link_template'])) {

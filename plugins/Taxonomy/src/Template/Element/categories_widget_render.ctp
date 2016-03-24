@@ -18,9 +18,11 @@ if ($block->settings['link_template']) {
     $menuOptions['templates'] = ['link' => $block->settings['link_template']];
 }
 
+$vocabularyIds = (array)$block->settings['vocabularies'];
+$vocabularyIds = empty($vocabularyIds) ? [-1] : $vocabularyIds;
 $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
     ->find()
-    ->where(['Vocabularies.id IN' => (array)$block->settings['vocabularies']]);
+    ->where(['Vocabularies.id IN' => $vocabularyIds]);
 ?>
 
 <h2><?= $block->title; ?></h2>
@@ -47,10 +49,11 @@ $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')
     <?php
         $terms = TableRegistry::get('Taxonomy.Terms')
             ->find('threaded')
-            ->where(['Terms.vocabulary_id IN' => $vocabularies->extract('id')->toArray()])
+            ->where(['Terms.vocabulary_id IN' => $vocabularyIds])
             ->order(['Terms.lft' => 'ASC']);
 
         TaxonomyToolbox::termsForBlock($terms, $block);
+
         if ($terms) {
             echo $this->Menu->render($terms, $menuOptions);
         }

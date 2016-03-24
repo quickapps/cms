@@ -62,6 +62,8 @@ class PermissionsTable extends Table
         }
 
         $acoIDs = $acoPath->extract('id')->toArray();
+        $acoIDs = empty($acoIDs) ? [-1] : $acoIDs;
+
         foreach ($user->role_ids as $roleId) {
             $permission = $this->find()
                 ->where([
