@@ -108,13 +108,6 @@ class Plugin extends CakePlugin
                 $Folder->cd($path);
                 foreach ($Folder->read(true, true, true)[0] as $dir) {
                     $name = basename($dir);
-                    if (strpos($name, '.') === 0) {
-                        continue;
-                    } elseif ($name == 'CMS') {
-                        continue;
-                    } elseif ($ignoreThemes && str_ends_with($name, 'Theme')) {
-                        continue;
-                    }
                     $cache[$name] = normalizePath("{$dir}/");
                 }
             }
@@ -126,6 +119,19 @@ class Plugin extends CakePlugin
                     $cache = Hash::merge($cakePlugins['plugins'], $cache);
                 }
             }
+
+            // filter, remove hidden folders and others
+            foreach ($cache as $name => $path) {
+                if (strpos($name, '.') === 0) {
+                    unset($cache[$name]);
+                } elseif ($name == 'CMS') {
+                    unset($cache[$name]);
+                } elseif ($ignoreThemes && str_ends_with($name, 'Theme')) {
+                    unset($cache[$name]);
+                }
+            }
+
+            $cache = static::cache($cacheKey, $cache);
         }
 
         return $cache;
@@ -205,14 +211,14 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Checks if there is any active plugin that depends of $pluginName.
+     * Checks if there is any active plugin that depends of $plugin.
      *
      * @param string|CMS\Package\PluginPackage $plugin Plugin name, package
      *  name (as `vendor/package`) or plugin package object result of
      *  `static::get()`
-     * @return array A list of all plugin names that depends on $pluginName, an
-     *  empty array means that no other plugins depends on $pluginName, so
-     *  $pluginName can be safely deleted or turned off.
+     * @return array A list of all plugin names that depends on $plugin, an empty
+     *  array means that no other plugins depends on $pluginName, so $plugin can be
+     *  safely deleted or turned off.
      * @throws \Cake\Error\FatalErrorException When requested plugin was not found
      * @see \CMS\Core\Plugin::get()
      */
