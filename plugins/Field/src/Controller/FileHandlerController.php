@@ -13,6 +13,7 @@ namespace Field\Controller;
 
 use Cake\Filesystem\File;
 use Cake\Network\Exception\NotFoundException;
+use Cake\ORM\TableRegistry;
 use Cake\Routing\Router;
 use CMS\Core\Plugin;
 use Field\Utility\FileToolbox;
@@ -112,7 +113,6 @@ class FileHandlerController extends AppController
             ->find()
             ->contain(['EavAttribute'])
             ->where(['EavAttribute.name' => $name])
-            ->limit(1)
             ->first();
 
         if (!$instance) {
@@ -133,6 +133,8 @@ class FileHandlerController extends AppController
     {
         header("HTTP/1.0 {$code} {$message}");
         echo $message;
+
+        TableRegistry::get('Field.FieldInstances')->connection()->disconnect();
         exit(0);
     }
 }

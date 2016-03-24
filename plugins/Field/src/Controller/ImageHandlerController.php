@@ -11,8 +11,12 @@
  */
 namespace Field\Controller;
 
+use Cake\Filesystem\File;
 use Cake\Network\Exception\NotFoundException;
+use Cake\ORM\TableRegistry;
+use Cake\Routing\Router;
 use CMS\Core\Plugin;
+use Field\Utility\FileToolbox;
 use Field\Utility\ImageToolbox;
 
 /**
@@ -20,7 +24,7 @@ use Field\Utility\ImageToolbox;
  *
  * @property \Field\Model\Table\FieldInstancesTable $FieldInstances
  */
-class ImageHandlerController extends FileHandlerController
+class ImageHandlerController extends AppController
 {
 
     /**
@@ -49,8 +53,38 @@ class ImageHandlerController extends FileHandlerController
         }
 
         $uploader->allowed = 'image/*';
-        parent::upload($name, $uploader);
+
+        // start uploading
+        if (!empty($instance->settings['extensions'])) {
+            $exts = explode(',', $instance->settings['extensions']);
+            $exts = array_map('trim', $exts);
+            $exts = array_map('strtolower', $exts);
+
+            if (!in_array(strtolower($uploader->file_src_name_ext), $exts)) {
+                $this->_error(__d('field', 'Invalid file extension.'), 501);
+            }
+        }
+
+        $response = '';
+        $uploader->file_overwrite = false;
+        $folder = normalizePath(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/");
+        $url = normalizePath("/files/{$instance->settings['upload_folder']}/", '/');
+
+        $uploader->process($folder);
+        if ($uploader->processed) {
+            $response = json_encode([
+                'file_url' => Router::url($url . $uploader->file_dst_name, true),
+                'file_size' => FileToolbox::bytesToSize($uploader->file_src_size),
+                'file_name' => $uploader->file_dst_name,
+                'mime_icon' => FileToolbox::fileIcon($uploader->file_src_mime),
+            ]);
+        } else {
+            $this->_error(__d('field', 'File upload error, details: {0}', $uploader->error), 502);
+        }
+
+        $this->viewBuilder()->layout('ajax');
         $this->title(__d('field', 'Upload Image'));
+        $this->set(compact('response'));
     }
 
     /**
@@ -58,10 +92,21 @@ class ImageHandlerController extends FileHandlerController
      */
     public function delete($name)
     {
-        parent::delete($name);
-        $this->title(__d('field', 'Delete Image'));
         $this->loadModel('Field.FieldInstances');
         $instance = $this->_getInstance($name);
+
+        if ($instance && !empty($this->request->query['file'])) {
+            $file = normalizePath(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}", DS);
+            $file = new File($file);
+            $file->delete();
+        }
+
+        $response = '';
+        $this->viewBuilder()->layout('ajax');
+        $this->title(__d('field', 'Delete Image'));
+        $this->set(compact('response'));
+
+        $this->loadModel('Field.FieldInstances');
         ImageToolbox::deleteThumbnails(WWW_ROOT . "/files/{$instance->settings['upload_folder']}/{$this->request->query['file']}");
     }
 
@@ -106,5 +151,45 @@ class ImageHandlerController extends FileHandlerController
         }
 
         throw new NotFoundException(__d('field', 'Thumbnail could not be found, check write permissions?'), 500);
+    }
+
+    /**
+     * Get field instance information.
+     *
+     * @param string $name EAV attribute name
+     * @return \Field\Model\Entity\FieldInstance
+     * @throws \Cake\Network\Exception\NotFoundException When invalid attribute name
+     *  is given
+     */
+    protected function _getInstance($name)
+    {
+        $this->loadModel('Field.FieldInstances');
+        $instance = $this->FieldInstances
+            ->find()
+            ->contain(['EavAttribute'])
+            ->where(['EavAttribute.name' => $name])
+            ->first();
+
+        if (!$instance) {
+            $this->_error(__d('field', 'Invalid field instance.'), 504);
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Sends a JSON message error.
+     *
+     * @param string $message The message
+     * @param int $code A unique code identifier for this message
+     * @return void Stops scripts execution
+     */
+    protected function _error($message, $code)
+    {
+        header("HTTP/1.0 {$code} {$message}");
+        echo $message;
+
+        TableRegistry::get('Field.FieldInstances')->connection()->disconnect();
+        exit(0);
     }
 }
