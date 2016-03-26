@@ -179,7 +179,7 @@ class Controller extends CakeController
     {
         if (option('site_maintenance') &&
             !$this->request->isUserAdmin() &&
-            !in_array("{$this->request->plugin}:{$this->request->controller}:{$this->request->action}", ['User:gateway:login', 'User:gateway:logout'])
+            !in_array(strtolower("{$this->request->plugin}:{$this->request->controller}:{$this->request->action}"), ['user:gateway:login', 'user:gateway:logout'])
         ) {
             $allowedIps = (array)array_filter(array_map('trim', explode(',', option('site_maintenance_ip'))));
             if (!in_array(env('REMOTE_ADDR'), $allowedIps)) {
