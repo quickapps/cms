@@ -178,7 +178,7 @@ class LinkHelper extends Helper
     {
         static $base = null;
         if ($base === null) {
-            $base = $this->_View->request->base ? $this->_View->request->base : '/';
+            $base = $this->_View->request->base;
         }
         return $base;
     }
