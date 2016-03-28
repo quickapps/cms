@@ -27,13 +27,13 @@ class BasicTest extends TestCase
     public function testStripLanguagePrefix()
     {
         $tests = [
-            'http://www.example.com/es_ES/article/demo.html' => 'http://www.example.com/article/demo.html',
-            'http://www.example.com/en_US/article/demo.html' => 'http://www.example.com/article/demo.html',
-            '/es_ES/article/demo.html' => '/article/demo.html',
-            '/en_US/article/demo.html' => '/article/demo.html',
-            'es_ES/article/demo.html' => '/article/demo.html',
-            'en_US/article/demo.html' => '/article/demo.html',
-            'http://www.example.es_ES/en_US/article/demo.html' => 'http://www.example.es_ES/article/demo.html',
+            'http://www.example.com/es_ES/article/demo1.html' => 'http://www.example.com/article/demo1.html',
+            'http://www.example.com/en_US/article/demo2.html' => 'http://www.example.com/article/demo2.html',
+            '/es_ES/article/demo3.html' => '/article/demo3.html',
+            '/en_US/article/demo4.html' => '/article/demo4.html',
+            'es_ES/article/demo5.html' => '/article/demo5.html',
+            'en_US/article/demo6.html' => '/article/demo6.html',
+            'http://www.example.es_ES/en_US/article/demo7.html' => 'http://www.example.es_ES/article/demo7.html',
         ];
 
         foreach ($tests as $input => $expected) {
