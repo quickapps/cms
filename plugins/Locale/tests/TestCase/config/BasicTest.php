@@ -9,9 +9,8 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace CMS\Test\TestCase\config;
+namespace Locale\Test\TestCase\config;
 
-use Cake\I18n\I18n;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -34,6 +33,7 @@ class BasicTest extends TestCase
             '/en_US/article/demo.html' => '/article/demo.html',
             'es_ES/article/demo.html' => '/article/demo.html',
             'en_US/article/demo.html' => '/article/demo.html',
+            'http://www.example.es_ES/en_US/article/demo.html' => 'http://www.example.es_ES/article/demo.html',
         ];
 
         foreach ($tests as $input => $expected) {
