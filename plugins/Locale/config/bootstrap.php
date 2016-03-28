@@ -92,7 +92,7 @@ if (!function_exists('stripLanguagePrefix')) {
             $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
         }
 
-        $url = preg_replace('/([?<=^|\/]' . $localesPattern . ')\//', '/', $url);
+        $url = preg_replace('/(^|\/)' . $localesPattern . '\//', '/', $url);
         return $url;
     }
 }
