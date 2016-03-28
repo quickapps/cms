@@ -85,14 +85,10 @@ if (!function_exists('stripLanguagePrefix')) {
      */
     function stripLanguagePrefix($url)
     {
-        static $locales = null;
         static $localesPattern = null;
 
-        if (!$locales) {
-            $locales = array_keys(quickapps('languages'));
-        }
-
         if (!$localesPattern) {
+            $locales = array_keys(quickapps('languages'));
             $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
         }
 
