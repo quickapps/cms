@@ -108,15 +108,23 @@ class LinkHelper extends Helper
                 ]) === true;
             case 'auto':
             default:
+                static $requestUri = null;
+                static $requestUrl = null;
+
+                if ($requestUri === null) {
+                    $requestUri = urldecode(env('REQUEST_URI'));
+                    $requestUrl = str_replace('//', '/', '/' . urldecode($this->_View->request->url) . '/');
+                }
+
                 $isInternal =
                     $itemUrl !== '/' &&
-                    str_ends_with($itemUrl, str_replace_once($this->baseUrl(), '', env('REQUEST_URI')));
+                    str_ends_with($itemUrl, str_replace_once($this->baseUrl(), '', $requestUri));
                 $isIndex =
                     $itemUrl === '/' &&
                     $this->_View->request->isHome();
                 $isExact =
-                    str_replace('//', '/', "{$itemUrl}/") === str_replace('//', '/', "/{$this->_View->request->url}/") ||
-                    ($itemUrl == env('REQUEST_URI'));
+                    str_replace('//', '/', "{$itemUrl}/") === $requestUrl ||
+                    $itemUrl == $requestUri;
 
                 if ($this->config('breadcrumbGuessing')) {
                     return ($isInternal || $isIndex || $isExact || in_array($itemUrl, $this->_crumbs()));
