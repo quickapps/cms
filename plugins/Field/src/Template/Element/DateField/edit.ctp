@@ -15,7 +15,7 @@ use Cake\Core\Configure;
 <span id="dp-container-<?= $field->name; ?>">
     <?=
         $this->Form->input($field, [
-            'name' => ":{$field->name}[date]",
+            'name' => "{$field->name}[date]",
             'value' => $field->extra,
             'class' => 'picker',
             'readonly',
@@ -24,7 +24,7 @@ use Cake\Core\Configure;
 
     <?=
         // value dynamically set using JS
-        $this->Form->input(":{$field->name}.format", [
+        $this->Form->input("{$field->name}.format", [
             'type' => 'hidden',
             'class' => 'format',
         ]);
