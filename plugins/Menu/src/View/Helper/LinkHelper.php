@@ -223,7 +223,7 @@ class LinkHelper extends Helper
         }
 
         $request = $this->_View->request;
-        $path = '/' . $request->url;
+        $path = '/' . urldecode($request->url);
         $patterns = explode("\n", $patterns);
 
         foreach ($patterns as &$p) {
