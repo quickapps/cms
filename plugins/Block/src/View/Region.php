@@ -16,7 +16,6 @@ use Cake\Collection\Collection;
 use Cake\Core\Configure;
 use Cake\I18n\I18n;
 use Cake\ORM\TableRegistry;
-use Cake\Routing\Router;
 use Cake\Utility\Inflector;
 use CMS\Core\StaticCacheTrait;
 use CMS\View\View;
@@ -338,8 +337,8 @@ class Region
     /**
      * Check if a current URL matches any pattern in a set of patterns.
      *
-     * @param string $patterns String containing a set of patterns
-     * separated by \n, \r or \r\n
+     * @param string $patterns String containing a set of patterns separated by
+     *  \n, \r or \r\n
      * @return bool TRUE if the path matches a pattern, FALSE otherwise
      */
     protected function _urlMatch($patterns)
@@ -348,8 +347,8 @@ class Region
             return false;
         }
 
-        $request = Router::getRequest();
-        $path = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
+        $url = urldecode($this->_View->request->url);
+        $path = str_starts_with($url, '/') ? str_replace_once('/', '', $url) : $url;
 
         if (option('url_locale_prefix')) {
             $patterns = explode("\n", $patterns);
@@ -377,7 +376,7 @@ class Region
         $replacements = [
             '|',
             '.*',
-            '\1' . preg_quote(Router::url('/'), '/') . '\2'
+            '\1' . preg_quote($this->_View->Url->build('/'), '/') . '\2'
         ];
 
         $patternsQuoted = preg_quote($patterns, '/');
