@@ -12,6 +12,8 @@
 namespace Eav\Model\Behavior\QueryScope;
 
 use Cake\Database\Expression\Comparison;
+use Cake\Database\Expression\UnaryExpression;
+use Cake\Database\ExpressionInterface;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -63,73 +65,54 @@ class WhereScope implements QueryScopeInterface
             return $query;
         }
 
-        $conn = $query->connection(null);
-        list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
-        $alias = $this->_table->alias();
-        $pk = $this->_table->primaryKey();
-        if (!is_array($pk)) {
-            $pk = [$pk];
-        }
-        $pk = array_map(function ($key) use ($alias) {
-            return "{$alias}.{$key}";
-        }, $pk);
-
-        $whereClause->traverse(function ($expression) use ($pk, $alias, $driverClass, $bundle) {
-            if (!($subQuery = $this->_virtualQuery($expression, $bundle))) {
-                return;
-            }
-
-            switch ($driverClass) {
-                case 'sqlite':
-                    $concat = implode(' || ', $pk);
-                    $field = "({$concat} || '')";
-                    break;
-                case 'mysql':
-                case 'postgres':
-                case 'sqlserver':
-                default:
-                    $concat = implode(', ', $pk);
-                    $field = "CONCAT({$concat}, '')";
-                    break;
-            }
-
-            $ids = $subQuery->all()->extract('entity_id')->toArray();
-            $ids = empty($ids) ? ['-1'] : $ids;
-            $expression->setField($field);
-            $expression->setValue($ids);
-            $expression->setOperator('IN');
-
-            $class = new \ReflectionClass($expression);
-            $property = $class->getProperty('_type');
-            $property->setAccessible(true);
-            $property->setValue($expression, 'string[]');
+        $whereClause->traverse(function (ExpressionInterface $expression) use ($bundle, $query) {
+            $expression = $this->_alterExpression($expression, $bundle, $query);
         });
 
         return $query;
     }
 
     /**
-     * Creates a sub-query for matching virtual fields.
+     * Analyzes the given WHERE expression, looks for virtual columns and alters
+     * the expressions according.
      *
-     * @param \Cake\Database\Expression\Comparison $expression Expression to scope
-     * @param string|null $bundle Consider attributes only for a specific bundle
-     * @return \Cake\ORM\Query|bool False if not virtual field was found, or search
-     *  feature was disabled for this field. The query object to use otherwise
+     * @param \Cake\Database\ExpressionInterface $expression Expression to scope
+     * @param string $bundle Consider attributes only for a specific bundle
+     * @param \Cake\ORM\Query $query The query instance this expression comes from
+     * @return \Cake\Database\ExpressionInterface The altered expression (or not)
      */
-    protected function _virtualQuery($expression, $bundle = null)
+    protected function _alterExpression(ExpressionInterface $expression, $bundle, Query $query)
     {
-        if (!($expression instanceof Comparison)) {
-            return false;
+        if ($expression instanceof Comparison) {
+            $expression = $this->_alterComparisonExpression($expression, $bundle, $query);
+        } elseif ($expression instanceof UnaryExpression) {
+            debug($expression);die;
+            // TODO: unary expressions scoping
         }
 
+        return $expression;
+    }
+
+    /**
+     * Analyzes the given comparison expression and alters it according.
+     *
+     * @param \Cake\Database\Expression\Comparison $expression Comparison expression
+     * @param string $bundle Consider attributes only for a specific bundle
+     * @param \Cake\ORM\Query $query The query instance this expression comes from
+     * @return \Cake\Database\Expression\Comparison Scoped expression (or not)
+     */
+    protected function _alterComparisonExpression(Comparison $expression, $bundle, Query $query)
+    {
         $field = $expression->getField();
         $column = is_string($field) ? $this->_toolbox->columnName($field) : '';
+
         if (empty($column) ||
             in_array($column, (array)$this->_table->schema()->columns()) || // ignore real columns
             !in_array($column, $this->_toolbox->getAttributeNames()) ||
-            !$this->_toolbox->isSearchable($column)
+            !$this->_toolbox->isSearchable($column) // ignore no searchable virtual columns
         ) {
-            return false;
+            // nothing to alter
+            return $expression;
         }
 
         $attr = $this->_toolbox->attributes($bundle)[$column];
@@ -141,9 +124,51 @@ class WhereScope implements QueryScopeInterface
             "EavValues.value_{$type} {$conjunction}" => $value,
         ];
 
-        return TableRegistry::get('Eav.EavValues')
+        // subquery scope
+        $subQuery = TableRegistry::get('Eav.EavValues')
             ->find()
             ->select('EavValues.entity_id')
             ->where($conditions);
+
+        // some variables
+        $conn = $query->connection(null);
+        list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
+        $alias = $this->_table->alias();
+        $pk = $this->_table->primaryKey();
+
+        if (!is_array($pk)) {
+            $pk = [$pk];
+        }
+
+        $pk = array_map(function ($key) use ($alias) {
+            return "{$alias}.{$key}";
+        }, $pk);
+
+        switch ($driverClass) {
+            case 'sqlite':
+                $concat = implode(' || ', $pk);
+                $field = "({$concat} || '')";
+                break;
+            case 'mysql':
+            case 'postgres':
+            case 'sqlserver':
+            default:
+                $concat = implode(', ', $pk);
+                $field = "CONCAT({$concat}, '')";
+                break;
+        }
+
+        $ids = $subQuery->all()->extract('entity_id')->toArray();
+        $ids = empty($ids) ? ['-1'] : $ids;
+        $expression->setField($field);
+        $expression->setValue($ids);
+        $expression->setOperator('IN');
+
+        $class = new \ReflectionClass($expression);
+        $property = $class->getProperty('_type');
+        $property->setAccessible(true);
+        $property->setValue($expression, 'string[]');
+
+        return $expression;
     }
 }
