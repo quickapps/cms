@@ -11,9 +11,9 @@
  */
 namespace Eav\Model\Behavior\QueryScope;
 
+use Cake\Database\ExpressionInterface;
 use Cake\Database\Expression\Comparison;
 use Cake\Database\Expression\UnaryExpression;
-use Cake\Database\ExpressionInterface;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
