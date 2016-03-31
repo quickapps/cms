@@ -190,6 +190,24 @@ class EavToolbox
     }
 
     /**
+     * Gets a list of attribute IDs.
+     *
+     * @param string $bundle Filter by bundle name
+     * @return array
+     */
+    public function getAttributeIds($bundle = null)
+    {
+        $attributes = $this->attributes($bundle);
+        $ids = [];
+
+        foreach ($attributes as $name => $info) {
+            $ids[] = $info['id'];
+        }
+
+        return $ids;
+    }
+
+    /**
      * Calculates entity's primary key.
      *
      * If PK is composed of multiple columns they will be merged with `:` symbol.

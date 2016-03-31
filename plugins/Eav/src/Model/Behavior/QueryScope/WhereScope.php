@@ -13,6 +13,7 @@ namespace Eav\Model\Behavior\QueryScope;
 
 use Cake\Database\ExpressionInterface;
 use Cake\Database\Expression\Comparison;
+use Cake\Database\Expression\IdentifierExpression;
 use Cake\Database\Expression\UnaryExpression;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
@@ -65,9 +66,9 @@ class WhereScope implements QueryScopeInterface
             return $query;
         }
 
-        $whereClause->traverse(function ($expression) use ($bundle, $query) {
+        $whereClause->traverse(function (&$expression) use ($bundle, $query) {
             if ($expression instanceof ExpressionInterface) {
-                $expression = $this->_alterExpression($expression, $bundle, $query);
+                $expression = $this->_inspectExpression($expression, $bundle, $query);
             }
         });
 
@@ -83,12 +84,12 @@ class WhereScope implements QueryScopeInterface
      * @param \Cake\ORM\Query $query The query instance this expression comes from
      * @return \Cake\Database\ExpressionInterface The altered expression (or not)
      */
-    protected function _alterExpression(ExpressionInterface $expression, $bundle, Query $query)
+    protected function _inspectExpression(ExpressionInterface $expression, $bundle, Query $query)
     {
         if ($expression instanceof Comparison) {
-            $expression = $this->_alterComparisonExpression($expression, $bundle, $query);
+            $expression = $this->_inspectComparisonExpression($expression, $bundle, $query);
         } elseif ($expression instanceof UnaryExpression) {
-            // TODO: unary expressions scoping
+            $expression = $this->_inspectUnaryExpression($expression, $bundle, $query);
         }
 
         return $expression;
@@ -102,7 +103,7 @@ class WhereScope implements QueryScopeInterface
      * @param \Cake\ORM\Query $query The query instance this expression comes from
      * @return \Cake\Database\Expression\Comparison Scoped expression (or not)
      */
-    protected function _alterComparisonExpression(Comparison $expression, $bundle, Query $query)
+    protected function _inspectComparisonExpression(Comparison $expression, $bundle, Query $query)
     {
         $field = $expression->getField();
         $column = is_string($field) ? $this->_toolbox->columnName($field) : '';
@@ -132,18 +133,8 @@ class WhereScope implements QueryScopeInterface
             ->where($conditions);
 
         // some variables
-        $conn = $query->connection(null);
-        list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
-        $alias = $this->_table->alias();
-        $pk = $this->_table->primaryKey();
-
-        if (!is_array($pk)) {
-            $pk = [$pk];
-        }
-
-        $pk = array_map(function ($key) use ($alias) {
-            return "{$alias}.{$key}";
-        }, $pk);
+        $pk = $this->_tablePrimaryKey();
+        $driverClass = $this->_driverClass($query);
 
         switch ($driverClass) {
             case 'sqlite':
@@ -159,6 +150,7 @@ class WhereScope implements QueryScopeInterface
                 break;
         }
 
+        // compile query, faster than raw subquery in most cases
         $ids = $subQuery->all()->extract('entity_id')->toArray();
         $ids = empty($ids) ? ['-1'] : $ids;
         $expression->setField($field);
@@ -171,5 +163,93 @@ class WhereScope implements QueryScopeInterface
         $property->setValue($expression, 'string[]');
 
         return $expression;
+    }
+
+    protected function _inspectUnaryExpression(UnaryExpression $expression, $bundle, Query $query)
+    {
+        $class = new \ReflectionClass($expression);
+        $property = $class->getProperty('_value');
+        $property->setAccessible(true);
+        $value = $property->getValue($expression);
+
+        if ($value instanceof IdentifierExpression) {
+            $field = $value->getIdentifier();
+            $column = is_string($field) ? $this->_toolbox->columnName($field) : '';
+
+            if (empty($column) ||
+                in_array($column, (array)$this->_table->schema()->columns()) || // ignore real columns
+                !in_array($column, $this->_toolbox->getAttributeNames($bundle)) ||
+                !$this->_toolbox->isSearchable($column) // ignore no searchable virtual columns
+            ) {
+                // nothing to alter
+                return $expression;
+            }
+
+            $pk = $this->_tablePrimaryKey();
+            $driverClass = $this->_driverClass($query);
+
+            switch ($driverClass) {
+                case 'sqlite':
+                    $concat = implode(' || ', $pk);
+                    $field = "({$concat} || '')";
+                    break;
+                case 'mysql':
+                case 'postgres':
+                case 'sqlserver':
+                default:
+                    $concat = implode(', ', $pk);
+                    $field = "CONCAT({$concat}, '')";
+                    break;
+            }
+
+            $attr = $this->_toolbox->attributes($bundle)[$column];
+            $type = $this->_toolbox->getType($column);
+            $subQuery = TableRegistry::get('Eav.EavValues')
+                ->find()
+                ->select("EavValues.value_{$type}")
+                ->where([
+                    'EavValues.entity_id' => $field,
+                    'EavValues.eav_attribute_id' => $attr['id']
+                ])
+                ->sql();
+            $subQuery = str_replace([':c0', ':c1'], [$field, $attr['id']], $subQuery);
+            $property->setValue($expression, "({$subQuery})");
+        }
+
+        return $expression;
+    }
+
+    /**
+     * Gets table's PK as an array.
+     *
+     * @return array
+     */
+    protected function _tablePrimaryKey()
+    {
+        $alias = $this->_table->alias();
+        $pk = $this->_table->primaryKey();
+
+        if (!is_array($pk)) {
+            $pk = [$pk];
+        }
+
+        $pk = array_map(function ($key) use ($alias) {
+            return "{$alias}.{$key}";
+        }, $pk);
+
+        return $pk;
+    }
+
+    /**
+     * Gets the name of the class driver used by the given $query to access the DB.
+     *
+     * @param \Cake\ORM\Query $query The query to inspect
+     * @return string Lowercased drive name. e.g. `mysql`
+     */
+    protected function _driverClass(Query $query)
+    {
+        $conn = $query->connection(null);
+        list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
+        return $driverClass;
     }
 }
