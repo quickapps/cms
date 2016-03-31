@@ -65,8 +65,10 @@ class WhereScope implements QueryScopeInterface
             return $query;
         }
 
-        $whereClause->traverse(function (ExpressionInterface $expression) use ($bundle, $query) {
-            $expression = $this->_alterExpression($expression, $bundle, $query);
+        $whereClause->traverse(function ($expression) use ($bundle, $query) {
+            if ($expression instanceof ExpressionInterface) {
+                $expression = $this->_alterExpression($expression, $bundle, $query);
+            }
         });
 
         return $query;
@@ -86,7 +88,6 @@ class WhereScope implements QueryScopeInterface
         if ($expression instanceof Comparison) {
             $expression = $this->_alterComparisonExpression($expression, $bundle, $query);
         } elseif ($expression instanceof UnaryExpression) {
-            debug($expression);die;
             // TODO: unary expressions scoping
         }
 
