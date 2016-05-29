@@ -165,6 +165,14 @@ class WhereScope implements QueryScopeInterface
         return $expression;
     }
 
+    /**
+     * Analyzes the given unary expression and alters it according.
+     *
+     * @param \Cake\Database\Expression\UnaryExpression $expression Unary expression
+     * @param string $bundle Consider attributes only for a specific bundle
+     * @param \Cake\ORM\Query $query The query instance this expression comes from
+     * @return \Cake\Database\Expression\UnaryExpression Scoped expression (or not)
+     */
     protected function _inspectUnaryExpression(UnaryExpression $expression, $bundle, Query $query)
     {
         $class = new \ReflectionClass($expression);
