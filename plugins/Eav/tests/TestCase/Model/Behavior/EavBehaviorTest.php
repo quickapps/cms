@@ -86,11 +86,17 @@ class EavBehaviorTest extends TestCase
     public function testUnaryExpression()
     {
         $this->table->addColumn('user-birth-date', ['type' => 'date'], false);
-        $count = $this->table
-            ->find()
-            ->where(['user-birth-date IS' => null])
-            ->count();
 
-        $this->assertTrue($count > 0);
+        $first = $this->table->get(1);
+        $first->set('user-birth-date', time());
+        $this->table->save($first);
+
+        $second = $this->table
+            ->find('all', ['eav' => true])
+            ->where(['user-birth-date IS' => null])
+            ->order(['id' => 'ASC'])
+            ->first();
+
+        $this->assertTrue(!empty($second) && $second->get('id') == 2);
     }
 }
