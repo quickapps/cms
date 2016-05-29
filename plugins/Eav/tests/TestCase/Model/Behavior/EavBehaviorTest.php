@@ -24,11 +24,11 @@ class EavBehaviorTest extends TestCase
 {
 
     /**
-     * Instance of behavior being tested.
+     * The table to which `EavBehavior` is attached to
      *
-     * @var \Eav\Model\Behavior\EavBehavior
+     * @var \Cake\ORM\Table
      */
-    public $behavior;
+    public $table;
 
     /**
      * Fixtures.
@@ -48,8 +48,8 @@ class EavBehaviorTest extends TestCase
      */
     public function setUp()
     {
-        $table = TableRegistry::get('Dummy');
-        $this->behavior = new EavBehavior($table);
+        $this->table = TableRegistry::get('Dummy');
+        $this->table->addBehavior('Eav.Eav');
     }
 
     /**
@@ -59,8 +59,8 @@ class EavBehaviorTest extends TestCase
      */
     public function testAddColumn()
     {
-        $success1 = $this->behavior->addColumn('user-age', ['type' => 'integer'], false);
-        $success2 = $this->behavior->addColumn('user-birth-date', ['type' => 'date'], false);
+        $success1 = $this->table->addColumn('user-age', ['type' => 'integer'], false);
+        $success2 = $this->table->addColumn('user-birth-date', ['type' => 'date'], false);
 
         $this->assertTrue($success1);
         $this->assertTrue($success2);
@@ -75,6 +75,28 @@ class EavBehaviorTest extends TestCase
      */
     public function testAddColumnThrows()
     {
-        $this->behavior->addColumn('name', ['type' => 'string']);
+        $this->table->addColumn('name', ['type' => 'string']);
+    }
+
+    /**
+     * test WHERE conditions against unary expression.
+     *
+     * @return void
+     */
+    public function testUnaryExpression()
+    {
+        $this->table->addColumn('user-birth-date', ['type' => 'date'], false);
+
+        $first = $this->table->get(1);
+        $first->set('user-birth-date', time());
+        $this->table->save($first);
+
+        $second = $this->table
+            ->find('all', ['eav' => true])
+            ->where(['user-birth-date IS' => null])
+            ->order(['id' => 'ASC'])
+            ->first();
+
+        $this->assertTrue(!empty($second) && $second->get('id') == 2);
     }
 }

@@ -62,4 +62,15 @@ class DummyFixture extends TestFixture
             'fixed' => null,
         ],
     ];
+
+    /**
+     * Table records.
+     *
+     * @var array
+     */
+    public $records = [
+        ['id' => 1, 'name' => 'Lorem'],
+        ['id' => 2, 'name' => 'Ipsum'],
+        ['id' => 3, 'name' => 'dolor'],
+    ];
 }
