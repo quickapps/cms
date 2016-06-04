@@ -18,9 +18,10 @@ use Installer\Utility\PackageUploader;
 use System\Controller\AppController;
 
 /**
- * Controller for handling plugin tasks.
+ * Controller for handling themes tasks.
  *
- * Here is where can install new plugin or remove existing ones.
+ * Here is where can install new themes, remove existing ones or change site's in
+ * use theme.
  *
  * @property \System\Model\Table\PluginsTable $Plugins
  */
@@ -147,7 +148,7 @@ class ThemesController extends AppController
     }
 
     /**
-     * Detailed theme's information.
+     * Marks as active the provided theme.
      *
      * @param string $themeName Theme's name
      * @return void

@@ -113,11 +113,20 @@ class ThemeActivationTask extends Shell
         }
 
         $this->loadModel('System.Options');
-        if ($this->Options->update("{$prefix}theme", $this->params['theme'])) {
-            $this->_copyBlockPositions($this->params['theme'], $previousTheme);
+        $this->loadModel('System.Plugins');
+
+        if ($this->Plugins->updateAll(['status' => 0], ['name' => $previousTheme]) &&
+            $this->Plugins->updateAll(['status' => 1], ['name' => $this->params['theme']])
+        ) {
+            if ($this->Options->update("{$prefix}theme", $this->params['theme'])) {
+                $this->_copyBlockPositions($this->params['theme'], $previousTheme);
+            } else {
+                $this->err(__d('installer', 'Internal error, the option "{0}" could not be persisted on database.', "{$prefix}theme"));
+                $this->_detachListeners();
+                return false;
+            }
         } else {
-            $this->err(__d('installer', 'Internal error, the option "{0}" could not be persisted on database.', "{$prefix}theme"));
-            $this->_detachListeners();
+            $this->err(__d('installer', 'Internal error, unable to turnoff current theme ({0}) and active new one ({1}).', $previousTheme, $this->params['theme']));
             return false;
         }
 
