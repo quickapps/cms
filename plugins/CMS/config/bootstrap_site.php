@@ -260,7 +260,7 @@ AppAspect::getInstance()->init([
         CAKE,
     ])),
     'excludePaths' => [TMP . 'aop'],
-    'features' => AppAspect::getDefaultFeatures() | \Go\Aop\Features::INTERCEPT_FUNCTIONS,
+    'features' => \Go\Aop\Features::INTERCEPT_FUNCTIONS,
 ]);
 
 /**

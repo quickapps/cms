@@ -16,8 +16,8 @@
         "source": "https://github.com/quickapps/cms"
     },
     "require": {
-        "php": ">=5.5.9",
-        "goaop/framework": "0.6.*",
+        "php": ">=5.6",
+        "goaop/framework": "^2.0",
         "cakephp/cakephp": "~3.2"
     },
     "require-dev": {
