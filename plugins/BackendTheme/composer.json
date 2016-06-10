@@ -16,8 +16,7 @@
     "homepage": "https://almsaeedstudio.com/",
     "license": "GPL-3.0",
     "require": {
-        "quickapps-plugins/cms": "*",
-        "goaop/framework": "0.6.*"
+        "quickapps-plugins/cms": "*"
     },
     "authors": [
         {
