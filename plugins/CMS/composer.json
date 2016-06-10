@@ -11,6 +11,9 @@
             "email": "chris@quickapps.es"
         }
     ],
+    "require": {
+        "goaop/framework": "^2.0"
+    },
     "autoload": {
         "psr-4": {
             "CMS\\": "src"
