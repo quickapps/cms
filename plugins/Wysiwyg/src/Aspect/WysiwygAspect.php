@@ -49,6 +49,7 @@ class WysiwygAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($fieldName, $options) = $invocation->getArguments();
+        $options = (array)$options;
 
         if (!empty($options['class']) &&
             strpos($options['class'], 'ckeditor') !== false &&

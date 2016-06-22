@@ -75,6 +75,7 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($model, $options) = $invocation->getArguments();
+        $options = (array)$options;
 
         $bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
         if ($bootstrap) {
@@ -100,6 +101,7 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($fieldName, $options) = $invocation->getArguments();
+        $options = (array)$options;
 
         if (empty($options['type']) ||
             !in_array($options['type'], ['textarea', 'select', 'button', 'submit', 'checkbox'])
@@ -123,6 +125,7 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($fieldName, $options) = $invocation->getArguments();
+        $options = (array)$options;
         $options = $this->_addClass($helper, $options, 'form-control');
 
         $this->_addTemplates($helper);
@@ -141,6 +144,7 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($fieldName, $options, $attributes) = $invocation->getArguments();
+        $attributes = (array)$attributes;
         $attributes = $this->_addClass($helper, $attributes, 'form-control');
 
         $this->setProperty($invocation, 'arguments', [$fieldName, $options, $attributes]);
@@ -158,6 +162,7 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($title, $options) = $invocation->getArguments();
+        $options = (array)$options;
         $options = $this->_addClass($helper, $options, 'btn btn-default');
 
         $this->_addTemplates($helper);
@@ -176,6 +181,7 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($caption, $options) = $invocation->getArguments();
+        $options = (array)$options;
         $options = $this->_addClass($helper, $options, 'btn btn-primary');
 
         $this->_addTemplates($helper);
