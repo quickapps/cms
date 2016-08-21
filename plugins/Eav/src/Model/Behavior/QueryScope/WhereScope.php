@@ -160,7 +160,11 @@ class WhereScope implements QueryScopeInterface
         $class = new \ReflectionClass($expression);
         $property = $class->getProperty('_type');
         $property->setAccessible(true);
-        $property->setValue($expression, 'string[]');
+        $property->setValue($expression, 'string');
+
+        $property = $class->getProperty('_isMultiple');
+        $property->setAccessible(true);
+        $property->setValue($expression, true);
 
         return $expression;
     }
