@@ -48,8 +48,7 @@ class WysiwygAspect extends Aspect
     public function alterTextarea(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
-        list($fieldName, $options) = $invocation->getArguments();
-        $options = (array)$options;
+        list($fieldName, $options) = array_pad($invocation->getArguments(), 2, []);
 
         if (!empty($options['class']) &&
             strpos($options['class'], 'ckeditor') !== false &&
