@@ -31,6 +31,7 @@ class Aspect implements GoAspect
         $class = new \ReflectionClass($object);
         $property = $class->getProperty($name);
         $property->setAccessible(true);
+
         return $property->getValue($object);
     }
 

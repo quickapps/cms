@@ -72,6 +72,7 @@ class VersionParser
     public static function normalizeStability($stability)
     {
         $stability = strtolower($stability);
+
         return $stability === 'rc' ? 'RC' : $stability;
     }
 
@@ -189,6 +190,7 @@ class VersionParser
         if (preg_match('/^(?P<version>(\d+\\.)*\d+)(?:\.x)?-dev$/i', $branch, $matches)) {
             return $matches['version'] . ".";
         }
+
         return false;
     }
 
@@ -293,6 +295,7 @@ class VersionParser
         }
 
         $constraint->setPrettyString($prettyConstraint);
+
         return $constraint;
     }
 
@@ -512,6 +515,7 @@ class VersionParser
                 }
             }
         }
+
         return $matches[1] . '.' . $matches[2] . '.' . $matches[3] . '.' . $matches[4];
     }
 

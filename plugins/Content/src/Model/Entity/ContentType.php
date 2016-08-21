@@ -56,6 +56,7 @@ class ContentType extends Entity
             ->extract('role_id')
             ->toArray();
         $intersect = array_intersect($allowedRoles, user()->get('role_ids'));
+
         return !empty($intersect);
     }
 
@@ -78,6 +79,7 @@ class ContentType extends Entity
                 return $rule->get('role_id') == $roleId && $rule->get('action') == $action;
             })
             ->first();
+
         return !empty($rule);
     }
 

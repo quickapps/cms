@@ -29,6 +29,7 @@ class CancelRequestMessage extends BaseMessage
         $this
             ->subject(plugin('User')->settings['message_cancel_request_subject'])
             ->body(plugin('User')->settings['message_cancel_request_body']);
+
         return parent::send();
     }
 }

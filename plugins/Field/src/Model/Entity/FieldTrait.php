@@ -30,8 +30,10 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->render($this, $view);
         }
+
         return '';
     }
 
@@ -45,8 +47,10 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->edit($this, $view);
         }
+
         return '';
     }
 
@@ -60,8 +64,10 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->fieldAttached($this);
         }
+
         return true;
     }
 
@@ -79,8 +85,10 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->beforeFind($this, $options, $primary);
         }
+
         return true;
     }
 
@@ -96,6 +104,7 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->validate($this, $validator);
         }
     }
@@ -112,8 +121,10 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->beforeSave($this, $post);
         }
+
         return true;
     }
 
@@ -127,6 +138,7 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->afterSave($this);
         }
     }
@@ -142,6 +154,7 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->beforeDelete($this);
         }
 
@@ -158,6 +171,7 @@ trait FieldTrait
         $handler = $this->get('metadata')->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->afterDelete($this);
         }
 

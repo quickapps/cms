@@ -86,6 +86,7 @@ Request::addDetector('localized', function ($request) {
     $locales = array_keys(quickapps('languages'));
     $localesPattern = '(' . implode('|', array_map('preg_quote', $locales)) . ')';
     $url = str_starts_with($request->url, '/') ? str_replace_once('/', '', $request->url) : $request->url;
+
     return preg_match("/^{$localesPattern}\//", $url);
 });
 
@@ -97,6 +98,7 @@ Request::addDetector('localized', function ($request) {
 Request::addDetector('userLoggedIn', function ($request) {
     $sessionExists = $request->session()->check('Auth.User.id');
     $sessionContent = $request->session()->read('Auth.User.id');
+
     return $sessionExists && !empty($sessionContent);
 });
 

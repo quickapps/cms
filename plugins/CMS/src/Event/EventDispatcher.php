@@ -63,6 +63,7 @@ class EventDispatcher
         if ($eventManager !== null) {
             $this->_eventManager = $eventManager;
         }
+
         return $this->_eventManager;
     }
 
@@ -78,6 +79,7 @@ class EventDispatcher
         if (!isset(static::$_instances[$name])) {
             static::$_instances[$name] = new EventDispatcher();
         }
+
         return static::$_instances[$name];
     }
 
@@ -125,6 +127,7 @@ class EventDispatcher
         $event = $this->_prepareEvent($eventName, $data);
         $this->_log($event->name());
         $this->_eventManager->dispatch($event);
+
         return $event;
     }
 
@@ -153,6 +156,7 @@ class EventDispatcher
         $event = $this->_prepareEvent($eventName, $data);
         $this->_log($event->name());
         $this->_eventManager->dispatch($event);
+
         return $event;
     }
 
@@ -172,11 +176,13 @@ class EventDispatcher
             if ($sort) {
                 arsort($this->_log, SORT_NATURAL);
             }
+
             return $this->_log;
         }
         if (isset($this->_log[$eventName])) {
             return $this->_log[$eventName];
         }
+
         return 0;
     }
 

@@ -125,6 +125,7 @@ class PermissionsController extends AppController
         $this->response->body(json_encode($out, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
         $this->response->type('json');
         $this->response->download('permissions_' . date('Y-m-d@H:i:s-\U\TC', time()) . '.json');
+
         return $this->response;
     }
 

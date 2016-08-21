@@ -39,6 +39,7 @@ class ExceptionRenderer extends CakeExceptionRenderer
         if ($code === 503) {
             return $this->error->getMessage();
         }
+
         return parent::_message($exception, $code);
     }
 
@@ -50,6 +51,7 @@ class ExceptionRenderer extends CakeExceptionRenderer
         if ($code === 503) {
             return 'maintenance';
         }
+
         return parent::_template($exception, $method, $code);
     }
 }

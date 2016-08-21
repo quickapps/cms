@@ -102,6 +102,7 @@ class SearchableBehavior extends Behavior
             'priority' => 500,
             'passParams' => true
         ];
+
         return $events;
     }
 
@@ -159,6 +160,7 @@ class SearchableBehavior extends Behavior
         $this->_table->dispatchEvent('Model.beforeRemoveIndex', compact('entity'));
         $success = $this->searchEngine()->delete($entity);
         $this->_table->dispatchEvent('Model.afterRemoveIndex', compact('entity', 'success'));
+
         return $success;
     }
 
@@ -177,6 +179,7 @@ class SearchableBehavior extends Behavior
         if ($query === null) {
             $query = $this->_table->find();
         }
+
         return $this->searchEngine()->search($criteria, $query);
     }
 
@@ -190,6 +193,7 @@ class SearchableBehavior extends Behavior
         if ($engine !== null) {
             $this->_engine = $engine;
         }
+
         return $this->_engine;
     }
 
@@ -372,6 +376,7 @@ class SearchableBehavior extends Behavior
     {
         $eventName = 'Search.' . (string)Inflector::variable('operator_' . $token->name());
         $event = new Event($eventName, $this->_table, compact('query', 'token'));
+
         return EventManager::instance()->dispatch($event)->result;
     }
 
@@ -405,6 +410,7 @@ class SearchableBehavior extends Behavior
             } elseif (is_string($handler) && class_exists($handler)) {
                 return function ($query, $token) use ($operator) {
                     $instance = new $operator['handler']($this->_table, $operator['options']);
+
                     return $instance->scope($query, $token);
                 };
             }

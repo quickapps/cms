@@ -62,6 +62,7 @@ class BlockShortcode implements EventListenerInterface
                 $out = !Configure::read('debug') ? '' : "<!-- block #{$id} not found -->";
             }
         }
+
         return $out;
     }
 }

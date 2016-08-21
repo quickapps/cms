@@ -48,6 +48,7 @@ class CommentHook implements EventListenerInterface
     {
         $View = $event->subject();
         $html = $View->element('Comment.render_comment', compact('comment', 'options'));
+
         return $html;
     }
 

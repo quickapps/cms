@@ -183,6 +183,7 @@ class FieldableBehavior extends EavBehavior
         ) {
             return true;
         }
+
         return parent::beforeFind($event, $query, $options, $primary);
     }
 
@@ -274,6 +275,7 @@ class FieldableBehavior extends EavBehavior
 
             if ($result === false) {
                 $this->attachEntityFields($entity);
+
                 return false;
             }
 
@@ -296,11 +298,13 @@ class FieldableBehavior extends EavBehavior
             } elseif (!TableRegistry::get('Eav.EavValues')->save($valueEntity)) {
                 $this->attachEntityFields($entity);
                 $event->stopPropagation();
+
                 return false;
             }
         }
 
         $this->attachEntityFields($entity);
+
         return true;
     }
 
@@ -380,6 +384,7 @@ class FieldableBehavior extends EavBehavior
 
             if ($result === false) {
                 $event->stopPropagation();
+
                 return false;
             }
 
@@ -480,6 +485,7 @@ class FieldableBehavior extends EavBehavior
         }
 
         $entity->set('_fields', new FieldCollection($_fields));
+
         return $entity;
     }
 
@@ -500,6 +506,7 @@ class FieldableBehavior extends EavBehavior
 
             if ($result === false) {
                 $this->attachEntityFields($entity);
+
                 return false;
             }
 
@@ -592,6 +599,7 @@ class FieldableBehavior extends EavBehavior
                 $attrByNames[$value->get('eav_attribute')->get('name')]->set(':value', $value);
             }
         }
+
         return $this->_toolbox->attributes($bundle);
     }
 
@@ -630,6 +638,7 @@ class FieldableBehavior extends EavBehavior
             ->contain(['EavAttribute'])
             ->where($conditions)
             ->all();
+
         return $storedValues;
     }
 
@@ -700,6 +709,7 @@ class FieldableBehavior extends EavBehavior
         }
 
         $mockField->isNew($entity->isNew());
+
         return $mockField;
     }
 
@@ -718,6 +728,7 @@ class FieldableBehavior extends EavBehavior
             $callable = $this->config('bundle');
             $bundle = $callable($entity);
         }
+
         return (string)$bundle;
     }
 }

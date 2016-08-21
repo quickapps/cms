@@ -74,6 +74,7 @@ class WysiwygAspect extends Aspect
         }
 
         $this->setProperty($invocation, 'arguments', [$fieldName, $options]);
+
         return $invocation->proceed();
     }
 

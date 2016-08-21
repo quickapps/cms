@@ -75,9 +75,11 @@ class BreadcrumbHelper extends Helper
                     $options['childAttrs'] = ['class' => 'active'];
                     $options['templates']['link'] = '{{content}}';
                 }
+
                 return $this->Menu->formatter($entity, $info, $options);
             }
         ], $options);
+
         return $this->Menu->render($items, $options);
     }
 
@@ -107,6 +109,7 @@ class BreadcrumbHelper extends Helper
         if ($this->count()) {
             return $this->render($options);
         }
+
         return '';
     }
 }

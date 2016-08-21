@@ -96,6 +96,7 @@ class CustomBlockWidget extends Widget
                 }
             }
         }
+
         return $view->element($element, compact('block', 'options'));
     }
 }

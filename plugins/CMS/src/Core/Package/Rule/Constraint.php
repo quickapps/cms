@@ -59,6 +59,7 @@ class Constraint
         try {
             $pkgConstraint = new VersionConstraint('==', $version);
             $constraintObjects = $parser->parseConstraints($constraints);
+
             return $constraintObjects->matches($pkgConstraint);
         } catch (\Exception $ex) {
             return false;

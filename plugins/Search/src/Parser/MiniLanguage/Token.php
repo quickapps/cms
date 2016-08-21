@@ -98,6 +98,7 @@ class Token implements TokenInterface
         if ($this->isOperator()) {
             return $this->_data['operatorName'];
         }
+
         return $this->_data['string'];
     }
 
@@ -109,6 +110,7 @@ class Token implements TokenInterface
         if ($this->isOperator()) {
             return $this->_data['operatorArguments'];
         }
+
         return $this->_data['string'];
     }
 

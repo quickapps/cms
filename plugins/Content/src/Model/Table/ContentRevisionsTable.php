@@ -35,6 +35,7 @@ class ContentRevisionsTable extends Table
     protected function _initializeSchema(Schema $table)
     {
         $table->columnType('data', 'serialized');
+
         return $table;
     }
 
@@ -73,6 +74,7 @@ class ContentRevisionsTable extends Table
                 } catch (\Exception $e) {
                     $revision->data->set('content_type', false);
                 }
+
                 return $revision;
             });
         });

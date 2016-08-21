@@ -29,6 +29,7 @@ class PasswordRequestMessage extends BaseMessage
         $this
             ->subject(plugin('User')->settings['message_password_recovery_subject'])
             ->body(plugin('User')->settings['message_password_recovery_body']);
+
         return parent::send();
     }
 }

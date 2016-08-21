@@ -71,6 +71,7 @@ class UsersTable extends Table
                         $words .= ' ' . trim($vf->value);
                     }
                 }
+
                 return $words;
             }
         ]);
@@ -95,6 +96,7 @@ class UsersTable extends Table
 
         // unique username
         $rules->add($rules->isUnique(['username'], __d('user', 'Username already in use.')));
+
         return $rules;
     }
 
@@ -127,6 +129,7 @@ class UsersTable extends Table
                 'compare' => [
                     'rule' => function ($value, $context) {
                         $value2 = isset($context['data']['password2']) ? $context['data']['password2'] : false;
+
                         return (new DefaultPasswordHasher)->check($value2, $value) || $value == $value2;
                     },
                     'message' => __d('user', 'Password mismatch.'),
@@ -187,6 +190,7 @@ class UsersTable extends Table
             'token' => $user->get('token'),
             'token_expiration' => $user->get('token_expiration'),
         ], ['id' => $user->id]);
+
         return $user;
     }
 
@@ -260,6 +264,7 @@ class UsersTable extends Table
         }
 
         $validator->add('password', $rules);
+
         return $validator;
     }
 

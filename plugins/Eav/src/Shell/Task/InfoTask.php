@@ -40,6 +40,7 @@ class InfoTask extends Shell
                 'help' => __d('eav', 'Indicates the column belongs to a bundle name within the table.'),
                 'default' => null,
             ]);
+
         return $parser;
     }
 
@@ -55,6 +56,7 @@ class InfoTask extends Shell
 
         if (empty($options['use'])) {
             $this->err(__d('eav', 'You must indicate a table alias name using the "--use" option. Example: "Articles.Users"'));
+
             return false;
         }
 
@@ -66,9 +68,11 @@ class InfoTask extends Shell
 
         if (!$table) {
             $this->err(__d('eav', 'The specified table does not exists.'));
+
             return false;
         } elseif (!$table->behaviors()->has('Eav')) {
             $this->err(__d('eav', 'The specified table is not using EAV behavior.'));
+
             return false;
         }
 
@@ -96,6 +100,7 @@ class InfoTask extends Shell
         $this->out(__d('eav', 'EAV information for table "{0}":', $options['use']));
         $this->out();
         $this->helper('table')->output($rows);
+
         return true;
     }
 }

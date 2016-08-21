@@ -53,6 +53,7 @@ class FileField extends Handler
             $settings['multi'] = $field->metadata->settings['multi_custom'];
             $field->metadata->set('settings', $settings);
         }
+
         return $view->element('Field.FileField/display', compact('field'));
     }
 
@@ -100,8 +101,10 @@ class FileField extends Handler
                                     $count++;
                                 }
                             }
+
                             return $count > 0;
                         }
+
                         return false;
                     },
                     'message' => __d('field', 'You must upload one file at least.')
@@ -127,6 +130,7 @@ class FileField extends Handler
 
                         return $count <= $maxFiles;
                     }
+
                     return false;
                 },
                 'message' => __d('field', 'You can upload {0} files as maximum.', $maxFiles)
@@ -147,8 +151,10 @@ class FileField extends Handler
                                     }
                                 }
                             }
+
                             return true;
                         }
+
                         return false;
                     },
                     'message' => __d('field', 'Invalid file extension. Allowed extension are: {0}', $field->metadata->settings['extensions'])

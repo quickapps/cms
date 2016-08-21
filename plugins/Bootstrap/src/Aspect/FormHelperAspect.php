@@ -87,6 +87,7 @@ class FormHelperAspect extends Aspect
         }
 
         $this->setProperty($invocation, 'arguments', [$model, $options]);
+
         return $invocation->proceed();
     }
 
@@ -111,6 +112,7 @@ class FormHelperAspect extends Aspect
 
         $this->_addTemplates($helper);
         $this->setProperty($invocation, 'arguments', [$fieldName, $options]);
+
         return $invocation->proceed();
     }
 
@@ -130,6 +132,7 @@ class FormHelperAspect extends Aspect
 
         $this->_addTemplates($helper);
         $this->setProperty($invocation, 'arguments', [$fieldName, $options]);
+
         return $invocation->proceed();
     }
 
@@ -148,6 +151,7 @@ class FormHelperAspect extends Aspect
         $attributes = $this->_addClass($helper, $attributes, 'form-control');
 
         $this->setProperty($invocation, 'arguments', [$fieldName, $options, $attributes]);
+
         return $invocation->proceed();
     }
 
@@ -167,6 +171,7 @@ class FormHelperAspect extends Aspect
 
         $this->_addTemplates($helper);
         $this->setProperty($invocation, 'arguments', [$title, $options]);
+
         return $invocation->proceed();
     }
 
@@ -186,6 +191,7 @@ class FormHelperAspect extends Aspect
 
         $this->_addTemplates($helper);
         $this->setProperty($invocation, 'arguments', [$caption, $options]);
+
         return $invocation->proceed();
     }
 

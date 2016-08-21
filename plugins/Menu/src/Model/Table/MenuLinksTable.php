@@ -65,6 +65,7 @@ class MenuLinksTable extends Table
                     } else {
                         $full = Validation::url($url);
                         $internal = str_starts_with($url, '/');
+
                         return $full || $internal;
                     }
                 },
@@ -95,6 +96,7 @@ class MenuLinksTable extends Table
                     if (!empty($context['data']['activation']) && $context['data']['activation'] === 'php') {
                         return strpos($value, '<?php') !== false && strpos($value, '?>') !== false;
                     }
+
                     return true;
                 },
                 'message' => __d('menu', 'Invalid PHP code, make sure that tags "&lt;?php" & "?&gt;" are present.')

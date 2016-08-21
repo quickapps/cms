@@ -91,6 +91,7 @@ if (!is_readable(ROOT . '/config/settings.php')) {
                 ) {
                     $params['_base'] = $request->base . '/' . I18n::locale() . '/';
                 }
+
                 return $params;
             }
         );

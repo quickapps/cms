@@ -136,6 +136,7 @@ class AcoManager
                     $this->Permissions->save($permissionEntity);
                 }
             }
+
             return true;
         }
 
@@ -158,6 +159,7 @@ class AcoManager
         $content = $contents->first();
         $this->Acos->removeFromTree($content);
         $this->Acos->delete($content);
+
         return true;
     }
 

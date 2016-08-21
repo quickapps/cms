@@ -110,6 +110,7 @@ class BreadcrumbRegistry
     public static function pop()
     {
         $crumb = array_pop(static::$_crumbs);
+
         return $crumb;
     }
 

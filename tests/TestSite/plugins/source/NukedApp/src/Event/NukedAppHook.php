@@ -45,6 +45,7 @@ class NukedAppHook implements EventListenerInterface
     {
         $shell = $event->subject();
         $shell->err('This plugin cannot be installed as it is NUKED');
+
         return false;
     }
 }

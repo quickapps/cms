@@ -133,6 +133,7 @@ class PluginInstallTask extends Shell
                 'boolean' => true,
                 'default' => false,
             ]);
+
         return $parser;
     }
 
@@ -162,6 +163,7 @@ class PluginInstallTask extends Shell
 
         // ensure snapshot
         snapshot();
+
         return $result;
     }
 
@@ -187,10 +189,12 @@ class PluginInstallTask extends Shell
                 $event = $this->trigger("Plugin.{$this->_plugin['name']}.beforeInstall");
                 if ($event->isStopped() || $event->result === false) {
                     $this->err(__d('installer', 'Task was explicitly rejected by {0}.', ($this->_plugin['type'] == 'plugin' ? __d('installer', 'the plugin') : __d('installer', 'the theme'))));
+
                     return $this->_reset();
                 }
             } catch (\Exception $ex) {
                 $this->err(__d('installer', 'Internal error, {0} did not respond to "beforeInstall" callback correctly.', ($this->_plugin['type'] == 'plugin' ? __d('installer', 'plugin') : __d('installer', 'theme'))));
+
                 return $this->_reset();
             }
         }
@@ -211,11 +215,13 @@ class PluginInstallTask extends Shell
 
         if (!$this->_addOptions()) {
             $this->_rollbackCopyPackage();
+
             return $this->_reset();
         }
 
         if (!$this->Plugins->save($entity)) {
             $this->_rollbackCopyPackage();
+
             return $this->_reset();
         }
 
@@ -267,6 +273,7 @@ class PluginInstallTask extends Shell
             foreach ($this->_plugin['composer']['extra']['options'] as $index => $option) {
                 if (empty($option['name'])) {
                     $this->err(__d('installer', 'Unable to register {0} option, invalid option #{1}.', ($this->_plugin['type'] == 'plugin' ? __d('installer', 'plugin') : __d('installer', 'theme')), $index));
+
                     return false;
                 }
 
@@ -280,6 +287,7 @@ class PluginInstallTask extends Shell
                 if (empty($errors)) {
                     if (!$this->Options->save($entity)) {
                         $this->err(__d('installer', 'Unable to register option "{0}".', [$option['name']]));
+
                         return false;
                     }
                     $this->_addedOptions[] = $option['name'];
@@ -288,6 +296,7 @@ class PluginInstallTask extends Shell
                     foreach ($errors as $error) {
                         $this->err(__d('installer', '  - {0}', [$error]));
                     }
+
                     return false;
                 }
             }
@@ -327,6 +336,7 @@ class PluginInstallTask extends Shell
 
         Plugin::dropCache();
         $this->_detachListeners();
+
         return false;
     }
 
@@ -366,11 +376,13 @@ class PluginInstallTask extends Shell
 
         if (!$clearDestination && is_readable($destinationPath)) {
             $this->err(__d('installer', 'Destination directory already exists, please delete manually this directory: {0}', $destinationPath));
+
             return false;
         } elseif ($clearDestination && is_readable($destinationPath)) {
             $destination = new Folder($destinationPath);
             if (!$destination->delete()) {
                 $this->err(__d('installer', 'Destination directory could not be cleared, please check write permissions: {0}', $destinationPath));
+
                 return false;
             }
         }
@@ -380,6 +392,7 @@ class PluginInstallTask extends Shell
         }
 
         $this->err(__d('installer', 'Error when moving package content.'));
+
         return false;
     }
 
@@ -400,16 +413,20 @@ class PluginInstallTask extends Shell
 
         if (is_readable($this->params['source']) && is_dir($this->params['source'])) {
             $this->_sourceType = self::TYPE_DIR;
+
             return $this->_getFromDirectory();
         } elseif (is_readable($this->params['source']) && !is_dir($this->params['source'])) {
             $this->_sourceType = self::TYPE_ZIP;
+
             return $this->_getFromFile();
         } elseif (Validation::url($this->params['source'])) {
             $this->_sourceType = self::TYPE_URL;
+
             return $this->_getFromUrl();
         }
 
         $this->err(__d('installer', 'Unable to resolve the given source ({0}).', [$this->params['source']]));
+
         return false;
     }
 
@@ -421,6 +438,7 @@ class PluginInstallTask extends Shell
     protected function _getFromDirectory()
     {
         $this->_workingDir = normalizePath(realpath($this->params['source']) . '/');
+
         return $this->_validateContent();
     }
 
@@ -437,6 +455,7 @@ class PluginInstallTask extends Shell
         }
 
         $this->err(__d('installer', 'Unable to extract the package.'));
+
         return false;
     }
 
@@ -457,6 +476,7 @@ class PluginInstallTask extends Shell
         } catch (\Exception $ex) {
             $response = false;
             $this->err(__d('installer', 'Could not download the package. Details: {0}', $ex->getMessage()));
+
             return false;
         }
 
@@ -474,23 +494,27 @@ class PluginInstallTask extends Shell
                 $file->write($responseBody, 'w+', true)
             ) {
                 $file->close();
+
                 return $this->_getFromFile();
                 $this->err(__d('installer', 'Unable to extract the package.'));
+
                 return false;
             }
 
             $this->err(__d('installer', 'Unable to download the file, check write permission on "{0}" directory.', [TMP]));
+
             return false;
         }
 
         $this->err(__d('installer', 'Could not download the package, no .ZIP file was found at the given URL.'));
+
         return false;
     }
 
     /**
      * Extracts the current ZIP package.
      *
-     * @param  string $fule Full path to the ZIP package
+     * @param  string $file Full path to the ZIP package
      * @return bool True on success
      */
     protected function _unzip($file)
@@ -518,10 +542,12 @@ class PluginInstallTask extends Shell
             }
 
             $this->_workingDir = $to;
+
             return true;
         }
 
         $this->err(__d('installer', 'Unzip error: {0}', [$PclZip->errorInfo(true)]));
+
         return false;
     }
 
@@ -555,9 +581,11 @@ class PluginInstallTask extends Shell
 
                 if ($this->params['theme'] && !str_ends_with($pluginName, 'Theme')) {
                     $this->err(__d('installer', 'The given package is not a valid theme.'));
+
                     return false;
                 } elseif (!$this->params['theme'] && str_ends_with($pluginName, 'Theme')) {
                     $this->err(__d('installer', 'The given package is not a valid plugin.'));
+
                     return false;
                 }
 

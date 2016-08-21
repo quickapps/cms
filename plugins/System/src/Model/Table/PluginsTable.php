@@ -41,6 +41,7 @@ class PluginsTable extends Table
         $events = parent::implementedEvents();
         $events['Plugins.settings.validate'] = 'settingsValidate';
         $events['Plugins.settings.defaultValues'] = 'settingsDefaultValues';
+
         return $events;
     }
 

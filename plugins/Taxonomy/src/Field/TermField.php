@@ -93,6 +93,7 @@ class TermField extends Handler
                         if (!is_array($value)) {
                             $value = explode(',', (string)$value);
                         }
+
                         return count($value) <= $field->metadata->settings['max_values'];
                     },
                     'message' => $limitErrorMessage,
@@ -164,6 +165,7 @@ class TermField extends Handler
             ->toArray();
 
         $field->set('value', implode(' ', $termsNames));
+
         return true;
     }
 
@@ -205,6 +207,7 @@ class TermField extends Handler
     public function settings(FieldInstance $instance, View $view)
     {
         $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')->find('list');
+
         return $view->element('Taxonomy.taxonomy_field_settings_form', compact('instance', 'vocabularies'));
     }
 

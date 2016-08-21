@@ -53,6 +53,7 @@ class PublishDateField extends Handler
             'to' => ['string' => null, 'timestamp' => null],
         ], (array)$field->extra);
         $field->set('extra', $extra);
+
         return $view->element('Field.PublishDateField/display', compact('field'));
     }
 
@@ -109,9 +110,11 @@ class PublishDateField extends Handler
                         ) {
                             $from = DateToolbox::createFromFormat($value['from']['format'], $value['from']['string']);
                             $to = DateToolbox::createFromFormat($value['to']['format'], $value['to']['string']);
+
                             return date_timestamp_get($from) < date_timestamp_get($to);
                             ;
                         }
+
                         return false;
                     },
                     'message' => __d('field', 'Invalid date/time range, "Start" date must be before "Finish" date.')
@@ -144,6 +147,7 @@ class PublishDateField extends Handler
                 } else {
                     $typeLabel = $type == 'from' ? __d('field', 'Start') : __d('field', 'Finish');
                     $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time range, "{0}" date must match the the pattern: {1}', $typeLabel, $format));
+
                     return false;
                 }
             }
@@ -151,6 +155,7 @@ class PublishDateField extends Handler
 
         $field->set('value', implode(' ', $values));
         $field->set('extra', $extra);
+
         return true;
     }
 
@@ -174,6 +179,7 @@ class PublishDateField extends Handler
                     if (empty($settings['timepicker'])) {
                         return true;
                     }
+
                     return DateToolbox::validateTimeFormat($value);
                 },
                 'message' => __d('field', 'Invalid time format.')

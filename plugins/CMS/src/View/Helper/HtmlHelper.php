@@ -91,6 +91,7 @@ class HtmlHelper extends CakeHtmlHelper
             'prepend' => '',
             'append' => '',
         ];
+
         return $this->_View->element('layout_head', $options);
     }
 }

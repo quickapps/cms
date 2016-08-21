@@ -69,6 +69,7 @@ if (!function_exists('language')) {
         if ($key !== null) {
             return Configure::read("QuickApps.languages.{$code}.{$key}");
         }
+
         return Configure::read('QuickApps.languages.{$code}');
     }
 }
@@ -93,6 +94,7 @@ if (!function_exists('stripLanguagePrefix')) {
         }
 
         $url = preg_replace('/(^|\/)' . $localesPattern . '\//', '/', $url);
+
         return $url;
     }
 }

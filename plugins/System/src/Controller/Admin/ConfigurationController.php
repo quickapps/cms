@@ -96,6 +96,7 @@ class ConfigurationController extends AppController
     protected function _mockValidator()
     {
         $validator = new Validator();
+
         return $validator
             ->requirePresence('site_title')
             ->add('site_title', 'length', [

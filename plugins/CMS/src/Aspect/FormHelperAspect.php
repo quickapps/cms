@@ -40,6 +40,7 @@ class FormHelperAspect extends Aspect
             $args[0] = $this->_fieldName($helper, $args[0]);
         }
         $this->setProperty($invocation, 'arguments', $args);
+
         return $invocation->proceed();
     }
 
@@ -56,6 +57,7 @@ class FormHelperAspect extends Aspect
         if (!empty($prefix) && strpos($name, $prefix) !== 0) {
             $name = "{$prefix}{$name}";
         }
+
         return $name;
     }
 }

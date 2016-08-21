@@ -49,6 +49,7 @@ class BlockRegionsTable extends Table
     {
         // unique block_id
         $rules->add($rules->isUnique(['block_id', 'theme'], __d('block', 'This block is already assigned to this theme.')));
+
         return $rules;
     }
 
@@ -68,6 +69,7 @@ class BlockRegionsTable extends Table
                             return $plugin->isTheme && $plugin->name === $value;
                         })
                         ->first();
+
                     return !empty($exists);
                 },
                 'message' => __d('block', 'Invalid theme for region.'),

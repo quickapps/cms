@@ -116,6 +116,7 @@ class CommentableBehavior extends Behavior
                             ->where(['entity_id' => $entityId, 'table_alias' => $tableAlias])
                             ->count();
                         $entity->set('comments_count', $count);
+
                         return $entity;
                     });
                 });

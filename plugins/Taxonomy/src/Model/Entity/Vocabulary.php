@@ -32,6 +32,7 @@ class Vocabulary extends Entity
         if (empty($description)) {
             return '---';
         }
+
         return String::truncate($description, 80);
     }
 

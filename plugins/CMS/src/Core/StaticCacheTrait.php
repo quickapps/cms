@@ -94,11 +94,13 @@ trait StaticCacheTrait
             if (isset(static::$_cache[$key])) {
                 return static::$_cache[$key];
             }
+
             return null;
         }
         if ($key !== null && $value !== null) {
             // write key
             static::$_cache[$key] = $value;
+
             return $value;
         } else {
             // search key for given value
@@ -109,6 +111,7 @@ trait StaticCacheTrait
                     }
                 }
             }
+
             return null;
         }
     }

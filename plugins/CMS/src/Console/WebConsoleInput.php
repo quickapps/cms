@@ -91,6 +91,7 @@ class WebConsoleInput extends ConsoleInput
             $first = array_shift($keys);
             $value = $this->_postData[$first];
             unset($this->_postData[$first]);
+
             return $value;
         }
 

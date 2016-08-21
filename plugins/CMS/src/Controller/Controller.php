@@ -109,6 +109,7 @@ class Controller extends CakeController
         ) {
             return false;
         }
+
         return true;
     }
 

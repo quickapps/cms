@@ -47,6 +47,7 @@ class PluginUpdateTask extends PluginInstallTask
                 'boolean' => true,
                 'default' => false,
             ]);
+
         return $parser;
     }
 
@@ -59,6 +60,7 @@ class PluginUpdateTask extends PluginInstallTask
     {
         if (!$this->_init()) {
             $this->_reset();
+
             return false;
         }
 
@@ -70,17 +72,20 @@ class PluginUpdateTask extends PluginInstallTask
                 if ($event->isStopped() || $event->result === false) {
                     $this->err(__d('installer', 'Task was explicitly rejected by the plugin.'));
                     $this->_reset();
+
                     return false;
                 }
             } catch (\Exception $ex) {
                 $this->err(__d('installer', 'Internal error, plugin did not respond to "beforeUpdate" callback correctly.'));
                 $this->_reset();
+
                 return false;
             }
         }
 
         if (!$this->_movePackage(true)) {
             $this->_reset();
+
             return false;
         }
 
@@ -93,6 +98,7 @@ class PluginUpdateTask extends PluginInstallTask
         }
 
         $this->_finish();
+
         return true;
     }
 
@@ -109,11 +115,13 @@ class PluginUpdateTask extends PluginInstallTask
 
         if (!Plugin::exists($this->_plugin['name'])) {
             $this->err(__d('installer', 'The plugin "{0}" is not installed, you cannot update a plugin that is not installed in your system.', $this->_plugin['name']));
+
             return false;
         } else {
             $plugin = plugin($this->_plugin['name']);
             if (!$this->canBeDeleted($plugin->path)) {
                 $this->err(__d('installer', 'Unable to update, please check write permissions for "{0}".', $plugin->path));
+
                 return false;
             }
         }
@@ -133,6 +141,7 @@ class PluginUpdateTask extends PluginInstallTask
     {
         if (!file_exists($path) || !is_dir($path)) {
             $this->err(__d('installer', "Plugin's directory was not found: ", $path));
+
             return false;
         }
 
@@ -153,6 +162,7 @@ class PluginUpdateTask extends PluginInstallTask
             foreach ($notWritable as $path) {
                 $this->err(__d('installer', "  -{0}", $path));
             }
+
             return false;
         }
 

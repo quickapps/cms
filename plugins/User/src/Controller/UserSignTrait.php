@@ -82,6 +82,7 @@ trait UserSignTrait
                             // invalid user
                         }
                     }
+
                     return $this->redirect($this->Auth->redirectUrl());
                 } else {
                     if ($loginBlocking && isset($cache) && isset($cacheName)) {
@@ -127,6 +128,7 @@ trait UserSignTrait
             return $this->redirect($result);
         } else {
             $this->Flash->danger(__d('user', 'Something went wrong, and logout operation could not be completed.'));
+
             return $this->redirect($this->referer());
         }
     }

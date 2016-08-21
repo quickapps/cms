@@ -100,6 +100,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
                         unset($user['password']);
                     }
                     $controller->Auth->setUser($user);
+
                     return true;
                 }
             }
@@ -155,6 +156,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
                     }
                     $controller->Auth->setUser($user);
                     $exists->updateToken();
+
                     return true;
                 }
             }
@@ -180,6 +182,7 @@ class AnonymousAuthenticate extends BaseAuthenticate
             $path
         );
         $path = str_replace('//', '/', $path);
+
         return trim($path, '/');
     }
 

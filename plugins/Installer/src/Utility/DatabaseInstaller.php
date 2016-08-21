@@ -129,6 +129,7 @@ class DatabaseInstaller
         }
 
         $this->writeSetting();
+
         return true;
     }
 
@@ -153,6 +154,7 @@ class DatabaseInstaller
         if (!$this->_installed) {
             $this->error(__d('installer', 'Nothing installed'));
         }
+
         return $this->_errors;
     }
 
@@ -175,6 +177,7 @@ class DatabaseInstaller
             $dbConfig = include ROOT . '/config/settings.php.tmp';
             if (empty($dbConfig['Datasources']['default'])) {
                 $this->error(__d('installer', 'Invalid database information in file "{0}"', ROOT . '/config/settings.php.tmp'));
+
                 return false;
             }
             $dbConfig = $dbConfig['Datasources']['default'];
@@ -190,10 +193,12 @@ class DatabaseInstaller
         list(, $driverClass) = namespaceSplit($dbConfig['driver']);
         if (!in_array($driverClass, ['Mysql', 'Postgres', 'Sqlite', 'Sqlserver'])) {
             $this->error(__d('installer', 'Invalid database type ({0}).', $driverClass));
+
             return false;
         }
 
         $this->config('connection', Hash::merge($this->_defaultConnection, $dbConfig));
+
         return true;
     }
 
@@ -207,6 +212,7 @@ class DatabaseInstaller
     {
         if (!$this->config('connection.className')) {
             $this->error(__d('installer', 'Database engine cannot be empty.'));
+
             return false;
         }
 
@@ -215,9 +221,11 @@ class DatabaseInstaller
             ConnectionManager::config('installation', $this->config('connection'));
             $conn = ConnectionManager::get('installation');
             $conn->connect();
+
             return $conn;
         } catch (\Exception $ex) {
             $this->error(__d('installer', 'Unable to connect to database, please check your information. Details: {0}', '<p>' . $ex->getMessage() . '</p>'));
+
             return false;
         }
     }
@@ -239,6 +247,7 @@ class DatabaseInstaller
                     $result = $this->_processFixture($fixture, $connection);
                     if (!$result) {
                         $this->error(__d('installer', 'Error importing "{0}".', $fixture));
+
                         return false;
                     }
                 }
@@ -247,6 +256,7 @@ class DatabaseInstaller
             });
         } catch (\Exception $ex) {
             $this->error(__d('installer', 'Unable to import database information. Details: {0}', '<p>' . $ex->getMessage() . '</p>'));
+
             return false;
         }
     }
@@ -269,6 +279,7 @@ class DatabaseInstaller
         if (!$result) {
             $this->error(__d('installer', 'A previous installation of QuickAppsCMS already exists, please drop your database tables before continue.'));
         }
+
         return $result;
     }
 
@@ -295,6 +306,7 @@ class DatabaseInstaller
         }
 
         $settingsFile = new File($filePath, true);
+
         return $settingsFile->write("<?php\n return " . var_export($config, true) . ";\n");
     }
 
@@ -306,6 +318,7 @@ class DatabaseInstaller
     public function salt()
     {
         $space = '$%&()=!#@~0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
         return substr(str_shuffle($space), 0, rand(40, 60));
     }
 
@@ -460,6 +473,7 @@ class DatabaseInstaller
                 $statement->closeCursor();
             } catch (\Exception $ex) {
                 $this->error(__d('installer', 'Error while importing data for table "{0}". Details: {1}', $schema->name(), $ex->getMessage()));
+
                 return false;
             }
         }
@@ -490,6 +504,7 @@ class DatabaseInstaller
         foreach ($records as $record) {
             $values[] = array_merge($default, $record);
         }
+
         return [$fields, $values, $types];
     }
 }

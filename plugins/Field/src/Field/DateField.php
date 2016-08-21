@@ -93,6 +93,7 @@ class DateField extends Handler
                 $field->set('extra', $post['date']);
             } else {
                 $field->metadata->entity->errors($field->name, __d('field', 'Invalid date/time, it must match the the pattern: {0}', $format));
+
                 return false;
             }
             $field->set('value', date_timestamp_get($date));
@@ -123,6 +124,7 @@ class DateField extends Handler
                     if (empty($settings['timepicker'])) {
                         return true;
                     }
+
                     return DateToolbox::validateTimeFormat($value);
                 },
                 'message' => __d('field', 'Invalid time format.')

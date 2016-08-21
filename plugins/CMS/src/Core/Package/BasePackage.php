@@ -207,6 +207,7 @@ class BasePackage
         if (!empty($composer['require'])) {
             return $composer['require'];
         }
+
         return [];
     }
 

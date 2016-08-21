@@ -299,6 +299,7 @@ class EavBehavior extends Behavior
                 'extra ' => $attr->get('extra'),
             ];
         }
+
         return $columns;
     }
 
@@ -404,6 +405,7 @@ class EavBehavior extends Behavior
         }
 
         $query = $this->_scopeQuery($query, $options['bundle']);
+
         return $query->formatResults(function ($results) use ($event, $query, $options, $primary) {
             return $results->map(function ($entity) use ($event, $query, $options, $primary) {
                 if ($entity instanceof EntityInterface) {
@@ -413,6 +415,7 @@ class EavBehavior extends Behavior
 
                 if ($entity === false) {
                     $event->stopPropagation();
+
                     return;
                 }
 
@@ -656,6 +659,7 @@ class EavBehavior extends Behavior
                 $query = $scope->scope($query, $bundle);
             }
         }
+
         return $query;
     }
 

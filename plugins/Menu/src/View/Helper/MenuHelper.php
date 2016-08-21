@@ -247,6 +247,7 @@ class MenuHelper extends Helper
         }
 
         $this->_clear();
+
         return $out;
     }
 
@@ -319,6 +320,7 @@ class MenuHelper extends Helper
             return $this->_count;
         }
         $this->_count($items);
+
         return $this->_count;
     }
 

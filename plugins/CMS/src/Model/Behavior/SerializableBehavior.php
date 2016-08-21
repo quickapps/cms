@@ -187,6 +187,7 @@ class SerializableBehavior extends Behavior
                         }
                     }
                 }
+
                 return $entity;
             });
         });

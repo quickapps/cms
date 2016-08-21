@@ -71,6 +71,7 @@ class MenusTable extends Table
                 'on' => 'create',
                 'message' => __d('menu', 'Invalid menu handler'),
             ]);
+
         return $validator;
     }
 
@@ -122,6 +123,7 @@ class MenusTable extends Table
         foreach ($blocks as $block) {
             if (!empty($menu->settings['menu_id']) && $menu->settings['menu_id'] == $menu->id) {
                 TableRegistry::get('Block.Blocks')->delete($block);
+
                 return;
             }
         }

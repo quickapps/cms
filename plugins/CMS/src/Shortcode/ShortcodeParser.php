@@ -88,6 +88,7 @@ class ShortcodeParser
 
         static::cache('context', $context);
         $pattern = static::_regex();
+
         return preg_replace_callback("/{$pattern}/s", 'static::_doShortcode', $text);
     }
 
@@ -101,6 +102,7 @@ class ShortcodeParser
     public static function strip($text)
     {
         $tagregexp = implode('|', array_map('preg_quote', static::_list()));
+
         return preg_replace('/(.?){(' . $tagregexp . ')\b(.*?)(?:(\/))?}(?:(.+?){\/\2})?(.?)/s', '$1$6', $text);
     }
 
@@ -157,6 +159,7 @@ class ShortcodeParser
             $manager = EventDispatcher::instance('Shortcode')->eventManager();
             static::$_listeners = listeners($manager);
         }
+
         return static::$_listeners;
     }
 
@@ -170,6 +173,7 @@ class ShortcodeParser
         if (!static::$_defaultContext) {
             static::$_defaultContext = new View(Router::getRequest(), null, EventManager::instance(), []);
         }
+
         return static::$_defaultContext;
     }
 
@@ -261,6 +265,7 @@ class ShortcodeParser
             $result = EventDispatcher::instance('Shortcode')
                 ->triggerArray([$tag, static::cache('context')], $options)
                 ->result;
+
             return $m[1] . $result . $m[6];
         }
 

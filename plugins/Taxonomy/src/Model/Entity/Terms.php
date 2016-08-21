@@ -30,6 +30,7 @@ class Terms extends Entity
     {
         $value = strip_tags($value);
         $value = str_replace(["\n", "\r"], '', $value);
+
         return trim($value);
     }
 }

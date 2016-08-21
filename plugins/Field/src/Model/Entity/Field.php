@@ -62,6 +62,7 @@ class Field extends Entity
         if (!empty($this->metadata->view_modes[$viewMode])) {
             $settings = $this->metadata->view_modes[$viewMode];
         }
+
         return $settings;
     }
 

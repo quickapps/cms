@@ -29,6 +29,7 @@ class WelcomeMessage extends BaseMessage
         $this
             ->subject(plugin('User')->settings['message_welcome_subject'])
             ->body(plugin('User')->settings['message_welcome_body']);
+
         return parent::send();
     }
 }

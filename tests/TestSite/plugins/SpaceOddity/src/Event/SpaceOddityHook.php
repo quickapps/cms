@@ -100,6 +100,7 @@ And there\'s nothing I can do.';
     public function beforeInstall(Event $event)
     {
         Debugger::log('beforeInstall: ' . $this->_line());
+
         return true;
     }
 
@@ -124,6 +125,7 @@ And there\'s nothing I can do.';
     public function beforeUpdate(Event $event)
     {
         Debugger::log('beforeUpdate: ' . $this->_line());
+
         return true;
     }
 
@@ -147,6 +149,7 @@ And there\'s nothing I can do.';
     public function beforeEnable(Event $event)
     {
         Debugger::log('beforeEnable: ' . $this->_line());
+
         return true;
     }
 
@@ -170,6 +173,7 @@ And there\'s nothing I can do.';
     public function beforeDisable(Event $event)
     {
         Debugger::log('beforeDisable: ' . $this->_line());
+
         return true;
     }
 
@@ -193,6 +197,7 @@ And there\'s nothing I can do.';
     public function beforeUninstall(Event $event)
     {
         Debugger::log('beforeUninstall: ' . $this->_line());
+
         return true;
     }
 
@@ -215,6 +220,7 @@ And there\'s nothing I can do.';
     protected function _line()
     {
         $lines = explode("\n", $this->_lyrics);
+
         return '♪ ♫ ♭♯ ~ ' . trim($lines[array_rand($lines)]) . ' ~ ♪ ♫ ♭♯';
     }
 }

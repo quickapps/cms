@@ -61,8 +61,10 @@ trait EventDispatcherTrait
         array_shift($data);
         if (strpos($eventName[0], '::') > 0) {
             list($instance, $eventName[0]) = explode('::', $eventName[0]);
+
             return EventDispatcher::instance($instance)->triggerArray($eventName, $data);
         }
+
         return EventDispatcher::instance()->triggerArray($eventName, $data);
     }
 

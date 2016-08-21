@@ -67,6 +67,7 @@ class StartupController extends Controller
             if (!in_array($request->params['action'], ['language', 'index'])) {
                 $params['locale'] = I18n::locale();
             }
+
             return $params;
         });
     }
@@ -348,6 +349,7 @@ class StartupController extends Controller
         } elseif (is_string($check)) {
             return in_array($check, $_steps);
         }
+
         return false;
     }
 

@@ -58,6 +58,7 @@ class Plugin extends CakePlugin
                     $collection[] = $plugin;
                 }
             }
+
             return static::cache($cacheKey, collection($collection));
         }
 
@@ -146,6 +147,7 @@ class Plugin extends CakePlugin
     public static function exists($plugin)
     {
         $check = quickapps("plugins.{$plugin}");
+
         return !empty($check);
     }
 

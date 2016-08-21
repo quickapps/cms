@@ -68,6 +68,7 @@ class ContentTypesTable extends Table
             }
             $return->set('permissions', $roles);
         }
+
         return $return;
     }
 

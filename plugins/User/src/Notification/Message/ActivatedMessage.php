@@ -33,6 +33,7 @@ class ActivatedMessage extends BaseMessage
         if (plugin('User')->settings['message_activation']) {
             return parent::send();
         }
+
         return true;
     }
 }

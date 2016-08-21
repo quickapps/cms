@@ -50,6 +50,7 @@ class Handler
     public function info()
     {
         list(, $handlerName) = namespaceSplit(get_class($this));
+
         return [
             'type' => 'varchar',
             'name' => (string)$handlerName,

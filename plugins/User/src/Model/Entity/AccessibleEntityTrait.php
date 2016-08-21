@@ -43,6 +43,7 @@ trait AccessibleEntityTrait
         }
 
         $intersect = array_intersect($entityRolesID, (array)user()->get('role_ids'));
+
         return !empty($intersect);
     }
 }

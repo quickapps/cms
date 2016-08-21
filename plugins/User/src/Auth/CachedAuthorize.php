@@ -80,6 +80,7 @@ class CachedAuthorize extends BaseAuthorize
             $path
         );
         $path = str_replace('//', '/', $path);
+
         return trim($path, '/');
     }
 }

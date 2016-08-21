@@ -87,7 +87,7 @@ class FormAuthenticate extends CakeFormAuthenticate
     /**
      * Removes "remember me" cookie.
      *
-     * @param array $user User information given as an array
+     * @param array $event User information given as an array
      * @return void
      */
     public function logout(Event $event, array $user)

@@ -37,6 +37,7 @@ class LanguageSwitcherWidget extends Widget
     public function settings(Block $block, View $view)
     {
         $languagesList = LocaleToolbox::languagesList(false, false);
+
         return $view->element('Locale.language_switcher_widget_settings', compact('block', 'languagesList'));
     }
 

@@ -114,6 +114,7 @@ class SystemShortcode implements EventListenerInterface
         } catch (\Exception $e) {
             $url = '';
         }
+
         return $url;
     }
 

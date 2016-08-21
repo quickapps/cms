@@ -248,6 +248,7 @@ class PluginsShell extends Shell
         if (!count($disabledPlugins)) {
             $this->err(__d('installer', '<info>There are no disabled plugins!</info>'));
             $this->out();
+
             return;
         }
 
@@ -301,6 +302,7 @@ class PluginsShell extends Shell
         if (!count($enabledPlugins)) {
             $this->err(__d('installer', '<info>There are no active plugins!</info>'));
             $this->out();
+
             return;
         }
 

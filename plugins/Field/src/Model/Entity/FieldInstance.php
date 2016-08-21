@@ -49,6 +49,7 @@ class FieldInstance extends Entity
                 return $info['name'];
             }
         }
+
         return $this->get('handler');
     }
 }

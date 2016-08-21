@@ -381,6 +381,7 @@ class GenericEngine extends BaseEngine
         list(, $driverClass) = namespaceSplit(strtolower(get_class($this->_table->connection()->driver())));
         if ($driverClass != 'mysql') {
             $enabled = false;
+
             return false;
         }
 
@@ -391,11 +392,13 @@ class GenericEngine extends BaseEngine
                 strtolower($info['type']) == 'fulltext'
             ) {
                 $enabled = true;
+
                 return true;
             }
         }
 
         $enabled = false;
+
         return false;
     }
 
@@ -426,6 +429,7 @@ class GenericEngine extends BaseEngine
         }
 
         Cache::write($cacheKey, $words, '_cake_model_');
+
         return $words;
     }
 
@@ -449,6 +453,7 @@ class GenericEngine extends BaseEngine
         foreach ($keys as $key) {
             $pk[] = $entity->get($key);
         }
+
         return implode(':', $pk);
     }
 
@@ -486,6 +491,7 @@ class GenericEngine extends BaseEngine
         $text = mb_strtolower($text); // all to lowercase
         $text = $this->_filterText($text); // filter
         $text = iconv('UTF-8', 'UTF-8//IGNORE', mb_convert_encoding($text, 'UTF-8')); // remove any invalid character
+
         return trim($text);
     }
 
@@ -501,6 +507,7 @@ class GenericEngine extends BaseEngine
         if (is_callable($this->config('bannedWords'))) {
             $isBanned = function ($word) {
                 $callable = $this->config('bannedWords');
+
                 return $callable($word);
             };
         } else {

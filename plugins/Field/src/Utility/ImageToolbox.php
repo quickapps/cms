@@ -94,6 +94,7 @@ class ImageToolbox extends FileToolbox
                 }
             }
         }
+
         return $out;
     }
 
@@ -160,6 +161,7 @@ class ImageToolbox extends FileToolbox
         foreach (static::$_previews as $value => $info) {
             $options[$value] = $info['label'];
         }
+
         return $options;
     }
 
@@ -178,6 +180,7 @@ class ImageToolbox extends FileToolbox
             if (isset(static::$_previews[$slug])) {
                 return static::$_previews[$slug];
             }
+
             return [];
         }
 

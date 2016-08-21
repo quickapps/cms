@@ -149,6 +149,7 @@ class CommentComponent extends Component
             ) {
                 return __d('comment', 'Comment saved!');
             }
+
             return __d('comment', 'Your comment is awaiting moderation.');
         };
         parent::__construct($collection, $config);
@@ -201,6 +202,7 @@ class CommentComponent extends Component
 
         if (is_array($key) || func_num_args() >= 2) {
             $this->_configWrite($key, $value, $merge);
+
             return $this;
         }
 
@@ -257,6 +259,7 @@ class CommentComponent extends Component
 
             if ($saved) {
                 $this->_afterSave($comment);
+
                 return true; // all OK
             } else {
                 $errors = true;

@@ -532,6 +532,7 @@ trait FieldUIControllerTrait
         }
 
         $this->loadModel('Field.FieldInstances');
+
         return $this->FieldInstances
             ->find()
             ->contain(['EavAttribute'])

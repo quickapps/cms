@@ -60,9 +60,11 @@ class PackageUploader
     {
         if (!isset($this->_package['tmp_name']) || !is_readable($this->_package['tmp_name'])) {
             $this->_error(__d('installer', 'Invalid package.'));
+
             return false;
         } elseif (!isset($this->_package['name']) || !str_ends_with(strtolower($this->_package['name']), '.zip')) {
             $this->_error(__d('installer', 'Invalid package format, it is not a ZIP package.'));
+
             return false;
         } else {
             $dst = normalizePath(TMP . $this->_package['name']);
@@ -73,11 +75,13 @@ class PackageUploader
 
             if (move_uploaded_file($this->_package['tmp_name'], $dst)) {
                 $this->_dst = $dst;
+
                 return true;
             }
         }
 
         $this->_error(__d('installer', 'Package could not be uploaded, please check write permissions on /tmp directory.'));
+
         return false;
     }
 

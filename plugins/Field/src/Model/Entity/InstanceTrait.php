@@ -30,8 +30,10 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->info();
         }
+
         return [];
     }
 
@@ -46,8 +48,10 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->settings($this, $view);
         }
+
         return '';
     }
 
@@ -62,8 +66,10 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->defaultSettings($this);
         }
+
         return [];
     }
 
@@ -80,6 +86,7 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->validateSettings($this, $settings, $validator);
         }
     }
@@ -96,6 +103,7 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->viewModeSettings($this, $view, $viewMode);
         }
 
@@ -114,8 +122,10 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->defaultViewModeSettings($this, $viewMode);
         }
+
         return [];
     }
 
@@ -133,6 +143,7 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->validateSettings($this, $settings, $validator, $viewMode);
         }
     }
@@ -147,6 +158,7 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->beforeAttach($this);
         }
     }
@@ -161,6 +173,7 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->afterAttach($this);
         }
     }
@@ -175,6 +188,7 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->beforeDetach($this);
         }
     }
@@ -189,6 +203,7 @@ trait InstanceTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->afterDetach($this);
         }
     }

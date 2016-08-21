@@ -51,6 +51,7 @@ class TextField extends Handler
     {
         $value = TextToolbox::process($field->value, $field->metadata->settings['text_processing']);
         $field->set('value', $value);
+
         return $view->element('Field.TextField/display', compact('field'));
     }
 
@@ -77,6 +78,7 @@ class TextField extends Handler
                         } else {
                             $clean = trim(strip_tags($value));
                         }
+
                         return !empty($clean);
                     },
                     'message' => __d('field', 'This field cannot be left empty.'),

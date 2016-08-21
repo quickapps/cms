@@ -53,6 +53,7 @@ class CommentsController extends AppController
             $out = __d('content', '<a href="{0}" target="_blank">{1}</a>', Router::url(['plugin' => 'Content', 'controller' => 'manage', 'action' => 'edit', $content->id]), $content->title);
             $out .= '<br />';
             $out .= __d('content', '<a href="{0}" target="_blank">{1}</a>', Router::url($content->url), 'View content');
+
             return $out;
         }
 

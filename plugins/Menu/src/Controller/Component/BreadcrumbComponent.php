@@ -194,6 +194,7 @@ class BreadcrumbComponent extends Component
             if (str_starts_with($value, $this->_controller->request->base)) {
                 return str_replace_once($this->_controller->request->base, '', $value);
             }
+
             return $value;
         }, $out);
 

@@ -46,6 +46,7 @@ class JqueryHelper extends Helper
         if (Configure::read('debug')) {
             return $this->_View->Html->script('Jquery.jquery-1.11.2.js', $options);
         }
+
         return $this->_View->Html->script('Jquery.jquery-1.11.2.min.js', $options);
     }
 

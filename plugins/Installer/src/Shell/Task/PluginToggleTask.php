@@ -63,6 +63,7 @@ class PluginToggleTask extends Shell
                 'boolean' => true,
                 'default' => false,
             ]);
+
         return $parser;
     }
 
@@ -87,6 +88,7 @@ class PluginToggleTask extends Shell
 
         if (!$plugin || !$existsInDb) {
             $this->err(__d('installer', 'Plugin "{0}" was not found.', $this->params['plugin']));
+
             return false;
         }
 
@@ -108,6 +110,7 @@ class PluginToggleTask extends Shell
         $checker = new RuleChecker((array)$plugin->composer['require']);
         if (!$checker->check()) {
             $this->err(__d('installer', 'Plugin "{0}" cannot be enabled as some dependencies are disabled or not installed: {1}', $plugin->humanName, $checker->fail(true)));
+
             return false;
         }
 
@@ -140,6 +143,7 @@ class PluginToggleTask extends Shell
             }
 
             $this->err(__d('installer', 'Plugin "{0}" cannot be disabled as it is required by: {1}', $plugin->humanName, implode(', ', $names)));
+
             return false;
         }
 
@@ -174,6 +178,7 @@ class PluginToggleTask extends Shell
             } else {
                 $this->err(__d('installer', 'Plugin "{0}" could not be disabled due to an internal error.', $plugin->humanName));
             }
+
             return false;
         }
 
@@ -200,10 +205,12 @@ class PluginToggleTask extends Shell
             $event = $this->trigger("Plugin.{$plugin->name}.before{$affix}");
             if ($event->isStopped() || $event->result === false) {
                 $this->err(__d('installer', 'Task was explicitly rejected by the plugin.'));
+
                 return false;
             }
         } catch (\Exception $e) {
             $this->err(__d('installer', 'Internal error, plugin did not respond to "before{0}" callback properly.', $affix));
+
             return false;
         }
 

@@ -39,6 +39,7 @@ class Menu extends Entity
         if (empty($description)) {
             return '---';
         }
+
         return Text::truncate($description, 80);
     }
 }

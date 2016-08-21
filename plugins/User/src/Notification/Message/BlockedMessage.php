@@ -33,6 +33,7 @@ class BlockedMessage extends BaseMessage
         if (plugin('User')->settings['message_blocked']) {
             return parent::send();
         }
+
         return true;
     }
 }

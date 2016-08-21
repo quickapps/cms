@@ -33,6 +33,7 @@ class DashboardLatestContentWidget extends Widget
             ->order(['created' => 'DESC'])
             ->limit(10)
             ->all();
+
         return $view->element('Content.dashboard_latest_content', compact('block', 'contents'));
     }
 }

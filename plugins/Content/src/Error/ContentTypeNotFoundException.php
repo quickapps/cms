@@ -29,7 +29,7 @@ class ContentTypeNotFoundException extends HttpException
     /**
      * Constructor
      *
-     * @param int $code Status code, defaults to 401
+     * @param int $message Status code, defaults to 401
      */
     public function __construct($message = null, $code = 404)
     {

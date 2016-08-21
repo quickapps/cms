@@ -54,6 +54,7 @@ class ThemeActivationTask extends Shell
                 'boolean' => true,
                 'default' => false,
             ]);
+
         return $parser;
     }
 
@@ -66,22 +67,26 @@ class ThemeActivationTask extends Shell
     {
         if (empty($this->params['theme'])) {
             $this->err(__d('installer', 'You must provide a theme.'));
+
             return false;
         }
 
         if (!Plugin::exists($this->params['theme'])) {
             $this->err(__d('installer', 'Theme "{0}" was not found.', $this->params['theme']));
+
             return false;
         }
 
         $plugin = plugin($this->params['theme']);
         if (!$plugin->isTheme) {
             $this->err(__d('installer', '"{0}" is not a theme.', $plugin->humanName));
+
             return false;
         }
 
         if (in_array($this->params['theme'], [option('front_theme'), option('back_theme')])) {
             $this->err(__d('installer', 'Theme "{0}" is already active.', $plugin->humanName));
+
             return false;
         }
 
@@ -95,11 +100,13 @@ class ThemeActivationTask extends Shell
                 if ($event->isStopped() || $event->result === false) {
                     $this->err(__d('installer', 'Task was explicitly rejected by the theme.'));
                     $this->_detachListeners();
+
                     return false;
                 }
             } catch (\Exception $ex) {
                 $this->err(__d('installer', 'Internal error, theme did not respond to "beforeActivate" callback properly.'));
                 $this->_detachListeners();
+
                 return false;
             }
         }
@@ -123,10 +130,12 @@ class ThemeActivationTask extends Shell
             } else {
                 $this->err(__d('installer', 'Internal error, the option "{0}" could not be persisted on database.', "{$prefix}theme"));
                 $this->_detachListeners();
+
                 return false;
             }
         } else {
             $this->err(__d('installer', 'Internal error, unable to turnoff current theme ({0}) and active new one ({1}).', $previousTheme, $this->params['theme']));
+
             return false;
         }
 

@@ -211,6 +211,7 @@ trait CommentUIControllerTrait
                             180
                         )
                     );
+
                     return $comment;
                 });
             });

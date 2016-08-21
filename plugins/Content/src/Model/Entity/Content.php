@@ -64,6 +64,7 @@ class Content extends Entity
         if ($this->has('content_type') && $this->get('content_type')->has('name')) {
             $name = $this->get('content_type')->get('name');
         }
+
         return $name;
     }
 
@@ -88,6 +89,7 @@ class Content extends Entity
         }
 
         $url .= "/{$this->content_type_slug}/{$this->slug}";
+
         return Router::normalize($url) . CONTENT_EXTENSION;
     }
 

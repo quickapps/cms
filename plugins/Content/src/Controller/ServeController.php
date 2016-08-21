@@ -128,6 +128,7 @@ class ServeController extends AppController
         if (!empty($content->language) && $content->language != I18n::locale()) {
             if ($redirect = $this->_calculateRedirection($content)) {
                 $this->redirect($redirect);
+
                 return $this->response;
             }
             throw new ContentNotFoundException(__d('content', 'The requested page was not found.'));
@@ -218,6 +219,7 @@ class ServeController extends AppController
                 return option('url_locale_prefix') ? '/' . $has->get('language') . stripLanguagePrefix($has->get('url')) : $has->get('url');
             }
         }
+
         return '';
     }
 }

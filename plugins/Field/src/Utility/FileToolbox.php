@@ -44,6 +44,7 @@ class FileToolbox
                 $out = $view->element('Field.FileField/display_url', compact('field'));
                 break;
         }
+
         return $out;
     }
 
@@ -130,6 +131,7 @@ class FileToolbox
                 return $icon;
             }
         }
+
         return false;
     }
 
@@ -146,6 +148,7 @@ class FileToolbox
         if (strpos($fileName, '.') === false) {
             return '';
         }
+
         return strtolower(
             substr(
                 $fileName,
@@ -168,6 +171,7 @@ class FileToolbox
         if ($ext) {
             return preg_replace("/\.{$ext}$/i", '', $fileName);
         }
+
         return $fileName;
     }
 }

@@ -120,6 +120,7 @@ class ServerTest
                 'rule' => false,
                 'message' => $this->_useI18n ? __d('installer', 'Test failed') : 'Test failed',
             ];
+
             return $this->add($name, $rule['rule'], $rule['message']);
         }
 

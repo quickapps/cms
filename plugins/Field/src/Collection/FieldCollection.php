@@ -98,6 +98,7 @@ class FieldCollection extends ArrayObject
         if (is_string($index) && isset($this->_keysMap[$index])) {
             $index = $this->_keysMap[$index];
         }
+
         return parent::offsetGet($index);
     }
 
@@ -127,6 +128,7 @@ class FieldCollection extends ArrayObject
             if (isset($field->metadata->view_modes[$viewMode])) {
                 return $field->metadata->view_modes[$viewMode]['ordering'];
             }
+
             return 0;
         }, $dir);
 
@@ -149,6 +151,7 @@ class FieldCollection extends ArrayObject
         foreach ($this as $f) {
             $out[] = $f;
         }
+
         return $out;
     }
 }

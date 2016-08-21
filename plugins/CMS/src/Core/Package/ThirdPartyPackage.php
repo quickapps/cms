@@ -40,6 +40,7 @@ class ThirdPartyPackage extends BasePackage
 
         $packages = $this->_packages();
         $this->_version = isset($packages[$this->_packageName]) ? $packages[$this->_packageName] : '';
+
         return $this->_version;
     }
 

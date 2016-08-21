@@ -40,6 +40,7 @@ class WebConsoleOutput extends ConsoleOutput
     protected function _write($message)
     {
         print $message;
+
         return strlen($message);
     }
 }

@@ -49,6 +49,7 @@ class User extends Entity
     public function isAdmin()
     {
         $roles = $this->_getRoleIds();
+
         return in_array(ROLE_ID_ADMINISTRATOR, $roles);
     }
 
@@ -73,6 +74,7 @@ class User extends Entity
             $cache = TableRegistry::get('User.Permissions')->check($this, $aco);
             static::cache($cacheKey, $cache);
         }
+
         return $cache;
     }
 
@@ -134,6 +136,7 @@ class User extends Entity
         if (!empty($password)) {
             return (new DefaultPasswordHasher)->hash($password);
         }
+
         return $password;
     }
 
@@ -151,6 +154,7 @@ class User extends Entity
         foreach ($this->roles as $k => $role) {
             $ids[] = $role->id;
         }
+
         return $ids;
     }
 
@@ -168,6 +172,7 @@ class User extends Entity
         foreach ($this->roles as $k => $role) {
             $names[] = $role->name;
         }
+
         return $names;
     }
 
@@ -185,6 +190,7 @@ class User extends Entity
         foreach ($this->roles as $role) {
             $slugs[] = $role->slug;
         }
+
         return $slugs;
     }
 

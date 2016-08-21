@@ -101,7 +101,7 @@ class TaxonomyToolbox
     /**
      * Prepares the given threaded list of terms.
      *
-     * @param array &$terms Threaded list of terms
+     * @param array $terms Threaded list of terms
      * @param \Cake\Datasource\EntityInterface $block The block
      */
     public static function termsForBlock($terms, $block)

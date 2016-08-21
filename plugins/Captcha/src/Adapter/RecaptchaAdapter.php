@@ -107,6 +107,7 @@ class RecaptchaAdapter extends BaseAdapter
     public function siteKey($key)
     {
         $this->config('siteKey', $key);
+
         return $this;
     }
 
@@ -119,6 +120,7 @@ class RecaptchaAdapter extends BaseAdapter
     public function secretKey($key)
     {
         $this->config('secretKey', $key);
+
         return $this;
     }
 }

@@ -119,6 +119,7 @@ class View extends CakeView
         if (empty($this->_regions[$name]) || $force) {
             $this->_regions[$name] = new Region($this, $name, $options);
         }
+
         return $this->_regions[$name];
     }
 
@@ -206,6 +207,7 @@ class View extends CakeView
     public function renderLayout($content, $layout = null)
     {
         $html = parent::renderLayout($content, $layout);
+
         return $this->shortcodes($html);
     }
 
@@ -226,6 +228,7 @@ class View extends CakeView
         ) {
             return Plugin::classPath($plugin) . "Template/Element/{$element}{$this->_ext}";
         }
+
         return parent::_getElementFileName($name);
     }
 
@@ -252,6 +255,7 @@ class View extends CakeView
                 array_unshift($paths, "{$base}{$dir}Plugin/{$plugin}/");
             }
         }
+
         return $paths;
     }
 
@@ -282,6 +286,7 @@ class View extends CakeView
         ob_start();
         include $this->__viewFile;
         unset($this->__viewFile);
+
         return ob_get_clean();
     }
 

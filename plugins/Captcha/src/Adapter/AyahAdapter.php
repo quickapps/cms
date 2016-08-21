@@ -95,6 +95,7 @@ class AyahAdapter extends BaseAdapter
     public function publisherKey($key)
     {
         $this->config('publisherKey', $key);
+
         return $this;
     }
 
@@ -107,6 +108,7 @@ class AyahAdapter extends BaseAdapter
     public function scoringKey($key)
     {
         $this->config('scoringKey', $key);
+
         return $this;
     }
 
@@ -118,6 +120,7 @@ class AyahAdapter extends BaseAdapter
     protected function _getLib()
     {
         require_once Plugin::classPath('Captcha') . 'Lib/ayah.php';
+
         return new \AYAH([
             'publisher_key' => $this->config('publisherKey'),
             'scoring_key' => $this->config('scoringKey'),

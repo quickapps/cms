@@ -88,6 +88,7 @@ class LinkHelper extends Helper
     {
         if ($item->has('activation') && is_callable($item->get('activation'))) {
             $callable = $item->get('activation');
+
             return $callable($this->_View->request, $item);
         }
 
@@ -174,6 +175,7 @@ class LinkHelper extends Helper
         ) {
             $url = '/' . I18n::locale() . $url;
         }
+
         return $url;
     }
 
@@ -188,6 +190,7 @@ class LinkHelper extends Helper
         if ($base === null) {
             $base = $this->_View->request->base;
         }
+
         return $base;
     }
 
@@ -251,6 +254,7 @@ class LinkHelper extends Helper
 
         $patternsQuoted = preg_quote($patterns, '/');
         $patterns = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
+
         return (bool)preg_match($patterns, $path);
     }
 
@@ -283,6 +287,7 @@ class LinkHelper extends Helper
                 )
             )
         ) . ')';
+
         return static::cache($cacheKey, $pattern);
     }
 }

@@ -212,6 +212,7 @@ class LocaleToolbox
         if ($sort) {
             asort($languages);
         }
+
         return $languages;
     }
 
@@ -232,6 +233,7 @@ class LocaleToolbox
         }
 
         asort($flags);
+
         return $flags;
     }
 }

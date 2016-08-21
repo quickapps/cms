@@ -20,10 +20,10 @@ class BasicTest extends TestCase
 {
 
    /**
-     * test stripLanguagePrefix() function.
-     *
-     * @return void
-     */
+    * test stripLanguagePrefix() function.
+    *
+    * @return void
+    */
     public function testStripLanguagePrefix()
     {
         $tests = [

@@ -69,6 +69,7 @@ class FontPanelWidget implements WidgetInterface
         $this->_loadAssets();
 
         $data['class'] = !empty($data['class']) ? "{$data['class']} fontselector" : 'fontselector';
+
         return $this->_templates->format('input', [
             'name' => $data['name'],
             'type' => 'text',

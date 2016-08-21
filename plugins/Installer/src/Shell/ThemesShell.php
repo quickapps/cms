@@ -243,6 +243,7 @@ class ThemesShell extends Shell
         if (!count($disabledThemes)) {
             $this->err(__d('installer', '<info>There are no disabled themes!</info>'));
             $this->out();
+
             return;
         }
 

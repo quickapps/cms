@@ -68,6 +68,7 @@ class DatabaseExportTask extends Shell
                 'help' => __d('system', 'List of table for which do not export data (only schema).'),
                 'default' => [],
             ]);
+
         return $parser;
     }
 
@@ -258,6 +259,7 @@ TEXT;
         }
 
         $header .= $this->params['fixture'] ? "class {$className} extends TestFixture\n" : "\nclass {$className}\n";
+
         return $header;
     }
 
@@ -271,6 +273,7 @@ TEXT;
     {
         $var = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($var)), true);
         $var = var_export($var, true);
+
         return str_replace(['array (', ')', '&#40', '&#41'], ['[', ']', '(', ')'], $var);
     }
 }

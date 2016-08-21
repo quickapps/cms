@@ -184,6 +184,7 @@ class ManageController extends AppController
                             $field->set('value', $fieldRevision->value);
                             $field->set('extra', $fieldRevision->extra);
                         }
+
                         return $field;
                     });
                 }

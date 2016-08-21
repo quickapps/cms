@@ -41,6 +41,7 @@ class BlocksTable extends Table
         $events = parent::implementedEvents();
         $events['Blocks.settings.validate'] = 'settingsValidate';
         $events['Blocks.settings.defaultValues'] = 'settingsDefaultValues';
+
         return $events;
     }
 
@@ -116,6 +117,7 @@ class BlocksTable extends Table
 
         $notIn = array_unique($ids);
         $notIn = empty($notIn) ? ['0'] : $notIn;
+
         return $this->find()
             ->where([
                 'OR' => [
@@ -209,6 +211,7 @@ class BlocksTable extends Table
                     if (!empty($context['data']['visibility']) && $context['data']['visibility'] === 'php') {
                         return strpos($value, '<?php') !== false && strpos($value, '?>') !== false;
                     }
+
                     return true;
                 },
                 'message' => __d('block', 'Invalid PHP code, make sure that tags "<?php" & "?>" are present.')
@@ -306,6 +309,7 @@ class BlocksTable extends Table
         if ($result === false) {
             return false;
         }
+
         return true;
     }
 
@@ -339,6 +343,7 @@ class BlocksTable extends Table
         if ($result === false) {
             return false;
         }
+
         return true;
     }
 

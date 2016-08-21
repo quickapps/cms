@@ -38,6 +38,7 @@ class TermsController extends AppController
             ->all()
             ->map(function ($term) {
                 $term->set('expanded', true);
+
                 return $term;
             })
             ->nest('id', 'parent_id');
@@ -127,6 +128,7 @@ class TermsController extends AppController
                 if (strpos($link, '-') !== false) {
                     $link = str_replace_last('-', '- ', $link);
                 }
+
                 return $link;
             });
 

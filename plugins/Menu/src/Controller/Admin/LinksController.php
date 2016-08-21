@@ -37,6 +37,7 @@ class LinksController extends AppController
             ->all()
             ->map(function ($link) {
                 $link->set('expanded', true);
+
                 return $link;
             })
             ->nest('id', 'parent_id');
@@ -161,6 +162,7 @@ class LinksController extends AppController
                 if (strpos($link, '-') !== false) {
                     $link = str_replace_last('-', '- ', $link);
                 }
+
                 return $link;
             });
 

@@ -53,6 +53,7 @@ class ExplorerController extends AppController
             $file = str_replace('//', '/', ROOT . "/plugins/{$path}");
             if ((strpos($file, 'webroot') !== false || strpos($file, '.tmb') !== false) && file_exists($file)) {
                 $this->response->file($file);
+
                 return $this->response;
             }
         }

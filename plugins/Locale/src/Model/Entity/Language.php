@@ -31,6 +31,7 @@ class Language extends Entity
     protected function _getRegionCode()
     {
         list(, $country) = localeSplit($this->get('code'));
+
         return $country;
     }
 
@@ -42,6 +43,7 @@ class Language extends Entity
     protected function _getLanguageCode()
     {
         list($language, ) = localeSplit($this->get('code'));
+
         return $language;
     }
 }

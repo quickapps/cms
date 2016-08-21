@@ -131,6 +131,7 @@ class CommentHelper extends Helper
         if ($this->config('use_captcha')) {
             return CaptchaManager::adapter()->render($this->_View);
         }
+
         return '';
     }
 }

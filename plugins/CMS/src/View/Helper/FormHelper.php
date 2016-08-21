@@ -67,6 +67,7 @@ class FormHelper extends CakeFormHelper
                 $this->_isRendering = true;
                 $result = $fieldName->edit($this->_View);
                 $this->_isRendering = false;
+
                 return $result;
             } else {
                 $options += ['value' => $fieldName->value, 'label' => $fieldName->label];
@@ -77,6 +78,7 @@ class FormHelper extends CakeFormHelper
                 $fieldName = $fieldName->get('name');
             }
         }
+
         return parent::input($fieldName, $options);
     }
 
@@ -107,6 +109,7 @@ class FormHelper extends CakeFormHelper
         if ($prefix !== null) {
             $this->_prefix = $prefix;
         }
+
         return $this->_prefix;
     }
 }

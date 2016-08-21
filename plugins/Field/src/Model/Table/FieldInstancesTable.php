@@ -82,13 +82,16 @@ class FieldInstancesTable extends Table
                         'FieldInstances.handler' => $instance->get('handler'),
                     ])
                     ->count();
+
                 return ($count <= (intval($info['maxInstances']) - 1));
             }
+
             return true;
         }, 'maxInstances', [
             'errorField' => 'label',
             'message' => __d('field', 'No more instances of this field can be attached, limit reached.'),
         ]);
+
         return $rules;
     }
 
@@ -205,6 +208,7 @@ class FieldInstancesTable extends Table
         if ($result === false) {
             return false;
         }
+
         return true;
     }
 
@@ -239,6 +243,7 @@ class FieldInstancesTable extends Table
         }
 
         $this->_deleted = $this->get($instance->get('id'), ['contain' => ['EavAttribute']]);
+
         return true;
     }
 

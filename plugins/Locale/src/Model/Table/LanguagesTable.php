@@ -34,6 +34,7 @@ class LanguagesTable extends Table
     {
         // unique code
         $rules->add($rules->isUnique(['code'], __d('locale', 'This language is already registered.')));
+
         return $rules;
     }
 

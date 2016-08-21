@@ -205,6 +205,7 @@ class ContentsTable extends Table
     {
         $this->_saveRevision($entity);
         $this->_ensureStatus($entity);
+
         return true;
     }
 

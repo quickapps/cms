@@ -93,8 +93,10 @@ class BaseMessage
     {
         if ($subject !== null) {
             $this->_subject = $subject;
+
             return $this;
         }
+
         return $this->_subject;
     }
 
@@ -109,8 +111,10 @@ class BaseMessage
     {
         if ($body !== null) {
             $this->_body = $body;
+
             return $this;
         }
+
         return $this->_body;
     }
 
@@ -167,6 +171,7 @@ class BaseMessage
     protected function _parseVariables($text)
     {
         $user = $this->_user;
+
         return str_replace([
             '{{user:name}}',
             '{{user:username}}',

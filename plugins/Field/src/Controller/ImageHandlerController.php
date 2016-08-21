@@ -147,6 +147,7 @@ class ImageHandlerController extends AppController
 
         if ($tmb !== false) {
             $this->response->file($tmb);
+
             return $this->response;
         }
 

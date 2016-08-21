@@ -42,6 +42,7 @@ class LimitOperator extends BaseOperator
         if ($value > 0) {
             $query->limit($value);
         }
+
         return $query;
     }
 }

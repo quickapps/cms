@@ -48,6 +48,7 @@ class ThemesController extends AppController
                 if ($theme->name() === option('front_theme')) {
                     return 0;
                 }
+
                 return 1;
             }, SORT_ASC);
 
@@ -59,6 +60,7 @@ class ThemesController extends AppController
                 if ($theme->name() === option('back_theme')) {
                     return 0;
                 }
+
                 return 1;
             }, SORT_ASC);
 
@@ -202,6 +204,7 @@ class ThemesController extends AppController
     {
         $theme = plugin($themeName); // throws
         $this->response->file("{$theme->path}/webroot/screenshot.png");
+
         return $this->response;
     }
 

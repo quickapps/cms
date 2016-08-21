@@ -71,6 +71,7 @@ class DateToolbox
 
         $date = trim($date);
         $format = DateToolbox::normalizeFormat($format);
+
         return date_create_from_format($format, $date);
     }
 

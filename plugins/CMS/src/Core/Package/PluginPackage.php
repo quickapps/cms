@@ -110,6 +110,7 @@ class PluginPackage extends BasePackage
         }
 
         $this->_permissions = $out;
+
         return $out;
     }
 
@@ -219,21 +220,25 @@ class PluginPackage extends BasePackage
                 if (isset($this->_info[$parts[0]])) {
                     return $this->_info[$parts[0]];
                 }
+
                 return $default;
             case 2:
                 if (isset($this->_info[$parts[0]][$parts[1]])) {
                     return $this->_info[$parts[0]][$parts[1]];
                 }
+
                 return $default;
             case 3:
                 if (isset($this->_info[$parts[0]][$parts[1]][$parts[2]])) {
                     return $this->_info[$parts[0]][$parts[1]][$parts[2]];
                 }
+
                 return $default;
             case 4:
                 if (isset($this->_info[$parts[0]][$parts[1]][$parts[2]][$parts[3]])) {
                     return $this->_info[$parts[0]][$parts[1]][$parts[2]][$parts[3]];
                 }
+
                 return $default;
             default:
                 $data = $this->_info;
@@ -261,6 +266,7 @@ class PluginPackage extends BasePackage
         if ($this->isTheme && !isset($composer['extra']['regions'])) {
             $composer['extra']['regions'] = [];
         }
+
         return $composer;
     }
 
@@ -279,6 +285,7 @@ class PluginPackage extends BasePackage
             if ($key !== null) {
                 $cache = isset($cache[$key]) ? $cache[$key] : null;
             }
+
             return $cache;
         }
 
@@ -303,6 +310,7 @@ class PluginPackage extends BasePackage
         if ($key !== null) {
             $settings = isset($settings[$key]) ? $settings[$key] : null;
         }
+
         return $settings;
     }
 
@@ -327,6 +335,7 @@ class PluginPackage extends BasePackage
             if ($dependencies = $plugin->dependencies($plugin->name)) {
                 $packages = array_map(function ($item) {
                     list(, $package) = packageSplit($item, true);
+
                     return strtolower($package);
                 }, array_keys($dependencies));
 
@@ -337,6 +346,7 @@ class PluginPackage extends BasePackage
         }
 
         $this->config('required_by', $out);
+
         return collection($out);
     }
 
@@ -362,12 +372,14 @@ class PluginPackage extends BasePackage
 
         if (!Plugin::exists($this->name())) {
             $this->_version = '';
+
             return $this->_version;
         }
 
         // from composer.json
         if (!empty($this->composer['version'])) {
             $this->_version = $this->composer['version'];
+
             return $this->_version;
         }
 
@@ -379,6 +391,7 @@ class PluginPackage extends BasePackage
                 $versionFile = file($file);
                 $version = trim(array_pop($versionFile));
                 $this->_version = $version;
+
                 return $this->_version;
             }
         }
@@ -392,12 +405,14 @@ class PluginPackage extends BasePackage
                     strtolower($pkg['name']) === strtolower($this->_packageName)
                 ) {
                     $this->_version = $pkg['version'];
+
                     return $this->_version;
                 }
             }
         }
 
         $this->_version = 'dev-master';
+
         return $this->_version;
     }
 

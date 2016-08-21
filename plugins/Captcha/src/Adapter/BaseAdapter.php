@@ -55,6 +55,7 @@ class BaseAdapter
         if ($name !== null) {
             $this->config('name', $name);
         }
+
         return $this->config('name');
     }
 

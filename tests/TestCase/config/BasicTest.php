@@ -54,12 +54,12 @@ class BasicTest extends TestCase
      */
     public function testArrayMove()
     {
-        $array = [1, 2, 3, 4 ,5];
+        $array = [1, 2, 3, 4 , 5];
 
-        $this->assertEquals([1, 2, 4, 3 ,5], array_move($array, 2, 'up'));
-        $this->assertEquals([1, 3, 2, 4 ,5], array_move($array, 2, 'down'));
-        $this->assertEquals([1, 2, 3, 4 ,5], array_move($array, 0, 'down'));
-        $this->assertEquals([1, 2, 3, 4 ,5], array_move($array, 4, 'up'));
+        $this->assertEquals([1, 2, 4, 3 , 5], array_move($array, 2, 'up'));
+        $this->assertEquals([1, 3, 2, 4 , 5], array_move($array, 2, 'down'));
+        $this->assertEquals([1, 2, 3, 4 , 5], array_move($array, 0, 'down'));
+        $this->assertEquals([1, 2, 3, 4 , 5], array_move($array, 4, 'up'));
     }
 
     /**

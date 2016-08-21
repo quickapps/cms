@@ -132,6 +132,7 @@ class RuleChecker
         }
 
         $this->_checked = true;
+
         return $pass;
     }
 

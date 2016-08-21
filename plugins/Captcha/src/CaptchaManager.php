@@ -90,6 +90,7 @@ class CaptchaManager
             if (!isset($created)) {
                 $class->config($config);
             }
+
             return $class;
         }
 

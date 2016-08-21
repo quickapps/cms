@@ -61,6 +61,7 @@ class WebShellDispatcher extends ShellDispatcher
         ob_start();
         $response = $dispatcher->dispatch($extra);
         static::$_out = ob_get_clean();
+
         return (int)($response === 0);
     }
 
@@ -90,6 +91,7 @@ class WebShellDispatcher extends ShellDispatcher
             new WebConsoleInput()
         );
         $instance->io($webIo);
+
         return $instance;
     }
 }

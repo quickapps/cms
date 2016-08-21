@@ -41,6 +41,7 @@ class Aco extends Entity
                 return $this->alias;
             }
         }
+
         return $this->alias;
     }
 

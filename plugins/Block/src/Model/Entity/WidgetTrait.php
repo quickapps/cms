@@ -30,8 +30,10 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->render($this, $view);
         }
+
         return '';
     }
 
@@ -45,8 +47,10 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->settings($this, $view);
         }
+
         return '';
     }
 
@@ -60,6 +64,7 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->validateSettings($this, $settings, $validator);
         }
     }
@@ -74,8 +79,10 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->defaultSettings($this);
         }
+
         return [];
     }
 
@@ -89,6 +96,7 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->beforeSave($this);
         }
     }
@@ -103,6 +111,7 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->afterSave($this);
         }
     }
@@ -117,6 +126,7 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->beforeDelete($this);
         }
     }
@@ -131,6 +141,7 @@ trait WidgetTrait
         $handler = $this->get('handler');
         if (class_exists($handler)) {
             $handler = new $handler();
+
             return $handler->afterDelete($this);
         }
     }

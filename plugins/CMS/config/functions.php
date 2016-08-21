@@ -283,6 +283,7 @@ if (!function_exists('normalizePath')) {
     function normalizePath($path, $ds = DIRECTORY_SEPARATOR)
     {
         $path = str_replace(['/', '\\', "{$ds}{$ds}"], $ds, $path);
+
         return str_replace("{$ds}{$ds}", $ds, $path);
     }
 }
@@ -304,6 +305,7 @@ if (!function_exists('quickapps')) {
         if ($key !== null) {
             return Configure::read("QuickApps.{$key}");
         }
+
         return Configure::read('QuickApps');
     }
 }
@@ -428,6 +430,7 @@ if (!function_exists('listeners')) {
         $property = $class->getProperty('_listeners');
         $property->setAccessible(true);
         $listeners = array_keys($property->getValue($manager));
+
         return $listeners;
     }
 }
@@ -464,6 +467,7 @@ if (!function_exists('packageSplit')) {
                 $parts[1] = Inflector::camelize(str_replace('-', '_', $parts[1]));
             }
         }
+
         return $parts;
     }
 }
@@ -478,6 +482,7 @@ if (!function_exists('normalizeLocale')) {
     function normalizeLocale($locale)
     {
         list($language, $region) = localeSplit($locale);
+
         return !empty($region) ? "{$language}_{$region}" : $language;
     }
 }
@@ -517,6 +522,7 @@ if (!function_exists('localeSplit')) {
         $parts = explode('_', $localeId);
         $country = isset($parts[1]) ? strtoupper($parts[1]) : '';
         $language = strtolower($parts[0]);
+
         return [$language, $country];
     }
 }
@@ -554,6 +560,7 @@ if (!function_exists('array_move')) {
                 $item = $list[$index];
                 $list[$index] = $list[$index + 1];
                 $list[$index + 1] = $item;
+
                 return $list;
             }
         }
@@ -593,6 +600,7 @@ if (!function_exists('php_eval')) {
         print eval('?>' . $code);
         $output = ob_get_contents();
         ob_end_clean();
+
         return $output;
     }
 }

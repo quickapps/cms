@@ -103,6 +103,7 @@ class PackageFactory
                 return $result;
             }
         }
+
         return new GenericPackage($package, '', '');
     }
 
@@ -172,6 +173,7 @@ class PackageFactory
                 quickapps("plugins.{$plugin}.path")
             );
         }
+
         return false;
     }
 
@@ -186,6 +188,7 @@ class PackageFactory
         if (strpos($package, '/') === false) {
             return new LibraryPackage($package, null);
         }
+
         return false;
     }
 

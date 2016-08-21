@@ -220,8 +220,10 @@ class ManageController extends AppController
                     }
                 }
             }
+
             return true;
         }
+
         return false;
     }
 
@@ -322,6 +324,7 @@ class ManageController extends AppController
         }
 
         $validator = $block->isCustom() ? 'custom' : 'widget';
+
         return $this->Blocks->patchEntity($block, $data, ['validate' => $validator, 'entity' => $block]);
     }
 }

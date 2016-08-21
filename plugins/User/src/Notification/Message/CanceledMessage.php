@@ -33,6 +33,7 @@ class CanceledMessage extends BaseMessage
         if (plugin('User')->settings['message_canceled']) {
             return parent::send();
         }
+
         return true;
     }
 }

@@ -158,6 +158,7 @@ class Region
         } elseif ($this->_blocks === null) {
             $this->_prepareBlocks();
         }
+
         return $this->_blocks;
     }
 
@@ -183,6 +184,7 @@ class Region
     {
         $number = $number !== null ? intval($number) : $number;
         $this->_blockLimit = $number;
+
         return $this;
     }
 
@@ -209,6 +211,7 @@ class Region
                 $this->homogenize();
             }
         }
+
         return $this;
     }
 
@@ -224,8 +227,10 @@ class Region
     {
         $this->_blocks = $this->blocks()->map(function ($block) {
             $block->region->set('region', $this->_machineName);
+
             return $block;
         });
+
         return $this;
     }
 
@@ -245,6 +250,7 @@ class Region
             $html .= $block->render($this->_View);
             $i++;
         }
+
         return $html;
     }
 
@@ -381,6 +387,7 @@ class Region
 
         $patternsQuoted = preg_quote($patterns, '/');
         $patterns = '/^(' . preg_replace($toReplace, $replacements, $patternsQuoted) . ')$/';
+
         return (bool)preg_match($patterns, $path);
     }
 

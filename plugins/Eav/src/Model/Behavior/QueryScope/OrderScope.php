@@ -80,6 +80,7 @@ class OrderScope implements QueryScopeInterface
         }
 
         $property->setValue($orderClause, $conditions);
+
         return $query;
     }
 

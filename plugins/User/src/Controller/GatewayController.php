@@ -243,6 +243,7 @@ class GatewayController extends AppController
             $user = $this->Auth->identify();
             if ($user) {
                 $this->Auth->setUser($user);
+
                 return $this->redirect($this->Auth->redirectUrl());
             } else {
                 $this->Flash->danger(__d('user', 'Username or password is incorrect'));

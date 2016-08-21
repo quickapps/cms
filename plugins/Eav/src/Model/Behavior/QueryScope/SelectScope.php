@@ -67,6 +67,7 @@ class SelectScope implements QueryScopeInterface
     public function scope(Query $query, $bundle = null)
     {
         $this->getVirtualColumns($query, $bundle);
+
         return $query;
     }
 
@@ -93,6 +94,7 @@ class SelectScope implements QueryScopeInterface
         $selectClause = (array)$query->clause('select');
         if (empty($selectClause)) {
             $selectedVirtual[$cacheKey] = array_keys($this->_toolbox->attributes($bundle));
+
             return $selectedVirtual[$cacheKey];
         }
 
@@ -113,6 +115,7 @@ class SelectScope implements QueryScopeInterface
         }
 
         $query->select($selectClause, true);
+
         return $selectedVirtual[$cacheKey];
     }
 }

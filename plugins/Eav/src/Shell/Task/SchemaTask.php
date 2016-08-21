@@ -63,6 +63,7 @@ class SchemaTask extends Shell
                 'boolean' => true,
                 'default' => true,
             ]);
+
         return $parser;
     }
 
@@ -76,6 +77,7 @@ class SchemaTask extends Shell
         $options = (array)$this->params;
         if (empty($options['use'])) {
             $this->err(__d('eav', 'You must indicate a table alias name using the "--use" option. Example: "Articles.Users"'));
+
             return false;
         }
 
@@ -87,15 +89,19 @@ class SchemaTask extends Shell
 
         if (!$table) {
             $this->err(__d('eav', 'The specified table does not exists.'));
+
             return false;
         } elseif (!$table->behaviors()->has('Eav')) {
             $this->err(__d('eav', 'The specified table is not using EAV behavior.'));
+
             return false;
         } elseif (empty($options['name'])) {
             $this->err(__d('eav', 'You must indicate a table column.'));
+
             return false;
         } elseif (!preg_match('/^[a-z\d\-]+$/', $options['name'])) {
             $this->err(__d('eav', 'Invalid column name, please use lowercase letter, numbers or the "-" symbol, e.g.: "user-age".'));
+
             return false;
         }
 
@@ -115,11 +121,14 @@ class SchemaTask extends Shell
                 foreach ($errors as $message) {
                     $this->err($message);
                 }
+
                 return false;
             }
+
             return true;
         } catch (FatalErrorException $ex) {
             $this->err($ex->getMessage());
+
             return false;
         }
     }

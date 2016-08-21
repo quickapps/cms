@@ -123,6 +123,7 @@ class TextToolbox
         $text = static::emailToLink($text);
         $text = static::urlToLink($text);
         $text = nl2br($text);
+
         return $text;
     }
 
@@ -139,6 +140,7 @@ class TextToolbox
     {
         $text = static::emailToLink($text);
         $text = static::urlToLink($text);
+
         return $text;
     }
 
@@ -158,6 +160,7 @@ class TextToolbox
         $text = static::emailToLink($text);
         $text = static::urlToLink($text);
         $text = strip_tags($text, '<a><em><strong><cite><blockquote><code><ul><ol><li><dl><dt><dd>');
+
         return $text;
     }
 
@@ -176,6 +179,7 @@ class TextToolbox
         $text = static::emailToLink($text);
         $text = str_replace('<p>h', '<p> h', $text);
         $text = static::urlToLink($text);
+
         return $text;
     }
 
@@ -363,6 +367,7 @@ class TextToolbox
     {
         if (!preg_match('/[0-9]+/i', $len)) {
             $parts = explode($len, $text);
+
             return static::closeOpenTags($parts[0]);
         }
 
@@ -387,6 +392,7 @@ class TextToolbox
         if (empty(static::$_MarkdownParser)) {
             static::$_MarkdownParser = new Parsedown();
         }
+
         return static::$_MarkdownParser;
     }
 
@@ -399,6 +405,7 @@ class TextToolbox
     {
         $properties = get_object_vars($this);
         $properties['_instance'] = '(object) TextToolbox';
+
         return $properties;
     }
 }

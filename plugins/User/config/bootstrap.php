@@ -107,5 +107,6 @@ function user()
     }
 
     $user = new UserSession($properties);
+
     return $user;
 }

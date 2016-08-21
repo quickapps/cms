@@ -67,6 +67,7 @@ class PluginUninstallTask extends Shell
                 'boolean' => true,
                 'default' => false,
             ]);
+
         return $parser;
     }
 
@@ -91,6 +92,7 @@ class PluginUninstallTask extends Shell
 
         // ensure snapshot
         snapshot();
+
         return $result;
     }
 
@@ -107,11 +109,13 @@ class PluginUninstallTask extends Shell
 
         if (!is_writable(TMP)) {
             $this->err(__d('installer', 'Enable write permissions in /tmp directory before uninstall any plugin or theme.'));
+
             return false;
         }
 
         if (!$this->params['plugin']) {
             $this->err(__d('installer', 'No plugin/theme was given to remove.'));
+
             return false;
         }
 
@@ -130,6 +134,7 @@ class PluginUninstallTask extends Shell
 
         if (!$plugin || !$pluginEntity) {
             $this->err(__d('installer', 'Plugin "{0}" was not found.', $this->params['plugin']));
+
             return false;
         }
 
@@ -137,6 +142,7 @@ class PluginUninstallTask extends Shell
         $type = $plugin->isTheme ? 'theme' : 'plugin';
         if ($plugin->isTheme && in_array($plugin->name, [option('front_theme'), option('back_theme')])) {
             $this->err(__d('installer', '{0} "{1}" is currently being used and cannot be removed.', ($type == 'plugin' ? __d('installer', 'The plugin') : __d('installer', 'The theme')), $plugin->humanName));
+
             return false;
         }
 
@@ -148,6 +154,7 @@ class PluginUninstallTask extends Shell
             }
 
             $this->err(__d('installer', '{0} "{1}" cannot be removed as it is required by: {2}', ($type == 'plugin' ? __d('installer', 'The plugin') : __d('installer', 'The theme')), $plugin->humanName, implode(', ', $names)));
+
             return false;
         }
 
@@ -160,16 +167,19 @@ class PluginUninstallTask extends Shell
                 $event = $this->trigger("Plugin.{$plugin->name}.beforeUninstall");
                 if ($event->isStopped() || $event->result === false) {
                     $this->err(__d('installer', 'Task was explicitly rejected by {0}.', ($type == 'plugin' ? __d('installer', 'the plugin') : __d('installer', 'the theme'))));
+
                     return false;
                 }
             } catch (\Exception $e) {
                 $this->err(__d('installer', 'Internal error, {0} did not respond to "beforeUninstall" callback correctly.', ($type == 'plugin' ? __d('installer', 'the plugin') : __d('installer', 'the theme'))));
+
                 return false;
             }
         }
 
         if (!$this->Plugins->delete($pluginEntity)) {
             $this->err(__d('installer', '{0} "{1}" could not be unregistered from DB.', ($type == 'plugin' ? __d('installer', 'The plugin') : __d('installer', 'The theme')), $plugin->humanName));
+
             return false;
         }
 
@@ -189,6 +199,7 @@ class PluginUninstallTask extends Shell
 
         Plugin::unload($plugin->name);
         Plugin::dropCache();
+
         return true;
     }
 
@@ -247,6 +258,7 @@ class PluginUninstallTask extends Shell
         $type = $this->_plugin->isTheme ? 'theme' : 'plugin';
         if (!file_exists($path) || !is_dir($path)) {
             $this->err(__d('installer', "{0} directory was not found: {1}", ($type == 'plugin' ? __d('installer', "Plugin's") : __d('installer', "Theme's")), $path));
+
             return false;
         }
 
@@ -267,6 +279,7 @@ class PluginUninstallTask extends Shell
             foreach ($notWritable as $path) {
                 $this->err(__d('installer', '  - {0}', [$path]));
             }
+
             return false;
         }
 

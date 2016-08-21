@@ -262,6 +262,7 @@ class WhereScope implements QueryScopeInterface
     {
         $conn = $query->connection(null);
         list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
+
         return $driverClass;
     }
 }
