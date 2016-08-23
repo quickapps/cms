@@ -290,8 +290,10 @@ class GatewayController extends AppController
      */
     public function profile($id)
     {
-        $this->loadModel('User.Users');
-
+        $this->loadModel('User.Users');	
+	if(!$id){
+            $id = user()->id;
+        }
         $conditions = [];
         if ($id != user()->id) {
             $conditions = ['status' => 1, 'public_profile' => true];
