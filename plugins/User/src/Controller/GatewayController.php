@@ -290,17 +290,24 @@ class GatewayController extends AppController
      */
     public function profile($id)
     {
-        $this->loadModel('User.Users');	
-	if(!$id){
+        $this->loadModel('User.Users');
+
+        if (!$id) {
             $id = user()->id;
         }
         $conditions = [];
         if ($id != user()->id) {
             $conditions = ['status' => 1, 'public_profile' => true];
         }
+        //include user id in condition
+        $conditions['id'] = $id;
 
-        $user = $this->Users->get($id, ['conditions' => $conditions]);
+        $user = $this->Users->find('all')->where($conditions)->first();
 
+        if (empty($user)) {
+            $this->Flash->danger(__d('account', 'Sorry profile doesn\'t exist or not available for public.'));
+            $this->redirect($this->referer());
+        }
         $this->title(__d('user', 'User’s Profile'));
         $this->viewMode('full');
         $this->set(compact('user'));
