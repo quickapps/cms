@@ -13,6 +13,7 @@ namespace Eav\Model\Behavior;
 
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetDecorator;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -114,7 +115,6 @@ class EavToolbox
         }
         $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
         list($fieldName, ) = explode(' ', trim($fieldName));
-
         return $fieldName;
     }
 
@@ -129,7 +129,6 @@ class EavToolbox
     public function propertyExists(Entity $entity, $property)
     {
         $entityArray = $entity->toArray();
-
         return array_key_exists($property, $entityArray);
     }
 
@@ -188,7 +187,6 @@ class EavToolbox
     public function getAttributeNames($bundle = null)
     {
         $attributes = $this->attributes($bundle);
-
         return array_keys($attributes);
     }
 
@@ -211,6 +209,27 @@ class EavToolbox
     }
 
     /**
+     * Given a set of entities gets the ID of all of them.
+     *
+     * This method iterates the given set and invokes `getEntityId()` for every
+     * entity in the set.
+     *
+     * @param \Cake\Datasource\ResultSetDecorator $results Set of entities
+     * @return array List of entity ids suitable for EAV logic
+     */
+    public function extractEntityIds(ResultSetDecorator $results)
+    {
+        $entityIds = [];
+        $results->each(function ($entity) use(&$entityIds) {
+            if ($entity instanceof EntityInterface) {
+                $entityIds[] = $this->getEntityId($entity);
+            }
+        });
+
+        return $entityIds;
+    }
+
+    /**
      * Calculates entity's primary key.
      *
      * If PK is composed of multiple columns they will be merged with `:` symbol.
@@ -230,7 +249,6 @@ class EavToolbox
         foreach ($keys as $key) {
             $pk[] = $entity->get($key);
         }
-
         return implode(':', $pk);
     }
 

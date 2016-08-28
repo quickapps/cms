@@ -12,6 +12,7 @@
 namespace Field\Model\Behavior;
 
 use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetDecorator;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -187,6 +188,14 @@ class FieldableBehavior extends EavBehavior
         return parent::beforeFind($event, $query, $options, $primary);
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function _prepareSetValues(ResultSetDecorator $entities, array $options)
+    {
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -196,7 +205,7 @@ class FieldableBehavior extends EavBehavior
      * When `bundle` option is used the Entity will be removed from the collection
      * if it does not belongs to that bundle.
      */
-    public function attachEntityAttributes(EntityInterface $entity, array $options = [])
+    public function attachEntityAttributes(EntityInterface $entity, array $values)
     {
         $entityBundle = $this->_resolveBundle($entity);
         if (!empty($options['bundle']) && $options['bundle'] !== $entityBundle) {
@@ -275,7 +284,6 @@ class FieldableBehavior extends EavBehavior
 
             if ($result === false) {
                 $this->attachEntityFields($entity);
-
                 return false;
             }
 
@@ -298,13 +306,11 @@ class FieldableBehavior extends EavBehavior
             } elseif (!TableRegistry::get('Eav.EavValues')->save($valueEntity)) {
                 $this->attachEntityFields($entity);
                 $event->stopPropagation();
-
                 return false;
             }
         }
 
         $this->attachEntityFields($entity);
-
         return true;
     }
 
@@ -384,7 +390,6 @@ class FieldableBehavior extends EavBehavior
 
             if ($result === false) {
                 $event->stopPropagation();
-
                 return false;
             }
 
@@ -485,7 +490,6 @@ class FieldableBehavior extends EavBehavior
         }
 
         $entity->set('_fields', new FieldCollection($_fields));
-
         return $entity;
     }
 
@@ -506,7 +510,6 @@ class FieldableBehavior extends EavBehavior
 
             if ($result === false) {
                 $this->attachEntityFields($entity);
-
                 return false;
             }
 
@@ -599,7 +602,6 @@ class FieldableBehavior extends EavBehavior
                 $attrByNames[$value->get('eav_attribute')->get('name')]->set(':value', $value);
             }
         }
-
         return $this->_toolbox->attributes($bundle);
     }
 
@@ -638,7 +640,6 @@ class FieldableBehavior extends EavBehavior
             ->contain(['EavAttribute'])
             ->where($conditions)
             ->all();
-
         return $storedValues;
     }
 
@@ -709,7 +710,6 @@ class FieldableBehavior extends EavBehavior
         }
 
         $mockField->isNew($entity->isNew());
-
         return $mockField;
     }
 
@@ -728,7 +728,6 @@ class FieldableBehavior extends EavBehavior
             $callable = $this->config('bundle');
             $bundle = $callable($entity);
         }
-
         return (string)$bundle;
     }
 }
