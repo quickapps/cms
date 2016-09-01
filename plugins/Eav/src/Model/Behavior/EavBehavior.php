@@ -12,8 +12,8 @@
 namespace Eav\Model\Behavior;
 
 use Cake\Cache\Cache;
+use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ResultSetDecorator;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
@@ -537,13 +537,13 @@ class EavBehavior extends Behavior
     /**
      * Attach EAV attributes for every entity in the provided result-set.
      *
-     * @param \Cake\Datasource\ResultSetDecorator $entities Set of entities to be
+     * @param \Cake\Collection\CollectionInterface $entities Set of entities to be
      *  processed
      * @param array $options Arguments given to `beforeFind()` method, possible keys
      *  are "event", "query", "options", "primary"
-     * @return \Cake\Datasource\ResultSetDecorator New set with altered entities
+     * @return \Cake\Collection\CollectionInterface New set with altered entities
      */
-    public function hydrateEntities(ResultSetDecorator $entities, array $options)
+    public function hydrateEntities(CollectionInterface $entities, array $options)
     {
         $values = $this->_prepareSetValues($entities, $options);
         return $entities->map(function ($entity) use($values, $options) {
@@ -583,12 +583,12 @@ class EavBehavior extends Behavior
     /**
      * Retrieves all virtual values of all the entities within the given result-set.
      *
-     * @param \Cake\Datasource\ResultSetDecorator $entities Set of entities
+     * @param \Cake\Collection\CollectionInterface $entities Set of entities
      * @param array $options Arguments given to `beforeFind()` method, possible keys
      *  are "event", "query", "options", "primary"
      * @return array Virtual values indexed by entity ID
      */
-    protected function _prepareSetValues(ResultSetDecorator $entities, array $options)
+    protected function _prepareSetValues(CollectionInterface $entities, array $options)
     {
         $entityIds = $this->_toolbox->extractEntityIds($entities);
         if (empty($entityIds)) {

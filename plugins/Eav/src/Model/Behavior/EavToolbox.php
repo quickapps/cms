@@ -11,10 +11,11 @@
  */
 namespace Eav\Model\Behavior;
 
-use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
+use Cake\Database\Type;
 use Cake\Datasource\ResultSetDecorator;
 use Cake\ORM\Entity;
+use Cake\ORM\ResultSet;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -214,10 +215,10 @@ class EavToolbox
      * This method iterates the given set and invokes `getEntityId()` for every
      * entity in the set.
      *
-     * @param \Cake\Datasource\ResultSetDecorator $results Set of entities
+     * @param \Cake\ORM\ResultSet $results Set of entities
      * @return array List of entity ids suitable for EAV logic
      */
-    public function extractEntityIds(ResultSetDecorator $results)
+    public function extractEntityIds(ResultSet $results)
     {
         $entityIds = [];
         $results->each(function ($entity) use(&$entityIds) {
