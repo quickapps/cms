@@ -11,8 +11,8 @@
  */
 namespace Eav\Model\Behavior;
 
-use Cake\Datasource\EntityInterface;
 use Cake\Database\Type;
+use Cake\Datasource\EntityInterface;
 use Cake\Datasource\ResultSetDecorator;
 use Cake\ORM\Entity;
 use Cake\ORM\ResultSet;
@@ -116,6 +116,7 @@ class EavToolbox
         }
         $fieldName = preg_replace('/\s{2,}/', ' ', $fieldName);
         list($fieldName, ) = explode(' ', trim($fieldName));
+
         return $fieldName;
     }
 
@@ -130,6 +131,7 @@ class EavToolbox
     public function propertyExists(Entity $entity, $property)
     {
         $entityArray = $entity->toArray();
+
         return array_key_exists($property, $entityArray);
     }
 
@@ -188,6 +190,7 @@ class EavToolbox
     public function getAttributeNames($bundle = null)
     {
         $attributes = $this->attributes($bundle);
+
         return array_keys($attributes);
     }
 
@@ -221,7 +224,7 @@ class EavToolbox
     public function extractEntityIds(ResultSet $results)
     {
         $entityIds = [];
-        $results->each(function ($entity) use(&$entityIds) {
+        $results->each(function ($entity) use (&$entityIds) {
             if ($entity instanceof EntityInterface) {
                 $entityIds[] = $this->getEntityId($entity);
             }
@@ -250,6 +253,7 @@ class EavToolbox
         foreach ($keys as $key) {
             $pk[] = $entity->get($key);
         }
+
         return implode(':', $pk);
     }
 

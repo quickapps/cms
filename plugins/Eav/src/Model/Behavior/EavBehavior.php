@@ -301,6 +301,7 @@ class EavBehavior extends Behavior
                 'extra ' => $attr->get('extra'),
             ];
         }
+
         return $columns;
     }
 
@@ -406,6 +407,7 @@ class EavBehavior extends Behavior
         }
 
         $query = $this->_scopeQuery($query, $options['bundle']);
+
         return $query->formatResults(function ($results) use ($event, $query, $options, $primary) {
             return $this->hydrateEntities($results, compact('event', 'query', 'options', 'primary'));
         });
@@ -546,7 +548,8 @@ class EavBehavior extends Behavior
     public function hydrateEntities(CollectionInterface $entities, array $options)
     {
         $values = $this->_prepareSetValues($entities, $options);
-        return $entities->map(function ($entity) use($values, $options) {
+
+        return $entities->map(function ($entity) use ($values, $options) {
             if ($entity instanceof EntityInterface) {
                 $entity = $this->_prepareCachedColumns($entity);
                 $entityId = $this->_toolbox->getEntityId($entity);
@@ -569,6 +572,7 @@ class EavBehavior extends Behavior
 
             if ($entity === false) {
                 $options['event']->stopPropagation();
+
                 return;
             }
 
@@ -622,7 +626,7 @@ class EavBehavior extends Behavior
                 'EavValues.entity_id IN' => $entityIds,
             ])
             ->all()
-            ->map(function ($value) use($attrsById, $selectedVirtual) {
+            ->map(function ($value) use ($attrsById, $selectedVirtual) {
                 $attrName = $attrsById[$value->get('eav_attribute_id')]->get('name');
                 $attrType = $attrsById[$value->get('eav_attribute_id')]->get('type');
                 $alias = array_search($name, $selectedVirtual);
@@ -678,6 +682,7 @@ class EavBehavior extends Behavior
                 $query = $scope->scope($query, $bundle);
             }
         }
+
         return $query;
     }
 
