@@ -13,7 +13,9 @@ namespace Eav\Model\Behavior;
 
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetDecorator;
 use Cake\ORM\Entity;
+use Cake\ORM\ResultSet;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Inflector;
@@ -208,6 +210,27 @@ class EavToolbox
         }
 
         return $ids;
+    }
+
+    /**
+     * Given a set of entities gets the ID of all of them.
+     *
+     * This method iterates the given set and invokes `getEntityId()` for every
+     * entity in the set.
+     *
+     * @param \Cake\ORM\ResultSet $results Set of entities
+     * @return array List of entity ids suitable for EAV logic
+     */
+    public function extractEntityIds(ResultSet $results)
+    {
+        $entityIds = [];
+        $results->each(function ($entity) use (&$entityIds) {
+            if ($entity instanceof EntityInterface) {
+                $entityIds[] = $this->getEntityId($entity);
+            }
+        });
+
+        return $entityIds;
     }
 
     /**

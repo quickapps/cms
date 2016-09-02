@@ -11,6 +11,7 @@
  */
 namespace Field\Model\Behavior;
 
+use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
@@ -184,7 +185,37 @@ class FieldableBehavior extends EavBehavior
             return true;
         }
 
+        if (array_key_exists('eav', $options)) {
+            unset($options['eav']);
+        }
+
         return parent::beforeFind($event, $query, $options, $primary);
+    }
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hydrateEntities(CollectionInterface $entities, array $options)
+    {
+        return $entities->map(function ($entity) use ($options) {
+            if ($entity instanceof EntityInterface) {
+                $entity = $this->_prepareCachedColumns($entity);
+                $entity = $this->attachEntityAttributes($entity, $options);
+            }
+
+            if ($entity === false) {
+                $options['event']->stopPropagation();
+
+                return;
+            }
+
+            if ($entity === null) {
+                return false;
+            }
+
+            return $entity;
+        });
     }
 
     /**
@@ -192,17 +223,9 @@ class FieldableBehavior extends EavBehavior
      *
      * Attaches entity's field under the `_fields` property, this method is invoked
      * by `beforeFind()` when iterating results sets.
-     *
-     * When `bundle` option is used the Entity will be removed from the collection
-     * if it does not belongs to that bundle.
      */
-    public function attachEntityAttributes(EntityInterface $entity, array $options = [])
+    public function attachEntityAttributes(EntityInterface $entity, array $options)
     {
-        $entityBundle = $this->_resolveBundle($entity);
-        if (!empty($options['bundle']) && $options['bundle'] !== $entityBundle) {
-            return false;
-        }
-
         $entity = $this->attachEntityFields($entity);
         foreach ($entity->get('_fields') as $field) {
             $result = $field->beforeFind((array)$options['options'], $options['primary']);

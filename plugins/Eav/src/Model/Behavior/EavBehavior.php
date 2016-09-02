@@ -12,10 +12,12 @@
 namespace Eav\Model\Behavior;
 
 use Cake\Cache\Cache;
+use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -407,24 +409,7 @@ class EavBehavior extends Behavior
         $query = $this->_scopeQuery($query, $options['bundle']);
 
         return $query->formatResults(function ($results) use ($event, $query, $options, $primary) {
-            return $results->map(function ($entity) use ($event, $query, $options, $primary) {
-                if ($entity instanceof EntityInterface) {
-                    $entity = $this->_prepareCachedColumns($entity);
-                    $entity = $this->attachEntityAttributes($entity, compact('event', 'query', 'options', 'primary'));
-                }
-
-                if ($entity === false) {
-                    $event->stopPropagation();
-
-                    return;
-                }
-
-                if ($entity === null) {
-                    return false;
-                }
-
-                return $entity;
-            });
+            return $this->hydrateEntities($results, compact('event', 'query', 'options', 'primary'));
         });
     }
 
@@ -552,26 +537,73 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * The method which actually fetches custom fields, invoked by `beforeFind()`
-     * for each entity in the collection.
+     * Attach EAV attributes for every entity in the provided result-set.
      *
-     * - Returning NULL indicates the entity should be removed from the resulting
-     *   collection.
-     *
-     * - Returning FALSE will stop the entire find() operation.
-     *
-     * @param \Cake\Datasource\EntityInterface $entity The entity where to fetch fields
+     * @param \Cake\Collection\CollectionInterface $entities Set of entities to be
+     *  processed
      * @param array $options Arguments given to `beforeFind()` method, possible keys
      *  are "event", "query", "options", "primary"
-     * @return bool|null|\Cake\Datasource\EntityInterface
+     * @return \Cake\Collection\CollectionInterface New set with altered entities
      */
-    public function attachEntityAttributes(EntityInterface $entity, array $options = [])
+    public function hydrateEntities(CollectionInterface $entities, array $options)
     {
-        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
-        if (empty($this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope'])) {
+        $values = $this->_prepareSetValues($entities, $options);
+
+        return $entities->map(function ($entity) use ($values, $options) {
+            if ($entity instanceof EntityInterface) {
+                $entity = $this->_prepareCachedColumns($entity);
+                $entityId = $this->_toolbox->getEntityId($entity);
+
+                if (isset($values[$entityId])) {
+                    $valuesForEntity = isset($values[$entityId]) ? $values[$entityId] : [];
+                    $this->attachEntityAttributes($entity, $valuesForEntity);
+                }
+
+                // force cache-columns to be of the proper type as they might be NULL if
+                // entity has not been updated yet.
+                if ($this->config('cacheMap')) {
+                    foreach ($this->config('cacheMap') as $column => $fields) {
+                        if ($this->_toolbox->propertyExists($entity, $column) && !($entity->get($column) instanceof Entity)) {
+                            $entity->set($column, new Entity);
+                        }
+                    }
+                }
+            }
+
+            if ($entity === false) {
+                $options['event']->stopPropagation();
+
+                return;
+            }
+
+            if ($entity === null) {
+                return false;
+            }
+
             return $entity;
+        });
+    }
+
+    /**
+     * Retrieves all virtual values of all the entities within the given result-set.
+     *
+     * @param \Cake\Collection\CollectionInterface $entities Set of entities
+     * @param array $options Arguments given to `beforeFind()` method, possible keys
+     *  are "event", "query", "options", "primary"
+     * @return array Virtual values indexed by entity ID
+     */
+    protected function _prepareSetValues(CollectionInterface $entities, array $options)
+    {
+        $entityIds = $this->_toolbox->extractEntityIds($entities);
+        if (empty($entityIds)) {
+            return [];
         }
 
+        if (empty($this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope'])) {
+            return [];
+        }
+
+        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
         $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($options['query'], $bundle);
         $validColumns = array_values($selectedVirtual);
         $validNames = array_intersect($this->_toolbox->getAttributeNames($bundle), $validColumns);
@@ -584,40 +616,31 @@ class EavBehavior extends Behavior
         }
 
         if (empty($attrsById)) {
-            return $entity; // no attrs to attach
+            return [];
         }
 
-        $values = TableRegistry::get('Eav.EavValues')
+        return TableRegistry::get('Eav.EavValues')
             ->find('all')
             ->where([
                 'EavValues.eav_attribute_id IN' => array_keys($attrsById),
-                'EavValues.entity_id' => $this->_toolbox->getEntityId($entity),
-            ]);
+                'EavValues.entity_id IN' => $entityIds,
+            ])
+            ->all()
+            ->map(function ($value) use ($attrsById, $selectedVirtual) {
+                $attrName = $attrsById[$value->get('eav_attribute_id')]->get('name');
+                $attrType = $attrsById[$value->get('eav_attribute_id')]->get('type');
+                $alias = array_search($name, $selectedVirtual);
 
-        foreach ($values as $value) {
-            $type = $attrsById[$value->get('eav_attribute_id')]->get('type');
-            $name = $attrsById[$value->get('eav_attribute_id')]->get('name');
-            $value = $value->get("value_{$type}");
-            $alias = array_search($name, $selectedVirtual);
-            $propertyName = is_string($alias) ? $alias : $name;
+                $data = [
+                    'property_name' => is_string($alias) ? $alias : $name,
+                    'value' => $value->get("value_{$type}"),
+                    ':metadata:' => $value
+                ];
 
-            if (!$this->_toolbox->propertyExists($entity, $propertyName)) {
-                $entity->set($propertyName, $this->_toolbox->marshal($value, $type));
-                $entity->dirty($propertyName, false);
-            }
-        }
-
-        // force cache-columns to be of the proper type as they might be NULL if
-        // entity has not been updated yet.
-        if ($this->config('cacheMap')) {
-            foreach ($this->config('cacheMap') as $column => $fields) {
-                if ($this->_toolbox->propertyExists($entity, $column) && !($entity->get($column) instanceof Entity)) {
-                    $entity->set($column, new Entity);
-                }
-            }
-        }
-
-        return $entity;
+                return $value;
+            })
+            ->groupBy('entity_id')
+            ->toArray();
     }
 
     /**
