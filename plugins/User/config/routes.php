@@ -38,7 +38,7 @@ Router::connect('/user/profile', [
     'action' => 'profile',
 ], ['routeClass' => 'Cake\Routing\Route\InflectedRoute']);
 
-Router::connect('/admin/user/profile', [
+Router::connect('/admin/user/profile/*', [
     'plugin' => 'User',
     'controller' => 'Gateway',
     'action' => 'profile',
