@@ -12,7 +12,7 @@
 namespace Taxonomy\Model\Entity;
 
 use Cake\ORM\Entity;
-use Cake\Utility\String;
+use Cake\Utility\Text;
 
 /**
  * Represents a single "vocabulary" within "vocabularies" table.
@@ -33,7 +33,7 @@ class Vocabulary extends Entity
             return '---';
         }
 
-        return String::truncate($description, 80);
+        return Text::truncate($description, 80);
     }
 
     /**
