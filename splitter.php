@@ -107,6 +107,10 @@ if (empty($options['plugins'])) {
     $selectedPlugins = $options['plugins'] === '*' ? $validPlugins : array_intersect($validPlugins, explode(',', $options['plugins']));
 }
 
+if (empty($selectedPlugins)) {
+    die("ERROR: You must indicate one valid plugin at least.\n");
+}
+
 /**
  * Null device, based on OS.
  *
@@ -118,27 +122,28 @@ $null = DIRECTORY_SEPARATOR === '/' ? '/dev/null' : 'NUL';
  * Creates a new branch for every plugin and theme, and push to corresponding GitHub
  * repository. Such branches are removed after pushed.
  */
-foreach ($selectedPlugins as $plugin) {
+foreach ($selectedPlugins as $index => $plugin) {
+    $title = sprintf('Processing: %s [%d/%d]', $plugin, ($index + 1), count($selectedPlugins));
     $pluginDirectory = dirname(__FILE__) . "/plugins/{$plugin}";
     $jsonPath = "{$pluginDirectory}/composer.json";
 
+    echo "{$title}\n";
+    echo str_repeat('-', strlen($title)) . "\n\n";
+
     if (!is_readable($jsonPath)) {
-        echo sprintf('Missing file: %s', $jsonPath);
+        echo sprintf('ERROR: Missing file: "%s"', $jsonPath);
+        echo "\n\n";
         continue;
     }
 
     $composer = json_decode(file_get_contents($jsonPath), true);
-
     if (!isset($composer['name']) || strpos($composer['name'], '/') === false) {
-        echo 'Invalid composer.json, missing or invalid "name" key';
+        echo 'ERROR: Invalid "composer.json" file, missing or invalid "name" key.';
+        echo "\n\n";
         continue;
     }
 
     list($org, $plg) = explode('/', $composer['name']);
-
-    echo "Processing: {$plugin}\n";
-    echo str_repeat('-', strlen("Processing: {$plugin}")) . "\n\n";
-
     exec("git checkout {$mainBranch} > {$null}");
     exec("git remote add {$plg} git@github.com:{$org}/{$plg}.git -f 2> {$null}");
     exec("git branch -D {$plg} 2> {$null}");
