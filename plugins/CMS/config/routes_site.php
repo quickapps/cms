@@ -73,6 +73,7 @@ if (!is_readable(ROOT . '/config/settings.php')) {
             $options['routeClass'] = empty($options['routeClass']) ? 'Cake\Routing\Route\DashedRoute' : $options['routeClass'];
             if (!empty($options['_name'])) {
                 $options['locale'] = $localesPattern;
+                $options['_name'] = 'localized_' . $options['_name'];
                 $template = str_replace('//', '/', "/:locale/{$router->template}");
                 Router::connect($template, $router->defaults, $options);
             } else {
