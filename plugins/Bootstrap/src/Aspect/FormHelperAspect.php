@@ -147,7 +147,7 @@ class FormHelperAspect extends Aspect
     {
         $helper = $invocation->getThis();
         list($fieldName, $options, $attributes) = array_pad($invocation->getArguments(), 3, null);
-        $options = (array)$options;
+        $options = $options === null ? [] : $options;
         $attributes = (array)$attributes;
         $attributes = $this->_addClass($helper, $attributes, 'form-control');
 
