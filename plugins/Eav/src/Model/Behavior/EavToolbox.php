@@ -11,14 +11,11 @@
  */
 namespace Eav\Model\Behavior;
 
+use Cake\Collection\CollectionInterface;
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
-use Cake\Datasource\ResultSetDecorator;
-use Cake\ORM\Entity;
-use Cake\ORM\ResultSet;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Utility\Inflector;
 
 /**
  * Support class for EAV behavior.
@@ -124,11 +121,11 @@ class EavToolbox
      * Checks if the provided entity has defined certain $property, regardless of
      * its value.
      *
-     * @param \Cake\ORM\Entity $entity The entity to check
+     * @param \Cake\Datasource\EntityInterface $entity The entity to check
      * @param string $property The property name
      * @return bool True if exists
      */
-    public function propertyExists(Entity $entity, $property)
+    public function propertyExists(EntityInterface $entity, $property)
     {
         $entityArray = $entity->toArray();
 
@@ -213,15 +210,15 @@ class EavToolbox
     }
 
     /**
-     * Given a set of entities gets the ID of all of them.
+     * Given a collection of entities gets the ID of all of them.
      *
      * This method iterates the given set and invokes `getEntityId()` for every
      * entity in the set.
      *
-     * @param \Cake\ORM\ResultSet $results Set of entities
+     * @param \Cake\Collection\CollectionInterface $results Set of entities
      * @return array List of entity ids suitable for EAV logic
      */
-    public function extractEntityIds(ResultSet $results)
+    public function extractEntityIds(CollectionInterface $results)
     {
         $entityIds = [];
         $results->each(function ($entity) use (&$entityIds) {
