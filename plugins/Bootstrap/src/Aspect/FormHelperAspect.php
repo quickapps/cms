@@ -74,10 +74,10 @@ class FormHelperAspect extends Aspect
     public function alterCreate(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
-        list($model, $options) = array_pad($invocation->getArguments(), 2, []);
+        list($model, $options) = array_pad($invocation->getArguments(), 2, null);
         $options = (array)$options;
-
         $bootstrap = isset($options['bootstrap']) ? (bool)$options['bootstrap'] : true;
+
         if ($bootstrap) {
             $this->_addTemplates($helper);
         }
@@ -101,7 +101,7 @@ class FormHelperAspect extends Aspect
     public function alterInput(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
-        list($fieldName, $options) = array_pad($invocation->getArguments(), 2, []);
+        list($fieldName, $options) = array_pad($invocation->getArguments(), 2, null);
         $options = (array)$options;
 
         if (empty($options['type']) ||
@@ -126,7 +126,7 @@ class FormHelperAspect extends Aspect
     public function alterTextarea(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
-        list($fieldName, $options) = array_pad($invocation->getArguments(), 2, []);
+        list($fieldName, $options) = array_pad($invocation->getArguments(), 2, null);
         $options = (array)$options;
         $options = $this->_addClass($helper, $options, 'form-control');
 
@@ -146,7 +146,8 @@ class FormHelperAspect extends Aspect
     public function alterSelectbox(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
-        list($fieldName, $options, $attributes) = array_pad($invocation->getArguments(), 2, []);
+        list($fieldName, $options, $attributes) = array_pad($invocation->getArguments(), 3, null);
+        $options = (array)$options;
         $attributes = (array)$attributes;
         $attributes = $this->_addClass($helper, $attributes, 'form-control');
 
@@ -165,7 +166,7 @@ class FormHelperAspect extends Aspect
     public function alterButton(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
-        list($title, $options) = array_pad($invocation->getArguments(), 2, []);
+        list($title, $options) = array_pad($invocation->getArguments(), 2, null);
         $options = (array)$options;
         $options = $this->_addClass($helper, $options, 'btn btn-default');
 
@@ -185,7 +186,7 @@ class FormHelperAspect extends Aspect
     public function alterSubmit(MethodInvocation $invocation)
     {
         $helper = $invocation->getThis();
-        list($caption, $options) = array_pad($invocation->getArguments(), 2, []);
+        list($caption, $options) = array_pad($invocation->getArguments(), 2, null);
         $options = (array)$options;
         $options = $this->_addClass($helper, $options, 'btn btn-primary');
 
