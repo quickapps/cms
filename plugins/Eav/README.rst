@@ -33,11 +33,42 @@ attributes with the entity, so the attributes become properties of the entity
 object.
 
 
+Installation
+------------
+
+You can install EAV plugin into your CakePHP project using Composer:
+
+.. code:: bash
+
+    $ composer require quickapps-plugins/eav:"*"
+
+Plugin Loading
+^^^^^^^^^^^^^^
+
+Then edit your project ``bootstrap.php`` file and make sure EAV plugin is being
+loaded correctly:
+
+.. code:: php
+
+    Plugin::load('Eav');
+
+Check Cake's documentation for further information.
+
+Import DB Schemas
+^^^^^^^^^^^^^^^^^
+
+Lastly use the provided SQL script ``/config/eav-mysql.sql`` and import it into your
+project's database (MySQL only for the moment), this will create two tables that are
+used internally by EAV plugin to store and define virtual properties.
+
+
 Usage
 -----
 
-To use the EAV API you must attach the ``Eav.Eav`` behavior to the table you wish to
-"extend", for example:
+Once EAV plugin has been loaded into your project and all MySQL tables has been
+created your are ready to go. To start using the EAV API you must attach the
+``Eav.Eav`` behavior to the table you wish to "extend" (add virtual columns to it),
+for example:
 
 .. code:: php
 
