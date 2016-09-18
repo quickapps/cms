@@ -81,13 +81,30 @@ class EavBehavior extends Behavior
     protected $_toolbox = null;
 
     /**
+     * Represents an entity that should be removed from the collection.
+     *
+     * @var int
+     */
+    const NULL_ENTITY = 2;
+
+    /**
      * Default configuration.
+     *
+     * - enabled: Whether this behavior is active or not. Defaults true.
+     *
+     * - cache: EAV cache feature, see documentation. Defaults false.
+     *
+     * - hydrator: Callable function responsible of hydrate an entity with its
+     *   virtual values, callable receives two arguments: the entity to hydrate and
+     *   an array of virtual values, where each virtual value is an arrray composed
+     *   of `property_name` and `value` keys.
      *
      * @var array
      */
     protected $_defaultConfig = [
         'enabled' => true,
         'cache' => false,
+        'hydrator' => null,
         'queryScope' => [
             'Eav\\Model\\Behavior\\QueryScope\\SelectScope',
             'Eav\\Model\\Behavior\\QueryScope\\WhereScope',
@@ -118,6 +135,10 @@ class EavBehavior extends Behavior
      */
     public function __construct(Table $table, array $config = [])
     {
+        $this->_defaultConfig['hydrator'] = function (EntityInterface $entity, $values) {
+            return $this->hydrateEntity($entity, $values);
+        };
+
         $config['cacheMap'] = false; // private config, prevent user modifications
         $this->_toolbox = new EavToolbox($table);
         parent::__construct($table, $config);
@@ -378,12 +399,6 @@ class EavBehavior extends Behavior
     /**
      * Attaches virtual properties to entities.
      *
-     * This method iterates over each retrieved entity and invokes the
-     * `attachEntityAttributes()` method. This method should return the altered
-     * entity object with its virtual properties, however if this method returns
-     * NULL the entity will be removed from the resulting collection. And if this
-     * method returns FALSE will stop the find() operation.
-     *
      * This method is also responsible of looking for virtual columns in SELECT and
      * WHERE clauses (if applicable) and properly scope the Query object. Query
      * scoping is performed by the `_scopeQuery()` method.
@@ -402,21 +417,149 @@ class EavBehavior extends Behavior
             return true;
         }
 
-        if (!isset($options['bundle'])) {
-            $options['bundle'] = null;
-        }
-
+        $options['bundle'] = !isset($options['bundle']) ? null : $options['bundle'];
         $query = $this->_scopeQuery($query, $options['bundle']);
-        $args = compact('event', 'query', 'options', 'primary');
-        static $callable = null;
 
-        if ($callable === null) {
-            $callable = function ($results) use (&$args) {
-                return $this->hydrateEntities($results, $args);
-            };
+        if (empty($this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope'])) {
+            return $query;
         }
 
-        return $query->formatResults($callable, Query::PREPEND);
+        $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($query, $options['bundle']);
+        $args = compact('options', 'primary', 'selectedVirtual');
+
+        return $query->formatResults(function ($results) use($args) {
+            return $this->_hydrateEntities($results, $args);
+        }, Query::PREPEND);
+    }
+
+
+    /**
+     * Attach EAV attributes for every entity in the provided result-set.
+     *
+     * This method iterates over each retrieved entity and invokes the
+     * `hydrateEntity()` method. This last should return the altered entity object
+     * with all its virtual properties, however if this method returns NULL the
+     * entity will be removed from the resulting collection.
+     *
+     * @param \Cake\Collection\CollectionInterface $entities Set of entities to be
+     *  processed
+     * @param array $args Contains two keys: "options" and "primary" given to the
+     *  originating beforeFind(), and "selectedVirtual" a list of virtual columns
+     *  selected in the originating find query
+     * @return \Cake\Collection\CollectionInterface New set with altered entities
+     */
+    protected function _hydrateEntities(CollectionInterface $entities, array $args)
+    {
+        $values = $this->_prepareSetValues($entities, $args);
+        return $entities->map(function ($entity) use ($values) {
+            if ($entity instanceof EntityInterface) {
+                $entity = $this->_prepareCachedColumns($entity);
+                $entityId = $this->_toolbox->getEntityId($entity);
+
+                if (isset($values[$entityId])) {
+                    $values = isset($values[$entityId]) ? $values[$entityId] : [];
+                    $hydrator = $this->config('hydrator');
+                    $entity = $hydrator($entity, $values);
+                }
+            }
+
+            // remove from collection
+            if ($entity === null) {
+                return self::NULL_ENTITY;
+            }
+
+            return $entity;
+        })
+        ->filter(function ($entity) {
+            return $entity !== self::NULL_ENTITY;
+        });
+    }
+
+    /**
+     * Hydrates a single entity and returns it.
+     *
+     * Returning NULL indicates the entity should be removed from the resulting
+     * collection.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity to hydrate
+     * @param array $values Holds stored virtual values for this particular entity
+     * @return bool|null|\Cake\Datasource\EntityInterface
+     */
+    public function hydrateEntity(EntityInterface $entity, array $values)
+    {
+        foreach ($values as $value) {
+            if (!$this->_toolbox->propertyExists($entity, $value['property_name'])) {
+                $entity->set($value['property_name'], $value['value']);
+                $entity->dirty($value['property_name'], false);
+            }
+        }
+
+        // force cache-columns to be of the proper type as they might be NULL if
+        // entity has not been updated yet.
+        if ($this->config('cacheMap')) {
+            foreach ($this->config('cacheMap') as $column => $fields) {
+                if ($this->_toolbox->propertyExists($entity, $column) && !($entity->get($column) instanceof Entity)) {
+                    $entity->set($column, new Entity);
+                }
+            }
+        }
+
+        return $entity;
+    }
+
+    /**
+     * Retrieves all virtual values of all the entities within the given result-set.
+     *
+     * @param \Cake\Collection\CollectionInterface $entities Set of entities
+     * @param array $args Contains two keys: "options" and "primary" given to the
+     *  originating beforeFind(), and "selectedVirtual" a list of virtual columns
+     *  selected in the originating find query
+     * @return array Virtual values indexed by entity ID
+     */
+    protected function _prepareSetValues(CollectionInterface $entities, array $args)
+    {
+        $entityIds = $this->_toolbox->extractEntityIds($entities);
+        if (empty($entityIds)) {
+            return [];
+        }
+
+        $selectedVirtual = $args['selectedVirtual'];
+        $bundle = $args['options']['bundle'];
+        $validColumns = array_values($selectedVirtual);
+        $validNames = array_intersect($this->_toolbox->getAttributeNames($bundle), $validColumns);
+        $attrsById = [];
+
+        foreach ($this->_toolbox->attributes($bundle) as $name => $attr) {
+            if (in_array($name, $validNames)) {
+                $attrsById[$attr['id']] = $attr;
+            }
+        }
+
+        if (empty($attrsById)) {
+            return [];
+        }
+
+        return TableRegistry::get('Eav.EavValues')
+            ->find('all')
+            ->bufferResults(false)
+            ->where([
+                'EavValues.eav_attribute_id IN' => array_keys($attrsById),
+                'EavValues.entity_id IN' => $entityIds,
+            ])
+            ->all()
+            ->map(function ($value) use ($attrsById, $selectedVirtual) {
+                $attrName = $attrsById[$value->get('eav_attribute_id')]->get('name');
+                $attrType = $attrsById[$value->get('eav_attribute_id')]->get('type');
+                $alias = array_search($attrName, $selectedVirtual);
+
+                return [
+                    'entity_id' => $value->get('entity_id'),
+                    'property_name' => is_string($alias) ? $alias : $attrName,
+                    'value' => $this->_toolbox->marshal($value->get("value_{$attrType}"), $attrType),
+                ];
+            })
+            ->groupBy('entity_id')
+            ->toArray();
     }
 
     /**
@@ -542,139 +685,6 @@ class EavBehavior extends Behavior
         foreach ($valuesToDelete as $value) {
             TableRegistry::get('Eav.EavValues')->delete($value);
         }
-    }
-
-    /**
-     * Attach EAV attributes for every entity in the provided result-set.
-     *
-     * @param \Cake\Collection\CollectionInterface $entities Set of entities to be
-     *  processed
-     * @param array $options Arguments given to `beforeFind()` method, possible keys
-     *  are "event", "query", "options", "primary"
-     * @return \Cake\Collection\CollectionInterface New set with altered entities
-     */
-    public function hydrateEntities(CollectionInterface $entities, array $options)
-    {
-        $values = $this->_prepareSetValues($entities, $options);
-
-        return $entities->map(function ($entity) use ($values, $options) {
-            if ($entity instanceof EntityInterface) {
-                $entity = $this->_prepareCachedColumns($entity);
-                $entityId = $this->_toolbox->getEntityId($entity);
-
-                if (isset($values[$entityId])) {
-                    $options['values'] = isset($values[$entityId]) ? $values[$entityId] : [];
-                    $entity = $this->hydrateEntity($entity, $options);
-                }
-            }
-
-            if ($entity === false) {
-                $options['event']->stopPropagation();
-
-                return;
-            }
-
-            if ($entity === null) {
-                return false;
-            }
-
-            return $entity;
-        });
-    }
-
-    /**
-     * Hydrates a single entity and returns it.
-     *
-     * - Returning NULL indicates the entity should be removed from the resulting
-     *   collection.
-     *
-     * - Returning FALSE will stop the entire find() operation.
-     *
-     * @param \Cake\Datasource\EntityInterface $entity The entity to hydrate
-     * @param array $options Arguments given to `beforeFind()` method, possible keys
-     *  are "event", "query", "options", "primary" and "values" which
-     *  holds stored virtual values for this particular entity
-     * @return bool|null|\Cake\Datasource\EntityInterface
-     */
-    public function hydrateEntity(EntityInterface $entity, array $options)
-    {
-        $values = $options['values'];
-        foreach ($values as $value) {
-            if (!$this->_toolbox->propertyExists($entity, $value['property_name'])) {
-                $entity->set($value['property_name'], $value['value']);
-                $entity->dirty($value['property_name'], false);
-            }
-        }
-
-        // force cache-columns to be of the proper type as they might be NULL if
-        // entity has not been updated yet.
-        if ($this->config('cacheMap')) {
-            foreach ($this->config('cacheMap') as $column => $fields) {
-                if ($this->_toolbox->propertyExists($entity, $column) && !($entity->get($column) instanceof Entity)) {
-                    $entity->set($column, new Entity);
-                }
-            }
-        }
-
-        return $entity;
-    }
-
-    /**
-     * Retrieves all virtual values of all the entities within the given result-set.
-     *
-     * @param \Cake\Collection\CollectionInterface $entities Set of entities
-     * @param array $options Arguments given to `beforeFind()` method, possible keys
-     *  are "event", "query", "options", "primary"
-     * @return array Virtual values indexed by entity ID
-     */
-    protected function _prepareSetValues(CollectionInterface $entities, array $options)
-    {
-        $entityIds = $this->_toolbox->extractEntityIds($entities);
-        if (empty($entityIds)) {
-            return [];
-        }
-
-        if (empty($this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope'])) {
-            return [];
-        }
-
-        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
-        $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($options['query'], $bundle);
-        $validColumns = array_values($selectedVirtual);
-        $validNames = array_intersect($this->_toolbox->getAttributeNames($bundle), $validColumns);
-        $attrsById = [];
-
-        foreach ($this->_toolbox->attributes($bundle) as $name => $attr) {
-            if (in_array($name, $validNames)) {
-                $attrsById[$attr['id']] = $attr;
-            }
-        }
-
-        if (empty($attrsById)) {
-            return [];
-        }
-
-        return TableRegistry::get('Eav.EavValues')
-            ->find('all')
-            ->bufferResults(false)
-            ->where([
-                'EavValues.eav_attribute_id IN' => array_keys($attrsById),
-                'EavValues.entity_id IN' => $entityIds,
-            ])
-            ->all()
-            ->map(function ($value) use ($attrsById, $selectedVirtual) {
-                $attrName = $attrsById[$value->get('eav_attribute_id')]->get('name');
-                $attrType = $attrsById[$value->get('eav_attribute_id')]->get('type');
-                $alias = array_search($attrName, $selectedVirtual);
-
-                return [
-                    'entity_id' => $value->get('entity_id'),
-                    'property_name' => is_string($alias) ? $alias : $attrName,
-                    'value' => $this->_toolbox->marshal($value->get("value_{$attrType}"), $attrType),
-                ];
-            })
-            ->groupBy('entity_id')
-            ->toArray();
     }
 
     /**

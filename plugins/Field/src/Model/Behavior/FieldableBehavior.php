@@ -196,39 +196,37 @@ class FieldableBehavior extends EavBehavior
     /**
      * {@inheritDoc}
      */
-    public function hydrateEntities(CollectionInterface $entities, array $options)
+    protected function _hydrateEntities(CollectionInterface $entities, array $args)
     {
-        return $entities->map(function ($entity) use ($options) {
+        return $entities->map(function ($entity) use ($args) {
             if ($entity instanceof EntityInterface) {
                 $entity = $this->_prepareCachedColumns($entity);
-                $entity = $this->attachEntityAttributes($entity, $options);
-            }
-
-            if ($entity === false) {
-                $options['event']->stopPropagation();
-
-                return;
+                $entity = $this->_attachEntityFields($entity, $args);
             }
 
             if ($entity === null) {
-                return false;
+                return self::NULL_ENTITY;
             }
 
             return $entity;
+        })
+        ->filter(function ($entity) {
+            return $entity !== self::NULL_ENTITY;
         });
     }
 
     /**
-     * {@inheritDoc}
-     *
      * Attaches entity's field under the `_fields` property, this method is invoked
      * by `beforeFind()` when iterating results sets.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity being altered
+     * @param array $args Arguments given to the originating `beforeFind()`
      */
-    public function attachEntityAttributes(EntityInterface $entity, array $options)
+    protected function _attachEntityFields(EntityInterface $entity, array $args)
     {
         $entity = $this->attachEntityFields($entity);
         foreach ($entity->get('_fields') as $field) {
-            $result = $field->beforeFind((array)$options['options'], $options['primary']);
+            $result = $field->beforeFind((array)$args['options'], $args['primary']);
             if ($result === null) {
                 return null; // remove entity from collection
             } elseif ($result === false) {
