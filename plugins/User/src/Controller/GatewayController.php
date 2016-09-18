@@ -283,21 +283,22 @@ class GatewayController extends AppController
     /**
      * Shows profile information for the given user.
      *
-     * @param int $id User's ID
+     * @param int|null $id User's ID, or NULL for currently logged user
      * @return void
      * @throws \Cake\ORM\Exception\RecordNotFoundException When user not found, or
      *  users has marked profile as private
      */
-    public function profile($id)
+    public function profile($id = null)
     {
         $this->loadModel('User.Users');
-
+        $id = $id === null ? user()->id : $id;
         $conditions = [];
+
         if ($id != user()->id) {
             $conditions = ['status' => 1, 'public_profile' => true];
         }
 
-        $user = $this->Users->get($id, ['conditions' => $conditions]);
+        $user = $this->Users->get(intval($id), ['conditions' => $conditions]);
 
         $this->title(__d('user', 'User’s Profile'));
         $this->viewMode('full');
