@@ -407,10 +407,16 @@ class EavBehavior extends Behavior
         }
 
         $query = $this->_scopeQuery($query, $options['bundle']);
+        $args = compact('event', 'query', 'options', 'primary');
+        static $callable = null;
 
-        return $query->formatResults(function ($results) use ($event, $query, $options, $primary) {
-            return $this->hydrateEntities($results, compact('event', 'query', 'options', 'primary'));
-        });
+        if ($callable === null) {
+            $callable = function ($results) use (&$args) {
+                return $this->hydrateEntities($results, $args);
+            };
+        }
+
+        return $query->formatResults($callable, Query::PREPEND);
     }
 
     /**
@@ -438,7 +444,7 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * After an entity is saved.
+     * Save virtual values after an entity's real values were saved.
      *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
@@ -464,10 +470,12 @@ class EavBehavior extends Behavior
 
         $values = $valuesTable
             ->find()
+            ->bufferResults(false)
             ->where([
                 'eav_attribute_id IN' => array_keys($attrsById),
                 'entity_id' => $this->_toolbox->getEntityId($entity),
-            ]);
+            ])
+            ->toArray();
 
         foreach ($values as $value) {
             $updatedAttrs[] = $value->get('eav_attribute_id');
@@ -555,18 +563,8 @@ class EavBehavior extends Behavior
                 $entityId = $this->_toolbox->getEntityId($entity);
 
                 if (isset($values[$entityId])) {
-                    $valuesForEntity = isset($values[$entityId]) ? $values[$entityId] : [];
-                    $this->attachEntityAttributes($entity, $valuesForEntity);
-                }
-
-                // force cache-columns to be of the proper type as they might be NULL if
-                // entity has not been updated yet.
-                if ($this->config('cacheMap')) {
-                    foreach ($this->config('cacheMap') as $column => $fields) {
-                        if ($this->_toolbox->propertyExists($entity, $column) && !($entity->get($column) instanceof Entity)) {
-                            $entity->set($column, new Entity);
-                        }
-                    }
+                    $options['values'] = isset($values[$entityId]) ? $values[$entityId] : [];
+                    $entity = $this->hydrateEntity($entity, $options);
                 }
             }
 
@@ -582,6 +580,43 @@ class EavBehavior extends Behavior
 
             return $entity;
         });
+    }
+
+    /**
+     * Hydrates a single entity and returns it.
+     *
+     * - Returning NULL indicates the entity should be removed from the resulting
+     *   collection.
+     *
+     * - Returning FALSE will stop the entire find() operation.
+     *
+     * @param \Cake\Datasource\EntityInterface $entity The entity to hydrate
+     * @param array $options Arguments given to `beforeFind()` method, possible keys
+     *  are "event", "query", "options", "primary" and "values" which
+     *  holds stored virtual values for this particular entity
+     * @return bool|null|\Cake\Datasource\EntityInterface
+     */
+    public function hydrateEntity(EntityInterface $entity, array $options)
+    {
+        $values = $options['values'];
+        foreach ($values as $value) {
+            if (!$this->_toolbox->propertyExists($entity, $value['property_name'])) {
+                $entity->set($value['property_name'], $value['value']);
+                $entity->dirty($value['property_name'], false);
+            }
+        }
+
+        // force cache-columns to be of the proper type as they might be NULL if
+        // entity has not been updated yet.
+        if ($this->config('cacheMap')) {
+            foreach ($this->config('cacheMap') as $column => $fields) {
+                if ($this->_toolbox->propertyExists($entity, $column) && !($entity->get($column) instanceof Entity)) {
+                    $entity->set($column, new Entity);
+                }
+            }
+        }
+
+        return $entity;
     }
 
     /**
@@ -621,6 +656,7 @@ class EavBehavior extends Behavior
 
         return TableRegistry::get('Eav.EavValues')
             ->find('all')
+            ->bufferResults(false)
             ->where([
                 'EavValues.eav_attribute_id IN' => array_keys($attrsById),
                 'EavValues.entity_id IN' => $entityIds,
@@ -629,15 +665,13 @@ class EavBehavior extends Behavior
             ->map(function ($value) use ($attrsById, $selectedVirtual) {
                 $attrName = $attrsById[$value->get('eav_attribute_id')]->get('name');
                 $attrType = $attrsById[$value->get('eav_attribute_id')]->get('type');
-                $alias = array_search($name, $selectedVirtual);
+                $alias = array_search($attrName, $selectedVirtual);
 
-                $data = [
-                    'property_name' => is_string($alias) ? $alias : $name,
-                    'value' => $value->get("value_{$type}"),
-                    ':metadata:' => $value
+                return [
+                    'entity_id' => $value->get('entity_id'),
+                    'property_name' => is_string($alias) ? $alias : $attrName,
+                    'value' => $this->_toolbox->marshal($value->get("value_{$attrType}"), $attrType),
                 ];
-
-                return $value;
             })
             ->groupBy('entity_id')
             ->toArray();
