@@ -85,7 +85,7 @@ class EavBehavior extends Behavior
      *
      * @var int
      */
-    const NULL_ENTITY = 2;
+    const NULL_ENTITY = 1;
 
     /**
      * Default configuration.
@@ -427,7 +427,7 @@ class EavBehavior extends Behavior
         $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($query, $options['bundle']);
         $args = compact('options', 'primary', 'selectedVirtual');
 
-        return $query->formatResults(function ($results) use($args) {
+        return $query->formatResults(function ($results) use ($args) {
             return $this->_hydrateEntities($results, $args);
         }, Query::PREPEND);
     }
@@ -451,6 +451,7 @@ class EavBehavior extends Behavior
     protected function _hydrateEntities(CollectionInterface $entities, array $args)
     {
         $values = $this->_prepareSetValues($entities, $args);
+
         return $entities->map(function ($entity) use ($values) {
             if ($entity instanceof EntityInterface) {
                 $entity = $this->_prepareCachedColumns($entity);
