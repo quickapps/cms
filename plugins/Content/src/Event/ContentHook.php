@@ -44,6 +44,21 @@ class ContentHook implements EventListenerInterface
      * This method looks for specialized renders in the order described below,
      * if one is not found we look the next one, etc.
      *
+     * ### Content's slug based
+     *
+     *     [other-render]_[content-slug].ctp
+     *
+     * Where `[other-render]` is any of the ones described below, for instance when
+     * rendering an article which slug is `hello-world`:
+     *
+     * - render_content_[content-type]_[view-mode]_[hello-world].ctp
+     * - render_content_[content-type]_[hello-world].ctp
+     * - render_content_[view-mode]_[hello-world].ctp
+     * - render_content_[hello-world].ctp
+     *
+     * If none of these exists, then it will try to use one of renders described
+     * below.
+     *
      * ### Render content based on content-type & view-mode
      *
      *      render_content_[content-type]_[view-mode].ctp
@@ -111,10 +126,14 @@ class ContentHook implements EventListenerInterface
         $View = $event->subject();
         $viewMode = $View->viewMode();
         $try = [
+            "Content.render_content_{$content->content_type_slug}_{$viewMode}_{$content->slug}",
+            "Content.render_content_{$content->content_type_slug}_{$content->slug}",
+            "Content.render_content_{$viewMode}_{$content->slug}",
+            "Content.render_content_{$content->slug}",
             "Content.render_content_{$content->content_type_slug}_{$viewMode}",
             "Content.render_content_{$content->content_type_slug}",
             "Content.render_content_{$viewMode}",
-            'Content.render_content'
+            'Content.render_content',
         ];
 
         foreach ($try as $element) {
