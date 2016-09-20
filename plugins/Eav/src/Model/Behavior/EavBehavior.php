@@ -346,14 +346,16 @@ class EavBehavior extends Behavior
             return true; // nothing to cache
         }
 
-        $values = [];
         $query = TableRegistry::get('Eav.EavValues')
             ->find('all')
+            ->bufferResults(false)
             ->where([
                 'EavValues.eav_attribute_id IN' => array_keys($attrsById),
                 'EavValues.entity_id' => $this->_toolbox->getEntityId($entity),
-            ]);
+            ])
+            ->toArray();
 
+        $values = [];
         foreach ($query as $v) {
             $type = $attrsById[$v->get('eav_attribute_id')]->get('type');
             $name = $attrsById[$v->get('eav_attribute_id')]->get('name');
@@ -431,7 +433,6 @@ class EavBehavior extends Behavior
             return $this->_hydrateEntities($results, $args);
         }, Query::PREPEND);
     }
-
 
     /**
      * Attach EAV attributes for every entity in the provided result-set.
@@ -674,12 +675,13 @@ class EavBehavior extends Behavior
 
         $valuesToDelete = TableRegistry::get('Eav.EavValues')
             ->find()
+            ->bufferResults(false)
             ->contain(['EavAttribute'])
             ->where([
                 'EavAttribute.table_alias' => $this->_table->table(),
                 'EavValues.entity_id' => $this->_toolbox->getEntityId($entity),
             ])
-            ->all();
+            ->toArray();
 
         foreach ($valuesToDelete as $value) {
             TableRegistry::get('Eav.EavValues')->delete($value);
