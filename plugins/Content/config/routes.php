@@ -40,13 +40,14 @@ ViewModeRegistry::add([
 ]);
 
 if (is_array(quickapps('content_types'))) {
-    Router::connect('/:content_type_slug/:content_slug' . CONTENT_EXTENSION, [
+    Router::connect('/:content_type_slug/:content_slug:extension', [
         'plugin' => 'Content',
         'controller' => 'Serve',
         'action' => 'details'
     ], [
         'content_type_slug' => implode('|', array_map('preg_quote', quickapps('content_types'))),
         'content_slug' => '.+',
+        'extension' => preg_quote(CONTENT_EXTENSION),
         'pass' => ['content_type_slug', 'content_slug'],
         '_name' => 'content_details',
         'routeClass' => 'Cake\Routing\Route\InflectedRoute',
