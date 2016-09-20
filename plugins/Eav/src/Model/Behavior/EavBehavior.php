@@ -85,7 +85,7 @@ class EavBehavior extends Behavior
      *
      * @var int
      */
-    const NULL_ENTITY = 1;
+    const NULL_ENTITY = -1;
 
     /**
      * Default configuration.
@@ -443,8 +443,8 @@ class EavBehavior extends Behavior
      *
      * @param \Cake\Collection\CollectionInterface $entities Set of entities to be
      *  processed
-     * @param array $args Contains two keys: "options" and "primary" given to the
-     *  originating beforeFind(), and "selectedVirtual" a list of virtual columns
+     * @param array $args Contains three keys: "options" and "primary" given to the
+     *  originating beforeFind(), and "selectedVirtual", a list of virtual columns
      *  selected in the originating find query
      * @return \Cake\Collection\CollectionInterface New set with altered entities
      */
@@ -456,22 +456,20 @@ class EavBehavior extends Behavior
             if ($entity instanceof EntityInterface) {
                 $entity = $this->_prepareCachedColumns($entity);
                 $entityId = $this->_toolbox->getEntityId($entity);
+                $entityValues = isset($values[$entityId]) ? $values[$entityId] : [];
+                $hydrator = $this->config('hydrator');
+                $entity = $hydrator($entity, $entityValues);
 
-                if (isset($values[$entityId])) {
-                    $values = isset($values[$entityId]) ? $values[$entityId] : [];
-                    $hydrator = $this->config('hydrator');
-                    $entity = $hydrator($entity, $values);
+                if ($entity === null) {
+                    // mark as NULL_ENTITY
+                    $entity = self::NULL_ENTITY;
                 }
-            }
-
-            // remove from collection
-            if ($entity === null) {
-                return self::NULL_ENTITY;
             }
 
             return $entity;
         })
         ->filter(function ($entity) {
+            // remove all entities marked as NULL_ENTITY
             return $entity !== self::NULL_ENTITY;
         });
     }
