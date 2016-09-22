@@ -76,10 +76,11 @@ class DateToolbox
     }
 
     /**
-     * Formats then given UNIX timestamp date using que given jQuery format.
+     * Formats then given UNIX timestamp using the given jQuery format.
      *
-     *@param string $format jQuery format. e.g. `'today is:' yy-mm-dd`
-     *@param int $timestamp Date as UNIX timestamp
+     * @param string $format jQuery format. e.g. `'today is:' yy-mm-dd`
+     * @param int $timestamp Date as UNIX timestamp
+     * @return string Formated date. e.g. `today is: 2018-09-09`
      */
     public static function formatDate($format, $timestamp)
     {
@@ -148,8 +149,8 @@ class DateToolbox
      */
     public static function validateDateFormat($format)
     {
-        $format = str_replace(array_keys(static::$_map['date']), '', $format);
-        $format = preg_replace("/'(.*)'/", '', $format); // remove quotes
+        $format = str_replace(array_keys(static::$_map['date']), '', $format); // remove placeholders
+        $format = preg_replace("/'(.*)'/", '', $format); // remove literals
         $format = preg_replace('/[^a-z]/i', '', $format);
         $format = trim($format);
 
@@ -164,8 +165,8 @@ class DateToolbox
      */
     public static function validateTimeFormat($format)
     {
-        $format = str_replace(array_keys(static::$_map['time']), '', $format);
-        $format = preg_replace("/'(.*)'/", '', $format); // remove quotes
+        $format = str_replace(array_keys(static::$_map['time']), '', $format); // remove placeholders
+        $format = preg_replace("/'(.*)'/", '', $format); // remove literals
         $format = preg_replace('/[^a-z]/i', '', $format);
         $format = trim($format);
 
