@@ -81,10 +81,8 @@ class FieldableBehavior extends EavBehavior
     protected $_fieldableDefaultConfig = [
         'bundle' => null,
         'implementedMethods' => [
-            'configureFieldable' => 'configureFieldable',
             'attachFields' => 'attachEntityFields',
-            'unbindFieldable' => 'unbindFieldable',
-            'bindFieldable' => 'bindFieldable',
+            'fieldable' => 'fieldable',
         ],
     ];
 
@@ -180,7 +178,7 @@ class FieldableBehavior extends EavBehavior
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
         if ((isset($options['fieldable']) && $options['fieldable'] === false) ||
-            !$this->config('enabled')
+            !$this->config('status')
         ) {
             return true;
         }
@@ -273,7 +271,7 @@ class FieldableBehavior extends EavBehavior
      */
     public function beforeSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        if (!$this->config('enabled')) {
+        if (!$this->config('status')) {
             return true;
         }
 
@@ -347,7 +345,7 @@ class FieldableBehavior extends EavBehavior
      */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        if (!$this->config('enabled')) {
+        if (!$this->config('status')) {
             return true;
         }
 
@@ -391,7 +389,7 @@ class FieldableBehavior extends EavBehavior
      */
     public function beforeDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        if (!$this->config('enabled')) {
+        if (!$this->config('status')) {
             return true;
         }
 
@@ -435,7 +433,7 @@ class FieldableBehavior extends EavBehavior
      */
     public function afterDelete(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        if (!$this->config('enabled')) {
+        if (!$this->config('status')) {
             return;
         }
 
@@ -454,34 +452,15 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
-     * Changes behavior's configuration parameters on the fly.
+     * Gets/sets fieldable behavior status.
      *
-     * @param array $config Configuration parameters as `key` => `value`
-     * @return void
+     * @param array|bool|null $status If set to a boolean value then turns on/off
+     *  this behavior
+     * @return bool|void
      */
-    public function configureFieldable($config)
+    public function fieldable($status = null)
     {
-        $this->config($config);
-    }
-
-    /**
-     * Enables this behavior.
-     *
-     * @return void
-     */
-    public function bindFieldable()
-    {
-        $this->config('enabled', true);
-    }
-
-    /**
-     * Disables this behavior.
-     *
-     * @return void
-     */
-    public function unbindFieldable()
-    {
-        $this->config('enabled', false);
+        return $this->eav($status);
     }
 
     /**

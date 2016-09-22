@@ -46,7 +46,7 @@ class CommentsController extends AppController
     protected function _inResponseTo(Comment $comment)
     {
         $this->loadModel('Content.Contents');
-        $this->Contents->unbindFieldable();
+        $this->Contents->fieldable(false);
         $content = $this->Contents->get($comment->entity_id);
 
         if ($content) {

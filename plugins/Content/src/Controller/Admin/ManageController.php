@@ -48,8 +48,8 @@ class ManageController extends AppController
     public function index()
     {
         $this->loadModel('Content.Contents');
-        $this->Contents->CreatedBy->unbindFieldable();
-        $this->Contents->ModifiedBy->unbindFieldable();
+        $this->Contents->CreatedBy->fieldable(false);
+        $this->Contents->ModifiedBy->fieldable(false);
         $contents = $this->Contents
             ->find('all', ['fieldable' => false])
             ->contain(['ContentTypes', 'CreatedBy', 'ModifiedBy']);
@@ -291,7 +291,7 @@ class ManageController extends AppController
             !empty($this->request->data['title']) &&
             $this->request->data['language'] !== $content->language
         ) {
-            $this->Contents->unbindFieldable(); // fix, wont trigger fields validation
+            $this->Contents->fieldable(false); // fix, wont trigger fields validation
             $newContent = $this->Contents->newEntity([
                 'content_type_id' => $content->get('content_type_id'),
                 'content_type_slug' => $content->get('content_type_slug'),

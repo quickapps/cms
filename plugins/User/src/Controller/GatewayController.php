@@ -23,7 +23,7 @@ use User\Notification\NotificationManager;
  *
  * @property \User\Model\Table\UsersTable $Users
  * @method bool touch(\Cake\ORM\Entity $entity, string $eventName)
- * @method void unbindFieldable()
+ * @method void fieldable()
  */
 class GatewayController extends AppController
 {
@@ -134,7 +134,7 @@ class GatewayController extends AppController
     public function register()
     {
         $this->loadModel('User.Users');
-        $this->Users->unbindFieldable();
+        $this->Users->fieldable(false);
         $user = $this->Users->newEntity();
         $registered = false;
         $languages = LocaleToolbox::languagesList();

@@ -38,9 +38,7 @@ use \ArrayObject;
  * @method void disableSearchOperator(string $name)
  * @method void bindComments()
  * @method void unbindComments()
- * @method void configureFieldable(array $config)
- * @method void bindFieldable()
- * @method void unbindFieldable()
+ * @method void fieldable()
  * @method \Cake\Datasource\EntityInterface attachFields(\Cake\Datasource\EntityInterface $entity)
  * @method \Cake\Datasource\ResultSetDecorator findComments(\Cake\ORM\Query $query, $options)
  */

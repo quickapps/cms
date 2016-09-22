@@ -29,7 +29,7 @@ use User\Model\Entity\User;
  * @method void enableSearchOperator(string $name)
  * @method void disableSearchOperator(string $name)
  * @method bool touch(\Cake\Datasource\EntityInterface $entity, string $eventName = 'Model.beforeSave')
- * @method void unbindFieldable()
+ * @method void fieldable()
  */
 class UsersTable extends Table
 {
