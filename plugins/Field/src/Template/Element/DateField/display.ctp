@@ -11,18 +11,17 @@
  */
 use Field\Utility\DateToolbox;
 
-$settings = $field->metadata->settings;
-$phpFormat = DateToolbox::getPHPFormat($field);
-$format = empty($settings['format']) ? 'yy-mm-dd' : $settings['format'];
-$date = DateToolbox::createFromFormat($format, $field->extra);
-$timestamp = $date ? $date->getTimestamp() : 0;
+$dateFormat = empty($field->metadata->settings['format']) ? 'yy-mm-dd' : $field->metadata->settings['format'];
+$timeFormat = empty($field->metadata->settings['time_format']) ? '' : $field->metadata->settings['time_format'];
+$timestamp = $field->value ? $field->value->getTimestamp() : 0;
+$displayDate = DateToolbox::formatDate("{$dateFormat} {$timeFormat}", $timestamp);
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
     <h3 class="field-label"><?= $field->label; ?></h3>
-    <p><?= date($phpFormat, $timestamp); ?></p>
+    <p><?= $displayDate; ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= date($phpFormat, $timestamp); ?></p>
+    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= $displayDate; ?></p>
 <?php else: ?>
-    <p><?= date($phpFormat, $timestamp); ?></p>
+    <p><?= $displayDate; ?></p>
 <?php endif; ?>

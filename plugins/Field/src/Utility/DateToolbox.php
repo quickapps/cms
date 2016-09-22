@@ -76,6 +76,34 @@ class DateToolbox
     }
 
     /**
+     * Formats then given UNIX timestamp date using que given jQuery format.
+     *
+     *@param string $format jQuery format. e.g. `'today is:' yy-mm-dd`
+     *@param int $timestamp Date as UNIX timestamp
+     */
+    public static function formatDate($format, $timestamp)
+    {
+        static $datesPatterns = null;
+        static $timesPatterns = null;
+
+        if ($datesPatterns === null || $timesPatterns === null) {
+            $datesPatterns = "/\b(" . implode('|', array_keys(static::$_map['date'])) . ")\b(?![^']*'(?:(?:[^']*'){2})*[^']*$)/i";
+            $timesPatterns = "/\b(" . implode('|', array_keys(static::$_map['time'])) . ")\b(?![^']*'(?:(?:[^']*'){2})*[^']*$)/i";
+        }
+
+        // normalize formats
+        $result = preg_replace_callback($datesPatterns, function ($matches) use ($timestamp) {
+            return date(static::$_map['date'][$matches[1]], $timestamp);
+        }, trim($format));
+
+        $result = preg_replace_callback($timesPatterns, function ($matches) use ($timestamp) {
+            return date(static::$_map['time'][$matches[1]], $timestamp);
+        }, $result);
+
+        return str_replace('\'', '', $result);
+    }
+
+    /**
      * Converts jQuery's date/time format to PHP's.
      *
      * @param string $format Date format coming from jQuery's datepicker widget.
@@ -84,6 +112,14 @@ class DateToolbox
      */
     public static function normalizeFormat($format)
     {
+        static $datesPatterns = null;
+        static $timesPatterns = null;
+
+        if ($datesPatterns === null || $timesPatterns === null) {
+            $datesPatterns = '/(' . implode('|', array_keys(static::$_map['date'])) . ')/';
+            $timesPatterns = '/(' . implode('|', array_keys(static::$_map['time'])) . ')/';
+        }
+
         $format = trim($format);
         $format = preg_replace("/'([^']+)'/", '', $format); // remove quotes
         $format = preg_replace('/\s{2,}/', ' ', $format); // remove double spaces
@@ -91,8 +127,14 @@ class DateToolbox
         list($dateFormat, $timeFormat) = explode(' ', "{$format} ");
 
         // normalize formats
-        $dateFormat = str_replace(array_keys(static::$_map['date']), array_values(static::$_map['date']), $dateFormat);
-        $timeFormat = str_replace(array_keys(static::$_map['time']), array_values(static::$_map['time']), $timeFormat);
+        $dateFormat = preg_replace_callback($datesPatterns, function ($matches) {
+            return static::$_map['date'][$matches[1]];
+        }, $dateFormat);
+
+        $timeFormat = preg_replace_callback($timesPatterns, function ($matches) {
+            return static::$_map['time'][$matches[1]];
+        }, $timeFormat);
+
         $format = trim($dateFormat . ' ' . $timeFormat);
 
         return $format;
@@ -123,6 +165,7 @@ class DateToolbox
     public static function validateTimeFormat($format)
     {
         $format = str_replace(array_keys(static::$_map['time']), '', $format);
+        $format = preg_replace("/'(.*)'/", '', $format); // remove quotes
         $format = preg_replace('/[^a-z]/i', '', $format);
         $format = trim($format);
 
