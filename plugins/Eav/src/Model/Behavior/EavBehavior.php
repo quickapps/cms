@@ -102,7 +102,7 @@ class EavBehavior extends Behavior
      * @var array
      */
     protected $_defaultConfig = [
-        'enabled' => true,
+        'status' => true,
         'cache' => false,
         'hydrator' => null,
         'queryScope' => [
@@ -111,8 +111,7 @@ class EavBehavior extends Behavior
             'Eav\\Model\\Behavior\\QueryScope\\OrderScope',
         ],
         'implementedMethods' => [
-            'enableEav' => 'enableEav',
-            'disableEav' => 'disableEav',
+            'eav' => 'eav',
             'updateEavCache' => 'updateEavCache',
             'addColumn' => 'addColumn',
             'dropColumn' => 'dropColumn',
@@ -164,23 +163,21 @@ class EavBehavior extends Behavior
     }
 
     /**
-     * Enables EAV behavior so virtual columns WILL be fetched from database.
+     * Gets/sets EAV status.
      *
-     * @return void
+     * - TRUE: Enables EAV behavior so virtual columns WILL be fetched from database.
+     * - FALSE: Disables EAV behavior so virtual columns WLL NOT be fetched from database.
+     *
+     * @param bool|null $status EAV status to set, or null to get current state
+     * @return void|bool Current status if `$status` is set to null
      */
-    public function enableEav()
+    public function eav($status = null)
     {
-        $this->config('enabled', true);
-    }
+        if ($status === null) {
+            return $this->config('status');
+        }
 
-    /**
-     * Disables EAV behavior so virtual columns WLL NOT be fetched from database.
-     *
-     * @return void
-     */
-    public function disableEav()
-    {
-        $this->config('enabled', false);
+        $this->config('status', (bool)$status);
     }
 
     /**
@@ -242,6 +239,7 @@ class EavBehavior extends Behavior
             'type' => 'string',
             'bundle' => null,
             'searchable' => true,
+            'overwrite' => false,
         ];
 
         $data['type'] = $this->_toolbox->mapType($data['type']);
@@ -259,6 +257,10 @@ class EavBehavior extends Behavior
             ])
             ->limit(1)
             ->first();
+
+        if ($attr && !$data['overwrite']) {
+            throw new FatalErrorException(__d('eav', 'Virtual column "{0}" already defined, use the "overwrite" option if you want to change it.', $name));
+        }
 
         if ($attr) {
             $attr = TableRegistry::get('Eav.EavAttributes')->patchEntity($attr, $data);
@@ -413,7 +415,7 @@ class EavBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if (!$this->config('enabled') ||
+        if (!$this->config('status') ||
             (isset($options['eav']) && $options['eav'] === false)
         ) {
             return true;

@@ -62,6 +62,11 @@ class SchemaTask extends Shell
                 'help' => __d('eav', 'Whether the column being created can be used in SQL WHERE clauses.'),
                 'boolean' => true,
                 'default' => true,
+            ])
+            ->addOption('overwrite', [
+                'short' => 'o',
+                'help' => __d('eav', 'Overwrite column definition if already exists. An exception will be raised when overwrite is disabled and column already exists.'),
+                'boolean' => true,
             ]);
 
         return $parser;
@@ -109,6 +114,7 @@ class SchemaTask extends Shell
             'type' => $options['type'],
             'bundle' => (empty($options['bundle']) ? null : (string)$options['bundle']),
             'searchable' => $options['searchable'],
+            'overwrite' => $options['overwrite'],
         ];
 
         if ($options['action'] == 'drop') {
