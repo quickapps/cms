@@ -202,10 +202,10 @@ class FieldableBehavior extends EavBehavior
             if ($entity instanceof EntityInterface) {
                 $entity = $this->_prepareCachedColumns($entity);
                 $entity = $this->_attachEntityFields($entity, $args);
-            }
 
-            if ($entity === null) {
-                return self::NULL_ENTITY;
+                if ($entity === null) {
+                    return self::NULL_ENTITY;
+                }
             }
 
             return $entity;
