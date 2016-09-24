@@ -12,7 +12,7 @@
 ?>
 
 <fieldset>
-    <legend><?= __d('field', 'Date Options'); ?></legend>
+    <legend><?= __d('field', 'Date Picker Options'); ?></legend>
 
     <?= $this->Form->input('format', ['type' => 'text', 'label' => __d('field', 'Date format')]); ?>
     <em class="help-block"><?= __d('field', "This option is not used when localized. e.g.: <code>'Meeting on:' yy-mm-dd</code>, see below for details"); ?></em>

@@ -101,6 +101,7 @@ class DateField extends Handler
             $field->set('value', null);
         }
 
+
         return true;
     }
 
@@ -155,6 +156,7 @@ class DateField extends Handler
             'label_visibility' => 'above',
             'shortcodes' => false,
             'hidden' => false,
+            'format' => 'yy-mm-dd',
         ];
     }
 }

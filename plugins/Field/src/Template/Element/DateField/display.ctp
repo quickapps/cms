@@ -10,18 +10,13 @@
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
 use Field\Utility\DateToolbox;
-
-$dateFormat = empty($field->metadata->settings['format']) ? 'yy-mm-dd' : $field->metadata->settings['format'];
-$timeFormat = empty($field->metadata->settings['time_format']) ? '' : $field->metadata->settings['time_format'];
-$timestamp = $field->value ? $field->value->getTimestamp() : 0;
-$displayDate = DateToolbox::formatDate("{$dateFormat} {$timeFormat}", $timestamp);
 ?>
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
     <h3 class="field-label"><?= $field->label; ?></h3>
-    <p><?= $displayDate; ?></p>
+    <p><?= DateToolbox::formatField($field); ?></p>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= $displayDate; ?></p>
+    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= DateToolbox::formatField($field); ?></p>
 <?php else: ?>
-    <p><?= $displayDate; ?></p>
+    <p><?= DateToolbox::formatField($field); ?></p>
 <?php endif; ?>

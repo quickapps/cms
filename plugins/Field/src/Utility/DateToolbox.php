@@ -12,6 +12,7 @@
 namespace Field\Utility;
 
 use Cake\Datasource\EntityInterface;
+use Field\Model\Entity\Field;
 
 /**
  * DateToolbox class for handling date related tasks.
@@ -51,6 +52,18 @@ class DateToolbox
             'TT' => 'A',
         ]
     ];
+
+    /**
+     * Formats the given DateField accordingly to current view-mode.
+     *
+     * @param \Field\Model\Entity\Field $field The field to be formatted
+     * @return string Formated date. e.g. `2036-01-01`
+     */
+    public static function formatField(Field $field)
+    {
+        $timestamp = $field->value ? $field->value->getTimestamp() : 0;
+        return DateToolbox::formatDate($field->view_mode_settings['format'], $timestamp);
+    }
 
     /**
      * Converts the given $date to a valid PHP's DateTime object using a jQuery's
