@@ -9,7 +9,7 @@
  * @link     http://www.quickappscms.org
  * @license     http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-namespace Block\Test\TestCase\View;
+namespace Installer\Test\TestCase\View;
 
 use Cake\Datasource\ConnectionManager;
 use Cake\ORM\TableRegistry;
@@ -21,6 +21,13 @@ use Installer\Utility\DatabaseInstaller;
  */
 class DatabaseInstallerTest extends TestCase
 {
+
+    /**
+     * Fixtures.
+     *
+     * @var array
+     */
+    public $fixtures = [];
 
     /**
      * Instance of DatabaseInstaller.
