@@ -83,6 +83,8 @@ class ManageControllerTest extends IntegrationTestCase
             'pages' => ''
         ]);
         $query = TableRegistry::get('Block.Blocks')->find()->where(['title' => 'test block']);
+
+        $this->assertResponseOk();
         $this->assertEquals(1, $query->count());
     }
 
@@ -114,6 +116,8 @@ class ManageControllerTest extends IntegrationTestCase
         ];
         $this->post('/admin/block/manage/edit/1', $data);
         $query = TableRegistry::get('Block.Blocks')->find()->where(['title' => $data['title']]);
+
+        $this->assertResponseOk();
         $this->assertEquals(1, $query->count());
     }
 
@@ -126,6 +130,8 @@ class ManageControllerTest extends IntegrationTestCase
     {
         $this->get('/admin/block/manage/delete/1');
         $query = TableRegistry::get('Block.Blocks')->find()->where(['id' => 1]);
+
+        $this->assertResponseOk();
         $this->assertEquals(1, $query->count());
     }
 
@@ -138,6 +144,8 @@ class ManageControllerTest extends IntegrationTestCase
     {
         $this->get('/admin/block/manage/duplicate/1');
         $query = TableRegistry::get('Block.Blocks')->find()->where(['copy_id' => 1]);
+
+        $this->assertResponseOk();
         $this->assertEquals(1, $query->count());
     }
 }

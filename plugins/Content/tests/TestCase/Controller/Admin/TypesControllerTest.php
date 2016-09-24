@@ -86,6 +86,8 @@ class TypesControllerTest extends IntegrationTestCase
             ->where(['name' => 'Modified Article'])
             ->limit(1)
             ->first();
+
+        $this->assertResponseOk();
         $this->assertNotEmpty($type);
     }
 
@@ -111,6 +113,8 @@ class TypesControllerTest extends IntegrationTestCase
             ->where(['slug' => 'modified-slug'])
             ->limit(1)
             ->first();
+
+        $this->assertResponseOk();
         $this->assertEmpty($type);
     }
 
@@ -140,6 +144,8 @@ class TypesControllerTest extends IntegrationTestCase
             ->where(['slug' => 'forum-post'])
             ->limit(1)
             ->first();
+
+        $this->assertResponseOk();
         $this->assertNotEmpty($type);
     }
 }

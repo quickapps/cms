@@ -99,6 +99,8 @@ class ManageControllerTest extends IntegrationTestCase
             ->where(['title' => 'Test Article'])
             ->limit(1)
             ->first();
+
+        $this->assertResponseOk();
         $this->assertNotEmpty($content);
     }
 
@@ -128,6 +130,8 @@ class ManageControllerTest extends IntegrationTestCase
             ->where(['title' => 'Modified Article'])
             ->limit(1)
             ->first();
+
+        $this->assertResponseOk();
         $this->assertNotEmpty($content);
     }
 
@@ -139,17 +143,20 @@ class ManageControllerTest extends IntegrationTestCase
     public function testTranslate()
     {
         foreach ([1, 2] as $id) {
-            \Cake\ORM\TableRegistry::get('Content.Contents')->updateAll(['language' => 'en_US'], ['id' => $id]);
+            TableRegistry::get('Content.Contents')->updateAll(['language' => 'en_US'], ['id' => $id]);
             $newTitle = "Translated content #{$id}";
             $this->post("/admin/content/manage/translate/{$id}", [
                 'title' => $newTitle,
                 'language' => 'es_ES',
             ]);
+
             $translation = TableRegistry::get('Content.Contents')
                 ->find()
                 ->where(['title' => $newTitle])
                 ->limit(1)
                 ->first();
+
+            $this->assertResponseOk();
             $this->assertNotEmpty($translation);
         }
     }
@@ -168,6 +175,8 @@ class ManageControllerTest extends IntegrationTestCase
                 ->where(['id' => $id])
                 ->limit(1)
                 ->count();
+
+            $this->assertResponseOk();
             $this->assertEquals(0, $exists);
         }
     }
