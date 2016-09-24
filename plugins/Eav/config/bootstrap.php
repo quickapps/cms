@@ -20,4 +20,5 @@ Cache::config('eav_table_attrs', [
     'prefix' => 'eav_attrs_',
     'path' => CACHE,
     'duration' => '+30 minutes',
+    'groups' => ['eav']
 ]);
