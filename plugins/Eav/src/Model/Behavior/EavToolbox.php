@@ -127,9 +127,9 @@ class EavToolbox
      */
     public function propertyExists(EntityInterface $entity, $property)
     {
-        $visibleProperties = $entity->visibleProperties();
+        $entityArray = $entity->toArray();
 
-        return array_key_exists($property, $visibleProperties);
+        return array_key_exists($property, $entityArray);
     }
 
     /**
@@ -171,7 +171,6 @@ class EavToolbox
             ->where($conditions)
             ->all()
             ->toArray();
-
         foreach ($attrs as $attr) {
             $this->_attributes[$key][$attr->get('name')] = $attr;
         }
