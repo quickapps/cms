@@ -62,7 +62,7 @@ class TypesControllerTest extends IntegrationTestCase
     public function testIndex()
     {
         $this->get('/admin/content/types');
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -87,7 +87,7 @@ class TypesControllerTest extends IntegrationTestCase
             ->limit(1)
             ->first();
 
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
         $this->assertNotEmpty($type);
     }
 
@@ -114,7 +114,7 @@ class TypesControllerTest extends IntegrationTestCase
             ->limit(1)
             ->first();
 
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
         $this->assertEmpty($type);
     }
 
@@ -145,7 +145,7 @@ class TypesControllerTest extends IntegrationTestCase
             ->limit(1)
             ->first();
 
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
         $this->assertNotEmpty($type);
     }
 }

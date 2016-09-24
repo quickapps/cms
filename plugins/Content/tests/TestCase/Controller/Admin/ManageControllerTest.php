@@ -62,7 +62,7 @@ class ManageControllerTest extends IntegrationTestCase
     public function testIndex()
     {
         $this->get('/admin/content/manage');
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -73,7 +73,7 @@ class ManageControllerTest extends IntegrationTestCase
     public function testCreate()
     {
         $this->get('/admin/content/manage/create');
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
     }
 
     /**
@@ -100,7 +100,7 @@ class ManageControllerTest extends IntegrationTestCase
             ->limit(1)
             ->first();
 
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
         $this->assertNotEmpty($content);
     }
 
@@ -112,7 +112,7 @@ class ManageControllerTest extends IntegrationTestCase
     public function testEdit()
     {
         $this->get('/admin/content/manage/edit/1');
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
 
         $this->post('/admin/content/manage/edit/1', [
             'title' => 'Modified Article',
@@ -131,7 +131,7 @@ class ManageControllerTest extends IntegrationTestCase
             ->limit(1)
             ->first();
 
-        $this->assertResponseOk();
+        $this->assertResponseSuccess();
         $this->assertNotEmpty($content);
     }
 
@@ -156,7 +156,7 @@ class ManageControllerTest extends IntegrationTestCase
                 ->limit(1)
                 ->first();
 
-            $this->assertResponseOk();
+            $this->assertResponseSuccess();
             $this->assertNotEmpty($translation);
         }
     }
@@ -176,7 +176,7 @@ class ManageControllerTest extends IntegrationTestCase
                 ->limit(1)
                 ->count();
 
-            $this->assertResponseOk();
+            $this->assertResponseSuccess();
             $this->assertEquals(0, $exists);
         }
     }
