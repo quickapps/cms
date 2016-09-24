@@ -62,6 +62,7 @@ class DateToolbox
     public static function formatField(Field $field)
     {
         $timestamp = $field->value ? $field->value->getTimestamp() : 0;
+
         return DateToolbox::formatDate($field->view_mode_settings['format'], $timestamp);
     }
 
