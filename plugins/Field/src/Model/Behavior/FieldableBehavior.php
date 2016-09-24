@@ -132,20 +132,8 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
-     * Modifies the query object in order to merge custom fields records
-     * into each entity under the `_fields` property.
-     *
-     * ### Events Triggered:
-     *
-     * - `Field.<FieldHandler>.Entity.beforeFind`: This event is triggered for each
-     *    entity in the resulting collection and for each field attached to these
-     *    entities. It receives three arguments, a field entity representing the
-     *    field being processed, an options array and boolean value indicating
-     *    whether the query that initialized the event is part of a primary find
-     *    operation or not. Returning false will cause the entity to be removed from
-     *    the resulting collection, also will stop event propagation, so other
-     *    fields won't be able to listen this event. If the event is stopped using
-     *    the event API, will halt the entire find operation.
+     * Modifies the query object in order to merge custom fields records into each
+     * entity under the `_fields` property.
      *
      * You can enable or disable this behavior for a single `find()` or `get()`
      * operation by setting `fieldable` or `eav` to false in the options array for
@@ -189,7 +177,6 @@ class FieldableBehavior extends EavBehavior
 
         return parent::beforeFind($event, $query, $options, $primary);
     }
-
 
     /**
      * {@inheritDoc}
@@ -330,14 +317,6 @@ class FieldableBehavior extends EavBehavior
     /**
      * After an entity is saved.
      *
-     * ### Events Triggered:
-     *
-     * - `Field.<FieldHandler>.Entity.afterSave`: Will be triggered after a
-     *   successful insert or save, listeners will receive two arguments, the field
-     *   entity and the options array. The type of operation performed (insert or
-     *   update) can be infer by checking the field entity's method `isNew`, true
-     *   meaning an insert and false an update.
-     *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity that was saved
      * @param \ArrayObject $options Additional options given as an array
@@ -375,12 +354,6 @@ class FieldableBehavior extends EavBehavior
     /**
      * Deletes an entity from a fieldable table.
      *
-     * ### Events Triggered:
-     *
-     * - `Field.<FieldHandler>.Entity.beforeDelete`: Fired before the delete occurs.
-     *    If stopped the delete will be aborted. Receives as arguments the field
-     *    entity and options array.
-     *
      * @param \Cake\Event\Event $event The event that was triggered
      * @param \Cake\Datasource\EntityInterface $entity The entity being deleted
      * @param \ArrayObject $options Additional options given as an array
@@ -416,11 +389,6 @@ class FieldableBehavior extends EavBehavior
 
     /**
      * After an entity was removed from database.
-     *
-     * ### Events Triggered:
-     *
-     * - `Field.<FieldHandler>.Entity.afterDelete`: Fired after the delete has been
-     *    successful. Receives as arguments the field entity and options array.
      *
      * **NOTE:** This method automatically removes all field values from
      * `eav_values` database table for each entity.
