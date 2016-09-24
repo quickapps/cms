@@ -91,6 +91,7 @@ class Field extends Entity
             'label' => $this->get('label'),
             'value' => $this->get('value'),
             'extra' => $this->get('extra'),
+            'view_mode_settings' => $this->_getViewModeSettings(),
             'metadata' => [
                 'value_id' => $this->get('metadata')->get('value_id'),
                 'instance_id' => $this->get('metadata')->get('instance_id'),
