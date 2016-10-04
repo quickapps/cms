@@ -350,7 +350,6 @@ class EavBehavior extends Behavior
 
         $query = TableRegistry::get('Eav.EavValues')
             ->find('all')
-            ->bufferResults(false)
             ->where([
                 'EavValues.eav_attribute_id IN' => array_keys($attrsById),
                 'EavValues.entity_id' => $this->_toolbox->getEntityId($entity),
@@ -615,12 +614,10 @@ class EavBehavior extends Behavior
 
         $values = $valuesTable
             ->find()
-            ->bufferResults(false)
             ->where([
                 'eav_attribute_id IN' => array_keys($attrsById),
                 'entity_id' => $this->_toolbox->getEntityId($entity),
-            ])
-            ->toArray();
+            ]);
 
         foreach ($values as $value) {
             $updatedAttrs[] = $value->get('eav_attribute_id');
@@ -677,13 +674,11 @@ class EavBehavior extends Behavior
 
         $valuesToDelete = TableRegistry::get('Eav.EavValues')
             ->find()
-            ->bufferResults(false)
-            ->contain(['EavAttribute'])
+            ->contain('EavAttribute')
             ->where([
                 'EavAttribute.table_alias' => $this->_table->table(),
                 'EavValues.entity_id' => $this->_toolbox->getEntityId($entity),
-            ])
-            ->toArray();
+            ]);
 
         foreach ($valuesToDelete as $value) {
             TableRegistry::get('Eav.EavValues')->delete($value);
