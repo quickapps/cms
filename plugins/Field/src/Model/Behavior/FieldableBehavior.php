@@ -214,8 +214,6 @@ class FieldableBehavior extends EavBehavior
             $result = $field->beforeFind((array)$args['options'], $args['primary']);
             if ($result === null) {
                 return null; // remove entity from collection
-            } elseif ($result === false) {
-                return false; // abort find() operation
             }
         }
 
