@@ -215,21 +215,22 @@ class View extends CakeView
      * {@inheritDoc}
      *
      * Workaround patch that allows plugins and themes provide their own independent
-     * "settings.ctp" files so themes won't "override" plugin element.
+     * "settings.ctp" files so themes won't "override" plugin element (as themes are
+     * actually plugins and may have their own "settings.ctp").
      *
      * The same goes for "help.ctp" template files. So themes and plugins can
      * provide help information.
      */
-    protected function _getElementFileName($name)
+    protected function _getElementFileName($name, $pluginCheck = true)
     {
-        list($plugin, $element) = $this->pluginSplit($name);
+        list($plugin, $element) = $this->pluginSplit($name, $pluginCheck);
         if ($plugin &&
             ($element === 'settings' || strpos($element, 'Help/help') !== false)
         ) {
             return Plugin::classPath($plugin) . "Template/Element/{$element}{$this->_ext}";
         }
 
-        return parent::_getElementFileName($name);
+        return parent::_getElementFileName($name, $pluginCheck);
     }
 
     /**
