@@ -86,7 +86,7 @@ class SelectScope implements QueryScopeInterface
     public function getVirtualColumns(Query $query, $bundle = null)
     {
         static $selectedVirtual = [];
-        $cacheKey = spl_object_hash($query) . $bundle;
+        $cacheKey = md5($query->sql()) . '_' . $bundle;
         if (isset($selectedVirtual[$cacheKey])) {
             return $selectedVirtual[$cacheKey];
         }
