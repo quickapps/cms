@@ -177,7 +177,7 @@ class GenericEngine extends BaseEngine
     public function __construct(Table $table, array $config = [])
     {
         $config['pk'] = $table->primaryKey();
-        $config['tableAlias'] = (string)Inflector::underscore($table->alias());
+        $config['tableAlias'] = (string)Inflector::underscore($table->table());
         $table->hasOne('Search.SearchDatasets', [
             'foreignKey' => 'entity_id',
             'conditions' => [
@@ -222,8 +222,11 @@ class GenericEngine extends BaseEngine
      */
     public function delete(EntityInterface $entity)
     {
-        // hasOne relation + dependent=true should do the trick and remove all
-        // related index for each entity being removed
+        $this->_table->SearchDatasets->deleteAll([
+            'entity_id' => $this->_entityId($entity),
+            'table_alias' => $this->config('tableAlias'),
+        ]);
+
         return true;
     }
 
