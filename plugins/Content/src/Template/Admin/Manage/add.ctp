@@ -52,3 +52,10 @@
         <?= $this->Form->end(); ?>
     </div>
 </div>
+
+<?php $this->Html->script('Content.jquery.are-you-sure.js', ['block' => true]); ?>
+<?php $this->Html->script('Content.ays-beforeunload-shim.js', ['block' => true]); ?>
+
+<script type="text/javascript">
+    $('#content-form').areYouSure({'message': '<?= __d('content', 'Some changes have not been saved, are you sure you want to leave?'); ?>'});
+</script>
