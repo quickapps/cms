@@ -44,25 +44,6 @@ use Cake\Core\Configure;
         $options = ["showAnim: 'drop'"];
         $pickerWidget = $settings['timepicker'] ? 'datetimepicker' : 'datepicker';
 
-        if (!empty($settings['locale'])) {
-            $this->Html->script("/jquery/js/ui/i18n/datepicker-{$settings['locale']}.js", ['block' => true]);
-
-            if ($settings['timepicker']) {
-                $this->Html->script("/field/js/timepicker/i18n/jquery-ui-timepicker-{$settings['locale']}.js", ['block' => true]);
-            }
-        } else {
-            $options[] = empty($settings['format']) ? "dateFormat: 'yy-mm-dd'" : 'dateFormat: "' . $settings['format'] . '"';
-
-            if ($settings['timepicker']) {
-                if (empty($settings['time_format'])) {
-                    $format = 'H:mm';
-                    $format .= empty($settings['time_seconds']) ?: ':ss';
-                    $options[] = "timeFormat: '{$format}'";
-                } else {
-                    $options[] = "timeFormat: '{$settings['time_format']}'";
-                }
-            }
-        }
 
         if ($settings['timepicker']) {
             if (Configure::read('debug')) {
@@ -81,6 +62,26 @@ use Cake\Core\Configure;
             $options[] = "millisecText: '" . __d('field', 'Milliseconds') . "'";
             $options[] = empty($settings['time_seconds']) ?: "showSecond: true";
             $options[] = empty($settings['time_ampm']) ?: "ampm: true";
+        }
+
+        if (!empty($settings['locale'])) {
+            $this->Html->script("/jquery/js/ui/i18n/datepicker-{$settings['locale']}.js", ['block' => true]);
+
+            if ($settings['timepicker']) {
+                $this->Html->script("/field/js/timepicker/i18n/jquery-ui-timepicker-{$settings['locale']}.js", ['block' => true]);
+            }
+        } else {
+            $options[] = empty($settings['format']) ? "dateFormat: 'yy-mm-dd'" : 'dateFormat: "' . $settings['format'] . '"';
+
+            if ($settings['timepicker']) {
+                if (empty($settings['time_format'])) {
+                    $format = 'H:mm';
+                    $format .= empty($settings['time_seconds']) ?: ':ss';
+                    $options[] = "timeFormat: '{$format}'";
+                } else {
+                    $options[] = "timeFormat: '{$settings['time_format']}'";
+                }
+            }
         }
 
         $options[] = empty($settings['button_bar']) ?: "showButtonPanel: true";
