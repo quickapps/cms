@@ -334,11 +334,11 @@ EAV Cache
 
 In some cases when fetching to many entities per query EAV may become slow, as for
 every entity being fetched EAV plugin needs to retrieve all virtual columns related
-to that entity, that is, for every entity an additional ``SELECT`` query is
-performed. In order to improve this, EAV allows to cache virtual values of every
-entity as a serialized structure under a real column of your entities. To do so, you
-must indicate the name of the column where EAV values will be cached using the
-``cache`` option, for example:
+to that entity, that is, for every **collection of entities** an additional
+``SELECT`` query is performed. In order to improve this, EAV allows to cache virtual
+values of every entity as a serialized structure under a real column of your
+entities. To do so, you must indicate the name of the column where EAV values will
+be cached using the ``cache`` option, for example:
 
 Cache all virtual values under the ``eav_cache`` column:
 
