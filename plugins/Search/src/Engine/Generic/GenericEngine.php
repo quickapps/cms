@@ -278,8 +278,7 @@ class GenericEngine extends BaseEngine
     {
         $tokens = (array)(new MiniLanguageParser($criteria))->parse();
         if (!empty($tokens)) {
-            $query->contain('SearchDatasets');
-            $query->where(['SearchDatasets.id >' => 0]);
+            $query->innerJoinWith('SearchDatasets');
 
             foreach ($tokens as $token) {
                 if ($token->isOperator()) {
@@ -356,7 +355,7 @@ class GenericEngine extends BaseEngine
 
         $not = $token->negated() ? 'NOT' : '';
         $value = str_replace("'", '"', $value);
-        $conditions = ["{$not} MATCH(SearchDatasets.words) AGAINST('{$value}' IN BOOLEAN MODE)"];
+        $conditions = ["{$not} MATCH(SearchDatasets.words) AGAINST('{$value}' IN BOOLEAN MODE) > 0"];
 
         if ($token->where() === 'or') {
             $query->orWhere($conditions);
