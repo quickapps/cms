@@ -16,9 +16,9 @@
     if (!empty($field->metadata->settings['options'])) {
         foreach (explode("\n", $field->metadata->settings['options']) as $option) {
             $option = explode('|', $option);
-            $value = $option[0];
+            $value = trim($option[0]);
             $label = isset($option[1]) ? $option[1] : $option[0];
-            $options[$value] = $label;
+            $options[$value] = trim($label);
         }
     }
 
