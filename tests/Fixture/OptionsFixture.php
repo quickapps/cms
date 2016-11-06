@@ -22,12 +22,11 @@ class OptionsFixture extends TestFixture
      * @var string
      */
     public $table = 'options';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -75,6 +74,7 @@ class OptionsFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -85,6 +85,7 @@ class OptionsFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -98,12 +99,11 @@ class OptionsFixture extends TestFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

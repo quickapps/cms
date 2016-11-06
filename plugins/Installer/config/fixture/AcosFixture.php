@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class AcosFixture
 {
 
@@ -19,12 +18,11 @@ class AcosFixture
      * @var string
      */
     public $table = 'acos';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -130,6 +128,7 @@ class AcosFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -140,6 +139,7 @@ class AcosFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -150,17 +150,17 @@ class AcosFixture
     'length' => 32,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

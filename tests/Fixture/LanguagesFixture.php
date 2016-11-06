@@ -22,12 +22,11 @@ class LanguagesFixture extends TestFixture
      * @var string
      */
     public $table = 'languages';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -75,6 +74,7 @@ class LanguagesFixture extends TestFixture
     'length' => 12,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Language code, e.g. ’eng’',
     'precision' => null,
     'fixed' => null,
@@ -85,6 +85,7 @@ class LanguagesFixture extends TestFixture
     'length' => 64,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Language name in English.',
     'precision' => null,
     'fixed' => null,
@@ -95,6 +96,7 @@ class LanguagesFixture extends TestFixture
     'length' => 3,
     'null' => false,
     'default' => 'ltr',
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Direction of language (Left-to-Right , Right-to-Left ).',
     'precision' => null,
     'fixed' => null,
@@ -105,6 +107,7 @@ class LanguagesFixture extends TestFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -132,12 +135,11 @@ class LanguagesFixture extends TestFixture
     'autoIncrement' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

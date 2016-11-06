@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class MenuLinksFixture
 {
 
@@ -19,12 +18,11 @@ class MenuLinksFixture
      * @var string
      */
     public $table = 'menu_links';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -152,6 +150,7 @@ class MenuLinksFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'the url',
     'precision' => null,
     'fixed' => null,
@@ -162,6 +161,7 @@ class MenuLinksFixture
     'length' => 200,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -172,6 +172,7 @@ class MenuLinksFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'The text displayed for the link, which may be modified by a title callback stored in menu_router.',
     'precision' => null,
     'fixed' => null,
@@ -182,6 +183,7 @@ class MenuLinksFixture
     'length' => 15,
     'null' => false,
     'default' => '_self',
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -203,6 +205,7 @@ class MenuLinksFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'php code, or regular expression. based on active_on_type',
     'precision' => null,
     ],
@@ -212,6 +215,7 @@ class MenuLinksFixture
     'length' => 5,
     'null' => true,
     'default' => 'auto',
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'php: on php return TRUE. auto: auto-detect; any: request\'s URL matches any in "active" column; none: request\'s URL matches none of listed in "active" column',
     'precision' => null,
     'fixed' => null,

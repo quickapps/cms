@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class UsersRolesFixture
 {
 
@@ -19,12 +18,11 @@ class UsersRolesFixture
      * @var string
      */
     public $table = 'users_roles';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -78,12 +76,11 @@ class UsersRolesFixture
     'autoIncrement' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

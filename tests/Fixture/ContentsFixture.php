@@ -22,12 +22,11 @@ class ContentsFixture extends TestFixture
      * @var string
      */
     public $table = 'contents';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -122,6 +121,7 @@ class ContentsFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -143,6 +143,7 @@ class ContentsFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -153,6 +154,7 @@ class ContentsFixture extends TestFixture
     'length' => 250,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -163,6 +165,7 @@ class ContentsFixture extends TestFixture
     'length' => 200,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -203,6 +206,7 @@ class ContentsFixture extends TestFixture
     'length' => 10,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -256,12 +260,11 @@ class ContentsFixture extends TestFixture
     'autoIncrement' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

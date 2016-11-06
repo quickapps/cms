@@ -22,12 +22,11 @@ class TermsFixture extends TestFixture
      * @var string
      */
     public $table = 'terms';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -119,6 +118,7 @@ class TermsFixture extends TestFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -129,6 +129,7 @@ class TermsFixture extends TestFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -152,12 +153,11 @@ class TermsFixture extends TestFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

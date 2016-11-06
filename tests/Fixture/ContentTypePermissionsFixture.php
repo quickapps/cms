@@ -22,12 +22,11 @@ class ContentTypePermissionsFixture extends TestFixture
      * @var string
      */
     public $table = 'content_type_permissions';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -86,17 +85,17 @@ class ContentTypePermissionsFixture extends TestFixture
     'length' => 15,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'create, edit, delete, publish',
     'precision' => null,
     'fixed' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class EavAttributesFixture
 {
 
@@ -19,12 +18,11 @@ class EavAttributesFixture
      * @var string
      */
     public $table = 'eav_attributes';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -97,6 +95,7 @@ class EavAttributesFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -107,6 +106,7 @@ class EavAttributesFixture
     'length' => 50,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -117,6 +117,7 @@ class EavAttributesFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -127,6 +128,7 @@ class EavAttributesFixture
     'length' => 10,
     'null' => false,
     'default' => 'varchar',
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -146,16 +148,16 @@ class EavAttributesFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

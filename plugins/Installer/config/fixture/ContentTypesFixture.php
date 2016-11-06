@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class ContentTypesFixture
 {
 
@@ -19,12 +18,11 @@ class ContentTypesFixture
      * @var string
      */
     public $table = 'content_types';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -72,6 +70,7 @@ class ContentTypesFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -82,6 +81,7 @@ class ContentTypesFixture
     'length' => 200,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'human-readable name',
     'precision' => null,
     'fixed' => null,
@@ -92,6 +92,7 @@ class ContentTypesFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -102,6 +103,7 @@ class ContentTypesFixture
     'length' => 80,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'the label displayed for the title field on the edit form.',
     'precision' => null,
     'fixed' => null,
@@ -109,19 +111,19 @@ class ContentTypesFixture
     'defaults' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

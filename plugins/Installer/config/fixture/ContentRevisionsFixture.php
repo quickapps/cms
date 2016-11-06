@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class ContentRevisionsFixture
 {
 
@@ -19,12 +18,11 @@ class ContentRevisionsFixture
      * @var string
      */
     public $table = 'content_revisions';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -72,6 +70,7 @@ class ContentRevisionsFixture
     'length' => 160,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -79,9 +78,10 @@ class ContentRevisionsFixture
     'data' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -91,6 +91,7 @@ class ContentRevisionsFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -105,12 +106,11 @@ class ContentRevisionsFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

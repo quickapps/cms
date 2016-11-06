@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class CommentsFixture
 {
 
@@ -19,12 +18,11 @@ class CommentsFixture
      * @var string
      */
     public $table = 'comments';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -86,6 +84,7 @@ class CommentsFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -107,6 +106,7 @@ class CommentsFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -117,6 +117,7 @@ class CommentsFixture
     'length' => 200,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -127,6 +128,7 @@ class CommentsFixture
     'length' => null,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -136,6 +138,7 @@ class CommentsFixture
     'length' => 100,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -146,6 +149,7 @@ class CommentsFixture
     'length' => 100,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -156,6 +160,7 @@ class CommentsFixture
     'length' => 200,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -166,6 +171,7 @@ class CommentsFixture
     'length' => 60,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -209,6 +215,7 @@ class CommentsFixture
     'length' => 20,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'pending, approved, spam, trash',
     'precision' => null,
     'fixed' => null,
@@ -223,12 +230,11 @@ class CommentsFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

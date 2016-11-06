@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class ContentTypePermissionsFixture
 {
 
@@ -19,12 +18,11 @@ class ContentTypePermissionsFixture
      * @var string
      */
     public $table = 'content_type_permissions';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -83,17 +81,17 @@ class ContentTypePermissionsFixture
     'length' => 15,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'create, edit, delete, publish',
     'precision' => null,
     'fixed' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

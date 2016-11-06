@@ -22,12 +22,11 @@ class EavAttributesFixture extends TestFixture
      * @var string
      */
     public $table = 'eav_attributes';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -100,6 +99,7 @@ class EavAttributesFixture extends TestFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -110,6 +110,7 @@ class EavAttributesFixture extends TestFixture
     'length' => 50,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -120,6 +121,7 @@ class EavAttributesFixture extends TestFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -130,6 +132,7 @@ class EavAttributesFixture extends TestFixture
     'length' => 10,
     'null' => false,
     'default' => 'varchar',
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -149,16 +152,16 @@ class EavAttributesFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

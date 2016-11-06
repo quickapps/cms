@@ -22,12 +22,11 @@ class BlocksFixture extends TestFixture
      * @var string
      */
     public $table = 'blocks';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -75,6 +74,7 @@ class BlocksFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => 'Block',
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Name of the plugin that created this block. Used to generate event name, e.g. "Menu" triggers "Block.Menu.display" when rendering the block',
     'precision' => null,
     'fixed' => null,
@@ -85,6 +85,7 @@ class BlocksFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -95,6 +96,7 @@ class BlocksFixture extends TestFixture
     'length' => 200,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -102,9 +104,10 @@ class BlocksFixture extends TestFixture
     'body' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -114,6 +117,7 @@ class BlocksFixture extends TestFixture
     'length' => 8,
     'null' => false,
     'default' => 'except',
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'indicate how to show blocks on pages. (except = show on all pages except listed pages; only = show only on listed pages; php = use custom PHP code to determine visibility)',
     'precision' => null,
     'fixed' => null,
@@ -124,6 +128,7 @@ class BlocksFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Contents of the "Pages" block contains either a list of paths on which to include/exclude the block or PHP code, depending on "visibility" setting.',
     'precision' => null,
     ],
@@ -133,15 +138,17 @@ class BlocksFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
     'settings' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'additional information used by this block, used by blocks handlers <> `Block`',
     'precision' => null,
     ],
@@ -155,12 +162,11 @@ class BlocksFixture extends TestFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [
@@ -250,6 +256,19 @@ class BlocksFixture extends TestFixture
     'visibility' => 'except',
     'pages' => '',
     'locale' => '',
+    'settings' => null,
+    'status' => true,
+    ],
+    7 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Content\\Widget\\RecentContentWidget',
+    'title' => 'Latest Contents',
+    'description' => 'Lists of recently published contents.',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => null,
+    'locale' => null,
     'settings' => null,
     'status' => true,
     ],

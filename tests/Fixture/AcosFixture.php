@@ -22,12 +22,11 @@ class AcosFixture extends TestFixture
      * @var string
      */
     public $table = 'acos';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -133,6 +132,7 @@ class AcosFixture extends TestFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -143,6 +143,7 @@ class AcosFixture extends TestFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -153,17 +154,17 @@ class AcosFixture extends TestFixture
     'length' => 32,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

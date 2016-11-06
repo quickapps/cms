@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class MenusFixture
 {
 
@@ -19,12 +18,11 @@ class MenusFixture
      * @var string
      */
     public $table = 'menus';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -75,6 +73,7 @@ class MenusFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -85,6 +84,7 @@ class MenusFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Menu title, displayed at top of block.',
     'precision' => null,
     'fixed' => null,
@@ -95,6 +95,7 @@ class MenusFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Menu description.',
     'precision' => null,
     ],
@@ -104,6 +105,7 @@ class MenusFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Name of the plugin that created this menu.',
     'precision' => null,
     'fixed' => null,
@@ -111,19 +113,19 @@ class MenusFixture
     'settings' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

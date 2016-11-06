@@ -22,12 +22,11 @@ class PluginsFixture extends TestFixture
      * @var string
      */
     public $table = 'plugins';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -54,6 +53,7 @@ class PluginsFixture extends TestFixture
     'length' => 80,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -64,6 +64,7 @@ class PluginsFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'composer package. e.g. user_name/plugin_name',
     'precision' => null,
     'fixed' => null,
@@ -74,6 +75,7 @@ class PluginsFixture extends TestFixture
     'length' => null,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'serialized array of options',
     'precision' => null,
     ],

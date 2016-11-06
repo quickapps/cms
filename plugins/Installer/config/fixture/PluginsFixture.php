@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class PluginsFixture
 {
 
@@ -19,12 +18,11 @@ class PluginsFixture
      * @var string
      */
     public $table = 'plugins';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -51,6 +49,7 @@ class PluginsFixture
     'length' => 80,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -61,6 +60,7 @@ class PluginsFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'composer package. e.g. user_name/plugin_name',
     'precision' => null,
     'fixed' => null,
@@ -71,6 +71,7 @@ class PluginsFixture
     'length' => null,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'serialized array of options',
     'precision' => null,
     ],

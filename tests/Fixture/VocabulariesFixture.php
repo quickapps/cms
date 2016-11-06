@@ -22,12 +22,11 @@ class VocabulariesFixture extends TestFixture
      * @var string
      */
     public $table = 'vocabularies';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -78,6 +77,7 @@ class VocabulariesFixture extends TestFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -88,6 +88,7 @@ class VocabulariesFixture extends TestFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -98,6 +99,7 @@ class VocabulariesFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -140,12 +142,11 @@ class VocabulariesFixture extends TestFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

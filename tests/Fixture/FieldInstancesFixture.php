@@ -22,12 +22,11 @@ class FieldInstancesFixture extends TestFixture
      * @var string
      */
     public $table = 'field_instances';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -100,6 +99,7 @@ class FieldInstancesFixture extends TestFixture
     'length' => 80,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Name of event handler class under the `Field` namespace',
     'precision' => null,
     'fixed' => null,
@@ -110,6 +110,7 @@ class FieldInstancesFixture extends TestFixture
     'length' => 200,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Human readble name, used in views. eg: `First Name` (for a textbox)',
     'precision' => null,
     'fixed' => null,
@@ -120,6 +121,7 @@ class FieldInstancesFixture extends TestFixture
     'length' => 250,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'instructions to present to the user below this field on the editing form.',
     'precision' => null,
     'fixed' => null,
@@ -139,15 +141,17 @@ class FieldInstancesFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Serialized information',
     'precision' => null,
     ],
     'view_modes' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -157,6 +161,7 @@ class FieldInstancesFixture extends TestFixture
     'length' => 10,
     'null' => false,
     'default' => 'varchar',
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Data type for this field (datetime, decimal, int, text, varchar)',
     'precision' => null,
     'fixed' => null,
@@ -182,12 +187,11 @@ class FieldInstancesFixture extends TestFixture
     'autoIncrement' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

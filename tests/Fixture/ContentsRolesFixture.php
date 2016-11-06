@@ -22,12 +22,11 @@ class ContentsRolesFixture extends TestFixture
      * @var string
      */
     public $table = 'contents_roles';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -81,12 +80,11 @@ class ContentsRolesFixture extends TestFixture
     'autoIncrement' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

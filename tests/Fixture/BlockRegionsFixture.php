@@ -22,12 +22,11 @@ class BlockRegionsFixture extends TestFixture
      * @var string
      */
     public $table = 'block_regions';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -87,6 +86,7 @@ class BlockRegionsFixture extends TestFixture
     'length' => 200,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -97,6 +97,7 @@ class BlockRegionsFixture extends TestFixture
     'length' => 200,
     'null' => true,
     'default' => '',
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -113,12 +114,11 @@ class BlockRegionsFixture extends TestFixture
     'autoIncrement' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class EavValuesFixture
 {
 
@@ -19,12 +18,11 @@ class EavValuesFixture
      * @var string
      */
     public $table = 'eav_values';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -97,6 +95,7 @@ class EavValuesFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'id of the entity in `table`',
     'precision' => null,
     'fixed' => null,
@@ -175,6 +174,7 @@ class EavValuesFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -184,6 +184,7 @@ class EavValuesFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -203,6 +204,7 @@ class EavValuesFixture
     'length' => 36,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -213,6 +215,7 @@ class EavValuesFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'serialized additional information',
     'precision' => null,
     ],

@@ -22,12 +22,11 @@ class CommentsFixture extends TestFixture
      * @var string
      */
     public $table = 'comments';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -89,6 +88,7 @@ class CommentsFixture extends TestFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -110,6 +110,7 @@ class CommentsFixture extends TestFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -120,6 +121,7 @@ class CommentsFixture extends TestFixture
     'length' => 200,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -130,6 +132,7 @@ class CommentsFixture extends TestFixture
     'length' => null,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -139,6 +142,7 @@ class CommentsFixture extends TestFixture
     'length' => 100,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -149,6 +153,7 @@ class CommentsFixture extends TestFixture
     'length' => 100,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -159,6 +164,7 @@ class CommentsFixture extends TestFixture
     'length' => 200,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -169,6 +175,7 @@ class CommentsFixture extends TestFixture
     'length' => 60,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -212,6 +219,7 @@ class CommentsFixture extends TestFixture
     'length' => 20,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'pending, approved, spam, trash',
     'precision' => null,
     'fixed' => null,
@@ -226,12 +234,11 @@ class CommentsFixture extends TestFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

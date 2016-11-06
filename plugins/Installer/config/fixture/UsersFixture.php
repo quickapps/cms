@@ -18,12 +18,11 @@ class UsersFixture
      * @var string
      */
     public $table = 'users';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -86,6 +85,7 @@ class UsersFixture
     'length' => 150,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -96,6 +96,7 @@ class UsersFixture
     'length' => 80,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -106,6 +107,7 @@ class UsersFixture
     'length' => 200,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -116,6 +118,7 @@ class UsersFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -126,6 +129,7 @@ class UsersFixture
     'length' => 200,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -136,6 +140,7 @@ class UsersFixture
     'length' => 5,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -145,7 +150,7 @@ class UsersFixture
     'type' => 'boolean',
     'length' => null,
     'null' => false,
-    'default' => '0',
+    'default' => null,
     'comment' => '',
     'precision' => null,
     ],
@@ -154,7 +159,7 @@ class UsersFixture
     'type' => 'boolean',
     'length' => null,
     'null' => false,
-    'default' => '0',
+    'default' => null,
     'comment' => '',
     'precision' => null,
     ],
@@ -162,8 +167,9 @@ class UsersFixture
     [
     'type' => 'string',
     'length' => 200,
-    'null' => true,
+    'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'random unique code, used for pass recovery',
     'precision' => null,
     'fixed' => null,
@@ -190,7 +196,7 @@ class UsersFixture
     [
     'type' => 'datetime',
     'length' => null,
-    'null' => true,
+    'null' => false,
     'default' => null,
     'comment' => '',
     'precision' => null,
@@ -205,11 +211,10 @@ class UsersFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [];
 }

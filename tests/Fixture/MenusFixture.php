@@ -22,12 +22,11 @@ class MenusFixture extends TestFixture
      * @var string
      */
     public $table = 'menus';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -78,6 +77,7 @@ class MenusFixture extends TestFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -88,6 +88,7 @@ class MenusFixture extends TestFixture
     'length' => 255,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Menu title, displayed at top of block.',
     'precision' => null,
     'fixed' => null,
@@ -98,6 +99,7 @@ class MenusFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Menu description.',
     'precision' => null,
     ],
@@ -107,6 +109,7 @@ class MenusFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Name of the plugin that created this menu.',
     'precision' => null,
     'fixed' => null,
@@ -114,19 +117,19 @@ class MenusFixture extends TestFixture
     'settings' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

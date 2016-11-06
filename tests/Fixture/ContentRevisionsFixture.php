@@ -22,12 +22,11 @@ class ContentRevisionsFixture extends TestFixture
      * @var string
      */
     public $table = 'content_revisions';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -75,6 +74,7 @@ class ContentRevisionsFixture extends TestFixture
     'length' => 160,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -82,9 +82,10 @@ class ContentRevisionsFixture extends TestFixture
     'data' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -94,6 +95,7 @@ class ContentRevisionsFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -108,12 +110,11 @@ class ContentRevisionsFixture extends TestFixture
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     ];
 }

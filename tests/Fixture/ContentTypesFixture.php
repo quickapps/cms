@@ -22,12 +22,11 @@ class ContentTypesFixture extends TestFixture
      * @var string
      */
     public $table = 'content_types';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -75,6 +74,7 @@ class ContentTypesFixture extends TestFixture
     'length' => 100,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -85,6 +85,7 @@ class ContentTypesFixture extends TestFixture
     'length' => 200,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'human-readable name',
     'precision' => null,
     'fixed' => null,
@@ -95,6 +96,7 @@ class ContentTypesFixture extends TestFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -105,6 +107,7 @@ class ContentTypesFixture extends TestFixture
     'length' => 80,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'the label displayed for the title field on the edit form.',
     'precision' => null,
     'fixed' => null,
@@ -112,19 +115,19 @@ class ContentTypesFixture extends TestFixture
     'defaults' =>
     [
     'type' => 'text',
-    'length' => null,
+    'length' => 4294967295,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

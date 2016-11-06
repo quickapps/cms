@@ -9,7 +9,6 @@
  * @link     http://www.quickappscms.org
  * @license  http://opensource.org/licenses/gpl-3.0.html GPL-3.0 License
  */
-
 class LanguagesFixture
 {
 
@@ -19,12 +18,11 @@ class LanguagesFixture
      * @var string
      */
     public $table = 'languages';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -72,6 +70,7 @@ class LanguagesFixture
     'length' => 12,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Language code, e.g. ’eng’',
     'precision' => null,
     'fixed' => null,
@@ -82,6 +81,7 @@ class LanguagesFixture
     'length' => 64,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Language name in English.',
     'precision' => null,
     'fixed' => null,
@@ -92,6 +92,7 @@ class LanguagesFixture
     'length' => 3,
     'null' => false,
     'default' => 'ltr',
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'Direction of language (Left-to-Right , Right-to-Left ).',
     'precision' => null,
     'fixed' => null,
@@ -102,6 +103,7 @@ class LanguagesFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -129,12 +131,11 @@ class LanguagesFixture
     'autoIncrement' => null,
     ],
     ];
-
-    /**
-     * Table records.
-     *
-     * @var array
-     */
+/**
+ * Table records.
+ *
+ * @var array
+ */
     public $records = [
     0 =>
     [

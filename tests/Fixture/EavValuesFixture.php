@@ -22,12 +22,11 @@ class EavValuesFixture extends TestFixture
      * @var string
      */
     public $table = 'eav_values';
-
-    /**
-     * Table columns.
-     *
-     * @var array
-     */
+/**
+ * Table columns.
+ *
+ * @var array
+ */
     public $fields = [
     '_constraints' =>
     [
@@ -100,6 +99,7 @@ class EavValuesFixture extends TestFixture
     'length' => 50,
     'null' => false,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'id of the entity in `table`',
     'precision' => null,
     'fixed' => null,
@@ -178,6 +178,7 @@ class EavValuesFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],
@@ -187,6 +188,7 @@ class EavValuesFixture extends TestFixture
     'length' => 255,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -206,6 +208,7 @@ class EavValuesFixture extends TestFixture
     'length' => 36,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     'fixed' => null,
@@ -216,6 +219,7 @@ class EavValuesFixture extends TestFixture
     'length' => null,
     'null' => true,
     'default' => null,
+    'collate' => 'utf8_unicode_ci',
     'comment' => 'serialized additional information',
     'precision' => null,
     ],
