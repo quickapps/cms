@@ -17,8 +17,9 @@ use Cake\ORM\TableRegistry;
 use CMS\View\View;
 
 /**
- * Shows latest articles.
+ * Shows latest contents.
  *
+ * Aimed to be used in backend themes only.
  */
 class DashboardLatestContentWidget extends Widget
 {
@@ -34,6 +35,6 @@ class DashboardLatestContentWidget extends Widget
             ->limit(10)
             ->all();
 
-        return $view->element('Content.dashboard_latest_content', compact('block', 'contents'));
+        return $view->element('Content.Widget/dashboard_latest_content_render', compact('block', 'contents'));
     }
 }

@@ -18,6 +18,7 @@ use CMS\View\View;
 /**
  * Search form for backend dashboard.
  *
+ * Aimed to be used in backend themes only.
  */
 class DashboardSearchWidget extends Widget
 {
@@ -27,6 +28,6 @@ class DashboardSearchWidget extends Widget
      */
     public function render(Block $block, View $view)
     {
-        return $view->element('Content.dashboard_search', compact('block'));
+        return $view->element('Content.Widget/dashboard_search_render', compact('block'));
     }
 }
