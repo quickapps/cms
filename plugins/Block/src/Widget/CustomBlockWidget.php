@@ -17,8 +17,9 @@ use CMS\Core\StaticCacheTrait;
 use CMS\View\View;
 
 /**
- * Shows latest articles.
+ * Represents blocks created using admin interface.
  *
+ * Blocks created using web GUI are rendered and handled by this class.
  */
 class CustomBlockWidget extends Widget
 {

@@ -17,7 +17,7 @@ use Cake\Cache\Cache;
 use CMS\View\View;
 
 /**
- * Renders a simple language menu for switching site language.
+ * Represents a user menu, for login/out, etc.
  *
  */
 class CategoriesWidget extends Widget
