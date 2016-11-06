@@ -22,6 +22,6 @@
 <?=
     $this->Form->input('limit', [
         'type' => 'number',
-        'label' => __d('taxonomy', 'Size of the list')
+        'label' => __d('contents', 'Size of the list')
     ]);
 ?>
