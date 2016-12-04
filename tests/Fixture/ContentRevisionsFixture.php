@@ -81,11 +81,10 @@ class ContentRevisionsFixture extends TestFixture
     ],
     'data' =>
     [
-    'type' => 'text',
-    'length' => 4294967295,
+    'type' => 'binary',
+    'length' => null,
     'null' => false,
     'default' => null,
-    'collate' => 'utf8_unicode_ci',
     'comment' => '',
     'precision' => null,
     ],

@@ -140,11 +140,10 @@ class BlocksFixture
     ],
     'settings' =>
     [
-    'type' => 'text',
-    'length' => 4294967295,
+    'type' => 'binary',
+    'length' => null,
     'null' => true,
     'default' => null,
-    'collate' => 'utf8_unicode_ci',
     'comment' => 'additional information used by this block, used by blocks handlers <> `Block`',
     'precision' => null,
     ],
@@ -163,118 +162,5 @@ class BlocksFixture
  *
  * @var array
  */
-    public $records = [
-    0 =>
-    [
-    'id' => 1,
-    'copy_id' => null,
-    'handler' => 'Menu\\Widget\\MenuWidget',
-    'title' => 'Management [menu:1]',
-    'description' => 'Associated block for "Management" menu.',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => 'a:1:{s:7:"menu_id";i:1;}',
-    'status' => true,
-    ],
-    1 =>
-    [
-    'id' => 2,
-    'copy_id' => null,
-    'handler' => 'Menu\\Widget\\MenuWidget',
-    'title' => 'Site Main Menu [menu:2]',
-    'description' => 'Associated block for "Site Main Menu" menu.',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => 'a:1:{s:7:"menu_id";i:2;}',
-    'status' => true,
-    ],
-    2 =>
-    [
-    'id' => 3,
-    'copy_id' => null,
-    'handler' => 'Content\\Widget\\DashboardLatestContentWidget',
-    'title' => 'Recent Content',
-    'description' => 'Shows a list of latest created contents.',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
-    'status' => true,
-    ],
-    3 =>
-    [
-    'id' => 4,
-    'copy_id' => null,
-    'handler' => 'Content\\Widget\\DashboardSearchWidget',
-    'title' => 'Search',
-    'description' => 'Quick Search Form',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
-    'status' => true,
-    ],
-    4 =>
-    [
-    'id' => 5,
-    'copy_id' => null,
-    'handler' => 'Locale\\Widget\\LanguageSwitcherWidget',
-    'title' => 'Change Language',
-    'description' => 'Language switcher block',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => '',
-    'locale' => '',
-    'settings' => 'a:2:{s:4:"type";s:4:"html";s:5:"flags";s:1:"1";}',
-    'status' => true,
-    ],
-    5 =>
-    [
-    'id' => 6,
-    'copy_id' => null,
-    'handler' => 'Taxonomy\\Widget\\CategoriesWidget',
-    'title' => 'Categories',
-    'description' => 'List of terms block',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => '',
-    'locale' => '',
-    'settings' => 'a:4:{s:12:"vocabularies";a:1:{i:0;s:1:"1";}s:13:"show_counters";s:1:"1";s:15:"show_vocabulary";s:1:"0";s:13:"link_template";s:0:"";}',
-    'status' => true,
-    ],
-    6 =>
-    [
-    'id' => 7,
-    'copy_id' => null,
-    'handler' => 'User\\Widget\\UserMenuWidget',
-    'title' => 'User sub-menu',
-    'description' => 'Provides links to user\'s account, login, logout, etc',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => '',
-    'locale' => '',
-    'settings' => null,
-    'status' => true,
-    ],
-    7 =>
-    [
-    'id' => 8,
-    'copy_id' => null,
-    'handler' => 'Content\\Widget\\RecentContentWidget',
-    'title' => 'Latest Contents',
-    'description' => 'Lists of recently published contents.',
-    'body' => null,
-    'visibility' => 'except',
-    'pages' => null,
-    'locale' => null,
-    'settings' => null,
-    'status' => true,
-    ],
-    ];
+    public $records = null;
 }

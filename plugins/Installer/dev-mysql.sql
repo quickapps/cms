@@ -92,7 +92,7 @@ CREATE TABLE `blocks` (
   `visibility` varchar(8) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'except' COMMENT 'indicate how to show blocks on pages. (except = show on all pages except listed pages; only = show only on listed pages; php = use custom PHP code to determine visibility)',
   `pages` text COLLATE utf8_unicode_ci COMMENT 'Contents of the "Pages" block contains either a list of paths on which to include/exclude the block or PHP code, depending on "visibility" setting.',
   `locale` text COLLATE utf8_unicode_ci,
-  `settings` longtext COLLATE utf8_unicode_ci COMMENT 'additional information used by this block, used by blocks handlers <> `Block`',
+  `settings` blob COMMENT 'additional information used by this block, used by blocks handlers <> `Block`',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -181,7 +181,7 @@ CREATE TABLE `content_revisions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content_id` int(11) NOT NULL,
   `summary` varchar(160) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `data` longtext COLLATE utf8_unicode_ci NOT NULL,
+  `data` blob NOT NULL,
   `hash` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `created` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -235,7 +235,7 @@ CREATE TABLE `content_types` (
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'human-readable name',
   `description` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `title_label` varchar(80) COLLATE utf8_unicode_ci NOT NULL COMMENT 'the label displayed for the title field on the edit form.',
-  `defaults` longtext COLLATE utf8_unicode_ci,
+  `defaults` blob,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -371,7 +371,7 @@ CREATE TABLE `eav_values` (
   `value_string` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `value_boolean` tinyint(1) DEFAULT NULL,
   `value_uuid` varchar(36) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `extra` text COLLATE utf8_unicode_ci COMMENT 'serialized additional information',
+  `extra` blob COMMENT 'serialized additional information',
   PRIMARY KEY (`id`),
   KEY `eav_attribute_id` (`eav_attribute_id`),
   KEY `entity_id` (`entity_id`)
@@ -429,8 +429,8 @@ CREATE TABLE `field_instances` (
   `label` varchar(200) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Human readble name, used in views. eg: `First Name` (for a textbox)',
   `description` varchar(250) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'instructions to present to the user below this field on the editing form.',
   `required` tinyint(1) NOT NULL DEFAULT '0',
-  `settings` text COLLATE utf8_unicode_ci COMMENT 'Serialized information',
-  `view_modes` longtext COLLATE utf8_unicode_ci,
+  `settings` blob COMMENT 'Serialized information',
+  `view_modes` blob,
   `type` varchar(10) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'varchar' COMMENT 'Data type for this field (datetime, decimal, int, text, varchar)',
   `locked` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0: (unlocked) users can edit this instance; 1: (locked) users can not modify this instance using web interface',
   `ordering` int(3) NOT NULL DEFAULT '0',
@@ -610,7 +610,7 @@ DROP TABLE IF EXISTS `plugins`;
 CREATE TABLE `plugins` (
   `name` varchar(80) COLLATE utf8_unicode_ci NOT NULL,
   `package` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'composer package. e.g. user_name/plugin_name',
-  `settings` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'serialized array of options',
+  `settings` blob NOT NULL COMMENT 'serialized array of options',
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `ordering` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`name`)
@@ -815,4 +815,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-06 14:40:05
+-- Dump completed on 2016-12-04 21:48:44
