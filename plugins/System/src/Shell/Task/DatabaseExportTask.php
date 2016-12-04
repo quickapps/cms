@@ -271,6 +271,14 @@ TEXT;
      */
     protected function _arrayToString(array $var)
     {
+        foreach ($var as $rowIndex => $row) {
+            foreach ($row as $k => $v) {
+                if (is_resource($var[$rowIndex][$k])) {
+                    $var[$rowIndex][$k] = stream_get_contents($v);
+                }
+            }
+        }
+
         $var = json_decode(str_replace(['(', ')'], ['&#40', '&#41'], json_encode($var)), true);
         $var = var_export($var, true);
 
