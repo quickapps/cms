@@ -280,7 +280,7 @@ class ContentsFixture extends TestFixture
     'language' => '',
     'status' => true,
     'created' => '2014-06-12 07:44:01',
-    'modified' => '2015-04-04 03:00:33',
+    'modified' => '2016-12-04 20:52:10',
     'created_by' => 1,
     'modified_by' => 1,
     ],

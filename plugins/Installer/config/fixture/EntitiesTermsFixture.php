@@ -106,7 +106,7 @@ class EntitiesTermsFixture
     public $records = [
     0 =>
     [
-    'id' => 1,
+    'id' => 3,
     'entity_id' => 1,
     'term_id' => 1,
     'field_instance_id' => 4,
@@ -114,7 +114,7 @@ class EntitiesTermsFixture
     ],
     1 =>
     [
-    'id' => 2,
+    'id' => 4,
     'entity_id' => 1,
     'term_id' => 5,
     'field_instance_id' => 4,

@@ -166,5 +166,110 @@ class BlocksFixture extends TestFixture
  *
  * @var array
  */
-    public $records = null;
+    public $records = [
+    0 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Menu\\Widget\\MenuWidget',
+    'title' => 'Management [menu:1]',
+    'description' => 'Associated block for "Management" menu.',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => null,
+    'locale' => null,
+    'settings' => 'a:1:{s:7:"menu_id";i:1;}',
+    'status' => true,
+    ],
+    1 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Menu\\Widget\\MenuWidget',
+    'title' => 'Site Main Menu [menu:2]',
+    'description' => 'Associated block for "Site Main Menu" menu.',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => null,
+    'locale' => null,
+    'settings' => 'a:1:{s:7:"menu_id";i:2;}',
+    'status' => true,
+    ],
+    2 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Content\\Widget\\DashboardLatestContentWidget',
+    'title' => 'Recent Content',
+    'description' => 'Shows a list of latest created contents.',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => null,
+    'locale' => null,
+    'settings' => null,
+    'status' => true,
+    ],
+    3 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Content\\Widget\\DashboardSearchWidget',
+    'title' => 'Search',
+    'description' => 'Quick Search Form',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => null,
+    'locale' => null,
+    'settings' => null,
+    'status' => true,
+    ],
+    4 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Locale\\Widget\\LanguageSwitcherWidget',
+    'title' => 'Change Language',
+    'description' => 'Language switcher block',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => '',
+    'locale' => '',
+    'settings' => 'a:2:{s:4:"type";s:4:"html";s:5:"flags";s:1:"1";}',
+    'status' => true,
+    ],
+    5 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Taxonomy\\Widget\\CategoriesWidget',
+    'title' => 'Categories',
+    'description' => 'List of terms block',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => '',
+    'locale' => '',
+    'settings' => 'a:4:{s:12:"vocabularies";a:1:{i:0;s:1:"1";}s:13:"show_counters";s:1:"1";s:15:"show_vocabulary";s:1:"0";s:13:"link_template";s:0:"";}',
+    'status' => true,
+    ],
+    6 =>
+    [
+    'copy_id' => null,
+    'handler' => 'User\\Widget\\UserMenuWidget',
+    'title' => 'User sub-menu',
+    'description' => 'Provides links to user\'s account, login, logout, etc',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => '',
+    'locale' => '',
+    'settings' => null,
+    'status' => true,
+    ],
+    7 =>
+    [
+    'copy_id' => null,
+    'handler' => 'Content\\Widget\\RecentContentWidget',
+    'title' => 'Latest Contents',
+    'description' => 'Lists of recently published contents.',
+    'body' => null,
+    'visibility' => 'except',
+    'pages' => null,
+    'locale' => null,
+    'settings' => null,
+    'status' => true,
+    ],
+    ];
 }
