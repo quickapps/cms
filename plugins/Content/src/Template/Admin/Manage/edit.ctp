@@ -51,7 +51,7 @@
                 <?= $this->Form->input('sticky', ['type' => 'checkbox', 'label' => __d('content', 'Sticky at top of lists')]); ?>
             </fieldset>
 
-            <?php if (isset($content->_fields) && $content->_fields->count()): ?>
+            <?php if (isset($content->_fields) && count($content->_fields->toArray())): ?>
             <fieldset>
                 <legend><?= __d('content', 'Content'); ?></legend>
                 <?php foreach ($content->_fields as $field): ?>
