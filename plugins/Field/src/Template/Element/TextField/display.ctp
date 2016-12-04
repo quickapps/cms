@@ -15,9 +15,10 @@ use Field\Utility\TextToolbox;
 
 <?php if ($field->viewModeSettings['label_visibility'] == 'above'): ?>
     <h3 class="field-label"><?= $field->label; ?></h3>
-    <p><?= TextToolbox::formatter($field); ?></p>
+    <?= TextToolbox::formatter($field); ?>
 <?php elseif ($field->viewModeSettings['label_visibility'] == 'inline'): ?>
-    <p><strong class="field-label"><?= $field->label; ?>:</strong> <?= TextToolbox::formatter($field); ?></p>
+    <strong class="field-label"><?= $field->label; ?>:</strong>
+    <?= TextToolbox::formatter($field); ?>
 <?php else: ?>
-    <p><?= TextToolbox::formatter($field); ?></p>
+    <?= TextToolbox::formatter($field); ?>
 <?php endif; ?>
