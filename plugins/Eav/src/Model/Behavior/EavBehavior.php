@@ -421,7 +421,7 @@ class EavBehavior extends Behavior
         }
 
         $options['bundle'] = !isset($options['bundle']) ? null : $options['bundle'];
-        $query = $this->_scopeQuery($query, $options['bundle']);
+        $this->_initScopes();
 
         if (empty($this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope'])) {
             return $query;
@@ -429,6 +429,7 @@ class EavBehavior extends Behavior
 
         $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($query, $options['bundle']);
         $args = compact('options', 'primary', 'selectedVirtual');
+        $query = $this->_scopeQuery($query, $options['bundle']);
 
         return $query->formatResults(function ($results) use ($args) {
             return $this->_hydrateEntities($results, $args);
