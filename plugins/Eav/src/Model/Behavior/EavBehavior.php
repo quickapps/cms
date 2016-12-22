@@ -138,6 +138,7 @@ class EavBehavior extends Behavior
             return $this->hydrateEntity($entity, $values);
         };
 
+        $config['priority'] = -999; // EAV above anything else
         $config['cacheMap'] = false; // private config, prevent user modifications
         $this->_toolbox = new EavToolbox($table);
         parent::__construct($table, $config);
