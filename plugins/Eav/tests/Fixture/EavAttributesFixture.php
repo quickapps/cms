@@ -119,4 +119,39 @@ class EavAttributesFixture extends TestFixture
             'precision' => null,
         ],
     ];
+
+    /**
+     * Table records.
+     *
+     * @var array
+     */
+    public $records = [
+        [
+            'id' => 1,
+            'table_alias' => 'dummy',
+            'bundle' => null,
+            'name' => 'virtual_text',
+            'type' => 'text',
+            'searchable' => true,
+            'extra' => null,
+        ],
+        [
+            'id' => 2,
+            'table_alias' => 'dummy',
+            'bundle' => null,
+            'name' => 'virtual_integer',
+            'type' => 'integer',
+            'searchable' => true,
+            'extra' => null,
+        ],
+        [
+            'id' => 3,
+            'table_alias' => 'dummy',
+            'bundle' => null,
+            'name' => 'virtual_date',
+            'type' => 'date',
+            'searchable' => true,
+            'extra' => null,
+        ]
+    ];
 }

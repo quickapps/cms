@@ -184,4 +184,44 @@ class EavValuesFixture extends TestFixture
             'precision' => null,
         ],
     ];
+
+    /**
+     * Table records.
+     *
+     * @var array
+     */
+    public $records = [
+        [
+            'eav_attribute_id' => 1,
+            'entity_id' => 1,
+            'value_datetime' => null,
+            'value_binary' => null,
+            'value_time' => null,
+            'value_date' => null,
+            'value_float' => null,
+            'value_integer' => null,
+            'value_biginteger' => null,
+            'value_text' => 'This content belongs to a virtual column of type `text`',
+            'value_string' => null,
+            'value_boolean' => null,
+            'value_uuid' => null,
+            'extra' => '',
+        ],
+        [
+            'eav_attribute_id' => 1,
+            'entity_id' => 2,
+            'value_datetime' => null,
+            'value_binary' => null,
+            'value_time' => null,
+            'value_date' => null,
+            'value_float' => null,
+            'value_integer' => null,
+            'value_biginteger' => null,
+            'value_text' => 'This content belongs to a virtual column of type `text`',
+            'value_string' => null,
+            'value_boolean' => null,
+            'value_uuid' => null,
+            'extra' => '',
+        ]
+    ];
 }

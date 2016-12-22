@@ -79,6 +79,26 @@ class EavBehaviorTest extends TestCase
     }
 
     /**
+     * test EAV interception when retrieving entities.
+     *
+     * @return void
+     */
+    public function testFind()
+    {
+        $entity = $this->table->get(1, ['fields' => ['virtual_text']]);
+        $this->assertNotEmpty($entity->get('virtual_text'));
+
+        $entityCount = $this->table
+            ->find('all')
+            ->where([
+                'id' => 1,
+                'virtual_text LIKE' => '%virtual%'
+            ])
+            ->count();
+        $this->assertTrue($entityCount === 1);
+    }
+
+    /**
      * test WHERE conditions against unary expression.
      *
      * @return void
