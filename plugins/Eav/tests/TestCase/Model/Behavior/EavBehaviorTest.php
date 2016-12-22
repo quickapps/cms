@@ -86,7 +86,14 @@ class EavBehaviorTest extends TestCase
     public function testFind()
     {
         $entity = $this->table->get(1, ['fields' => ['virtual_text']]);
-        $this->assertNotEmpty($entity->get('virtual_text'));
+        $this->assertEquals('This content belongs to a virtual column of type `text`', $entity->get('virtual_text'));
+
+        $entity = $this->table->get(1, ['fields' => ['virtual_integer']]);
+        $this->assertEquals(27, $entity->get('virtual_integer'));
+
+        $entity = $this->table->get(1, ['fields' => ['virtual_text', 'virtual_integer']]);
+        $this->assertEquals('This content belongs to a virtual column of type `text`', $entity->get('virtual_text'));
+        $this->assertEquals(27, $entity->get('virtual_integer'));
 
         $entityCount = $this->table
             ->find('all')
