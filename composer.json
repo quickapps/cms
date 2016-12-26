@@ -26,11 +26,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CMS\\": "plugins/CMS/src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
+            "CMS\\": "plugins/CMS/src",
             "CMS\\Test\\": "tests"
         }
     }
