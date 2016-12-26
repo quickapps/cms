@@ -28,3 +28,8 @@
 *.gif binary
 *.ico binary
 *.mo binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.otf binary
+*.eot binary
