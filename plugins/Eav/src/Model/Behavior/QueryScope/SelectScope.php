@@ -85,38 +85,30 @@ class SelectScope implements QueryScopeInterface
      */
     public function getVirtualColumns(Query $query, $bundle = null)
     {
-        static $selectedVirtual = [];
-        $queryClone = clone $query;
-        $cacheKey = md5($queryClone->sql()) . '_' . $bundle;
-        if (isset($selectedVirtual[$cacheKey])) {
-            return $selectedVirtual[$cacheKey];
-        }
-
         $selectClause = (array)$query->clause('select');
         if (empty($selectClause)) {
-            $selectedVirtual[$cacheKey] = array_keys($this->_toolbox->attributes($bundle));
-
-            return $selectedVirtual[$cacheKey];
+            return array_keys($this->_toolbox->attributes($bundle));
         }
 
-        $selectedVirtual[$cacheKey] = [];
+        $selectedVirtual = [];
         $virtualColumns = array_keys($this->_toolbox->attributes($bundle));
+
         foreach ($selectClause as $index => $column) {
             list($table, $column) = pluginSplit($column);
             if ((empty($table) || $table == $this->_table->alias()) &&
                 in_array($column, $virtualColumns)
             ) {
-                $selectedVirtual[$cacheKey][$index] = $column;
+                $selectedVirtual[$index] = $column;
                 unset($selectClause[$index]);
             }
         }
 
-        if (empty($selectClause) && !empty($selectedVirtual[$cacheKey])) {
+        if (empty($selectClause) && !empty($selectedVirtual)) {
             $selectClause[] = $this->_table->primaryKey();
         }
 
         $query->select($selectClause, true);
 
-        return $selectedVirtual[$cacheKey];
+        return $selectedVirtual;
     }
 }
