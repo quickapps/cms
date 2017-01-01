@@ -264,7 +264,11 @@ $includePaths = array_unique(
 $excludePaths = array_merge(
     array_map(function ($path) {
         return $path . 'tests';
-    }, $pluginsPath), [TMP . 'aop']
+    }, $pluginsPath), [
+        TMP . 'aop',
+        ROOT . '/tests',
+        VENDOR_INCLUDE_PATH,
+    ]
 );
 
 AppAspect::getInstance()->init([
