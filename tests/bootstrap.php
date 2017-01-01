@@ -2,19 +2,32 @@
 /**
  * Constants & paths.
  */
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', __DIR__ . DS . 'TestSite');
-define('QUICKAPPS_CORE', dirname(__DIR__) . '/plugins/CMS/');
-
-if (file_exists('../../../vendor/')) {
-    define('VENDOR_INCLUDE_PATH', realpath('../../../vendor/') . DS);
-} elseif (file_exists(dirname(__DIR__) . DS . 'vendor')) {
-    define('VENDOR_INCLUDE_PATH', realpath(dirname(__DIR__) . DS . 'vendor/') . DS);
-} else {
-    define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
 }
 
-define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
+if (!defined('ROOT')) {
+    define('ROOT', __DIR__ . DS . 'TestSite');
+}
+
+if (!defined('QUICKAPPS_CORE')) {
+    define('QUICKAPPS_CORE', dirname(__DIR__) . '/plugins/CMS/');
+}
+
+if (!defined('VENDOR_INCLUDE_PATH')) {
+    if (file_exists('../../../vendor/')) {
+        define('VENDOR_INCLUDE_PATH', realpath('../../../vendor/') . DS);
+    } elseif (file_exists(dirname(__DIR__) . DS . 'vendor')) {
+        define('VENDOR_INCLUDE_PATH', realpath(dirname(__DIR__) . DS . 'vendor/') . DS);
+    } else {
+        define('VENDOR_INCLUDE_PATH', realpath('vendor/') . DS);
+    }
+}
+
+if (!defined('WWW_ROOT')) {
+    define('WWW_ROOT', ROOT . DS . 'webroot' . DS);
+}
+
 $classLoader = require VENDOR_INCLUDE_PATH . 'autoload.php';
 
 use Cake\Cache\Cache;

@@ -253,15 +253,29 @@ if (empty($pluginsPath)) {
 /**
  * Initialize Aspects
  */
-AppAspect::getInstance()->init([
-    'debug' => Configure::read('debug'),
-    'cacheDir' => TMP . 'aop',
-    'includePaths' => array_unique(array_merge($pluginsPath, [
+$includePaths = array_unique(
+    array_merge($pluginsPath, [
         ROOT . DS . 'plugins',
         QUICKAPPS_CORE,
         CAKE,
-    ])),
-    'excludePaths' => [TMP . 'aop'],
+    ])
+);
+
+$excludePaths = array_merge(
+    array_map(function ($path) {
+        return $path . 'tests';
+    }, $pluginsPath), [
+        TMP . 'aop',
+        ROOT . '/tests',
+        VENDOR_INCLUDE_PATH,
+    ]
+);
+
+AppAspect::getInstance()->init([
+    'debug' => Configure::read('debug'),
+    'cacheDir' => TMP . 'aop',
+    'includePaths' => $includePaths,
+    'excludePaths' => $excludePaths,
     'features' => \Go\Aop\Features::INTERCEPT_FUNCTIONS,
 ]);
 
