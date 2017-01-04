@@ -490,12 +490,20 @@ class EavBehavior extends Behavior
      */
     public function hydrateEntity(EntityInterface $entity, array $values)
     {
+        $virtualProperties = (array)$entity->virtualProperties();
+
         foreach ($values as $value) {
             if (!$this->_toolbox->propertyExists($entity, $value['property_name'])) {
+                if (!in_array($value['property_name'], $virtualProperties)) {
+                    $virtualProperties[] = $value['property_name'];
+                }
+
                 $entity->set($value['property_name'], $value['value']);
                 $entity->dirty($value['property_name'], false);
             }
         }
+
+        $entity->virtualProperties($virtualProperties);
 
         // force cache-columns to be of the proper type as they might be NULL if
         // entity has not been updated yet.
