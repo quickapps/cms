@@ -21,6 +21,7 @@ use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 use Eav\Model\Behavior\EavToolbox;
 use Eav\Model\Behavior\QueryScope\QueryScopeInterface;
 use Eav\Model\Behavior\QueryScope\SelectScope;
@@ -490,20 +491,12 @@ class EavBehavior extends Behavior
      */
     public function hydrateEntity(EntityInterface $entity, array $values)
     {
-        $virtualProperties = (array)$entity->virtualProperties();
-
         foreach ($values as $value) {
             if (!$this->_toolbox->propertyExists($entity, $value['property_name'])) {
-                if (!in_array($value['property_name'], $virtualProperties)) {
-                    $virtualProperties[] = $value['property_name'];
-                }
-
                 $entity->set($value['property_name'], $value['value']);
                 $entity->dirty($value['property_name'], false);
             }
         }
-
-        $entity->virtualProperties($virtualProperties);
 
         // force cache-columns to be of the proper type as they might be NULL if
         // entity has not been updated yet.
@@ -530,8 +523,10 @@ class EavBehavior extends Behavior
     protected function _prepareSetValues(CollectionInterface $entities, array $args)
     {
         $entityIds = $this->_toolbox->extractEntityIds($entities);
+        $result = [];
+
         if (empty($entityIds)) {
-            return [];
+            return $result;
         }
 
         $selectedVirtual = $args['selectedVirtual'];
@@ -547,10 +542,10 @@ class EavBehavior extends Behavior
         }
 
         if (empty($attrsById)) {
-            return [];
+            return $result;
         }
 
-        return TableRegistry::get('Eav.EavValues')
+        $fetchedValues = TableRegistry::get('Eav.EavValues')
             ->find('all')
             ->bufferResults(false)
             ->where([
@@ -566,11 +561,28 @@ class EavBehavior extends Behavior
                 return [
                     'entity_id' => $value->get('entity_id'),
                     'property_name' => is_string($alias) ? $alias : $attrName,
+                    'aliased' => is_string($alias),
+                    'property_name_real' => $attrName,
                     'value' => $this->_toolbox->marshal($value->get("value_{$attrType}"), $attrType),
                 ];
             })
             ->groupBy('entity_id')
             ->toArray();
+
+        foreach ($fetchedValues as $entityId => $values) {
+            $propertiesWithValues = Hash::extract($values, '{n}.property_name_real');
+            $missingProperties = array_diff($validNames, $propertiesWithValues);
+
+            foreach ($missingProperties as $propertyName) {
+                $fetchedValues[$entityId][] = [
+                    'entity_id' => $entityId,
+                    'property_name' => $propertyName,
+                    'value' => null,
+                ];
+            }
+        }
+
+        return $fetchedValues;
     }
 
     /**
