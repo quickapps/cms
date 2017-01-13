@@ -104,8 +104,8 @@ class SchemaTask extends Shell
             $this->err(__d('eav', 'You must indicate a table column.'));
 
             return false;
-        } elseif (!preg_match('/^[a-z\d\-]+$/', $options['name'])) {
-            $this->err(__d('eav', 'Invalid column name, please use lowercase letter, numbers or the "-" symbol, e.g.: "user-age".'));
+        } elseif (!preg_match('/^[a-z\d\-_]+$/', $options['name'])) {
+            $this->err(__d('eav', 'Invalid column name, please use only lowercase letters, numbers, "-" and "_", e.g.: "user_age".'));
 
             return false;
         }
