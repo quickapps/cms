@@ -6,6 +6,7 @@
 /vendor
 /tests/*/tmp
 /tests/*/logs
+.phpintel
 composer.lock
 .tags
 .tags_sorted_by_file
