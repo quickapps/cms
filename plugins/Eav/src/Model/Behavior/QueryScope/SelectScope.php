@@ -86,13 +86,19 @@ class SelectScope implements QueryScopeInterface
     public function getVirtualColumns(Query $query, $bundle = null)
     {
         $selectClause = (array)$query->clause('select');
+        $isSelectAllFromJoin = true;
+
+        foreach (array_keys($selectClause) as $name) {
+            $isSelectAllFromJoin = $isSelectAllFromJoin && (strpos($name, 'Join__') !== false);
+        }
+
+        $selectClause = $isSelectAllFromJoin ? [] : $selectClause;
         if (empty($selectClause)) {
             return array_keys($this->_toolbox->attributes($bundle));
         }
 
         $selectedVirtual = [];
         $virtualColumns = array_keys($this->_toolbox->attributes($bundle));
-
         foreach ($selectClause as $index => $column) {
             list($table, $column) = pluginSplit($column);
             if ((empty($table) || $table == $this->_table->alias()) &&

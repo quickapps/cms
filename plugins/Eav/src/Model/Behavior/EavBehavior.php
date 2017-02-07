@@ -12,6 +12,7 @@
 namespace Eav\Model\Behavior;
 
 use Cake\Cache\Cache;
+use Cake\Collection\Collection;
 use Cake\Collection\CollectionInterface;
 use Cake\Datasource\EntityInterface;
 use Cake\Error\FatalErrorException;
@@ -333,6 +334,7 @@ class EavBehavior extends Behavior
     /**
      * Update EAV cache for the specified $entity.
      *
+     * @param \Cake\Datasource\EntityInterface $entity The entity to update
      * @return bool Success
      */
     public function updateEavCache(EntityInterface $entity)
@@ -386,7 +388,7 @@ class EavBehavior extends Behavior
             $keys = $this->_table->primaryKey();
             $keys = !is_array($keys) ? [$keys] : $keys;
             foreach ($keys as $key) {
-                // TODO: check key exists in entity's visible properties list.
+                // TO-DO: check key exists in entity's visible properties list.
                 // Throw an error otherwise as PK MUST be correctly calculated.
                 $conditions[$key] = $entity->get($key);
             }
@@ -408,6 +410,15 @@ class EavBehavior extends Behavior
      * WHERE clauses (if applicable) and properly scope the Query object. Query
      * scoping is performed by the `_scopeQuery()` method.
      *
+     * EAV can be enabled or disabled on the fly using `eav` finder option, or
+     * `eav()` method. When mixing, `eav` option has the highest priority:
+     *
+     * ```php
+     * $this->Articles->eav(false);
+     * $articlesNoVirtual = $this->Articles->find('all');
+     * $articlesWithVirtual = $this->Articles->find('all', ['eav' => true]);
+     * ```
+     *
      * @param \Cake\Event\Event $event The beforeFind event that was triggered
      * @param \Cake\ORM\Query $query The original query to modify
      * @param \ArrayObject $options Additional options given as an array
@@ -416,26 +427,24 @@ class EavBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if (!$this->config('status') ||
-            (isset($options['eav']) && $options['eav'] === false)
+        if ($this->config('status') ||
+            (isset($options['eav']) && $options['eav'] === true)
         ) {
-            return true;
+            $options['bundle'] = !isset($options['bundle']) ? null : $options['bundle'];
+            $this->_initScopes();
+
+            if (empty($this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope'])) {
+                return $query;
+            }
+
+            $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($query, $options['bundle']);
+            $args = compact('options', 'primary', 'selectedVirtual');
+            $query = $this->_scopeQuery($query, $options['bundle']);
+
+            return $query->formatResults(function ($results) use ($args) {
+                return $this->_hydrateEntities($results, $args);
+            }, Query::PREPEND);
         }
-
-        $options['bundle'] = !isset($options['bundle']) ? null : $options['bundle'];
-        $this->_initScopes();
-
-        if (empty($this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope'])) {
-            return $query;
-        }
-
-        $selectedVirtual = $this->_queryScopes['Eav\\Model\\Behavior\\QueryScope\\SelectScope']->getVirtualColumns($query, $options['bundle']);
-        $args = compact('options', 'primary', 'selectedVirtual');
-        $query = $this->_scopeQuery($query, $options['bundle']);
-
-        return $query->formatResults(function ($results) use ($args) {
-            return $this->_hydrateEntities($results, $args);
-        }, Query::PREPEND);
     }
 
     /**
@@ -545,7 +554,7 @@ class EavBehavior extends Behavior
             return $result;
         }
 
-        $fetchedValues = TableRegistry::get('Eav.EavValues')
+        $fetchedRawValues = TableRegistry::get('Eav.EavValues')
             ->find('all')
             ->bufferResults(false)
             ->where([
@@ -559,26 +568,38 @@ class EavBehavior extends Behavior
                 $alias = array_search($attrName, $selectedVirtual);
 
                 return [
+                    'attribute_id' => $value->get('eav_attribute_id'),
                     'entity_id' => $value->get('entity_id'),
                     'property_name' => is_string($alias) ? $alias : $attrName,
-                    'aliased' => is_string($alias),
                     'property_name_real' => $attrName,
+                    'aliased' => is_string($alias),
                     'value' => $this->_toolbox->marshal($value->get("value_{$attrType}"), $attrType),
                 ];
             })
             ->groupBy('entity_id')
+            ->map(function ($values) {
+                return (new Collection($values))->indexBy('attribute_id')->toArray();
+            })
             ->toArray();
 
-        foreach ($fetchedValues as $entityId => $values) {
-            $propertiesWithValues = Hash::extract($values, '{n}.property_name_real');
-            $missingProperties = array_diff($validNames, $propertiesWithValues);
+        $fetchedValues = [];
+        foreach ($entityIds as $entityId) {
+            $fetchedValues[$entityId] = [];
+            $values = !empty($fetchedRawValues[$entityId]) ? $fetchedRawValues[$entityId] : [];
 
-            foreach ($missingProperties as $propertyName) {
-                $fetchedValues[$entityId][] = [
-                    'entity_id' => $entityId,
-                    'property_name' => $propertyName,
-                    'value' => null,
-                ];
+            foreach ($attrsById as $attrId => $attributeInfo) {
+                if (isset($values[$attrId])) {
+                    $fetchedValues[$entityId][] = $values[$attrId];
+                } else {
+                    $fetchedValues[$entityId][] = [
+                        'attribute_id' => $attrId,
+                        'entity_id' => $entityId,
+                        'property_name' => $attributeInfo->get('name'),
+                        'property_name_real' => $attributeInfo->get('name'),
+                        'aliased' => false,
+                        'value' => null,
+                    ];
+                }
             }
         }
 
@@ -719,7 +740,7 @@ class EavBehavior extends Behavior
             foreach ((array)$this->config('cacheMap') as $column => $fields) {
                 if (in_array($column, $entity->visibleProperties())) {
                     $string = $entity->get($column);
-                    if ($string == serialize(false) || @unserialize($string) !== false) {
+                    if ($string == serialize(false) || unserialize($string) !== false) {
                         $entity->set($column, unserialize($string));
                     } else {
                         $entity->set($column, new CachedColumn());
