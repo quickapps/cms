@@ -121,7 +121,7 @@ class ServeController extends AppController
 
         if (!$content) {
             throw new ContentNotFoundException(__d('content', 'The requested page was not found.'));
-        } elseif (!$content->isAccessible()) {
+        } elseif (!$content->isAccessibleByUser()) {
             throw new ForbiddenException(__d('content', 'You have not sufficient permissions to see this page.'));
         }
 
@@ -161,7 +161,7 @@ class ServeController extends AppController
                 $this->paginate['limit'] = $contents->clause('limit');
             }
 
-            // TODO: ask search-engine for operator presence
+            // TO-DO: ask search-engine for operator presence
             if (strpos($criteria, 'language:') === false) {
                 $contents = $contents->where([
                     'Contents.status >' => 0,

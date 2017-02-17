@@ -16,20 +16,23 @@ use Cake\Datasource\EntityInterface;
 /**
  * Provides "isAccessible()" method to entities.
  *
+ * Used by entities that provide role-based accessibility. For instance, Content entities
+ * can be restricted to certain user roles.
+ *
  * Entity must have a relationship with "User.Roles" model.
  */
 trait AccessibleEntityTrait
 {
 
     /**
-     * Whether this entity can be accessed by current user.
+     * Whether this entity can be accessed by current user based on his/her roles.
      *
      * @param array|null $roles Array list of roles to checks against to, or NULL to
      *  automatically use entity's "roles" property
      * @return bool False if user has no permissions to see this entity due to
      *  role restrictions, true otherwise
      */
-    public function isAccessible($roles = null)
+    public function isAccessibleByUser($roles = null)
     {
         if ($roles === null) {
             $roles = $this->get('roles');

@@ -279,8 +279,6 @@ class Region
             return $block->region->ordering;
         }, SORT_ASC);
 
-
-
         // remove blocks that cannot be rendered based on current request.
         $blocks = $blocks->filter(function ($block) {
             return $this->_filterBlock($block) && $block->renderable();
@@ -310,7 +308,7 @@ class Region
             return static::cache($cacheKey, false);
         }
 
-        if (!$block->isAccessible()) {
+        if (!$block->isAccessibleByUser()) {
             return static::cache($cacheKey, false);
         }
 
