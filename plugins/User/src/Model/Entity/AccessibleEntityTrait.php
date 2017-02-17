@@ -38,7 +38,7 @@ trait AccessibleEntityTrait
         }
 
         $entityRolesID = [];
-        foreach ($roles as $role) {
+        foreach ((array)$roles as $role) {
             $entityRolesID[] = $role->get('id');
         }
 
