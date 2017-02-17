@@ -11,7 +11,6 @@
  */
 namespace Eav\Model\Behavior;
 
-use Cake\Cache\Cache;
 use Cake\Collection\CollectionInterface;
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
@@ -160,23 +159,18 @@ class EavToolbox
         }
 
         $this->_attributes[$key] = [];
-        $cacheKey = $this->_table->table() . '_' . $key;
-        $attrs = Cache::read($cacheKey, 'eav_table_attrs');
-
-        if (empty($attrs)) {
-            $conditions = ['EavAttributes.table_alias' => $this->_table->table()];
-            if (!empty($bundle)) {
-                $conditions['EavAttributes.bundle'] = $bundle;
-            }
-
-            $attrs = TableRegistry::get('Eav.EavAttributes')
-                ->find()
-                ->where($conditions)
-                ->all()
-                ->toArray();
-
-            Cache::write($cacheKey, $attrs, 'eav_table_attrs');
+        $conditions = ['EavAttributes.table_alias' => $this->_table->table()];
+        if (!empty($bundle)) {
+            $conditions['EavAttributes.bundle'] = $bundle;
         }
+
+        $cacheKey = $this->_table->table() . '_' . $key;
+        $attrs = TableRegistry::get('Eav.EavAttributes')
+            ->find()
+            ->cache($cacheKey, 'eav_table_attrs')
+            ->where($conditions)
+            ->all()
+            ->toArray();
 
         foreach ($attrs as $attr) {
             $this->_attributes[$key][$attr->get('name')] = $attr;
