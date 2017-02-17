@@ -11,6 +11,8 @@
  */
 namespace User\Model\Entity;
 
+use Cake\Datasource\EntityInterface;
+
 /**
  * Provides "isAccessible()" method to entities.
  *
@@ -39,7 +41,13 @@ trait AccessibleEntityTrait
 
         $entityRolesID = [];
         foreach ((array)$roles as $role) {
-            $entityRolesID[] = $role->get('id');
+            if ($role instanceof EntityInterface) {
+                $entityRolesID[] = $role->get('id');
+            } elseif (is_array($role) && array_key_exists('id', $role)) {
+                $entityRolesID[] = $role['id'];
+            } elseif (is_integer($role)) {
+                $entityRolesID[] = $role;
+            }
         }
 
         $intersect = array_intersect($entityRolesID, (array)user()->get('role_ids'));
