@@ -164,11 +164,27 @@ class GenericEngine extends BaseEngine
      * - bannedWords: Array list of banned words, or a callable that should decide
      *   if the given word is banned or not. Defaults to empty array (allow
      *   everything).
+     *
+     * - searchMode: Controls how search criteria are handled when mixing search operators
+     *   and words/phrases. Possible values are:
+     *
+     *   - `left-right`: Search operators and words are processed reading the search
+     *     criteria from left to right (DEFAULT)
+     *
+     *   - `right-left`: Opposite to `left-right`
+     *
+     *   - `words-first`: Words and phrases and handled first, search operators last.
+     *
+     *   - `operators-first`: Words and phrases are handled last, search operators first.
+     *
+     * - fullText: Do full-text search if possible. Defaults FALSE.
      */
     protected $_defaultConfig = [
         'operators' => [],
         'strict' => true,
-        'bannedWords' => []
+        'bannedWords' => [],
+        'searchMode' => 'left-right',
+        'fullText' => false
     ];
 
     /**
@@ -280,13 +296,78 @@ class GenericEngine extends BaseEngine
         if (!empty($tokens)) {
             $query->innerJoinWith('SearchDatasets');
 
-            foreach ($tokens as $token) {
-                if ($token->isOperator()) {
-                    $query = $this->_scopeOperator($query, $token);
-                } else {
-                    $query = $this->_scopeWords($query, $token);
-                }
+            switch ($this->config('searchMode')) {
+                case 'left-right':
+                case 'right-left':
+                    $tokens = $this->config('searchMode') == 'right-left' ? array_reverse($tokens) : $tokens;
+
+                    foreach ($tokens as $token) {
+                        if ($token->isOperator()) {
+                            $query = $this->_scopeOperator($query, $token);
+                        } else {
+                            $query = $this->_scopeWord($query, $token);
+                        }
+                    }
+                    break;
+
+                case 'operators-first':
+                case 'words-first':
+                    $operators = [];
+                    $words = [];
+                    foreach ($tokens as $token) {
+                        if ($token->isOperator()) {
+                            $operators[] = $token;
+                        } else {
+                            $words[] = $token;
+                        }
+                    }
+
+                    if ($this->config('searchMode') == 'operators-first') {
+                        $query = $this->_scopeOperatorsList($query, $operators);
+                        $query = $this->_scopeWordsList($query, $words);
+                    } else {
+                        $query = $this->_scopeWordsList($query, $words);
+                        $query = $this->_scopeOperatorsList($query, $operators);
+                    }
+
+                    break;
             }
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scopes the given query using the given LIST of operator tokens.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param array $tokens List of Tokens.
+     * @return \Cake\ORM\Query Scoped query
+     */
+    protected function _scopeOperatorsList(Query $query, array $tokens)
+    {
+        foreach ($tokens as $token) {
+            $query = $this->_table->_scopeOperator($query, $token);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Scopes the given query using the given LIST words/phrases tokens.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param array $tokens List of Tokens
+     * @return \Cake\ORM\Query Scoped query
+     */
+    protected function _scopeWordsList(Query $query, array $tokens)
+    {
+        if ($this->config('fullText') && $this->_isFullTextEnabled()) {
+            return $this->_scopeWordsListInFulltext($query, $tokens);
+        }
+
+        foreach ($tokens as $token) {
+            $query = $this->_table->_scopeWord($query, $token);
         }
 
         return $query;
@@ -296,7 +377,7 @@ class GenericEngine extends BaseEngine
      * Scopes the given query using the given operator token.
      *
      * @param \Cake\ORM\Query $query The query to scope
-     * @param \Search\Token $token Token describing an operator. e.g `-op_name:op_value`
+     * @param \Search\TokenInterface $token Token describing an operator. e.g `-op_name:op_value`
      * @return \Cake\ORM\Query Scoped query
      */
     protected function _scopeOperator(Query $query, TokenInterface $token)
@@ -305,16 +386,16 @@ class GenericEngine extends BaseEngine
     }
 
     /**
-     * Scopes the given query using the given words token.
+     * Scopes the given query using the given word/phrase token.
      *
      * @param \Cake\ORM\Query $query The query to scope
      * @param \Search\TokenInterface $token Token describing a words sequence. e.g `this is a phrase`
      * @return \Cake\ORM\Query Scoped query
      */
-    protected function _scopeWords(Query $query, TokenInterface $token)
+    protected function _scopeWord(Query $query, TokenInterface $token)
     {
-        if ($this->_isFullTextEnabled()) {
-            return $this->_scopeWordsInFulltext($query, $token);
+        if ($this->config('fullText') && $this->_isFullTextEnabled()) {
+            return $this->_scopeWordInFulltext($query, $token);
         }
 
         $like = 'LIKE';
@@ -336,16 +417,61 @@ class GenericEngine extends BaseEngine
 
         return $query;
     }
+    /**
+     * Scopes the given query using a SINGLE full-text expression based on the given list
+     * of words.
+     *
+     * @param \Cake\ORM\Query $query The query to scope
+     * @param array $tokens Tokens
+     * @return \Cake\ORM\Query Scoped query
+     */
+    protected function _scopeWordsListInFulltext(Query $query, array $tokens)
+    {
+        $expression = [];
+        $conn = $query->connection();
+
+        foreach ($tokens as $token) {
+            $value = str_replace(['*', '!'], ['*', ''], $token->value());
+            $value = preg_replace('/[^\p{L}\p{N}_\*]+/u', ' ', $value);
+            $value = preg_replace("/[']/", "\'", $value);
+            $value = explode(' ', $value);
+
+            foreach ($value as &$v) {
+                if (strpos($v, "'") !== false) {
+                    $v = "({$value})";
+                }
+            }
+
+            $value = implode(' ', $value);
+            $value = mb_strpos($value, ' ') !== false ? '"' . str_replace('"', '', $value) . '"' : $conn->quote($value);
+            $prefix = '';
+
+            if ($token->negated() && $token->where() === 'or') {
+                $prefix = '~';
+            } elseif ($token->negated()) {
+                $prefix = '-';
+            } elseif ($token->where() === 'and') {
+                $prefix = '+';
+            }
+
+            $expression[] = $prefix . $value;
+        }
+
+        $expression = implode(' ', $expression);
+
+        return $query->where("MATCH(SearchDatasets.words) AGAINST('{$expression}' IN BOOLEAN MODE) > 0");
+    }
 
     /**
-     * Similar to "_scopeWords" but using MySQL's fulltext indexes.
+     * Similar to "_scopeWord" but using MySQL's fulltext indexes.
      *
      * @param \Cake\ORM\Query $query The query to scope
      * @param \Search\TokenInterface $token Token describing a words sequence. e.g `this is a phrase`
      * @return \Cake\ORM\Query Scoped query
      */
-    protected function _scopeWordsInFulltext(Query $query, TokenInterface $token)
+    protected function _scopeWordInFulltext(Query $query, TokenInterface $token)
     {
+        // * or ! Matches any one or more characters.
         $value = str_replace(['*', '!'], ['*', '*'], $token->value());
         $value = mb_strpos($value, '+') === 0 ? mb_substr($value, 1) : $value;
 
