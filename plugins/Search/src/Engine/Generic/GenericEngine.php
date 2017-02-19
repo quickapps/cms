@@ -431,19 +431,8 @@ class GenericEngine extends BaseEngine
         $conn = $query->connection();
 
         foreach ($tokens as $token) {
-            $value = str_replace(['*', '!'], ['*', ''], $token->value());
-            $value = preg_replace('/[^\p{L}\p{N}_\*]+/u', ' ', $value);
-            $value = preg_replace("/[']/", "\'", $value);
-            $value = explode(' ', $value);
-
-            foreach ($value as &$v) {
-                if (strpos($v, "'") !== false) {
-                    $v = "({$value})";
-                }
-            }
-
-            $value = implode(' ', $value);
-            $value = mb_strpos($value, ' ') !== false ? '"' . str_replace('"', '', $value) . '"' : $conn->quote($value);
+            $value = $token->value();
+            $value = $this->_sanitizeFullText($value, $conn);
             $prefix = '';
 
             if ($token->negated() && $token->where() === 'or') {
@@ -471,16 +460,14 @@ class GenericEngine extends BaseEngine
      */
     protected function _scopeWordInFulltext(Query $query, TokenInterface $token)
     {
-        // * or ! Matches any one or more characters.
-        $value = str_replace(['*', '!'], ['*', '*'], $token->value());
-        $value = mb_strpos($value, '+') === 0 ? mb_substr($value, 1) : $value;
-
+        $value = $token->value();
         if (empty($value) || in_array($value, $this->_stopWords())) {
             return $query;
         }
 
+        $conn = $query->connection();
+        $value = $this->_sanitizeFullText($value, $conn);
         $not = $token->negated() ? 'NOT' : '';
-        $value = str_replace("'", '"', $value);
         $conditions = ["{$not} MATCH(SearchDatasets.words) AGAINST('{$value}' IN BOOLEAN MODE) > 0"];
 
         if ($token->where() === 'or') {
@@ -528,6 +515,34 @@ class GenericEngine extends BaseEngine
         $enabled = false;
 
         return false;
+    }
+
+    /**
+     * Sanitizes the given string so it can safely be used as part of full-text
+     * expressions.
+     *
+     * @param string $string String to sanitize
+     * @param \Cake\Datasource\ConnectionInterface $conn Database connection, used to
+     *   properly escape words
+     * @return string
+     */
+    protected function _sanitizeFullText($string, $conn)
+    {
+        $string = str_replace(['*', '!'], ['*', ''], $string);
+        $string = preg_replace('/[^\p{L}\p{N}_\*]+/u', ' ', $string);
+        $string = preg_replace("/[']/", "\'", $string);
+        $string = explode(' ', $string);
+
+        foreach ($string as &$s) {
+            if (strpos($s, "'") !== false) {
+                $s = "({$s})";
+            }
+        }
+
+        $string = implode(' ', $string);
+        $string = mb_strpos($string, ' ') !== false ? '"' . str_replace('"', '', $string) . '"' : $conn->quote($string);
+
+        return $string;
     }
 
     /**
