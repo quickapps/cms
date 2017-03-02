@@ -2,6 +2,8 @@
 /**
  * Constants & paths.
  */
+define('TEST_ENV', true);
+
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
@@ -135,7 +137,7 @@ function snapshot()
                         $Folder = new Folder($path);
                         foreach ($Folder->read(false, false, true)[1] as $classFile) {
                             $className = basename(preg_replace('/\.php$/', '', $classFile));
-                            $subspace =  $subspaces[$path];
+                            $subspace = $subspaces[$path];
                             $varname = $varnames[$path];
                             $namespace = "{$name}\\{$subspace}\\";
                             ${$varname}[] = $namespace . $className;

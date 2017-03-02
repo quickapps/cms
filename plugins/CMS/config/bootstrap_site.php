@@ -253,31 +253,32 @@ if (empty($pluginsPath)) {
 /**
  * Initialize Aspects
  */
-$includePaths = array_unique(
-    array_merge($pluginsPath, [
-        ROOT . DS . 'plugins',
-        QUICKAPPS_CORE,
-        CAKE,
-    ])
-);
+if (!defined('TEST_ENV')) {
+    $includePaths = array_unique(
+        array_merge($pluginsPath, [
+            ROOT . DS . 'plugins',
+            QUICKAPPS_CORE,
+            CAKE,
+        ])
+    );
 
-$testPaths = array_map(function ($path) {
-    return $path . 'tests';
-}, $pluginsPath);
+    $testPaths = array_map(function ($path) {
+        return $path . 'tests';
+    }, $pluginsPath);
 
-$excludePaths = array_merge($testPaths, [
-    TMP . 'aop',
-    ROOT . '/tests',
-    dirname(dirname(ROOT)) . '/tests'
-]);
+    $excludePaths = array_merge($testPaths, [
+        TMP . 'aop',
+        ROOT . '/tests',
+    ]);
 
-AppAspect::getInstance()->init([
-    'debug' => Configure::read('debug'),
-    'cacheDir' => TMP . 'aop',
-    'includePaths' => $includePaths,
-    'excludePaths' => $excludePaths,
-    'features' => \Go\Aop\Features::INTERCEPT_FUNCTIONS,
-]);
+    AppAspect::getInstance()->init([
+        'debug' => Configure::read('debug'),
+        'cacheDir' => TMP . 'aop',
+        'includePaths' => $includePaths,
+        'excludePaths' => $excludePaths,
+        'features' => \Go\Aop\Features::INTERCEPT_FUNCTIONS,
+    ]);
+}
 
 /**
  * Connect middleware/dispatcher filters.
