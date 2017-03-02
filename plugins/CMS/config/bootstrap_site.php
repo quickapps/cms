@@ -60,10 +60,10 @@ use Cake\Network\Email\Email;
 use Cake\Network\Request;
 use Cake\Routing\DispatcherFactory;
 use Cake\Utility\Security;
-use Go\Aop\Features;
 use CMS\Aspect\AppAspect;
 use CMS\Core\Plugin;
 use CMS\Event\EventDispatcher;
+use Go\Aop\Features;
 
 /**
  * Configure default event dispatcher to use global event manager.
@@ -261,15 +261,11 @@ $includePaths = array_unique(
     ])
 );
 
-$excludePaths = array_merge(
-    array_map(function ($path) {
-        return $path . 'tests';
-    }, $pluginsPath), [
-        TMP . 'aop',
-        ROOT . '/tests',
-        VENDOR_INCLUDE_PATH,
-    ]
-);
+$testPaths = array_map(function ($path) {
+    return $path . 'tests';
+}, $pluginsPath);
+
+$excludePaths = array_merge($testPaths, [TMP . 'aop', ROOT . '/tests']);
 
 AppAspect::getInstance()->init([
     'debug' => Configure::read('debug'),
