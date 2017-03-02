@@ -265,7 +265,11 @@ $testPaths = array_map(function ($path) {
     return $path . 'tests';
 }, $pluginsPath);
 
-$excludePaths = array_merge($testPaths, [TMP . 'aop', ROOT . '/tests']);
+$excludePaths = array_merge($testPaths, [
+    TMP . 'aop',
+    ROOT . '/tests',
+    dirname(dirname(ROOT)) . '/tests'
+]);
 
 AppAspect::getInstance()->init([
     'debug' => Configure::read('debug'),
