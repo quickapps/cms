@@ -101,7 +101,6 @@ class DateField extends Handler
             $field->set('value', null);
         }
 
-
         return true;
     }
 

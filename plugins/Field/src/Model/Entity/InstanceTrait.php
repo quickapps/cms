@@ -55,7 +55,6 @@ trait InstanceTrait
         return '';
     }
 
-
     /**
      * Gets default configuration settings values.
      *

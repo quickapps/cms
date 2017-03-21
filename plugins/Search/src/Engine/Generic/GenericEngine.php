@@ -22,7 +22,7 @@ use Cake\ORM\Table;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Search\Engine\BaseEngine;
-use Search\Engine\Generic\Token;
+use Search\Engine\Generic\Exception\CompoundPrimaryKeyException;
 use Search\Parser\MiniLanguage\MiniLanguageParser;
 use Search\Parser\TokenInterface;
 use \ArrayObject;
@@ -173,13 +173,21 @@ class GenericEngine extends BaseEngine
 
     /**
      * {@inheritDoc}
+     *
+     * @throws \Search\Engine\Generic\Exception\CompoundPrimaryKeyException When using
+     *   compound primary keys
      */
     public function __construct(Table $table, array $config = [])
     {
-        $config['pk'] = $table->primaryKey();
         $config['tableAlias'] = (string)Inflector::underscore($table->table());
+        $config['pk'] = $table->primaryKey();
+        if (is_array($config['pk'])) {
+            throw new CompoundPrimaryKeyException($config['tableAlias']);
+        }
+
         $table->hasOne('Search.SearchDatasets', [
             'foreignKey' => 'entity_id',
+            'joinType' => 'INNER',
             'conditions' => [
                 'SearchDatasets.table_alias' => $config['tableAlias'],
             ],
@@ -438,25 +446,13 @@ class GenericEngine extends BaseEngine
     /**
      * Calculates entity's primary key.
      *
-     * If PK is composed of multiple columns they will be merged with `:` symbol.
-     * For example, consider `Users` table with composed PK <nick, email>, then for
-     * certain User entity this method could return:
-     *
-     *     john-locke:john@the-island.com
-     *
      * @param \Cake\Datasource\EntityInterface $entity The entity
      * @return string
+     * @deprecated Use direct access as `$entity->get($this->config('pk'))`
      */
     protected function _entityId(EntityInterface $entity)
     {
-        $pk = [];
-        $keys = $this->config('pk');
-        $keys = !is_array($keys) ? [$keys] : $keys;
-        foreach ($keys as $key) {
-            $pk[] = $entity->get($key);
-        }
-
-        return implode(':', $pk);
+        return $entity->get($this->config('pk'));
     }
 
     /**

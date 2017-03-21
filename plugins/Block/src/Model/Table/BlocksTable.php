@@ -250,7 +250,6 @@ class BlocksTable extends Table
             ]);
     }
 
-
     /**
      * Validates block settings before persisted in DB.
      *
