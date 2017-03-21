@@ -27,7 +27,6 @@ interface QueryScopeInterface
      */
     public function __construct(Table $table);
 
-
     /**
      * Look for virtual columns in query's SQL statements.
      *

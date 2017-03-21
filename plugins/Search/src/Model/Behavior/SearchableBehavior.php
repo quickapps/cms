@@ -320,7 +320,6 @@ class SearchableBehavior extends Behavior
         }
     }
 
-
     /**
      * Given a query instance applies the provided token representing a search
      * operator.
@@ -379,7 +378,6 @@ class SearchableBehavior extends Behavior
 
         return EventManager::instance()->dispatch($event)->result;
     }
-
 
     /**
      * Gets the callable method for a given operator method.
