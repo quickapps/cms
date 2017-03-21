@@ -448,12 +448,11 @@ class GenericEngine extends BaseEngine
      *
      * @param \Cake\Datasource\EntityInterface $entity The entity
      * @return string
+     * @deprecated Use direct access as `$entity->get($this->config('pk'))`
      */
     protected function _entityId(EntityInterface $entity)
     {
-        $keys = $this->config('pk');
-
-        return $entity->get($key);
+        return $entity->get($this->config('pk'));
     }
 
     /**
