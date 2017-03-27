@@ -37,7 +37,7 @@ class EavValuesFixture extends TestFixture
             ],
             'eav_values_unique' => [
               'type' => 'unique',
-              'columns' => [0 => 'entity_id', 1 => 'table_alias'],
+              'columns' => [0 => 'entity_id', 1 => 'eav_attribute_id'],
               'length' => [],
             ],
         ],

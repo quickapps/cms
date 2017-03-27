@@ -43,7 +43,7 @@ class EavValuesFixture
       'columns' =>
       [
         0 => 'entity_id',
-        1 => 'table_alias',
+        1 => 'eav_attribute_id',
       ],
       'length' =>
       [
