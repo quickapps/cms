@@ -223,7 +223,9 @@ class WhereScope implements QueryScopeInterface
                     'EavValues.entity_id' => $field,
                     'EavValues.eav_attribute_id' => $attr['id']
                 ])
+                ->limit(1)
                 ->sql();
+
             $subQuery = str_replace([':c0', ':c1'], [$field, $attr['id']], $subQuery);
             $property->setValue($expression, "({$subQuery})");
         }

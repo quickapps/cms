@@ -37,6 +37,18 @@ class EavValuesFixture
       [
       ],
     ],
+    'eav_values_unique' =>
+    [
+      'type' => 'unique',
+      'columns' =>
+      [
+        0 => 'entity_id',
+        1 => 'table_alias',
+      ],
+      'length' =>
+      [
+      ],
+    ],
     ],
     '_indexes' =>
     [
