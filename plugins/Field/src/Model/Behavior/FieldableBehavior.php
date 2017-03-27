@@ -165,10 +165,9 @@ class FieldableBehavior extends EavBehavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if ((isset($options['fieldable']) && $options['fieldable'] === false) ||
-            !$this->config('status')
-        ) {
-            return true;
+        $status = array_key_exists('fieldable', $options) ? $options['fieldable'] : $this->config('status');
+        if ($status) {
+            return;
         }
 
         if (array_key_exists('eav', $options)) {
