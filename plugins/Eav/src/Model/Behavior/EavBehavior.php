@@ -427,9 +427,9 @@ class EavBehavior extends Behavior
      */
     public function beforeFind(Event $event, Query $query, ArrayObject $options, $primary)
     {
-        if ($this->config('status') ||
-            (isset($options['eav']) && $options['eav'] === true)
-        ) {
+        $status = array_key_exists('eav', $options) ? $options['eav'] : $this->config('status');
+
+        if ($status) {
             $options['bundle'] = !isset($options['bundle']) ? null : $options['bundle'];
             $this->_initScopes();
 
