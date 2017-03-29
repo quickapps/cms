@@ -130,11 +130,12 @@ class WhereScope implements QueryScopeInterface
         $subQuery = TableRegistry::get('Eav.EavValues')
             ->find()
             ->select('EavValues.entity_id')
-            ->where($conditions);
+            ->where($conditions)
+            ->order(['EavValues.id' => 'DESC']);
 
         // some variables
         $pk = $this->_tablePrimaryKey();
-        $driverClass = $this->_driverClass($query);
+        $driverClass = $this->_toolbox->driver($query);
 
         switch ($driverClass) {
             case 'sqlite':
@@ -198,7 +199,7 @@ class WhereScope implements QueryScopeInterface
             }
 
             $pk = $this->_tablePrimaryKey();
-            $driverClass = $this->_driverClass($query);
+            $driverClass = $this->_toolbox->driver($query);
 
             switch ($driverClass) {
                 case 'sqlite':
@@ -223,9 +224,9 @@ class WhereScope implements QueryScopeInterface
                     'EavValues.entity_id' => $field,
                     'EavValues.eav_attribute_id' => $attr['id']
                 ])
+                ->order(['EavValues.id' => 'DESC'])
                 ->limit(1)
                 ->sql();
-
             $subQuery = str_replace([':c0', ':c1'], [$field, $attr['id']], $subQuery);
             $property->setValue($expression, "({$subQuery})");
         }
@@ -252,19 +253,5 @@ class WhereScope implements QueryScopeInterface
         }, $pk);
 
         return $pk;
-    }
-
-    /**
-     * Gets the name of the class driver used by the given $query to access the DB.
-     *
-     * @param \Cake\ORM\Query $query The query to inspect
-     * @return string Lowercased drive name. e.g. `mysql`
-     */
-    protected function _driverClass(Query $query)
-    {
-        $conn = $query->connection(null);
-        list(, $driverClass) = namespaceSplit(strtolower(get_class($conn->driver())));
-
-        return $driverClass;
     }
 }

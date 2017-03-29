@@ -15,6 +15,7 @@ use Cake\Cache\Cache;
 use Cake\Collection\CollectionInterface;
 use Cake\Database\Type;
 use Cake\Datasource\EntityInterface;
+use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 
@@ -314,5 +315,19 @@ class EavToolbox
             default:
                 return $type;
         }
+    }
+
+    /**
+     * Gets the name of the class driver used by the given $query to access the DB.
+     *
+     * @param \Cake\ORM\Query $query The query to inspect
+     * @return string Lowercased drive name. e.g. `mysql`
+     */
+    public function driver(Query $query)
+    {
+        $conn = $query->connection(null);
+        list(, $driver) = namespaceSplit(strtolower(get_class($conn->driver())));
+
+        return $driver;
     }
 }
