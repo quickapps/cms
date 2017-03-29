@@ -640,63 +640,75 @@ class EavBehavior extends Behavior
      */
     public function afterSave(Event $event, EntityInterface $entity, ArrayObject $options)
     {
-        $attrsById = [];
-        $updatedAttrs = [];
         $valuesTable = TableRegistry::get('Eav.EavValues');
+        $result = $valuesTable
+            ->connection()
+            ->transactional(function () use ($valuesTable, $entity, $options) {
+                $attrsById = [];
+                $updatedAttrs = [];
 
-        foreach ($this->_toolbox->attributes() as $name => $attr) {
-            if (!$this->_toolbox->propertyExists($entity, $name)) {
-                continue;
-            }
-            $attrsById[$attr->get('id')] = $attr;
-        }
+                foreach ($this->_toolbox->attributes() as $name => $attr) {
+                    if (!$this->_toolbox->propertyExists($entity, $name)) {
+                        continue;
+                    }
+                    $attrsById[$attr->get('id')] = $attr;
+                }
 
-        if (empty($attrsById)) {
-            return true; // nothing to do
-        }
+                if (empty($attrsById)) {
+                    return true; // nothing to do
+                }
 
-        $values = $valuesTable
-            ->find()
-            ->where([
-                'eav_attribute_id IN' => array_keys($attrsById),
-                'entity_id' => $this->_toolbox->getEntityId($entity),
-            ]);
+                $values = $valuesTable
+                    ->find()
+                    ->where([
+                        'eav_attribute_id IN' => array_keys($attrsById),
+                        'entity_id' => $this->_toolbox->getEntityId($entity),
+                    ]);
 
-        foreach ($values as $value) {
-            $updatedAttrs[] = $value->get('eav_attribute_id');
-            $info = $attrsById[$value->get('eav_attribute_id')];
-            $type = $this->_toolbox->getType($info->get('name'));
+                // NOTE: row level locking only supported by MySQL and Postgres.
+                $driver = $this->_toolbox->driver($values);
+                if (in_array($driver, ['mysql', 'postgres'])) {
+                    $values->epilog('FOR UPDATE');
+                }
 
-            $marshaledValue = $this->_toolbox->marshal($entity->get($info->get('name')), $type);
-            $value->set("value_{$type}", $marshaledValue);
-            $entity->set($info->get('name'), $marshaledValue);
-            $valuesTable->save($value);
-        }
+                foreach ($values as $value) {
+                    $updatedAttrs[] = $value->get('eav_attribute_id');
+                    $info = $attrsById[$value->get('eav_attribute_id')];
+                    $type = $this->_toolbox->getType($info->get('name'));
 
-        foreach ($this->_toolbox->attributes() as $name => $attr) {
-            if (!$this->_toolbox->propertyExists($entity, $name)) {
-                continue;
-            }
+                    $marshaledValue = $this->_toolbox->marshal($entity->get($info->get('name')), $type);
+                    $value->set("value_{$type}", $marshaledValue);
+                    $entity->set($info->get('name'), $marshaledValue);
+                    $valuesTable->save($value);
+                }
 
-            if (!in_array($attr->get('id'), $updatedAttrs)) {
-                $type = $this->_toolbox->getType($name);
-                $value = $valuesTable->newEntity([
-                    'eav_attribute_id' => $attr->get('id'),
-                    'entity_id' => $this->_toolbox->getEntityId($entity),
-                ]);
+                foreach ($this->_toolbox->attributes() as $name => $attr) {
+                    if (!$this->_toolbox->propertyExists($entity, $name)) {
+                        continue;
+                    }
 
-                $marshaledValue = $this->_toolbox->marshal($entity->get($name), $type);
-                $value->set("value_{$type}", $marshaledValue);
-                $entity->set($name, $marshaledValue);
-                $valuesTable->save($value);
-            }
-        }
+                    if (!in_array($attr->get('id'), $updatedAttrs)) {
+                        $type = $this->_toolbox->getType($name);
+                        $value = $valuesTable->newEntity([
+                            'eav_attribute_id' => $attr->get('id'),
+                            'entity_id' => $this->_toolbox->getEntityId($entity),
+                        ]);
 
-        if ($this->config('cacheMap')) {
-            $this->updateEavCache($entity);
-        }
+                        $marshaledValue = $this->_toolbox->marshal($entity->get($name), $type);
+                        $value->set("value_{$type}", $marshaledValue);
+                        $entity->set($name, $marshaledValue);
+                        $valuesTable->save($value);
+                    }
+                }
 
-        return true;
+                if ($this->config('cacheMap')) {
+                    $this->updateEavCache($entity);
+                }
+
+                return true;
+            });
+
+        return $result;
     }
 
     /**
