@@ -142,9 +142,15 @@ class WhereScope implements QueryScopeInterface
                 $concat = implode(' || ', $pk);
                 $field = "({$concat} || '')";
                 break;
+            case 'sqlserver':
+                $pk = array_map(function ($keyPart) {
+                    return "CAST({$keyPart} AS VARCHAR)";
+                }, $pk);
+                $concat = implode(' + ', $pk);
+                $field = "({$concat} + '')";
+                break;
             case 'mysql':
             case 'postgres':
-            case 'sqlserver':
             default:
                 $concat = implode(', ', $pk);
                 $field = "CONCAT({$concat}, '')";
