@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "quickapps-plugins/cms": "*"
+        "quickapps-plugins/cms": "*",
+        "ext-iconv": "*"
     },
     "autoload": {
         "psr-4": {

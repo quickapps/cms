@@ -296,6 +296,7 @@ class StartupController extends Controller
             ->add('php', (bool)version_compare(PHP_VERSION, '5.4.19', '>='), __d('installer', 'Your php version is not supported. check that your version is 5.4.19 or newer.'))
             ->add('mbstring', (bool)extension_loaded('mbstring'), __d('installer', 'Missing extension: {0}', 'mbstring'))
             ->add('mcrypt', (bool)extension_loaded('mcrypt'), __d('installer', 'Missing extension: {0}', 'mcrypt'))
+            ->add('iconv', (bool)extension_loaded('iconv'), __d('installer', 'Missing extension: {0}', 'iconv'))
             ->add('intl', (bool)extension_loaded('intl'), __d('installer', 'Missing extension: {0}', 'intl'))
             ->add('fileinfo', (bool)extension_loaded('fileinfo'), __d('installer', 'Missing extension: {0}', 'fileinfo'))
             ->add('tmp_writable', is_writable(TMP), __d('installer', '"{0}" folder is not writable.', 'tmp/'))
