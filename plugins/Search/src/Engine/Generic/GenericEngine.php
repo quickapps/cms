@@ -164,11 +164,19 @@ class GenericEngine extends BaseEngine
      * - bannedWords: Array list of banned words, or a callable that should decide
      *   if the given word is banned or not. Defaults to empty array (allow
      *   everything).
+     *
+     * - fulltext: Whether to use FULLTEXT search whenever it is possible. Defaults to
+     *   TRUE. This feature is only supported for MySQL InnoDB database engines.
+     *
+     * - datasetTable: Name of the MySQL table where words dataset should be stored and
+     *   read from. This allows you to split large sets into different tables.
      */
     protected $_defaultConfig = [
         'operators' => [],
         'strict' => true,
-        'bannedWords' => []
+        'bannedWords' => [],
+        'fulltext' => true,
+        'datasetTable' => 'search_datasets',
     ];
 
     /**
@@ -193,6 +201,8 @@ class GenericEngine extends BaseEngine
             ],
             'dependent' => true
         ]);
+
+        $this->_table->SearchDatasets->table($this->config('datasetTable'));
         parent::__construct($table, $config);
     }
 
@@ -377,12 +387,16 @@ class GenericEngine extends BaseEngine
     }
 
     /**
-     * Whether FullText index is available or not.
+     * Whether FullText index is available or not and should be used.
      *
-     * @return bool True if enabled, false otherwise
+     * @return bool True if enabled and should be used, false otherwise
      */
     protected function _isFullTextEnabled()
     {
+        if (!$this->config('fulltext')) {
+            return false;
+        }
+
         static $enabled = null;
         if ($enabled !== null) {
             return $enabled;
