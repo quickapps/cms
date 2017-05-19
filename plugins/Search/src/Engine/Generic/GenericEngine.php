@@ -202,7 +202,7 @@ class GenericEngine extends BaseEngine
             'dependent' => true
         ]);
 
-        $this->_table->SearchDatasets->table($this->config('datasetTable'));
+        $table->SearchDatasets->table($this->config('datasetTable'));
         parent::__construct($table, $config);
     }
 
