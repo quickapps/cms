@@ -193,7 +193,9 @@ class GenericEngine extends BaseEngine
             throw new CompoundPrimaryKeyException($config['tableAlias']);
         }
 
-        $table->hasOne('Search.SearchDatasets', [
+        parent::__construct($table, $config);
+
+        $this->_table->hasOne('Search.SearchDatasets', [
             'foreignKey' => 'entity_id',
             'joinType' => 'INNER',
             'conditions' => [
@@ -201,9 +203,7 @@ class GenericEngine extends BaseEngine
             ],
             'dependent' => true
         ]);
-
-        $table->SearchDatasets->table($this->config('datasetTable'));
-        parent::__construct($table, $config);
+        $this->_table->SearchDatasets->table($this->config('datasetTable'));
     }
 
     /**
@@ -211,6 +211,7 @@ class GenericEngine extends BaseEngine
      */
     public function index(EntityInterface $entity)
     {
+        $this->_table->SearchDatasets->table($this->config('datasetTable'));
         $set = $this->_table->SearchDatasets->find()
             ->where([
                 'entity_id' => $this->_entityId($entity),
@@ -240,6 +241,7 @@ class GenericEngine extends BaseEngine
      */
     public function delete(EntityInterface $entity)
     {
+        $this->_table->SearchDatasets->table($this->config('datasetTable'));
         $this->_table->SearchDatasets->deleteAll([
             'entity_id' => $this->_entityId($entity),
             'table_alias' => $this->config('tableAlias'),
@@ -253,6 +255,8 @@ class GenericEngine extends BaseEngine
      */
     public function get(EntityInterface $entity)
     {
+        $this->_table->SearchDatasets->table($this->config('datasetTable'));
+
         return $this->_table->SearchDatasets->find()
             ->where([
                 'entity_id' => $this->_entityId($entity),
@@ -294,7 +298,9 @@ class GenericEngine extends BaseEngine
      */
     public function search($criteria, Query $query)
     {
+        $this->_table->SearchDatasets->table($this->config('datasetTable'));
         $tokens = (array)(new MiniLanguageParser($criteria))->parse();
+
         if (!empty($tokens)) {
             $query->innerJoinWith('SearchDatasets');
 
