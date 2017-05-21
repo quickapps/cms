@@ -25,4 +25,7 @@ CREATE TABLE IF NOT EXISTS `search_datasets` (
 -- Indexes for table `search_datasets`
 --
 ALTER TABLE `search_datasets`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `entity_id` (`entity_id`,`table_alias`);
+ ADD PRIMARY KEY (`id`)
+ ADD UNIQUE KEY `entity_id` (`entity_id`, `table_alias`);
+
+ALTER TABLE `search_datasets` FULLTEXT KEY `words` (`words`);

@@ -19,6 +19,7 @@ use Cake\Event\Event;
 use Cake\Event\EventManager;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;
 use Search\Engine\BaseEngine;
@@ -195,15 +196,22 @@ class GenericEngine extends BaseEngine
 
         parent::__construct($table, $config);
 
-        $this->_table->hasOne('Search.SearchDatasets', [
+        $assocOptions = [
             'foreignKey' => 'entity_id',
             'joinType' => 'INNER',
             'conditions' => [
                 'SearchDatasets.table_alias' => $config['tableAlias'],
             ],
             'dependent' => true
-        ]);
-        $this->_table->SearchDatasets->table($this->config('datasetTable'));
+        ];
+
+        if ($this->config('datasetTable') != $this->_defaultConfig['datasetTable']) {
+            $datasetTableObject = clone TableRegistry::get('Search.SearchDatasets');
+            $datasetTableObject->table($this->config('datasetTable'));
+            $assocOptions['targetTable'] = $datasetTableObject;
+        }
+
+        $this->_table->hasOne('Search.SearchDatasets', $assocOptions);
     }
 
     /**
@@ -211,7 +219,6 @@ class GenericEngine extends BaseEngine
      */
     public function index(EntityInterface $entity)
     {
-        $this->_table->SearchDatasets->table($this->config('datasetTable'));
         $set = $this->_table->SearchDatasets->find()
             ->where([
                 'entity_id' => $this->_entityId($entity),
@@ -241,7 +248,6 @@ class GenericEngine extends BaseEngine
      */
     public function delete(EntityInterface $entity)
     {
-        $this->_table->SearchDatasets->table($this->config('datasetTable'));
         $this->_table->SearchDatasets->deleteAll([
             'entity_id' => $this->_entityId($entity),
             'table_alias' => $this->config('tableAlias'),
@@ -255,8 +261,6 @@ class GenericEngine extends BaseEngine
      */
     public function get(EntityInterface $entity)
     {
-        $this->_table->SearchDatasets->table($this->config('datasetTable'));
-
         return $this->_table->SearchDatasets->find()
             ->where([
                 'entity_id' => $this->_entityId($entity),
@@ -298,7 +302,6 @@ class GenericEngine extends BaseEngine
      */
     public function search($criteria, Query $query)
     {
-        $this->_table->SearchDatasets->table($this->config('datasetTable'));
         $tokens = (array)(new MiniLanguageParser($criteria))->parse();
 
         if (!empty($tokens)) {
