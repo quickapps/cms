@@ -28,7 +28,7 @@ class BasicTest extends TestCase
     public function testNormalizePath()
     {
         $tests = [
-            '/path/to/filename\with\backslashes.zip' => normalizePath('/path\to/filename\with\backslash.zip', '/'),
+            '/path/to/filename\with\backslashes.zip' => normalizePath('/path\to/filename\with\backslashes.zip', '/'),
             '/directory' => normalizePath('/directory', '/'),
             '/directory/' => normalizePath('/directory/', '/'),
             '@@directory@@file.pdf' => normalizePath('/directory/file.pdf', '@@'),
