@@ -257,21 +257,23 @@ if (!function_exists('snapshot')) {
 if (!function_exists('normalizePath')) {
     /**
      * Normalizes the given file system path, makes sure that all DIRECTORY_SEPARATOR
-     * are the same, so you won't get a mix of "/" and "\" in your paths.
+     * are the same according to current OS, so you won't get a mix of "/" and "\" in
+     * your paths.
      *
      * ### Example:
      *
      * ```php
-     * normalizePath('/some/path\to/some\\thing\about.zip');
-     * // output: /some/path/to/some/thing/about.zip
+     * normalizePath('/path\to/filename\with\backslash.zip');
+     * // output LINUX: /path/to/filename\with\backslashes.zip
+     * // output WINDOWS: /path/to/filename/with/backslashes.zip
      * ```
      *
      * You can indicate which "directory separator" symbol to use using the second
      * argument:
      *
      * ```php
-     * normalizePath('/some/path\to//some\thing\about.zip', '\');
-     * // output: \some\path\to\some\thing\about.zip
+     * normalizePath('/path\to/filename\with\backslash.zip', '\');
+     * // output LINUX & WIDNOWS: \path\to\filename\with\backslash.zip
      * ```
      *
      * By defaults uses DIRECTORY_SEPARATOR as symbol.
@@ -282,9 +284,20 @@ if (!function_exists('normalizePath')) {
      */
     function normalizePath($path, $ds = DIRECTORY_SEPARATOR)
     {
-        $path = str_replace(['/', '\\', "{$ds}{$ds}"], $ds, $path);
+        $tail = '';
+        $base = $path;
 
-        return str_replace("{$ds}{$ds}", $ds, $path);
+        if (DIRECTORY_SEPARATOR === '/') {
+            $lastDS = strrpos($path, $ds);
+            $tail = $lastDS !== false && $lastDS !== strlen($path) - 1 ? substr($path, $lastDS + 1) : '';
+            $base = $tail ? substr($path, 0, $lastDS + 1) : $path;
+        }
+
+        $path = str_replace(['/', '\\', "{$ds}{$ds}"], $ds, $base);
+        $path = str_replace("{$ds}{$ds}", $ds, $path);
+        $path .= $tail;
+
+        return $path;
     }
 }
 

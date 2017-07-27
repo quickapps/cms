@@ -27,11 +27,16 @@ class BasicTest extends TestCase
      */
     public function testNormalizePath()
     {
-        $path1 = normalizePath('/some/path\to/some\thing\about.zip', '/');
-        $path2 = normalizePath('/some/path\to/some\thing\about.zip', '@@');
+        $tests = [
+            '/path/to/filename\with\backslashes.zip' => normalizePath('/path\to/filename\with\backslash.zip', '/'),
+            '/directory' => normalizePath('/directory', '/'),
+            '/directory/' => normalizePath('/directory/', '/'),
+            '@@directory@@file.pdf' => normalizePath('/directory/file.pdf', '@@'),
+        ];
 
-        $this->assertEquals('/some/path/to/some/thing/about.zip', $path1);
-        $this->assertEquals('@@some@@path@@to@@some@@thing@@about.zip', $path2);
+        foreach ($tests as $expected => $actual) {
+            $this->assertEquals($expected, $actual);
+        }
     }
 
     /**
