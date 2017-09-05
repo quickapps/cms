@@ -25,7 +25,7 @@ if (getenv('DB') == 'sqlite') {
     $conn = [
         'className' => 'Cake\Database\Connection',
         'driver' => 'Cake\Database\Driver\Mysql',
-        'username' => 'travis',
+        'username' => 'root',
         'password' => '',
         'database' => 'quick_test',
         'log' => false,
