@@ -18,7 +18,8 @@ use Cake\Cache\Cache;
 Cache::config('eav_table_attrs', [
     'className' => 'File',
     'prefix' => 'eav_attrs_',
-    'path' => CACHE,
-    'duration' => '+30 minutes',
+    'path' => CACHE . 'eav/',
+    'duration' => '+1 day',
+    'probability' => 0,
     'groups' => ['eav']
 ]);
