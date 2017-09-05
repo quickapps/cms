@@ -85,6 +85,11 @@ class MenuWidget extends Widget
             ->cache("info_{$menuId}", 'menus')
             ->where(['Menus.id' => $menuId])
             ->first();
+
+        if (!$menu) {
+            return '';
+        }
+
         $links = TableRegistry::get('Menu.MenuLinks')
             ->find('threaded')
             ->cache("links_{$menuId}", 'menus')
