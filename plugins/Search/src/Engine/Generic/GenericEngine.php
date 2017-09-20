@@ -246,8 +246,9 @@ class GenericEngine extends BaseEngine
         }
 
         // We add starting and trailing space to allow LIKE %something-to-match%
+        $extractor = $this->config('wordExtractor');
         $set = $this->_table->SearchDatasets->patchEntity($set, [
-            'words' => ' ' . $this->config('wordExtractor')($entity) . ' '
+            'words' => ' ' . $extractor($entity) . ' '
         ]);
 
         return (bool)$this->_table->SearchDatasets->save($set);
