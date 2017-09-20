@@ -160,22 +160,28 @@ class GenericEngine extends BaseEngine
      *   regular expression describing which charaters should be removed. Or set
      *   to TRUE to used default discard criteria: only letters, digits and few
      *   basic symbols (".", ",", "/", etc). Defaults to TRUE (custom filter
-     *   regex).
+     *   regex). VALID ONLY when `wordsExtractor` is set to null.
      *
      * - bannedWords: Array list of banned words, or a callable that should decide
      *   if the given word is banned or not. Defaults to empty array (allow
-     *   everything).
+     *   everything). VALID ONLY when `wordsExtractor` is set to null.
      *
      * - fulltext: Whether to use FULLTEXT search whenever it is possible. Defaults to
      *   TRUE. This feature is only supported for MySQL InnoDB database engines.
      *
      * - datasetTable: Name of the MySQL table where words dataset should be stored and
      *   read from. This allows you to split large sets into different tables.
+     *
+     * - wordsExtractor: Callable function used to extract words from each entity being
+     *   indexed. Such functions will received an Entity object as first argument, and
+     *   should return a string of words. e.g. `lorem ipsum dolorem`. Defaults to internal
+     *   method `extractEntityWords()`
      */
     protected $_defaultConfig = [
         'operators' => [],
         'strict' => true,
         'bannedWords' => [],
+        'wordsExtractor' => null,
         'fulltext' => true,
         'datasetTable' => 'search_datasets',
     ];
@@ -190,6 +196,10 @@ class GenericEngine extends BaseEngine
     {
         $config['tableAlias'] = (string)Inflector::underscore($table->table());
         $config['pk'] = $table->primaryKey();
+        $this->_defaultConfig['wordsExtractor'] = function (EntityInterface $entity) {
+            return $this->extractEntityWords($entity);
+        };
+
         if (is_array($config['pk'])) {
             throw new CompoundPrimaryKeyException($config['tableAlias']);
         }
@@ -237,7 +247,7 @@ class GenericEngine extends BaseEngine
 
         // We add starting and trailing space to allow LIKE %something-to-match%
         $set = $this->_table->SearchDatasets->patchEntity($set, [
-            'words' => ' ' . $this->_extractEntityWords($entity) . ' '
+            'words' => ' ' . $this->config('wordExtractor')($entity) . ' '
         ]);
 
         return (bool)$this->_table->SearchDatasets->save($set);
@@ -487,7 +497,7 @@ class GenericEngine extends BaseEngine
      *  the list of words
      * @return string Space-separated list of words. e.g. `cat dog this that`
      */
-    protected function _extractEntityWords(EntityInterface $entity)
+    public function extractEntityWords(EntityInterface $entity)
     {
         $text = '';
         $entityArray = $entity->toArray();
