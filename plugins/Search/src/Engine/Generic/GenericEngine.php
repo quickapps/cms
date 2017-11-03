@@ -329,7 +329,7 @@ class GenericEngine extends BaseEngine
 
         if (!empty($tokens)) {
             $query->innerJoinWith('SearchDatasets');
-            $decorator = $options['decorator'];
+            $decorator = $options['tokenDecorator'];
 
             foreach ($tokens as $token) {
                 $token = $decorator($token);
