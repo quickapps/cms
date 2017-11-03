@@ -356,7 +356,7 @@ class GenericEngine extends BaseEngine
      */
     public function tokenizer($criteria)
     {
-        return (array)(new MiniLanguageParser($criteria))->parse(); 
+        return (array)(new MiniLanguageParser($criteria))->parse();
     }
 
     /**
