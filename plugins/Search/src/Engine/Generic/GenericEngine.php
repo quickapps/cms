@@ -306,19 +306,37 @@ class GenericEngine extends BaseEngine
      * Will produce something like:
      *
      * ```php
-     * $query->where(['indexed_words LIKE' => '%this phrase%'])
+     * $query
+     *     ->where(['indexed_words LIKE' => '%this phrase%'])
      *     ->orWhere(['indexed_words NOT LIKE' => '%and not this one%']);
      *     ->andWhere(['indexed_words LIKE' => '%this%']);
      * ```
+     *
+     * ### Options
+     *
+     * - `tokenDecorator`: Callable function which is applied to every token before it
+     *   gets applied. Retuning anything that is not a `TokenInterface` will skip that
+     *   token from being used.
      */
-    public function search($criteria, Query $query)
+    public function search($criteria, Query $query, array $options = [])
     {
-        $tokens = (array)(new MiniLanguageParser($criteria))->parse();
+        $tokens = $this->tokenizer($criteria);
+        $options += [
+            'tokenDecorator' => function ($t) {
+                return $t;
+            },
+        ];
 
         if (!empty($tokens)) {
             $query->innerJoinWith('SearchDatasets');
 
             foreach ($tokens as $token) {
+                $token = $decorator($token);
+
+                if (!($token instanceof TokenInterface)) {
+                    continue;
+                }
+
                 if ($token->isOperator()) {
                     $query = $this->_scopeOperator($query, $token);
                 } else {
@@ -328,6 +346,17 @@ class GenericEngine extends BaseEngine
         }
 
         return $query;
+    }
+
+    /**
+     * Extracts every token found on the given search criteria.
+     *
+     * @param string $criteria A search criteria. e.g. `-hello +world`
+     * @return array List of tokens found
+     */
+    public function tokenizer($criteria)
+    {
+        return (array)(new MiniLanguageParser($criteria))->parse(); 
     }
 
     /**

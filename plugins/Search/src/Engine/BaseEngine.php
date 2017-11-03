@@ -92,9 +92,10 @@ abstract class BaseEngine
      * @param mixed $criteria A search-criteria compatible with this particular
      *  search engine.
      * @param \Cake\ORM\Query $query The query to be scope
+     * @param array $options Any additional option the engine might accept
      * @return \Cake\ORM\Query Scoped query
      */
-    public function search($criteria, Query $query)
+    public function search($criteria, Query $query, array $options = [])
     {
         return $query;
     }
