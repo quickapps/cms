@@ -316,7 +316,7 @@ class GenericEngine extends BaseEngine
      *
      * - `missingOperators`: Controls what to do when an undefined operator is found.
      *    Possible values are:
-     *    
+     *
      *    - `event` (default): Triggers an event so other parts of the system can react
      *      to any missing operator.
      *
@@ -367,10 +367,10 @@ class GenericEngine extends BaseEngine
                                 break;
 
                             case 'event':
-                                default:
-                                    // `event` is how missing operator are handled by default by
-                                    // Searchable Behavior, so no specific action is required.
-                                    break;
+                            default:
+                                // `event` is how missing operator are handled by default by
+                                // Searchable Behavior, so no specific action is required.
+                                break;
                         }
                     }
                 }
