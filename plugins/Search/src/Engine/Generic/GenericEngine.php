@@ -314,6 +314,16 @@ class GenericEngine extends BaseEngine
      *
      * ### Options
      *
+     * - `missingOperators`: Controls what to do when an undefined operator is found.
+     *    Possible values are:
+     *    
+     *    - `event` (default): Triggers an event so other parts of the system can react
+     *      to any missing operator.
+     *
+     *    - `ignore`: Ignore any undefined operator.
+     *
+     *    - `words`: Converts operator information into a set of literal words.
+     *
      * - `tokenDecorator`: Callable function which is applied to every token before it
      *   gets applied. Retuning anything that is not a `TokenInterface` will skip that
      *   token from being used.
@@ -322,6 +332,7 @@ class GenericEngine extends BaseEngine
     {
         $tokens = $this->tokenizer($criteria);
         $options += [
+            'missingOperators' => 'event',
             'tokenDecorator' => function ($t) {
                 return $t;
             },
@@ -330,18 +341,42 @@ class GenericEngine extends BaseEngine
         if (!empty($tokens)) {
             $query->innerJoinWith('SearchDatasets');
             $decorator = $options['tokenDecorator'];
+            $operators = $this->_table->behaviors()
+                ->get('Searchable')
+                ->config('operators');
 
             foreach ($tokens as $token) {
                 $token = $decorator($token);
+                $method = '_scopeWords';
 
                 if (!($token instanceof TokenInterface)) {
                     continue;
                 }
 
                 if ($token->isOperator()) {
-                    $query = $this->_scopeOperator($query, $token);
-                } else {
-                    $query = $this->_scopeWords($query, $token);
+                    $method = '_scopeOperator';
+
+                    if (!isset($operators[$token->operatorName()])) {
+                        switch ($options['missingOperators']) {
+                            case 'ignore':
+                                $method = null;
+                                break;
+
+                            case 'words':
+                                $method = '_scopeWords';
+                                break;
+
+                            case 'event':
+                                default:
+                                    // `event` is how missing operator are handled by default by
+                                    // Searchable Behavior, so no specific action is required.
+                                    break;
+                        }
+                    }
+                }
+
+                if ($method) {
+                    $query = $this->$method($query, $token);
                 }
             }
         }

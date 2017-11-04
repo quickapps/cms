@@ -45,9 +45,14 @@ class SearchableBehavior extends Behavior
     /**
      * Behavior configuration array.
      *
-     * - indexOn: Indicates when to index entities. `update` when entity is being
-     *   updated, `insert` when a new entity is persisted into DB. Or `both` (by
+     * - `indexOn`: Indicates when entities should be indexed. `update` when entities are
+     *   being updated, `insert` when new entities are persisted into DB. Or `both` (by
      *   default).
+     *
+     * - `engine`: Search engine adapter information. Defaults to `Search.Generic`.
+     *
+     *    - `className`: Engine's fully qualified class name.
+     *    - `config`: Options for engine's constructor.
      *
      * @var array
      */
