@@ -355,8 +355,9 @@ class GenericEngine extends BaseEngine
 
                 if ($token->isOperator()) {
                     $method = '_scopeOperator';
+                    $operatorName = mb_strtolower($token->operatorName());
 
-                    if (!isset($operators[$token->operatorName()])) {
+                    if (!isset($operators[$operatorName])) {
                         switch ($options['missingOperators']) {
                             case 'ignore':
                                 $method = null;
