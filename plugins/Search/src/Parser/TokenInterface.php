@@ -40,7 +40,8 @@ interface TokenInterface
     /**
      * Gets operator's name.
      *
-     * Should be used only when this token is an operator.
+     * Should be used only when this token is an operator. Operator names MUST
+     * be normalized to underscored lowercase, e.g. `my_operator_name`
      *
      * @return string
      */

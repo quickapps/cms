@@ -53,7 +53,7 @@ class Token implements TokenInterface
                 substr($token, 0, $cutAt),
                 substr($token, $cutAt + 1)
             ];
-            $this->_data['operatorName'] = (string)Inflector::underscore(preg_replace('/\PL/u', '', $left));
+            $this->_data['operatorName'] = mb_strtolower((string)Inflector::underscore(preg_replace('/\PL/u', '', $left)));
             $this->_data['operatorArguments'] = !empty($right) ? $right : '';
         }
     }
