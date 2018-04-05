@@ -17,8 +17,8 @@
     },
     "require": {
         "php": ">=5.6",
-        "goaop/framework": "^2.0",
-        "cakephp/cakephp": "3.3.11",
+        "goaop/framework": "2.1.2",
+        "cakephp/cakephp": "3.3.16",
         "phpunit/phpunit": "<6.0",
         "cakephp/cakephp-codesniffer": "~2.1"
     },
