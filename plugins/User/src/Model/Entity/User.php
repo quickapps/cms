@@ -93,6 +93,18 @@ class User extends Entity
     }
 
     /**
+     * Gets user's real name.
+     *
+     * @return string Name
+     */
+    protected function _getName()
+    {
+        $name = isset($this->_properties['name']) ? $this->_properties['name'] : '';
+
+        return h($name);
+    }
+
+    /**
      * Gets user avatar image's URL.
      *
      * Powered by Gravatar, it uses user's email to get avatar image URL from
