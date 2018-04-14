@@ -179,10 +179,10 @@ class TermField extends Handler
         $pk = $table->primaryKey();
 
         if ($entity->has($pk)) {
-            $TermsCache = TableRegistry::get('Taxonomy.EntitiesTerms');
             $tableAlias = Inflector::underscore($table->alias());
             $extra = !is_array($field->extra) ? [$field->extra] : $field->extra;
-            $TermsCache->deleteAll([
+
+            TableRegistry::get('Taxonomy.EntitiesTerms')->deleteAll([
                 'entity_id' => $entity->get($pk),
                 'table_alias' => $tableAlias,
                 'field_instance_id' => $field->metadata->instance_id,
@@ -190,13 +190,15 @@ class TermField extends Handler
 
             foreach ($extra as $termId) {
                 Cache::delete("t{$termId}", 'terms_count');
-                $cacheEntity = $TermsCache->newEntity([
-                    'entity_id' => $entity->get($pk),
-                    'term_id' => $termId,
-                    'table_alias' => $tableAlias,
-                    'field_instance_id' => $field->metadata->instance_id,
-                ]);
-                $TermsCache->save($cacheEntity);
+                $link = TableRegistry::get('Taxonomy.EntitiesTerms')
+                    ->newEntity([
+                        'entity_id' => $entity->get($pk),
+                        'term_id' => $termId,
+                        'table_alias' => $tableAlias,
+                        'field_instance_id' => $field->metadata->instance_id,
+                    ]);
+
+                TableRegistry::get('Taxonomy.EntitiesTerms')->save($link);
             }
         }
     }
