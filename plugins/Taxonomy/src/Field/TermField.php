@@ -206,6 +206,31 @@ class TermField extends Handler
     /**
      * {@inheritDoc}
      */
+    public function afterDelete(Field $field)
+    {
+        $entity = $field->get('metadata')->get('entity');
+        $table = TableRegistry::get($entity->source());
+        $pk = $table->primaryKey();
+
+        if ($entity->has($pk)) {
+            $tableAlias = Inflector::underscore($table->alias());
+            $extra = !is_array($field->extra) ? [$field->extra] : $field->extra;
+            TableRegistry::get('Taxonomy.EntitiesTerms')
+                ->deleteAll([
+                    'entity_id' => $entity->get($pk),
+                    'table_alias' => $tableAlias,
+                    'field_instance_id' => $field->metadata->instance_id,
+                ]);
+
+            foreach ($extra as $termId) {
+                Cache::delete("t{$termId}", 'terms_count');
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function settings(FieldInstance $instance, View $view)
     {
         $vocabularies = TableRegistry::get('Taxonomy.Vocabularies')->find('list');
