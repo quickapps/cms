@@ -458,7 +458,7 @@ class GenericEngine extends BaseEngine
         }
 
         $not = $token->negated() ? 'NOT' : '';
-        $value = str_replace("'", '"', $value);
+        $value = str_replace(["'", '@'], ['"', ' '], $value);
         $conditions = ["{$not} MATCH(SearchDatasets.words) AGAINST('{$value}' IN BOOLEAN MODE) > 0"];
 
         if ($token->where() === 'or') {
