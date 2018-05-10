@@ -19,6 +19,7 @@ use Cake\Error\FatalErrorException;
 use Cake\Event\Event;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
+use Cake\ORM\PropertyMarshalInterface;
 use Cake\ORM\Query;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
@@ -72,7 +73,7 @@ use \ArrayObject;
  *
  * @link https://github.com/quickapps/docs/blob/2.x/en/developers/field-api.rst
  */
-class EavBehavior extends Behavior
+class EavBehavior extends Behavior implements PropertyMarshalInterface
 {
 
     /**
@@ -98,7 +99,7 @@ class EavBehavior extends Behavior
      *
      * - hydrator: Callable function responsible of hydrate an entity with its
      *   virtual values, callable receives two arguments: the entity to hydrate and
-     *   an array of virtual values, where each virtual value is an arrray composed
+     *   an array of virtual values, where each virtual value is an array composed
      *   of `property_name` and `value` keys.
      *
      * @var array
@@ -628,6 +629,29 @@ class EavBehavior extends Behavior
             $marshaledValue = $this->_toolbox->marshal($value, $dataType);
             $data[$property] = $marshaledValue;
         }
+    }
+
+    /**
+     * Ensures that virtual properties are included in the marshalling process.
+     *
+     * @param \Cake\ORM\Marhshaller $marshaller The marhshaller of the table the behavior is attached to.
+     * @param array $map The property map being built.
+     * @param array $options The options array used in the marshalling call.
+     * @return array A map of `[property => callable]` of additional properties to marshal.
+     */
+    public function buildMarshalMap($marshaller, $map, $options)
+    {
+        $bundle = !empty($options['bundle']) ? $options['bundle'] : null;
+        $attrs = $this->_toolbox->attributes($bundle);
+        $map = [];
+
+        foreach ($attrs as $name => $info) {
+            $map[$name] = function ($value, $entity) use ($info) {
+                return $this->_toolbox->marshal($value, $info['type']);
+            };
+        }
+
+        return $map;
     }
 
     /**
