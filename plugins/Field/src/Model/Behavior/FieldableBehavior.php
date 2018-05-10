@@ -500,8 +500,7 @@ class FieldableBehavior extends EavBehavior
      * Alters the given $field and fetches incoming POST data, both "value" and
      * "extra" property will be automatically filled for the given $field entity.
      *
-     * @param \Field\Model\Entity\Field $field The field entity for which
-     *  fetch POST information
+     * @param \Field\Model\Entity\Field $field The field entity for which fetch POST information
      * @return mixed Raw POST information
      */
     protected function _fetchPost(Field $field)
@@ -569,17 +568,15 @@ class FieldableBehavior extends EavBehavior
     }
 
     /**
-     * Retrives stored values for all virtual properties by name. This gets all
+     * Retrieves stored values for all virtual properties by name. This gets all
      * values at once.
      *
      * This method is used to reduce the number of SQl queries, so we get all
      * values at once in a single Select instead of creating a select for every
      * field attached to the given entity.
      *
-     * @param \Cake\Datasource\EntityInterface $entity The entuity for which
-     *  get related values
-     * @param array $attrNames List of attribute names for which get their
-     *  values
+     * @param \Cake\Datasource\EntityInterface $entity The entity for which get related values
+     * @param array $attrNames List of attribute names for which get their values
      * @return \Cake\Datasource\ResultSetInterface
      */
     protected function _fetchValues(EntityInterface $entity, array $attrNames = [])
@@ -681,10 +678,8 @@ class FieldableBehavior extends EavBehavior
     /**
      * Resolves `bundle` name using $entity as context.
      *
-     * @param \Cake\Datasource\EntityInterface $entity Entity to use as context when
-     *  resolving bundle
-     * @return string Bundle name as string value, it may be an empty string if no
-     *  bundle should be applied
+     * @param \Cake\Datasource\EntityInterface $entity Entity to use as context when resolving bundle
+     * @return string Bundle name as string value, it may be an empty string if no bundle should be applied
      */
     protected function _resolveBundle(EntityInterface $entity)
     {
@@ -695,5 +690,18 @@ class FieldableBehavior extends EavBehavior
         }
 
         return (string)$bundle;
+    }
+
+    /**
+     * Ensures that virtual properties are included in the marshalling process.
+     *
+     * @param \Cake\ORM\Marhshaller $marshaller The marhshaller of the table the behavior is attached to.
+     * @param array $map The property map being built.
+     * @param array $options The options array used in the marshalling call.
+     * @return array A map of `[property => callable]` of additional properties to marshal.
+     */
+    public function buildMarshalMap($marshaller, $map, $options)
+    {
+        return [];
     }
 }
