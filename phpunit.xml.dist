@@ -6,10 +6,18 @@
     stopOnFailure="false"
     syntaxCheck="false"
     bootstrap="./tests/bootstrap.php"
-    >
+>
     <php>
         <ini name="memory_limit" value="-1"/>
         <ini name="apc.enable_cli" value="1"/>
+
+        <!-- SQLite
+        <env name="db_dsn" value="sqlite:///:memory:"/>
+        -->
+
+        <!-- Mysql
+        <env name="db_dsn" value="mysql://localhost/cake_test?timezone=UTC"/>
+        -->
     </php>
 
     <testsuites>
