@@ -74,9 +74,11 @@ class EavBehaviorTest extends TestCase
         $time = time();
         $fake = $this->table->newEntity(['virtual_date' => $time]);
         $fake->clean();
+        $valueBefore = $fake->get('virtual_date');
         $fake = $this->table->patchEntity($fake, ['virtual_date' => $time]);
         $this->assertInstanceOf(\DateTime::class, $fake->get('virtual_date'));
         $this->assertFalse($fake->dirty('virtual_date'));
+        $this->assertEquals($valueBefore, $fake->get('virtual_date'));
     }
 
     /**
