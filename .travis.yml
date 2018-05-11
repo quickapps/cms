@@ -11,10 +11,15 @@ dist: trusty
 env:
   matrix:
     - DB=mysql db_dsn='mysql://root:@127.0.0.1/quick_test'
+    - DB=pgsql db_dsn='postgres://postgres@127.0.0.1/quick_test'
     - DB=sqlite db_dsn='sqlite:///:memory:'
 
 services:
   - mysql
+  - postgresql
+
+addons:
+  postgresql: "9.4"
 
 matrix:
   fast_finish: true
@@ -24,6 +29,7 @@ matrix:
 
 before_install:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE quick_test;'; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE quick_test;' -U postgres; fi"
   - phpenv rehash
   - set +H
 
