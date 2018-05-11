@@ -6,12 +6,15 @@ php:
   - 7.0
   - 7.1
 
-sudo: false
+dist: trusty
 
 env:
-  - DB=mysql
-  - DB=sqlite
-  #- DB=pgsql
+  matrix:
+    - DB=mysql db_dsn='mysql://root:@127.0.0.1/quick_test'
+    - DB=sqlite db_dsn='sqlite:///:memory:'
+
+services:
+  - mysql
 
 matrix:
   fast_finish: true
@@ -21,9 +24,6 @@ matrix:
 
 before_install:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE quick_test;'; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE quick_test2;'; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE quick_test;' -U postgres; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'CREATE DATABASE quick_test2;' -U postgres; fi"
   - phpenv rehash
   - set +H
 

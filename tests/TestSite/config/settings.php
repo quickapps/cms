@@ -11,41 +11,13 @@
  */
 
 // Ensure default test connection is defined
-if (!getenv('DB')) {
-    putenv('DB=mysql');
-}
-
-if (getenv('DB') == 'sqlite') {
-    $conn = [
-        'className' => 'Cake\Database\Connection',
-        'driver' => 'Cake\Database\Driver\Sqlite',
-        'log' => false,
-    ];
-} elseif (getenv('DB') == 'mysql') {
-    $conn = [
-        'className' => 'Cake\Database\Connection',
-        'driver' => 'Cake\Database\Driver\Mysql',
-        'username' => 'root',
-        'password' => '',
-        'database' => 'quick_test',
-        'log' => false,
-    ];
-} elseif (getenv('DB') == 'pgsql') {
-    $conn = [
-        'className' => 'Cake\Database\Connection',
-        'driver' => 'Cake\Database\Driver\Postgres',
-        'persistent' => false,
-        'host' => 'localhost',
-        'username' => 'postgres',
-        'password' => '',
-        'database' => 'quick_test',
-        'log' => false,
-    ];
+if (!getenv('db_dsn')) {
+    putenv('db_dsn=sqlite:///:memory:');
 }
 
 return [
     'Datasources' => [
-        'test' => $conn,
+        'test' => ['url' => getenv('db_dsn')],
     ],
     'Security' => [
         'salt' => '459dnv028fj20rmv034jv84hv929sadn306139fn)(·%o23',
