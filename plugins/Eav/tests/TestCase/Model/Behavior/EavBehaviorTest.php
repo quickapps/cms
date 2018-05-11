@@ -53,6 +53,33 @@ class EavBehaviorTest extends TestCase
     }
 
     /**
+     * test that marshaller works as expected along with virtual properties.
+     *
+     * @return void
+     */
+    public function testEntityBuild()
+    {
+        // new entities
+        $fake = $this->table->newEntity(['virtual_date' => time()]);
+        $this->assertInstanceOf(\DateTime::class, $fake->get('virtual_date'));
+        $this->assertTrue($fake->dirty('virtual_date'));
+
+        // existing entities
+        $fake = $this->table->newEntity(['virtual_date' => time()]);
+        $fake->clean();
+        $this->assertInstanceOf(\DateTime::class, $fake->get('virtual_date'));
+        $this->assertFalse($fake->dirty('virtual_date'));
+
+        // patch to same value produces no changes
+        $time = time();
+        $fake = $this->table->newEntity(['virtual_date' => $time]);
+        $fake->clean();
+        $fake = $this->table->patchEntity($fake, ['virtual_date' => $time]);
+        $this->assertInstanceOf(\DateTime::class, $fake->get('virtual_date'));
+        $this->assertFalse($fake->dirty('virtual_date'));
+    }
+
+    /**
      * test that addColumn() actually creates new virtual columns.
      *
      * @return void
