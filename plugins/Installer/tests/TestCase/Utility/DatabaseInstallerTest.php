@@ -67,7 +67,6 @@ class DatabaseInstallerTest extends TestCase
      */
     public function testPopulate()
     {
-        $this->skipIf(getenv('DB') == 'mysql', 'MySQL installation on CI server fails.');
         $this->_dropTables();
 
         $config = include ROOT . '/config/settings.php';
@@ -86,7 +85,7 @@ class DatabaseInstallerTest extends TestCase
         $conn = [];
         if (getenv('DB') == 'sqlite') {
             $conn = [
-                'url' => getenv('db_dsn'),
+                'url' => getenv('db_dsn') . '?cache=shared',
                 'log' => true,
             ];
         } elseif (in_array(getenv('DB'), ['mysql', 'pgsql'])) {
