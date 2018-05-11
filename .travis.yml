@@ -24,7 +24,6 @@ matrix:
 
 before_install:
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE quick_test;'; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -u root -e 'CREATE DATABASE quick_test_install;'; fi"
   - phpenv rehash
   - set +H
 

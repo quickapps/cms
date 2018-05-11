@@ -16,7 +16,7 @@
         -->
 
         <!-- Mysql
-        <env name="db_dsn" value="mysql://localhost/cake_test?timezone=UTC"/>
+        <env name="db_dsn" value="mysql://localhost/quick_test?timezone=UTC"/>
         -->
     </php>
 
