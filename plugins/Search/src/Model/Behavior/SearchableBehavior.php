@@ -410,7 +410,7 @@ class SearchableBehavior extends Behavior
                 return function ($query, $token) use ($handler) {
                     return $this->_table->$handler($query, $token);
                 };
-            } elseif (is_string($handler) && class_exists($handler)) {
+            } elseif (is_string($handler) && is_subclass_of($handler, '\Search\Operator\BaseOperator')) {
                 return function ($query, $token) use ($operator) {
                     $instance = new $operator['handler']($this->_table, $operator['options']);
 
