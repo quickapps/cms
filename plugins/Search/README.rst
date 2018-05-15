@@ -1,25 +1,25 @@
 Search Plugin
 #############
 
-The Search Plugin allows entities to be search-able through an auto-generated index
-of words. You can make any table "index-able" by attaching the
+The Search Plugin allows entities to be search-able through an auto-generated
+index of words. You can make any table "index-able" by attaching the
 ``SearchableBehavior`` to it.
 
 Searchable Behavior
 ===================
 
-This `behavior <http://book.cakephp.org/3.0/en/orm/behaviors.html>`__ is provided by
-the Search plugin and allows entities to be "searchable" by using interchangeable
-search engines, such engines are responsible of index each entity under your tables,
-they also allows you to locate any of those entities using engine-specific query
-language.
+This `behavior <http://book.cakephp.org/3.0/en/orm/behaviors.html>`__ is
+provided by the Search plugin and allows entities to be "searchable" by using
+interchangeable search engines, such engines are responsible of index each
+entity within your tables, they also allows you to locate any of those entities
+using engine-specific query language.
 
 Using this Behavior
 -------------------
 
-You must indicate attach the Searchable behavior and tell which search engine should
-be used, by default ``Generic Engine`` will be used which should cover most cases,
-however new Engine adapters can be created to cover your needs:
+You must attach the Searchable behavior and tell which search engine should be
+used, by default ``Generic Engine`` will be used which should cover most use
+cases, however new "Engine Adapters" can be created to cover specific needs:
 
 .. code:: php
 
@@ -32,9 +32,9 @@ however new Engine adapters can be created to cover your needs:
         ]
     ]);
 
-This particular engine (GenericEngine) will apply a series of filters (converts to
-lowercase, remove line breaks, etc) to words list extracted from each entity being
-indexed. For more details check "Generic Engine" documentation.
+This particular engine (GenericEngine) will apply a series of filters (converts
+to lowercase, remove line breaks, etc) to a list of words extracted from each
+entity being indexed. For more details check "Generic Engine" documentation.
 
 Searching Entities
 ------------------
@@ -76,23 +76,24 @@ Search Criteria
 ---------------
 
 In most cases ``$criteria`` will be a string representing a search query. For
-instance: ``chris AND pratt AND -rat``. Criteria's syntax depends exclusively on the
-search engine being used. Search plugin provides a generic criteria parsing API for
-defining new criteria syntax.
+instance: ``chris AND pratt AND -rat``. Criteria syntax depends exclusively on
+the search engine being used. Search plugin provides a generic criteria parsing
+API for defining new criteria syntax.
 
 By default Search plugin comes with one built-in language parser: "Mini-Language
 Parser" which is used by the built-in "Generic Engine" search engine.
 
 A criteria parser must satisfy the ``Search\Parser\ParserInterface`` interface;
-basically it must provide the ``parser()`` method which must return an array list of
-"tokens" objects (``Search\Parser\TokenInterface``).
+basically it must provide the ``parser()`` method which must return an array
+list of "token" objects (``Search\Parser\TokenInterface``).
 
 Search Operators
 ----------------
 
 An ``Operator`` is a search-criteria command which allows you to perform very
-specific SQL filter conditions. An operator is composed of **two parts**, a ``name``
-and its ``arguments``, both parts separated using the ``:`` symbol e.g.:
+specific SQL filter conditions. An operator is composed of **two parts**, a
+``name`` and its ``arguments``, both parts separated using the ``:`` symbol
+e.g.:
 
 ::
 
@@ -289,16 +290,17 @@ Creating Reusable Operators
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your application has operators that are commonly reused, it is helpful to package
-those operators into re-usable classes:
+those operators into re-usable classes extending ``\Search\BaseOperator``, for
+instance:
 
 .. code:: php
 
     // in MyPlugin/Model/Search/CustomOperator.php
     namespace MyPlugin\Model\Search;
 
-    use Search\Operator;
+    use Search\BaseOperator;
 
-    class CustomOperator extends Operator
+    class CustomOperator extends BaseOperator
     {
         public function scope($query, $token)
         {
@@ -320,11 +322,11 @@ those operators into re-usable classes:
 Fallback Operators
 ~~~~~~~~~~~~~~~~~~
 
-When an operator is detected in the given search criteria but no operator callable
-was defined using ``addSearchOperator()``, then
-``Search.operator<OperatorName>`` event will be triggered, so other
-plugins may respond and handle any undefined operator. For example, given the search
-criteria below, lets suppose ``date`` operator **was not defined** early:
+When an operator is detected in the given search criteria but no operator
+callable was defined using ``addSearchOperator()``, then
+``Search.operator<OperatorName>`` event will be globally triggered, so other
+plugins may respond and handle any undefined operator. For example, given the
+search criteria below, lets suppose ``date`` operator **was not defined** early:
 
 ::
 
@@ -406,7 +408,7 @@ Generic Engine
 
 Search plugins comes with one built-in Engine which should cover most use cases.
 This Search Engine allows entities to be searchable through an auto-generated list
-of words using ``LIKE`` SQL expressions, and optionally ``fulltext`` based searchs.
+of words using ``LIKE`` SQL expressions, and optionally ``fulltext`` based searches.
 If you need to hold a very large amount of index information you should create your
 own Engine adapter to work with third-party solutions such as "Elasticsearch",
 "Sphinx", etc. Or enable ``fulltext`` index to speed up Generic Engine.
@@ -547,6 +549,6 @@ Generic engine uses by default ``LIKE`` SQL-statements when searching trough ind
 this should be enough for small sized web sites. However, for large websites
 ``fulltext`` index is recommended in order to improve search speed, you can enable
 fulltext search by simply creating a ``fulltext index`` for the ``words`` column of
-the ``search_datasets``.
+the ``search_datasets`` table.
 
 NOTE: This feature is currently supported for MySQL databases only.

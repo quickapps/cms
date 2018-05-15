@@ -172,20 +172,19 @@ class SearchableBehavior extends Behavior
     /**
      * Gets entities matching the given search criteria.
      *
-     * @param mixed $criteria A search-criteria compatible with the Search Engine
-     *  being used
+     * @param mixed $criteria A search-criteria compatible with the Search Engine being used
      * @param \Cake\ORM\Query|null $query The query to scope, or null to create one
+     * @param array $options Additional parameter used to control the search process provided by attached Engine
      * @return \Cake\ORM\Query Scoped query
-     * @throws Cake\Error\FatalErrorException When query gets corrupted while
-     *  processing tokens
+     * @throws Cake\Error\FatalErrorException When query gets corrupted while processing tokens
      */
-    public function search($criteria, Query $query = null)
+    public function search($criteria, Query $query = null, array $options = [])
     {
         if ($query === null) {
             $query = $this->_table->find();
         }
 
-        return $this->searchEngine()->search($criteria, $query);
+        return $this->searchEngine()->search($criteria, $query, $options);
     }
 
     /**
@@ -371,10 +370,8 @@ class SearchableBehavior extends Behavior
      * handling an operator named either `author-name` or `author_name`.
      *
      * @param \Cake\ORM\Query $query The query that is expected to be scoped
-     * @param \Search\TokenInterface $token Token describing an operator. e.g
-     *  `-op_name:op_value`
-     * @return mixed Scoped query object expected or null if event was not captured
-     *  by any listener
+     * @param \Search\TokenInterface $token Token describing an operator. e.g `-op_name:op_value`
+     * @return mixed Scoped query object expected or null if event was not captured by any listener
      */
     protected function _triggerOperator(Query $query, TokenInterface $token)
     {
@@ -410,7 +407,7 @@ class SearchableBehavior extends Behavior
                 return function ($query, $token) use ($handler) {
                     return $this->_table->$handler($query, $token);
                 };
-            } elseif (is_string($handler) && class_exists($handler)) {
+            } elseif (is_string($handler) && is_subclass_of($handler, '\Search\Operator\BaseOperator')) {
                 return function ($query, $token) use ($operator) {
                     $instance = new $operator['handler']($this->_table, $operator['options']);
 
